@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.smartydroid.android.starter.kit.LoadingLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_loading_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:outAnimation="@anim/abc_fade_out"
+    android:inAnimation="@anim/abc_fade_in"
+    app:emptyBackgroundColor="#fbc02d"
+    app:emptyContentTextColor="#FFFFFF"
+    app:emptyTitleTextColor="#FFFFFF"
+    app:errorBackgroundColor="#42a5f5"
+    app:errorContentTextColor="#FFFFFF"
+    app:errorTitleTextColor="#FFFFFF"
+    app:viewState="loading"
+    app:buttonTextColor="#FFFFFF"
+    />
