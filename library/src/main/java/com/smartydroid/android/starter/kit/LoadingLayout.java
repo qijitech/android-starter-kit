@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 
-public class LoadingLayout extends ViewSwitcher {
+public class LoadingLayout extends ViewSwitcher implements View.OnClickListener {
 
   private static final String TAG_LOADING = "LoadingLayout.TAG_LOADING";
   private static final String TAG_EMPTY = "LoadingLayout.TAG_EMPTY";
@@ -571,13 +571,7 @@ public class LoadingLayout extends ViewSwitcher {
         mErrorButton.setOnClickListener(onClickListener);
       } else if (getOnButtonClickListener() != null) {
         ViewUtils.setGone(mErrorButton, false);
-        mErrorButton.setOnClickListener(new OnClickListener() {
-          @Override public void onClick(View v) {
-            if (getOnButtonClickListener() != null) {
-              getOnButtonClickListener().onErrorButtonClick(v);
-            }
-          }
-        });
+        mErrorButton.setOnClickListener(this);
       } else {
         ViewUtils.setGone(mErrorButton, true);
       }
@@ -644,13 +638,7 @@ public class LoadingLayout extends ViewSwitcher {
         mEmptyButton.setOnClickListener(onClickListener);
       } else if (getOnButtonClickListener() != null) {
         ViewUtils.setGone(mEmptyButton, false);
-        mEmptyButton.setOnClickListener(new OnClickListener() {
-          @Override public void onClick(View v) {
-            if (getOnButtonClickListener() != null) {
-              getOnButtonClickListener().onEmptyButtonClick(v);
-            }
-          }
-        });
+        mEmptyButton.setOnClickListener(this);
       } else {
         ViewUtils.setGone(mEmptyButton, true);
       }
@@ -687,6 +675,19 @@ public class LoadingLayout extends ViewSwitcher {
       mLoadingView = loadingView;
     } else {
       fadeIn(mLoadingView, true).show(mLoadingView);
+    }
+  }
+
+  @Override public void onClick(View v) {
+    if (getOnButtonClickListener() != null) {
+      if (v == mEmptyButton) {
+        getOnButtonClickListener().onEmptyButtonClick(v);
+        return;
+      }
+
+      if (v == mErrorButton) {
+        getOnButtonClickListener().onErrorButtonClick(v);
+      }
     }
   }
 
