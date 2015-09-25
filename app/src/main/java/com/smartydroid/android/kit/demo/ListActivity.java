@@ -11,26 +11,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.starter.kit.LoadingLayout;
+import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
+import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
+import com.smartydroid.android.starter.kit.network.PagePaginator;
+import com.smartydroid.android.starter.kit.network.Result;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
 
-public class ListActivity extends AppCompatActivity {
-
-  private boolean mFirstLoad;
-  private boolean mHasError;
+public class ListActivity extends AppCompatActivity
+    implements PageCallback<List<Tweet>>, Paginator.Emitter<Tweet> {
 
   private LoadingLayout mLoadingLayout;
   private View mContentView;
   private RecyclerView mRecyclerView;
   private EasyRecyclerAdapter mRecyclerAdapter;
-  private List<Tweet> mItems = new ArrayList<>();
 
   private FeedService mFeedService;
   private Call<Result<List<Tweet>>> mCallFuture;
+  private PagePaginator<Tweet> mPagePaginator;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -39,54 +39,37 @@ public class ListActivity extends AppCompatActivity {
     mContentView = mLoadingLayout.getContentView();
     mRecyclerView = ViewUtils.getView(mContentView, android.R.id.list);
     setupRecyclerView();
-
+    mPagePaginator = new PagePaginator.Builder<Tweet>()
+        .setEmitter(this).setPageCallback(this).build();
     mFeedService = StarterNetwork.createFeedService();
   }
 
   @Override protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
-    setup();
     updateView();
+    mPagePaginator.refresh();
   }
 
   @Override protected void onResume() {
     super.onResume();
-    loadData();
+    if (mCallFuture != null) {
+      mCallFuture.enqueue(mPagePaginator);
+    }
   }
 
-  private void loadData() {
-    mCallFuture = mFeedService.getTweetList("1", "20");
-    mCallFuture.enqueue(new Callback<Result<List<Tweet>>>() {
-      @Override public void onResponse(Response<Result<List<Tweet>>> response) {
-        if (response.isSuccess()) {
-          Result<List<Tweet>> result = response.body();
-          if (result.isSuccessed()) {
-            if (result.mData != null && !result.mData.isEmpty()) {
-              // 有数据
-              mItems.addAll(result.mData);
-              showContentView();
-            }
-          }
-        }
-      }
-
-      @Override public void onFailure(Throwable t) {
-        mLoadingLayout.showEmptyView();
-      }
-    });
-  }
-
-  private void setup() {
-    mFirstLoad = true;
-    mHasError = false;
+  @Override protected void onPause() {
+    super.onPause();
+    if (mCallFuture != null) {
+      mCallFuture.cancel();
+    }
   }
 
   private void updateView() {
-    if (! isEmpty()) {
+    if (!isEmpty()) {
       showContentView();
-    } else if (mFirstLoad){
+    } else if (! mPagePaginator.dataHasLoaded()) {
       mLoadingLayout.showLoadingView();
-    } else if (mHasError) {
+    } else if (mPagePaginator.hasError()) {
       mLoadingLayout.showErrorView();
     } else {
       mLoadingLayout.showEmptyView();
@@ -95,7 +78,6 @@ public class ListActivity extends AppCompatActivity {
 
   private void showContentView() {
     mLoadingLayout.showContentView();
-    mRecyclerAdapter.addAll(mItems);
   }
 
   private void setupRecyclerView() {
@@ -111,6 +93,43 @@ public class ListActivity extends AppCompatActivity {
   }
 
   private boolean isEmpty() {
-    return mItems == null || mItems.isEmpty();
+    return mPagePaginator.isEmpty();
+  }
+
+  @Override public void paginate(int page, int perPage) {
+    mCallFuture = mFeedService.getTweetList(page, perPage);
+  }
+
+  @Override public void beforeRefresh() {
+  }
+
+  @Override public void beforeLoadMore() {
+  }
+
+  @Override public Tweet register(Tweet item) {
+    return item;
+  }
+
+  @Override public Object getKeyForData(Tweet item) {
+    return item.id;
+  }
+
+  @Override public void onRequestComplete(Result<List<Tweet>> result) {
+    mRecyclerAdapter.addAll(mPagePaginator.items());
+  }
+
+  @Override public void onRequestComplete(int code, String error) {
+
+  }
+
+  @Override public void onRequestFailure(Result<List<Tweet>> result) {
+  }
+
+  @Override public void onRequestFailure(Throwable error) {
+
+  }
+
+  @Override public void onFinish() {
+    updateView();
   }
 }

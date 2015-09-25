@@ -2,7 +2,7 @@
  * Created by YuGang Yang on September 25, 2015.
  * Copyright 2007-2015 Laputapp.com. All rights reserved.
  */
-package com.smartydroid.android.kit.demo;
+package com.smartydroid.android.starter.kit.network;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
@@ -22,12 +22,12 @@ public class Result<T> implements Serializable {
   /**
    * 当前页面
    */
-  @JsonProperty("page") public long mPage;
+  @JsonProperty("page") public int mPage;
 
   /**
    * 总页码
    */
-  @JsonProperty("page_size") public long mPageSize;
+  @JsonProperty("page_size") public int mPerPage;
 
   /**
    * 总数据条数
@@ -45,5 +45,4 @@ public class Result<T> implements Serializable {
   public boolean isSuccessed() {
     return mCode == 0;
   }
-
 }

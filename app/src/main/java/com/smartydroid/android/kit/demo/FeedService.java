@@ -4,6 +4,7 @@
  */
 package com.smartydroid.android.kit.demo;
 
+import com.smartydroid.android.starter.kit.network.Result;
 import java.util.List;
 import retrofit.Call;
 import retrofit.http.GET;
@@ -12,6 +13,6 @@ import retrofit.http.Query;
 public interface FeedService {
 
   @GET("api/v1/tweet/list") Call<Result<List<Tweet>>> getTweetList(
-      @Query("page") String page,
-      @Query("page_size") String pageSize);
+      @Query("page") int page,
+      @Query("page_size") int pageSize);
 }
