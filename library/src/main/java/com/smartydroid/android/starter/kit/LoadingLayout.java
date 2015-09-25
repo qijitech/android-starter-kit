@@ -379,8 +379,8 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
    * get content view
    * @return
    */
-  public View getContentView() {
-    return mContentView;
+  public <T> T getContentView() {
+    return (T) mContentView;
   }
 
   /**

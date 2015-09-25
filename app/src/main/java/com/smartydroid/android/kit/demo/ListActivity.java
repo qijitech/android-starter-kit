@@ -5,6 +5,7 @@
 package com.smartydroid.android.kit.demo;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,31 +16,42 @@ import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
 import com.smartydroid.android.starter.kit.network.PagePaginator;
 import com.smartydroid.android.starter.kit.network.Result;
+import com.smartydroid.android.starter.kit.utilities.RecyclerViewHandler;
+import com.smartydroid.android.starter.kit.utilities.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
+import com.smartydroid.android.starter.kit.widget.LoadMoreView;
 import java.util.List;
 import retrofit.Call;
 
 public class ListActivity extends AppCompatActivity
-    implements PageCallback<List<Tweet>>, Paginator.Emitter<Tweet> {
+    implements PageCallback<List<Tweet>>, Paginator.Emitter<Tweet>, SwipeRefreshLayout.OnRefreshListener {
 
   private LoadingLayout mLoadingLayout;
-  private View mContentView;
+  private SwipeRefreshLayout mSwipeRefreshLayout;
   private RecyclerView mRecyclerView;
   private EasyRecyclerAdapter mRecyclerAdapter;
 
   private FeedService mFeedService;
   private PagePaginator<Tweet> mPagePaginator;
 
+  private LoadMoreView mLoadMoreView;
+  private RecyclerViewHandler mRecyclerViewHandler;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_list);
     mLoadingLayout = (LoadingLayout) findViewById(R.id.container_loading_layout);
-    mContentView = mLoadingLayout.getContentView();
-    mRecyclerView = ViewUtils.getView(mContentView, android.R.id.list);
-    setupRecyclerView();
+    mSwipeRefreshLayout = mLoadingLayout.getContentView();
+    mSwipeRefreshLayout.setOnRefreshListener(this);
+    mRecyclerView = ViewUtils.getView(mSwipeRefreshLayout, android.R.id.list);
     mPagePaginator = new PagePaginator.Builder<Tweet>()
         .setEmitter(this).setPageCallback(this).build();
     mFeedService = StarterNetwork.createFeedService();
+
+    mLoadMoreView = new LoadMoreView();
+    mRecyclerViewHandler = new RecyclerViewHandler();
+
+    setupRecyclerView();
   }
 
   @Override protected void onPostCreate(Bundle savedInstanceState) {
@@ -52,7 +64,6 @@ public class ListActivity extends AppCompatActivity
     if (! mPagePaginator.dataHasLoaded()) {
       mPagePaginator.refresh();
     }
-
   }
 
   @Override protected void onPause() {
@@ -78,15 +89,33 @@ public class ListActivity extends AppCompatActivity
 
   private void setupRecyclerView() {
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    ensureRecyclerAdapter();
-    mRecyclerView.setAdapter(mRecyclerAdapter);
+    mRecyclerAdapter = new TweetAdapter(this);
+    mRecyclerViewHandler.handleSetAdapter(mRecyclerView, mRecyclerAdapter, mLoadMoreView,
+        mLoadMoreListener);
+    mRecyclerViewHandler.setOnScrollBottomListener(mRecyclerView, onScrollBottomListener);
   }
 
-  private void ensureRecyclerAdapter() {
-    if (mRecyclerAdapter == null) {
-      mRecyclerAdapter = new TweetAdapter(this);
+  @Override public void onRefresh() {
+    if (! mPagePaginator.isLoading()) {
+      mPagePaginator.refresh();
+    } else {
+      mSwipeRefreshLayout.setRefreshing(false);
     }
   }
+
+  private View.OnClickListener mLoadMoreListener = new View.OnClickListener() {
+    @Override public void onClick(View v) {
+      mPagePaginator.loadMore();
+    }
+  };
+
+  private ViewHandler.OnScrollBottomListener onScrollBottomListener = new ViewHandler.OnScrollBottomListener() {
+    @Override public void onScorllBootom() {
+      if (mPagePaginator.canLoadMore()) {
+        mPagePaginator.loadMore();
+      }
+    }
+  };
 
   private boolean isEmpty() {
     return mPagePaginator.isEmpty();
@@ -126,6 +155,9 @@ public class ListActivity extends AppCompatActivity
   }
 
   @Override public void onFinish() {
+    if (mPagePaginator.isRefresh()) {
+      mSwipeRefreshLayout.setRefreshing(false);
+    }
     updateView();
   }
 }

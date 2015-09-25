@@ -163,7 +163,7 @@ public class PagePaginator<T> implements Paginator<T> {
   @Override public void loadMore() {
     if (mIsLoading) return;
     mIsLoading = true;
-    mLoadStyle = LoadStyle.REFRESH;
+    mLoadStyle = LoadStyle.LOAD_MORE;
     mEmitter.beforeLoadMore();
     mCall = mEmitter.paginate(currentPage() + 1, perPage());
     mCall.enqueue(this);
