@@ -2,7 +2,7 @@
  * Created by YuGang Yang on September 23, 2015.
  * Copyright 2007-2015 Laputapp.com. All rights reserved.
  */
-package com.smartydroid.android.starter.kit;
+package com.smartydroid.android.starter.kit.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

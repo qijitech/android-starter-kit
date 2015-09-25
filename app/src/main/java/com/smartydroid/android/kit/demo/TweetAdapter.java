@@ -10,6 +10,5 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 public class TweetAdapter extends EasyRecyclerAdapter {
   public TweetAdapter(Context context) {
     super(context);
-    bind(Tweet.class, TweetViewHolder.class);
   }
 }

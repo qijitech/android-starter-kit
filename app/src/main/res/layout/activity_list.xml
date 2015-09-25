@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.smartydroid.android.starter.kit.LoadingLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container_loading_layout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    />
+    >
+  <fragment
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:name="com.smartydroid.android.kit.demo.FeedFragment"
+      android:tag="com.smartydroid.android.kit.demo.FeedFragment"
+      />
+</FrameLayout>

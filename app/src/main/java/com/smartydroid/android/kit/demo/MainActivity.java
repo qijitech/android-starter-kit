@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import com.smartydroid.android.starter.kit.LoadingLayout;
+import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 
 public class MainActivity extends AppCompatActivity implements LoadingLayout.OnButtonClickListener {
 
