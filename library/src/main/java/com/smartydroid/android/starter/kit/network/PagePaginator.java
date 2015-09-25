@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import retrofit.Call;
 import retrofit.Response;
 
 public class PagePaginator<T> implements Paginator<T> {
@@ -32,6 +33,7 @@ public class PagePaginator<T> implements Paginator<T> {
   private PageCallback<List<T>> mPageCallback;
   private LoadStyle mLoadStyle = LoadStyle.REFRESH;
 
+  private Call<Result<List<T>>> mCall;
   public enum LoadStyle {
     REFRESH,
     LOAD_MORE,
@@ -141,12 +143,21 @@ public class PagePaginator<T> implements Paginator<T> {
     return mIsLoading;
   }
 
+  @Override public void cancel() {
+    mIsLoading = false;
+    if (mCall != null) {
+      mCall.cancel();
+      mCall = null;
+    }
+  }
+
   @Override public void refresh() {
     if (mIsLoading) return;
     mIsLoading = true;
     mLoadStyle = LoadStyle.REFRESH;
     mEmitter.beforeRefresh();
-    mEmitter.paginate(mStartPage, perPage());
+    mCall = mEmitter.paginate(mStartPage, perPage());
+    mCall.enqueue(this);
   }
 
   @Override public void loadMore() {
@@ -154,7 +165,8 @@ public class PagePaginator<T> implements Paginator<T> {
     mIsLoading = true;
     mLoadStyle = LoadStyle.REFRESH;
     mEmitter.beforeLoadMore();
-    mEmitter.paginate(currentPage() + 1, perPage());
+    mCall = mEmitter.paginate(currentPage() + 1, perPage());
+    mCall.enqueue(this);
   }
 
   @Override public void onResponse(Response<Result<List<T>>> response) {

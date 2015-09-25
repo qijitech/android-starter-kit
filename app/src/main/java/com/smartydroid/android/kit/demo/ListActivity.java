@@ -16,7 +16,6 @@ import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
 import com.smartydroid.android.starter.kit.network.PagePaginator;
 import com.smartydroid.android.starter.kit.network.Result;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
-import java.util.ArrayList;
 import java.util.List;
 import retrofit.Call;
 
@@ -29,7 +28,6 @@ public class ListActivity extends AppCompatActivity
   private EasyRecyclerAdapter mRecyclerAdapter;
 
   private FeedService mFeedService;
-  private Call<Result<List<Tweet>>> mCallFuture;
   private PagePaginator<Tweet> mPagePaginator;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +45,19 @@ public class ListActivity extends AppCompatActivity
   @Override protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
     updateView();
-    mPagePaginator.refresh();
   }
 
   @Override protected void onResume() {
     super.onResume();
-    if (mCallFuture != null) {
-      mCallFuture.enqueue(mPagePaginator);
+    if (! mPagePaginator.dataHasLoaded()) {
+      mPagePaginator.refresh();
     }
+
   }
 
   @Override protected void onPause() {
     super.onPause();
-    if (mCallFuture != null) {
-      mCallFuture.cancel();
-    }
+    mPagePaginator.cancel();
   }
 
   private void updateView() {
@@ -96,8 +92,8 @@ public class ListActivity extends AppCompatActivity
     return mPagePaginator.isEmpty();
   }
 
-  @Override public void paginate(int page, int perPage) {
-    mCallFuture = mFeedService.getTweetList(page, perPage);
+  @Override public Call<Result<List<Tweet>>> paginate(int page, int perPage) {
+    return mFeedService.getTweetList(page, perPage);
   }
 
   @Override public void beforeRefresh() {

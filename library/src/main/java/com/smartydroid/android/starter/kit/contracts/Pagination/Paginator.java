@@ -6,6 +6,7 @@ package com.smartydroid.android.starter.kit.contracts.Pagination;
 
 import java.util.List;
 import com.smartydroid.android.starter.kit.network.Result;
+import retrofit.Call;
 import retrofit.Callback;
 
 public interface Paginator<T> extends Callback<Result<List<T>>> {
@@ -59,9 +60,10 @@ public interface Paginator<T> extends Callback<Result<List<T>>> {
 
   void refresh();
   void loadMore();
+  void cancel();
 
   interface Emitter<T> {
-    void paginate(int page, int pageSize);
+    Call<Result<List<T>>> paginate(int page, int pageSize);
 
     void beforeRefresh();
     void beforeLoadMore();
