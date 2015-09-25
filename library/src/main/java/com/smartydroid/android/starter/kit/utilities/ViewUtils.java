@@ -4,6 +4,7 @@
  */
 package com.smartydroid.android.starter.kit.utilities;
 
+import android.app.Activity;
 import android.view.View;
 
 import static android.view.View.GONE;
@@ -56,6 +57,54 @@ public class ViewUtils {
           view.setVisibility(VISIBLE);
       }
     return view;
+  }
+
+  /**
+   * Generics version of {@link android.app.Activity#findViewById}
+   * @param parent
+   * @param viewId
+   * @param <T>
+   * @return
+   */
+  @SuppressWarnings("unchecked") public static <T extends View> T getViewOrNull(Activity parent,
+      int viewId) {
+    return (T) parent.findViewById(viewId);
+  }
+
+  /** Generics version of {@link android.view.View#findViewById} */
+  @SuppressWarnings("unchecked") public static <T extends View> T getViewOrNull(View parent,
+      int viewId) {
+    return (T) parent.findViewById(viewId);
+  }
+
+  /**
+   * Same as {@link android.app.Activity#findViewById}, but crashes if there's no view.
+   * @param parent
+   * @param viewId
+   * @param <T>
+   * @return
+   */
+  @SuppressWarnings("unchecked") public static <T extends View> T getView(Activity parent,
+      int viewId) {
+    return (T) checkView(parent.findViewById(viewId));
+  }
+
+  /**
+   * Same as {@link android.view.View#findViewById}, but crashes if there's no view.
+   * @param parent
+   * @param viewId
+   * @param <T>
+   * @return
+   */
+  @SuppressWarnings("unchecked") public static <T extends View> T getView(View parent, int viewId) {
+    return (T) checkView(parent.findViewById(viewId));
+  }
+
+  private static View checkView(View v) {
+    if (v == null) {
+      throw new IllegalArgumentException("View doesn't exist");
+    }
+    return v;
   }
 
   private ViewUtils() {

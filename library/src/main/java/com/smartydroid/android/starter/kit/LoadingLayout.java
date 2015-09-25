@@ -175,23 +175,15 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
           mDefaultViewState = VIEW_STATE_LOADING;
           break;
       }
+
+      if (mDefaultViewState != mCurrentViewStatus) {
+        switchState(mDefaultViewState);
+      }
     } finally {
       if (a != null) {
         a.recycle();
       }
     }
-  }
-
-  @Override protected void onAttachedToWindow() {
-    super.onAttachedToWindow();
-    if (mDefaultViewState != mCurrentViewStatus) {
-      switchState(mDefaultViewState);
-    }
-  }
-
-  @Override protected void onDetachedFromWindow() {
-    super.onDetachedFromWindow();
-
   }
 
   /**
