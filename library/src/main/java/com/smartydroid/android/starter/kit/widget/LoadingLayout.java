@@ -207,173 +207,28 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
    * display content view
    */
   public void showContentView() {
-    switchState(VIEW_STATE_CONTENT, null, null, null, null, null);
+    switchState(VIEW_STATE_CONTENT);
   }
 
   /**
    * display loading view
    */
   public void showLoadingView() {
-    switchState(VIEW_STATE_LOADING, null, null, null, null, null);
+    switchState(VIEW_STATE_LOADING);
   }
 
   /**
    * display empty view
    */
   public void showEmptyView() {
-    switchState(VIEW_STATE_EMPTY, null, null, null, null, null);
+    switchState(VIEW_STATE_EMPTY);
   }
 
   /**
-   * dispaly empty view with click listener
-   * @param onClickListener
+   * display error view
    */
-  public void showEmptyView(OnClickListener onClickListener) {
-    switchState(VIEW_STATE_EMPTY, null, null, null, null, onClickListener);
-  }
-
-  /**
-   * dispaly empty view
-   * @param emptyImageDrawable
-   * @param emptyTextTitle
-   * @param emptyTextContent
-   * @param emptyButtonText
-   * @param onClickListener
-   */
-  public void showEmptyView(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent,
-      String emptyButtonText, OnClickListener onClickListener) {
-    switchState(VIEW_STATE_EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent,
-        emptyButtonText, onClickListener);
-  }
-
-  /**
-   * dispaly empty view
-   * @param emptyImageDrawable
-   * @param emptyTextTitle
-   * @param emptyTextContent
-   * @param emptyButtonText
-   */
-  public void showEmptyView(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent,
-      String emptyButtonText) {
-    switchState(VIEW_STATE_EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent,
-        emptyButtonText, null);
-  }
-
-  /**
-   * display empty view
-   * @param emptyImageDrawableRes
-   * @param emptyTextTitleRes
-   * @param emptyTextContentRes
-   * @param emptyButtonTextRes
-   * @param onClickListener
-   */
-  public void showEmptyView(int emptyImageDrawableRes, int emptyTextTitleRes,
-      int emptyTextContentRes, int emptyButtonTextRes, OnClickListener onClickListener) {
-    switchState(VIEW_STATE_EMPTY, getDrawable(emptyImageDrawableRes), getString(emptyTextTitleRes),
-        getString(emptyTextContentRes), getString(emptyButtonTextRes), onClickListener);
-  }
-
-  /**
-   * display empty view
-   * @param emptyImageDrawableRes
-   * @param emptyTextTitleRes
-   * @param emptyTextContentRes
-   * @param onClickListener
-   */
-  public void showEmptyView(int emptyImageDrawableRes, int emptyTextTitleRes,
-      int emptyTextContentRes, OnClickListener onClickListener) {
-    switchState(VIEW_STATE_EMPTY, getDrawable(emptyImageDrawableRes), getString(emptyTextTitleRes),
-        getString(emptyTextContentRes), null, onClickListener);
-  }
-
-  /**
-   * display empty view
-   * @param emptyImageDrawableRes
-   * @param emptyTextTitleRes
-   * @param emptyTextContentRes
-   */
-  public void showEmptyView(int emptyImageDrawableRes, int emptyTextTitleRes,
-      int emptyTextContentRes) {
-    switchState(VIEW_STATE_EMPTY, getDrawable(emptyImageDrawableRes), getString(emptyTextTitleRes),
-        getString(emptyTextContentRes), null, null);
-  }
-
   public void showErrorView() {
-    switchState(VIEW_STATE_ERROR, null, null, null, null, null);
-  }
-
-  /**
-   * dispaly error view with click listener
-   * @param onClickListener
-   */
-  public void showErrorView(OnClickListener onClickListener) {
-    switchState(VIEW_STATE_ERROR, null, null, null, null, onClickListener);
-  }
-
-  /**
-   * dispaly error view
-   * @param errorImageDrawable
-   * @param errorTextTitle
-   * @param errorTextContent
-   * @param errorButtonText
-   * @param onClickListener
-   */
-  public void showErrorView(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent,
-      String errorButtonText, OnClickListener onClickListener) {
-    switchState(VIEW_STATE_ERROR, errorImageDrawable, errorTextTitle, errorTextContent,
-        errorButtonText, onClickListener);
-  }
-
-  /**
-   * dispaly error view
-   * @param errorImageDrawable
-   * @param errorTextTitle
-   * @param errorTextContent
-   * @param errorButtonText
-   */
-  public void showErrorView(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent,
-      String errorButtonText) {
-    switchState(VIEW_STATE_ERROR, errorImageDrawable, errorTextTitle, errorTextContent,
-        errorButtonText, null);
-  }
-
-  /**
-   * display error view
-   * @param errorImageDrawableRes
-   * @param errorTextTitleRes
-   * @param errorTextContentRes
-   * @param errorButtonTextRes
-   * @param onClickListener
-   */
-  public void showErrorView(int errorImageDrawableRes, int errorTextTitleRes,
-      int errorTextContentRes, int errorButtonTextRes, OnClickListener onClickListener) {
-    switchState(VIEW_STATE_ERROR, getDrawable(errorImageDrawableRes), getString(errorTextTitleRes),
-        getString(errorTextContentRes), getString(errorButtonTextRes), onClickListener);
-  }
-
-  /**
-   * display error view
-   * @param errorImageDrawableRes
-   * @param errorTextTitleRes
-   * @param errorTextContentRes
-   * @param onClickListener
-   */
-  public void showErrorView(int errorImageDrawableRes, int errorTextTitleRes,
-      int errorTextContentRes, OnClickListener onClickListener) {
-    switchState(VIEW_STATE_ERROR, getDrawable(errorImageDrawableRes), getString(errorTextTitleRes),
-        getString(errorTextContentRes), null, onClickListener);
-  }
-
-  /**
-   * display error view
-   * @param errorImageDrawableRes
-   * @param errorTextTitleRes
-   * @param errorTextContentRes
-   */
-  public void showErrorView(int errorImageDrawableRes, int errorTextTitleRes,
-      int errorTextContentRes) {
-    switchState(VIEW_STATE_ERROR, getDrawable(errorImageDrawableRes), getString(errorTextTitleRes),
-        getString(errorTextContentRes), null, null);
+    switchState(VIEW_STATE_ERROR);
   }
 
   /**
@@ -421,11 +276,6 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
   }
 
   private void switchState(int state) {
-    switchState(state, null, null, null, null, null);
-  }
-
-  private void switchState(int state, Drawable drawable, String errorText, String errorTextContent,
-      String errorButtonText, OnClickListener onClickListener) {
     if (mCurrentViewStatus == state) return;
     mCurrentViewStatus = state;
 
@@ -436,7 +286,7 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
         break;
       case VIEW_STATE_EMPTY:
         hide(mLoadingView).hide(mErrorView);
-        setupEmptyView(drawable, errorText, errorTextContent, errorButtonText, onClickListener);
+        setupEmptyView();
         dispalyPlaceHolderView();
         break;
       case VIEW_STATE_LOADING:
@@ -446,7 +296,7 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
         break;
       case VIEW_STATE_ERROR:
         hide(mLoadingView).hide(mEmptyView);
-        setupErrorView(drawable, errorText, errorTextContent, errorButtonText, onClickListener);
+        setupErrorView();
         dispalyPlaceHolderView();
         break;
     }
@@ -518,8 +368,7 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
   /**
    * 设置错误页面
    */
-  private void setupErrorView(Drawable drawable, String errorText, String errorTextContent,
-      String errorButtonText, OnClickListener onClickListener) {
+  private void setupErrorView() {
     if (mErrorView == null) {
       final View errorView = mLayoutInflater.inflate(R.layout.include_error_view, null);
       errorView.setTag(TAG_ERROR);
@@ -539,35 +388,46 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       mErrorTitleTextView.setTextColor(mErrorTitleTextColor);
       mErrorContentTextView.setTextColor(mErrorContentTextColor);
       mErrorButton.setTextColor(mButtonTextColor);
+
       if (mButtonBackgroundRes > 0) {
         mErrorButton.setBackgroundResource(mButtonBackgroundRes);
       }
 
-      if (drawable != null) {
-        mErrorImageView.setImageDrawable(drawable);
-      }
-
-      if (!isNull(errorText)) {
-        mErrorTitleTextView.setText(errorText);
-      }
-
-      if (!isNull(errorTextContent)) {
-        mErrorContentTextView.setText(errorTextContent);
-      }
-
-      if (!isNull(errorButtonText)) {
-        mErrorButton.setText(errorButtonText);
-      }
-
-      if (onClickListener != null) {
-        ViewUtils.setGone(mErrorButton, false);
-        mErrorButton.setOnClickListener(onClickListener);
-      } else if (getOnButtonClickListener() != null) {
-        ViewUtils.setGone(mErrorButton, false);
-        mErrorButton.setOnClickListener(this);
+      if (mErrorDrawable != null) {
+        ViewUtils.setGone(mErrorImageView, false);
+        mErrorImageView.setImageDrawable(mErrorDrawable);
       } else {
-        ViewUtils.setGone(mErrorButton, true);
+        ViewUtils.setGone(mErrorImageView, true);
       }
+
+      if (!isNull(mErrorTitleText)) {
+        ViewUtils.setGone(mErrorTitleTextView, false);
+        mErrorTitleTextView.setText(mErrorTitleText);
+      } else {
+        ViewUtils.setGone(mErrorTitleTextView, true);
+      }
+
+      if (!isNull(mErrorSubtitleText)) {
+        ViewUtils.setGone(mErrorContentTextView, false);
+        mErrorContentTextView.setText(mErrorSubtitleText);
+      } else {
+        ViewUtils.setGone(mErrorContentTextView, true);
+      }
+
+      boolean gone = true;
+      if (!isNull(mErrorButtonText)) {
+        gone = false;
+        mErrorButton.setText(mErrorButtonText);
+      }
+
+      if (onErrorButtonClickListener != null) {
+        gone = false;
+        mErrorButton.setOnClickListener(onErrorButtonClickListener);
+      } else if (getOnButtonClickListener() != null) {
+        gone = false;
+        mErrorButton.setOnClickListener(this);
+      }
+      ViewUtils.setGone(mErrorButton, gone);
 
       //Set background color if not TRANSPARENT
       if (mErrorBackgroundColor != Color.TRANSPARENT) {
@@ -581,11 +441,112 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
     }
   }
 
+  private Drawable mEmptyDrawable;
+  private String mEmptyTitleText;
+  private String mEmptySubtitleText;
+  private String mEmptyButtonText;
+  private OnClickListener onEmptyButtonClickListener;
+
+  private Drawable mErrorDrawable;
+  private String mErrorTitleText;
+  private String mErrorSubtitleText;
+  private String mErrorButtonText;
+  private OnClickListener onErrorButtonClickListener;
+
+  public LoadingLayout setEmptyDrawable(int drawableRes) {
+    mEmptyDrawable = getDrawable(drawableRes);
+    return this;
+  }
+
+  public LoadingLayout setEmptyDrawable(Drawable drawable) {
+    mEmptyDrawable = drawable;
+    return this;
+  }
+
+  public LoadingLayout setEmptyTitle(int titleRes) {
+    mEmptyTitleText = getString(titleRes);
+    return this;
+  }
+
+  public LoadingLayout setEmptyTitle(String title) {
+    mEmptyTitleText = title;
+    return this;
+  }
+
+  public LoadingLayout setEmptySubtitle(int subtitleRes) {
+    mEmptySubtitleText = getString(subtitleRes);
+    return this;
+  }
+
+  public LoadingLayout setEmptySubtitle(String subtitle) {
+    mEmptySubtitleText = subtitle;
+    return this;
+  }
+
+  public LoadingLayout setEmptyButtonText(int buttonTextRes) {
+    mEmptyButtonText = getString(buttonTextRes);
+    return this;
+  }
+
+  public LoadingLayout setEmptyButtonText(String buttonText) {
+    mEmptyButtonText = buttonText;
+    return this;
+  }
+
+  public LoadingLayout setOnEmptyButtonClickListener(OnClickListener l) {
+    onEmptyButtonClickListener = l;
+    return this;
+  }
+
+  public LoadingLayout setErrorDrawable(int drawableRes) {
+    mErrorDrawable = getDrawable(drawableRes);
+    return this;
+  }
+
+  public LoadingLayout setErrorDrawable(Drawable drawable) {
+    mErrorDrawable = drawable;
+    return this;
+  }
+
+  public LoadingLayout setErrorTitle(int titleRes) {
+    mErrorTitleText = getString(titleRes);
+    return this;
+  }
+
+  public LoadingLayout setErrorTitle(String title) {
+    mErrorTitleText = title;
+    return this;
+  }
+
+  public LoadingLayout setErrorSubtitle(int subtitleRes) {
+    mErrorSubtitleText = getString(subtitleRes);
+    return this;
+  }
+
+  public LoadingLayout setErrorSubtitle(String subtitle) {
+    mErrorSubtitleText = subtitle;
+    return this;
+  }
+
+  public LoadingLayout setErrorButtonText(int buttonTextRes) {
+    mErrorButtonText = getString(buttonTextRes);
+    return this;
+  }
+
+  public LoadingLayout setErrorButtonText(String buttonText) {
+    mErrorButtonText = buttonText;
+    return this;
+  }
+
+  public LoadingLayout setOnErrorButtonClickListener(OnClickListener l) {
+    onErrorButtonClickListener = l;
+    return this;
+  }
+
   /**
    * 设置空白页面
    */
-  private void setupEmptyView(Drawable drawable, String errorText, String errorTextContent,
-      String errorButtonText, OnClickListener onClickListener) {
+  private void setupEmptyView() {
     if (mEmptyView == null) {
       final View emptyView = mLayoutInflater.inflate(R.layout.include_empty_view, null);
       emptyView.setTag(TAG_EMPTY);
@@ -610,31 +571,42 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
         emptyView.setBackgroundColor(mEmptyBackgroundColor);
       }
 
-      if (drawable != null) {
-        mEmptyImageView.setImageDrawable(drawable);
-      }
-
-      if (!isNull(errorText)) {
-        mEmptyTitleTextView.setText(errorText);
-      }
-
-      if (!isNull(errorText)) {
-        mEmptyContentTextView.setText(errorTextContent);
-      }
-
-      if (!isNull(errorButtonText)) {
-        mEmptyButton.setText(errorButtonText);
-      }
-
-      if (onClickListener != null) {
-        ViewUtils.setGone(mEmptyButton, false);
-        mEmptyButton.setOnClickListener(onClickListener);
-      } else if (getOnButtonClickListener() != null) {
-        ViewUtils.setGone(mEmptyButton, false);
-        mEmptyButton.setOnClickListener(this);
+      if (mEmptyDrawable != null) {
+        ViewUtils.setGone(mEmptyTitleTextView, false);
+        mEmptyImageView.setImageDrawable(mEmptyDrawable);
       } else {
-        ViewUtils.setGone(mEmptyButton, true);
+        ViewUtils.setGone(mEmptyTitleTextView, true);
       }
+
+      if (!isNull(mEmptyTitleText)) {
+        ViewUtils.setGone(mEmptyTitleTextView, false);
+        mEmptyTitleTextView.setText(mEmptyTitleText);
+      } else {
+        ViewUtils.setGone(mEmptyTitleTextView, true);
+      }
+
+      if (!isNull(mEmptySubtitleText)) {
+        ViewUtils.setGone(mEmptyContentTextView, false);
+        mEmptyContentTextView.setText(mEmptySubtitleText);
+      } else {
+        ViewUtils.setGone(mEmptyContentTextView, true);
+      }
+
+      boolean gone = true;
+      if (!isNull(mEmptyButtonText)) {
+        gone = false;
+        mEmptyButton.setText(mEmptyButtonText);
+      }
+
+      if (onEmptyButtonClickListener != null) {
+        gone = false;
+        mEmptyButton.setOnClickListener(onEmptyButtonClickListener);
+      } else if (getOnButtonClickListener() != null) {
+        gone = false;
+        mEmptyButton.setOnClickListener(this);
+      }
+
+      ViewUtils.setGone(mEmptyButton, gone);
 
       mContainer.addView(emptyView);
       mEmptyView = emptyView;

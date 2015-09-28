@@ -21,10 +21,11 @@ import com.smartydroid.android.starter.kit.utilities.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import com.smartydroid.android.starter.kit.widget.LoadMoreView;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
+import java.net.UnknownHostException;
 import java.util.List;
 
 public abstract class RecyclerViewFragment<E> extends BaseFragment
-    implements PageCallback<List<E>>, Paginator.Emitter<E>,
+    implements PageCallback<List<E>>, Paginator.Emitter<E>, LoadingLayout.OnButtonClickListener,
     SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener {
 
   private LoadingLayout mLoadingLayout;
@@ -42,9 +43,7 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    mPagePaginator = new PagePaginator.Builder<E>()
-        .setEmitter(this)
-        .setPageCallback(this).build();
+    mPagePaginator = new PagePaginator.Builder<E>().setEmitter(this).setPageCallback(this).build();
 
     mLoadMoreView = new LoadMoreView();
     mRecyclerViewHandler = new RecyclerViewHandler();
@@ -61,13 +60,13 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
     mRecyclerView = ViewUtils.getView(mSwipeRefreshLayout, android.R.id.list);
     mSwipeRefreshLayout.setOnRefreshListener(this);
 
-    setupRecyclerView();
+    initRecyclerView();
     updateView();
   }
 
   @Override public void onResume() {
     super.onResume();
-    if (! mPagePaginator.dataHasLoaded()) {
+    if (!mPagePaginator.dataHasLoaded()) {
       mPagePaginator.refresh();
     }
   }
@@ -86,20 +85,26 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
   /**
    * setup
    */
-  private void setupRecyclerView() {
+  private void initRecyclerView() {
     mRecyclerAdapter = new EasyRecyclerAdapter(getContext());
     bindViewHolders(mRecyclerAdapter);
 
-    mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    if (!setupRecyclerView()) {
+      mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
 
     mRecyclerViewHandler.handleSetAdapter(mRecyclerView, mRecyclerAdapter, mLoadMoreView, this);
     mRecyclerViewHandler.setOnScrollBottomListener(mRecyclerView, this);
   }
 
+  protected boolean setupRecyclerView() {
+    return false;
+  }
+
   private void updateView() {
     if (!isEmpty()) {
       mLoadingLayout.showContentView();
-    } else if (! mPagePaginator.dataHasLoaded()) {
+    } else if (!mPagePaginator.dataHasLoaded()) {
       mLoadingLayout.showLoadingView();
     } else if (mPagePaginator.hasError()) {
       mLoadingLayout.showErrorView();
@@ -113,7 +118,7 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
   }
 
   @Override public void onRefresh() {
-    if (! mPagePaginator.isLoading()) {
+    if (!mPagePaginator.isLoading()) {
       mPagePaginator.refresh();
     } else {
       mSwipeRefreshLayout.setRefreshing(false);
@@ -135,14 +140,23 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
   }
 
   @Override public void onRequestComplete(int code, String error) {
-
+    mLoadingLayout.setErrorTitle("网络问题");
+    mLoadingLayout.setErrorSubtitle("网络问题");
+    mLoadingLayout.setErrorButtonText("重试");
+    mLoadingLayout.setOnButtonClickListener(this);
   }
 
   @Override public void onRequestFailure(Result<List<E>> result) {
   }
 
   @Override public void onRequestFailure(Throwable error) {
-
+    if (error instanceof UnknownHostException) { // 网络问题
+      mLoadingLayout.setErrorTitle("网络问题");
+      mLoadingLayout.setErrorSubtitle("网络问题");
+      mLoadingLayout.setErrorButtonText("重试");
+      mLoadingLayout.setOnButtonClickListener(this);
+      return;
+    }
   }
 
   @Override public void onFinish() {
@@ -154,10 +168,17 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
 
   /**
    * load more click
-   * @param v
    */
   @Override public void onClick(View v) {
     mPagePaginator.loadMore();
+  }
+
+  @Override public void onEmptyButtonClick(View view) {
+    mPagePaginator.refresh();
+  }
+
+  @Override public void onErrorButtonClick(View view) {
+    mPagePaginator.refresh();
   }
 
   @Override public void onScorllBootom() {

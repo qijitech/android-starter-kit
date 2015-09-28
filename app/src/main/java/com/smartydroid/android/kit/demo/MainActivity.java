@@ -47,11 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoadingLayout.OnB
     }
 
     if (id == R.id.action_show_error) {
-      mLoadingLayout.showErrorView(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-          mLoadingLayout.showLoadingView();
-        }
-      });
+      mLoadingLayout.showErrorView();
       return true;
     }
     return super.onOptionsItemSelected(item);
