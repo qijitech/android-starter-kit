@@ -5,7 +5,8 @@
 package com.smartydroid.android.starter.kit.network;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
-import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
+import com.smartydroid.android.starter.kit.contracts.Pagination.PagePaginator;
+import com.smartydroid.android.starter.kit.contracts.Pagination.PagesEmitter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,7 +14,7 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Response;
 
-public class PagePaginator<T> implements Paginator<T> {
+public class PagesPaginator<T> implements PagePaginator<T> {
 
   private static final int DEFAULT_START_PAGE = 1;
   private static final int DEFAULT_PER_PAGE = 20;
@@ -29,7 +30,7 @@ public class PagePaginator<T> implements Paginator<T> {
 
   final LinkedHashMap<Object, T> mResources = new LinkedHashMap<>();
 
-  private Emitter<T> mEmitter;
+  private PagesEmitter<T> mEmitter;
   private PageCallback<List<T>> mPageCallback;
   private LoadStyle mLoadStyle = LoadStyle.REFRESH;
 
@@ -40,14 +41,14 @@ public class PagePaginator<T> implements Paginator<T> {
   }
 
   public static class Builder<T> {
-    private Emitter<T> emitter;
+    private PagesEmitter<T> emitter;
     private PageCallback<List<T>> pageCallback;
 
     private int startPage;
     private int perPage;
 
-    /** Create the {@link PagePaginator} instances. */
-    public PagePaginator<T> build() {
+    /** Create the {@link PagesPaginator} instances. */
+    public PagesPaginator<T> build() {
       if (pageCallback == null) {
         throw new IllegalArgumentException("PageCallback may not be null.");
       }
@@ -55,7 +56,7 @@ public class PagePaginator<T> implements Paginator<T> {
         throw new IllegalArgumentException("Emitter may not be null.");
       }
       ensureSaneDefaults();
-      return new PagePaginator<>(emitter, pageCallback, startPage, perPage);
+      return new PagesPaginator<>(emitter, pageCallback, startPage, perPage);
     }
 
     private void ensureSaneDefaults() {
@@ -64,7 +65,7 @@ public class PagePaginator<T> implements Paginator<T> {
       }
     }
 
-    public Builder<T> setEmitter(Emitter<T> emitter) {
+    public Builder<T> setEmitter(PagesEmitter<T> emitter) {
       this.emitter = emitter;
       return this;
     }
@@ -85,7 +86,7 @@ public class PagePaginator<T> implements Paginator<T> {
     }
   }
 
-  private PagePaginator(Emitter<T> emitter, PageCallback<List<T>> pageCallback, int startPage,
+  private PagesPaginator(PagesEmitter<T> emitter, PageCallback<List<T>> pageCallback, int startPage,
       int perPage) {
     mEmitter = emitter;
     mPageCallback = pageCallback;

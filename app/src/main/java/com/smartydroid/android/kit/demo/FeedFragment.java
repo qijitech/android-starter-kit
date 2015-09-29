@@ -6,12 +6,12 @@ package com.smartydroid.android.kit.demo;
 
 import android.os.Bundle;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
-import com.smartydroid.android.starter.kit.app.RecyclerViewFragment;
+import com.smartydroid.android.starter.kit.app.PagesRecyclerViewFragment;
 import com.smartydroid.android.starter.kit.network.Result;
 import java.util.List;
 import retrofit.Call;
 
-public class FeedFragment extends RecyclerViewFragment<Tweet> {
+public class FeedFragment extends PagesRecyclerViewFragment<Tweet> {
 
   private FeedService mFeedService;
 

@@ -1,0 +1,22 @@
+/**
+ * Created by YuGang Yang on September 29, 2015.
+ * Copyright 2007-2015 Laputapp.com. All rights reserved.
+ */
+package com.smartydroid.android.starter.kit.contracts.Pagination;
+
+public interface IdPaginator<T> extends Paginator<T> {
+
+  /**
+   * The next item, or null.
+   *
+   * @return T
+   */
+  public T nextPageItem();
+
+  /**
+   * Get the previous item, or null.
+   *
+   * @return T
+   */
+  public T previousPageItem();
+}

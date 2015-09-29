@@ -1,0 +1,30 @@
+/**
+ * Created by YuGang Yang on September 29, 2015.
+ * Copyright 2007-2015 Laputapp.com. All rights reserved.
+ */
+package com.smartydroid.android.starter.kit.app;
+
+import com.smartydroid.android.starter.kit.contracts.Pagination.PagesEmitter;
+import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
+import com.smartydroid.android.starter.kit.network.PagesPaginator;
+
+public abstract class PagesRecyclerViewFragment<E> extends RecyclerViewFragment<E>
+    implements PagesEmitter<E> {
+
+  @Override public Paginator buildPaginator() {
+    return new PagesPaginator.Builder<E>()
+        .setEmitter(this)
+        .setPageCallback(this)
+        .build();
+  }
+
+  @Override public E register(E item) {
+    return item;
+  }
+
+  @Override public void beforeRefresh() {
+  }
+
+  @Override public void beforeLoadMore() {
+  }
+}

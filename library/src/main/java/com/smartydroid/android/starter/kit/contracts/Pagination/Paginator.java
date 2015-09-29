@@ -4,9 +4,8 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-import java.util.List;
 import com.smartydroid.android.starter.kit.network.Result;
-import retrofit.Call;
+import java.util.List;
 import retrofit.Callback;
 
 public interface Paginator<T> extends Callback<Result<List<T>>> {
@@ -34,13 +33,6 @@ public interface Paginator<T> extends Callback<Result<List<T>>> {
   int perPage();
 
   /**
-   * Determine the current page being paginated.
-   *
-   * @return curent page
-   */
-  int currentPage();
-
-  /**
    * Determine if there is more items in the data store.
    *
    * @return has more
@@ -61,14 +53,4 @@ public interface Paginator<T> extends Callback<Result<List<T>>> {
   void refresh();
   void loadMore();
   void cancel();
-
-  interface Emitter<T> {
-    Call<Result<List<T>>> paginate(int page, int pageSize);
-
-    void beforeRefresh();
-    void beforeLoadMore();
-
-    T register(final T item);
-    Object getKeyForData(T item);
-  }
 }

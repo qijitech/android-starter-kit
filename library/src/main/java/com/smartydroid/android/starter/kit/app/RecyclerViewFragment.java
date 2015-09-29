@@ -12,9 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.starter.kit.R;
+import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
-import com.smartydroid.android.starter.kit.network.PagePaginator;
 import com.smartydroid.android.starter.kit.network.Result;
 import com.smartydroid.android.starter.kit.utilities.RecyclerViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewHandler;
@@ -25,7 +25,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 public abstract class RecyclerViewFragment<E> extends BaseFragment
-    implements PageCallback<List<E>>, Paginator.Emitter<E>, LoadingLayout.OnButtonClickListener,
+    implements PageCallback<List<E>>, LoadingLayout.OnButtonClickListener,
     SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener {
 
   private LoadingLayout mLoadingLayout;
@@ -33,17 +33,18 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
   private RecyclerView mRecyclerView;
   private EasyRecyclerAdapter mRecyclerAdapter;
 
-  private PagePaginator<E> mPagePaginator;
+  private Paginator<E> mPagePaginator;
 
   private LoadMoreView mLoadMoreView;
   private RecyclerViewHandler mRecyclerViewHandler;
 
   public abstract void bindViewHolders(EasyRecyclerAdapter adapter);
+  public abstract Paginator buildPaginator();
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    mPagePaginator = new PagePaginator.Builder<E>().setEmitter(this).setPageCallback(this).build();
+    mPagePaginator = buildPaginator();
 
     mLoadMoreView = new LoadMoreView();
     mRecyclerViewHandler = new RecyclerViewHandler();
@@ -123,16 +124,6 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
     } else {
       mSwipeRefreshLayout.setRefreshing(false);
     }
-  }
-
-  @Override public E register(E item) {
-    return item;
-  }
-
-  @Override public void beforeRefresh() {
-  }
-
-  @Override public void beforeLoadMore() {
   }
 
   @Override public void onRequestComplete(Result<List<E>> result) {
