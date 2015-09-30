@@ -12,10 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.starter.kit.R;
-import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
 import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.network.callback.PaginationCallback;
 import com.smartydroid.android.starter.kit.utilities.RecyclerViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
@@ -24,7 +24,7 @@ import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 import java.net.UnknownHostException;
 
 public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragment
-    implements PageCallback<E>, LoadingLayout.OnButtonClickListener,
+    implements PaginationCallback<E>, LoadingLayout.OnButtonClickListener,
     SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener {
 
   private LoadingLayout mLoadingLayout;
@@ -126,21 +126,11 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     }
   }
 
-  @Override public void onRequestComplete(DataArray dataArray) {
+  @Override public void respondSuccess(DataArray<E> data) {
     mRecyclerAdapter.addAll(mPagePaginator.items());
   }
 
-  @Override public void onRequestComplete(int code, String error) {
-    mLoadingLayout.setErrorTitle("网络问题");
-    mLoadingLayout.setErrorSubtitle("网络问题");
-    mLoadingLayout.setErrorButtonText("重试");
-    mLoadingLayout.setOnButtonClickListener(this);
-  }
-
-  @Override public void onRequestFailure(DataArray dataArray) {
-  }
-
-  @Override public void onRequestFailure(Throwable error) {
+  @Override public void respondWithError(Throwable error) {
     if (error instanceof UnknownHostException) { // 网络问题
       mLoadingLayout.setErrorTitle("网络问题");
       mLoadingLayout.setErrorSubtitle("网络问题");
@@ -148,6 +138,11 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
       mLoadingLayout.setOnButtonClickListener(this);
       return;
     }
+
+    mLoadingLayout.setErrorTitle("网络问题");
+    mLoadingLayout.setErrorSubtitle("网络问题");
+    mLoadingLayout.setErrorButtonText("重试");
+    mLoadingLayout.setOnButtonClickListener(this);
   }
 
   @Override public void onFinish() {

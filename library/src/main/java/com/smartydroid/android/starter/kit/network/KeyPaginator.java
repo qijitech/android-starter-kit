@@ -6,15 +6,11 @@ package com.smartydroid.android.starter.kit.network;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.IdEmitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.IdPaginator;
-import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
 import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import com.smartydroid.android.starter.kit.network.callback.PaginationCallback;
 import java.util.List;
 import retrofit.Call;
-import retrofit.Response;
 
 public class KeyPaginator<T extends Entitiy> extends PaginatorImpl<T> implements IdPaginator<T> {
 
@@ -23,20 +19,20 @@ public class KeyPaginator<T extends Entitiy> extends PaginatorImpl<T> implements
 
   public static class Builder<T extends Entitiy> {
     private IdEmitter<T> emitter;
-    private PageCallback<T> pageCallback;
+    private PaginationCallback<T> callback;
 
     private int perPage;
 
     /** Create the {@link KeyPaginator} instances. */
     public KeyPaginator<T> build() {
-      if (pageCallback == null) {
-        throw new IllegalArgumentException("PageCallback may not be null.");
+      if (callback == null) {
+        throw new IllegalArgumentException("PaginationCallback may not be null.");
       }
       if (emitter == null) {
         throw new IllegalArgumentException("Emitter may not be null.");
       }
       ensureSaneDefaults();
-      return new KeyPaginator<>(emitter, pageCallback, perPage);
+      return new KeyPaginator<>(emitter, callback, perPage);
     }
 
     private void ensureSaneDefaults() {
@@ -45,24 +41,24 @@ public class KeyPaginator<T extends Entitiy> extends PaginatorImpl<T> implements
       }
     }
 
-    public Builder<T> setEmitter(IdEmitter<T> emitter) {
+    public Builder<T> emitter(IdEmitter<T> emitter) {
       this.emitter = emitter;
       return this;
     }
 
-    public Builder<T> setPageCallback(PageCallback<T> pageCallback) {
-      this.pageCallback = pageCallback;
+    public Builder<T> callback(PaginationCallback<T> callback) {
+      this.callback = callback;
       return this;
     }
 
-    public Builder<T> setPerPage(int perPage) {
+    public Builder<T> perPage(int perPage) {
       this.perPage = perPage;
       return this;
     }
   }
 
-  private KeyPaginator(IdEmitter<T> emitter, PageCallback<T> pageCallback, int perPage) {
-    super(emitter, pageCallback, perPage);
+  private KeyPaginator(IdEmitter<T> emitter, PaginationCallback<T> callback, int perPage) {
+    super(emitter, callback, perPage);
   }
 
   @Override protected Call<DataArray<T>> paginate(boolean isRefresh) {

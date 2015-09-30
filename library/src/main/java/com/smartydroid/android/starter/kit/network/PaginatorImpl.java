@@ -5,18 +5,20 @@
 package com.smartydroid.android.starter.kit.network;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
-import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
 import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.network.callback.PaginationCallback;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import retrofit.Call;
+import retrofit.Callback;
 import retrofit.Response;
 
-public abstract class PaginatorImpl<T extends Entitiy> implements Paginator<T> {
+public abstract class PaginatorImpl<T extends Entitiy>
+    implements Paginator<T>, Callback<DataArray<T>> {
 
   static final int DEFAULT_PER_PAGE = 20;
 
@@ -30,14 +32,14 @@ public abstract class PaginatorImpl<T extends Entitiy> implements Paginator<T> {
   final LinkedHashMap<Object, T> mResources = new LinkedHashMap<>();
 
   protected Emitter<T> mEmitter;
-  private PageCallback<T> mPageCallback;
+  private PaginationCallback<T> mCallback;
   private LoadStyle mLoadStyle = LoadStyle.REFRESH;
 
   private Call<DataArray<T>> mCall;
 
-  protected PaginatorImpl(Emitter<T> emitter, PageCallback<T> pageCallback, int perPage) {
+  protected PaginatorImpl(Emitter<T> emitter, PaginationCallback<T> callback, int perPage) {
     mEmitter = emitter;
-    mPageCallback = pageCallback;
+    mCallback = callback;
     mPerPage = perPage;
   }
 
@@ -127,18 +129,17 @@ public abstract class PaginatorImpl<T extends Entitiy> implements Paginator<T> {
     if (response.isSuccess()) {
       final DataArray<T> dataArray = response.body();
       if (dataArray.isSuccess()) {
+
         processPage(dataArray);
+
         handDataArray(dataArray);
-        onRequestComplete(dataArray);
+
+        respondSuccess(dataArray);
       } else {
-        onRequestFailure(dataArray);
+        respondWithError(dataArray);
       }
     } else {
-      try {
-        onRequestComplete(response.code(), response.errorBody().string());
-      } catch (IOException e) {
-        onRequestFailure(e);
-      }
+      respondWithError(new Throwable(response.message()));
     }
     onFinish();
   }
@@ -147,7 +148,9 @@ public abstract class PaginatorImpl<T extends Entitiy> implements Paginator<T> {
     mIsLoading = false;
     mDataHasLoaded = true;
     mHasError = true;
-    onRequestFailure(t);
+
+    respondWithError(t);
+
     onFinish();
   }
 
@@ -169,37 +172,37 @@ public abstract class PaginatorImpl<T extends Entitiy> implements Paginator<T> {
     }
   }
 
-  private void onRequestComplete(DataArray<T> dataArray) {
+  /**
+   * 成功
+   */
+  private void respondSuccess(DataArray<T> dataArray) {
     mHasError = false;
-    if (mPageCallback != null) {
-      mPageCallback.onRequestComplete(dataArray);
+    if (mCallback != null) {
+      mCallback.respondSuccess(dataArray);
     }
   }
 
-  private void onRequestComplete(int code, String error) {
-    mHasError = true;
-    if (mPageCallback != null) {
-      mPageCallback.onRequestComplete(code, error);
+  private void respondWithError(DataArray<T> dataArray) {
+    if (mCallback != null) {
+      mCallback.respondWithError(new Throwable());
     }
   }
 
-  private void onRequestFailure(DataArray<T> dataArray) {
-    mHasError = true;
-    if (mPageCallback != null) {
-      mPageCallback.onRequestFailure(dataArray);
+  /**
+   * 错误
+   */
+  private void respondWithError(Throwable t) {
+    if (mCallback != null) {
+      mCallback.respondWithError(t);
     }
   }
 
-  private void onRequestFailure(Throwable t) {
-    mHasError = true;
-    if (mPageCallback != null) {
-      mPageCallback.onRequestFailure(t);
-    }
-  }
-
+  /**
+   * 处理完毕
+   */
   private void onFinish() {
-    if (mPageCallback != null) {
-      mPageCallback.onFinish();
+    if (mCallback != null) {
+      mCallback.onFinish();
     }
   }
 }

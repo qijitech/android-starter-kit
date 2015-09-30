@@ -14,8 +14,8 @@ public abstract class PagesRecyclerViewFragment<E extends Entitiy> extends Recyc
 
   @Override public Paginator buildPaginator() {
     return new PagesPaginator.Builder<E>()
-        .setEmitter(this)
-        .setPageCallback(this)
+        .emitter(this)
+        .callback(this)
         .build();
   }
 

@@ -14,8 +14,8 @@ public abstract class KeyRecyclerViewFragment<E extends Entitiy> extends Recycle
 
   @Override public Paginator buildPaginator() {
     return new KeyPaginator.Builder<E>()
-        .setEmitter(this)
-        .setPageCallback(this)
+        .emitter(this)
+        .callback(this)
         .build();
   }
 

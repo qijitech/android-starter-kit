@@ -4,26 +4,26 @@
  */
 package com.smartydroid.android.starter.kit.network;
 
-import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PagePaginator;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PagesEmitter;
 import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.network.callback.PaginationCallback;
 import retrofit.Call;
 
 public class PagesPaginator<T extends Entitiy> extends PaginatorImpl<T>
     implements PagePaginator<T> {
 
-  private static final int DEFAULT_START_PAGE = 1;
-  int mStartPage = DEFAULT_START_PAGE;
+  private static final int DEFAULT_FIRST_PAGE = 1;
+  int mFirstPage = DEFAULT_FIRST_PAGE;
 
   int mCurrentPage;
   long mTotalSize;
 
-  private PagesPaginator(PagesEmitter<T> emitter, PageCallback<T> pageCallback, int startPage,
+  private PagesPaginator(PagesEmitter<T> emitter, PaginationCallback<T> callback, int startPage,
       int perPage) {
-    super(emitter, pageCallback, perPage);
-    mStartPage = startPage;
+    super(emitter, callback, perPage);
+    mFirstPage = startPage;
   }
 
   @Override public int perPage() {
@@ -45,28 +45,28 @@ public class PagesPaginator<T extends Entitiy> extends PaginatorImpl<T>
   @Override protected Call<DataArray<T>> paginate(boolean isRefresh) {
     final PagesEmitter<T> emitter = (PagesEmitter<T>) mEmitter;
     if (emitter != null) {
-      return (Call<DataArray<T>>) emitter.paginate(isRefresh ? mStartPage : (currentPage() + 1), perPage());
+      return (Call<DataArray<T>>) emitter.paginate(isRefresh ? mFirstPage : (currentPage() + 1), perPage());
     }
     return null;
   }
 
   public static class Builder<T extends Entitiy> {
     private PagesEmitter<T> emitter;
-    private PageCallback<T> pageCallback;
+    private PaginationCallback<T> callback;
 
-    private int startPage;
+    private int firstPage;
     private int perPage;
 
     /** Create the {@link PagesPaginator} instances. */
     public PagesPaginator<T> build() {
-      if (pageCallback == null) {
-        throw new IllegalArgumentException("PageCallback may not be null.");
+      if (callback == null) {
+        throw new IllegalArgumentException("PaginationCallback may not be null.");
       }
       if (emitter == null) {
         throw new IllegalArgumentException("Emitter may not be null.");
       }
       ensureSaneDefaults();
-      return new PagesPaginator<>(emitter, pageCallback, startPage, perPage);
+      return new PagesPaginator<>(emitter, callback, firstPage, perPage);
     }
 
     private void ensureSaneDefaults() {
@@ -75,22 +75,22 @@ public class PagesPaginator<T extends Entitiy> extends PaginatorImpl<T>
       }
     }
 
-    public Builder<T> setEmitter(PagesEmitter<T> emitter) {
+    public Builder<T> emitter(PagesEmitter<T> emitter) {
       this.emitter = emitter;
       return this;
     }
 
-    public Builder<T> setPageCallback(PageCallback<T> pageCallback) {
-      this.pageCallback = pageCallback;
+    public Builder<T> callback(PaginationCallback<T> callback) {
+      this.callback = callback;
       return this;
     }
 
-    public Builder<T> setStartPage(int startPage) {
-      this.startPage = startPage;
+    public Builder<T> firstPage(int firstPage) {
+      this.firstPage = firstPage;
       return this;
     }
 
-    public Builder<T> setPerPage(int perPage) {
+    public Builder<T> perPage(int perPage) {
       this.perPage = perPage;
       return this;
     }
