@@ -9,7 +9,7 @@ import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
 import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import com.smartydroid.android.starter.kit.network.callback.PaginationCallback;
-import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -107,6 +107,9 @@ public abstract class PaginatorImpl<T extends Entitiy>
     mLoadStyle = LoadStyle.REFRESH;
     mEmitter.beforeRefresh();
     mCall = paginate(true);
+
+    onStart();
+
     if (mCall != null) {
       mCall.enqueue(this);
     }
@@ -118,6 +121,9 @@ public abstract class PaginatorImpl<T extends Entitiy>
     mLoadStyle = LoadStyle.LOAD_MORE;
     mEmitter.beforeLoadMore();
     mCall = paginate(false);
+
+    onStart();
+
     if (mCall != null) {
       mCall.enqueue(this);
     }
@@ -193,6 +199,10 @@ public abstract class PaginatorImpl<T extends Entitiy>
    */
   private void respondWithError(Throwable t) {
     if (mCallback != null) {
+      if (t instanceof SocketTimeoutException) {
+        // 网络链接超时
+        // TODO
+      }
       mCallback.respondWithError(t);
     }
   }
@@ -203,6 +213,12 @@ public abstract class PaginatorImpl<T extends Entitiy>
   private void onFinish() {
     if (mCallback != null) {
       mCallback.onFinish();
+    }
+  }
+
+  private void onStart() {
+    if (mCallback != null) {
+      mCallback.onStart();
     }
   }
 }

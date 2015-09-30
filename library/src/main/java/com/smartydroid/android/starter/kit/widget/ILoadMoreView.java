@@ -28,7 +28,7 @@ public interface ILoadMoreView {
   /**
    * 显示加载失败的布局
    */
-  void showFailure(Exception e);
+  void showFailure(Throwable t);
 
   interface FootViewAdder {
 

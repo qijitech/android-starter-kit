@@ -21,6 +21,7 @@ import com.smartydroid.android.starter.kit.utilities.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import com.smartydroid.android.starter.kit.widget.LoadMoreView;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragment
@@ -28,13 +29,14 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener {
 
   private LoadingLayout mLoadingLayout;
+  private LoadMoreView mLoadMoreView; // TODO loadmore 和 loading layout 是否可以合并成一个？
+
   private SwipeRefreshLayout mSwipeRefreshLayout;
   private RecyclerView mRecyclerView;
+
   private EasyRecyclerAdapter mRecyclerAdapter;
 
   private Paginator<E> mPagePaginator;
-
-  private LoadMoreView mLoadMoreView;
   private RecyclerViewHandler mRecyclerViewHandler;
 
   public abstract void bindViewHolders(EasyRecyclerAdapter adapter);
@@ -139,10 +141,25 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
       return;
     }
 
+    if (error instanceof SocketTimeoutException) {
+      // 网络链接超时
+      mLoadMoreView.showFailure(error);
+    }
+
     mLoadingLayout.setErrorTitle("网络问题");
     mLoadingLayout.setErrorSubtitle("网络问题");
     mLoadingLayout.setErrorButtonText("重试");
     mLoadingLayout.setOnButtonClickListener(this);
+  }
+
+  @Override public void onStart() {
+    super.onStart();
+
+    if (isEmpty()) {
+      mLoadingLayout.showLoadingView();
+    } else {
+      mLoadMoreView.showLoading();
+    }
   }
 
   @Override public void onFinish() {
