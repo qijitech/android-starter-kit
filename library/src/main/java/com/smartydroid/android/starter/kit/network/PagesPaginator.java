@@ -175,7 +175,7 @@ public class PagesPaginator<T> implements PagePaginator<T> {
     mDataHasLoaded = true;
     if (response.isSuccess()) {
       final Result<List<T>> result = response.body();
-      if (result.isSuccessed()) {
+      if (result.isSuccess()) {
         handResult(result);
         onRequestComplete(result);
       } else {
@@ -234,9 +234,10 @@ public class PagesPaginator<T> implements PagePaginator<T> {
   }
 
   private void handResult(Result<List<T>> result) {
-    mPerPage = result.mPerPage;
-    mCurrentPage = result.mPage;
-    mTotalSize = result.mTotalSize;
+    mPerPage = result.perPage();
+    mCurrentPage = result.currentPage();
+    mTotalSize = result.total();
+
     mHasMore = mTotalSize > mPerPage * mCurrentPage;
 
     if (isRefresh()) {

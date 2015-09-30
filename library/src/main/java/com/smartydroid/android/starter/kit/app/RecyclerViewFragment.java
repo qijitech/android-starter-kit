@@ -61,6 +61,7 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
     mRecyclerView = ViewUtils.getView(mSwipeRefreshLayout, android.R.id.list);
     mSwipeRefreshLayout.setOnRefreshListener(this);
 
+    setupEmptyView();
     initRecyclerView();
     updateView();
   }
@@ -155,6 +156,13 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
       mSwipeRefreshLayout.setRefreshing(false);
     }
     updateView();
+  }
+
+  public void setupEmptyView() {
+    mLoadingLayout.setErrorTitle("没有数据");
+    mLoadingLayout.setErrorSubtitle("没有数据");
+    mLoadingLayout.setErrorButtonText("重试");
+    mLoadingLayout.setOnButtonClickListener(this);
   }
 
   /**

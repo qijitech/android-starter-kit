@@ -172,7 +172,7 @@ public class KeyPaginator<T> implements IdPaginator<T> {
     mDataHasLoaded = true;
     if (response.isSuccess()) {
       final Result<List<T>> result = response.body();
-      if (result.isSuccessed()) {
+      if (result.isSuccess()) {
         handResult(result);
         onRequestComplete(result);
       } else {

@@ -5,9 +5,8 @@
 package com.smartydroid.android.starter.kit.network;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 
-public class Result<T> implements Serializable {
+public class Result<T> implements Data<T> {
 
   /**
    * 返回的错误码、0代表成功
@@ -22,7 +21,7 @@ public class Result<T> implements Serializable {
   /**
    * 当前页面
    */
-  @JsonProperty("page") public int mPage;
+  @JsonProperty("page") public int mCurrentPage;
 
   /**
    * 总页码
@@ -39,10 +38,31 @@ public class Result<T> implements Serializable {
    */
   @JsonProperty("data") public T mData;
 
-  /**
-   * 请求是否成功、0代表成功
-   */
-  public boolean isSuccessed() {
-    return mCode == 0;
+  @Override public int code() {
+    return mCode;
+  }
+
+  @Override public String msg() {
+    return mMsg;
+  }
+
+  @Override public int currentPage() {
+    return mCurrentPage;
+  }
+
+  @Override public int perPage() {
+    return mPerPage;
+  }
+
+  @Override public long total() {
+    return mTotalSize;
+  }
+
+  @Override public T data() {
+    return mData;
+  }
+
+  @Override public boolean isSuccess() {
+    return code() == 0;
   }
 }
