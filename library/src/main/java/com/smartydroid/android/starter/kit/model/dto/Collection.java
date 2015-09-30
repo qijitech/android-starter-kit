@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import java.util.List;
 
-public class PagesData<T extends Entitiy> implements DataArray<T> {
+public class Collection<T extends Entitiy> implements DataArray<T> {
   /**
    * 返回的错误码、0代表成功
    */

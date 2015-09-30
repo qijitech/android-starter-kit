@@ -7,7 +7,7 @@ package com.smartydroid.android.starter.kit.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 
-public class SingleData<T extends Entitiy> implements Data<T> {
+public class Item<T extends Entitiy> implements Data<T> {
 
   /**
    * 返回的错误码、0代表成功
