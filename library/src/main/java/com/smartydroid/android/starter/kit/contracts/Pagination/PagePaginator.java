@@ -4,7 +4,9 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-public interface PagePaginator<T> extends Paginator<T> {
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+
+public interface PagePaginator<T extends Entitiy> extends Paginator<T> {
 
   /**
    * Determine the current page being paginated.

@@ -4,7 +4,9 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-public interface IdPaginator<T> extends Paginator<T> {
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+
+public interface IdPaginator<T extends Entitiy> extends Paginator<T> {
 
   /**
    * The next item, or null.

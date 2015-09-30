@@ -60,4 +60,9 @@ public interface Paginator<T extends Entitiy> extends Callback<DataArray<T>> {
   void loadMore();
 
   void cancel();
+
+  enum LoadStyle {
+    REFRESH,
+    LOAD_MORE,
+  }
 }

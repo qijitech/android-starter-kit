@@ -16,30 +16,10 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Response;
 
-public class KeyPaginator<T extends Entitiy> implements IdPaginator<T> {
-
-  private static final int DEFAULT_PER_PAGE = 20;
-
-  int mPerPage;
-  boolean mHasMore;
-  boolean mIsLoading = false;
-  boolean mDataHasLoaded = false;
-  boolean mHasError = false;
+public class KeyPaginator<T extends Entitiy> extends PaginatorImpl<T> implements IdPaginator<T> {
 
   private T nextItem;
   private T previousItem;
-
-  final LinkedHashMap<Object, T> mResources = new LinkedHashMap<>();
-
-  private IdEmitter<T> mEmitter;
-  private PageCallback<T> mPageCallback;
-  private LoadStyle mLoadStyle = LoadStyle.REFRESH;
-
-  private Call<DataArray<T>> mCall;
-  public enum LoadStyle {
-    REFRESH,
-    LOAD_MORE,
-  }
 
   public static class Builder<T extends Entitiy> {
     private IdEmitter<T> emitter;
@@ -82,27 +62,22 @@ public class KeyPaginator<T extends Entitiy> implements IdPaginator<T> {
   }
 
   private KeyPaginator(IdEmitter<T> emitter, PageCallback<T> pageCallback, int perPage) {
-    mEmitter = emitter;
-    mPageCallback = pageCallback;
-    mPerPage = perPage;
+    super(emitter, pageCallback, perPage);
   }
 
-  @Override public List<T> items() {
-    return new ArrayList<>(mResources.values());
+  @Override protected Call<DataArray<T>> paginate(boolean isRefresh) {
+    final IdEmitter<T> idEmitter = (IdEmitter<T>) mEmitter;
+    return (Call<DataArray<T>>) idEmitter.paginate(previousItem, nextItem, perPage());
   }
 
-  @Override public T fisrtItem() {
-    final List<T> items = items();
-    return items.isEmpty() ? null : items.get(0);
-  }
+  @Override protected void processPage(DataArray<T> dataArray) {
+    mHasMore = dataArray.size() >= mPerPage;
 
-  @Override public T lastItem() {
-    final List<T> items = items();
-    return items.isEmpty() ? null : items.get(items.size() - 1);
-  }
-
-  @Override public int perPage() {
-    return mPerPage;
+    if (!dataArray.isNull()) {
+      final List<T> items = dataArray.data();
+      nextItem = items.get(items.size() - 1);
+      previousItem = items.get(0);
+    }
   }
 
   @Override public T previousPageItem() {
@@ -111,147 +86,5 @@ public class KeyPaginator<T extends Entitiy> implements IdPaginator<T> {
 
   @Override public T nextPageItem() {
     return null;
-  }
-
-  @Override public boolean hasMorePages() {
-    return mHasMore;
-  }
-
-  @Override public boolean isEmpty() {
-    return mResources.isEmpty();
-  }
-
-  @Override public boolean hasError() {
-    return mHasError;
-  }
-
-  @Override public boolean dataHasLoaded() {
-    return mDataHasLoaded;
-  }
-
-  @Override public boolean canLoadMore() {
-    return !isLoading() && hasMorePages();
-  }
-
-  @Override public boolean isRefresh() {
-    return mLoadStyle == LoadStyle.REFRESH;
-  }
-
-  @Override public boolean isLoading() {
-    return mIsLoading;
-  }
-
-  @Override public void cancel() {
-    mIsLoading = false;
-    if (mCall != null) {
-      mCall.cancel();
-      mCall = null;
-    }
-  }
-
-  @Override public void refresh() {
-    if (mIsLoading) return;
-    mIsLoading = true;
-    mLoadStyle = LoadStyle.REFRESH;
-    mEmitter.beforeRefresh();
-
-    mCall = (Call<DataArray<T>>) mEmitter.paginate(lastItem(), fisrtItem(), perPage());
-    mCall.enqueue(this);
-  }
-
-  @Override public void loadMore() {
-    if (mIsLoading) return;
-    mIsLoading = true;
-    mLoadStyle = LoadStyle.LOAD_MORE;
-    mEmitter.beforeLoadMore();
-    mCall = (Call<DataArray<T>>) mEmitter.paginate(previousItem, nextItem, perPage());
-    mCall.enqueue(this);
-  }
-
-  @Override public void onResponse(Response<DataArray<T>> response) {
-    mIsLoading = false;
-    mDataHasLoaded = true;
-    if (response.isSuccess()) {
-      final DataArray<T> dataArray = response.body();
-      if (dataArray.isSuccess()) {
-        handResult(dataArray);
-        onRequestComplete(dataArray);
-      } else {
-        onRequestFailure(dataArray);
-      }
-    } else {
-      try {
-        onRequestComplete(response.code(), response.errorBody().string());
-      } catch (IOException e) {
-        onRequestFailure(e);
-      }
-    }
-    onFinish();
-  }
-
-  @Override public void onFailure(Throwable t) {
-    mIsLoading = false;
-    mDataHasLoaded = true;
-    mHasError = true;
-    onRequestFailure(t);
-    onFinish();
-  }
-
-  private void onRequestComplete(DataArray<T> dataArray) {
-    mHasError = false;
-    if (mPageCallback != null) {
-      mPageCallback.onRequestComplete(dataArray);
-    }
-  }
-
-  private void onRequestComplete(int code, String error) {
-    mHasError = true;
-    if (mPageCallback != null) {
-      mPageCallback.onRequestComplete(code, error);
-    }
-  }
-
-  private void onRequestFailure(DataArray<T> dataArray) {
-    mHasError = true;
-    if (mPageCallback != null) {
-      mPageCallback.onRequestFailure(dataArray);
-    }
-  }
-
-  private void onRequestFailure(Throwable t) {
-    mHasError = true;
-    if (mPageCallback != null) {
-      mPageCallback.onRequestFailure(t);
-    }
-  }
-
-  private void onFinish() {
-    if (mPageCallback != null) {
-      mPageCallback.onFinish();
-    }
-  }
-
-  private void handResult(DataArray<T> dataArray) {
-
-    mHasMore = dataArray.size() >= mPerPage;
-
-    if (isRefresh()) {
-      mResources.clear();
-    }
-
-    if (!dataArray.isNull()) {
-      final List<T> items = dataArray.data();
-
-      nextItem = items.get(items.size() - 1);
-      previousItem = items.get(0);
-
-      for (T item : items) {
-        item = mEmitter.register(item);
-        final Object key = mEmitter.getKeyForData(item);
-        if (item != null && key != null) {
-          mResources.put(key, item);
-        }
-      }
-    }
   }
 }

@@ -5,8 +5,9 @@
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
 import com.smartydroid.android.starter.kit.model.dto.DataArray;
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 
-public interface PageCallback<T> {
+public interface PageCallback<T extends Entitiy> {
 
   void onRequestComplete(DataArray<T> dataArray);
 

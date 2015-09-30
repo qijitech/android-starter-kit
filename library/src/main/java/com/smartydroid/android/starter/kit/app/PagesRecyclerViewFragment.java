@@ -6,9 +6,10 @@ package com.smartydroid.android.starter.kit.app;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.PagesEmitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import com.smartydroid.android.starter.kit.network.PagesPaginator;
 
-public abstract class PagesRecyclerViewFragment<E> extends RecyclerViewFragment<E>
+public abstract class PagesRecyclerViewFragment<E extends Entitiy> extends RecyclerViewFragment<E>
     implements PagesEmitter<E> {
 
   @Override public Paginator buildPaginator() {
