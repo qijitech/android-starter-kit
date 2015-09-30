@@ -4,15 +4,15 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-import com.smartydroid.android.starter.kit.network.Result;
+import com.smartydroid.android.starter.kit.model.dto.DataArray;
 
 public interface PageCallback<T> {
 
-  void onRequestComplete(Result<T> result);
+  void onRequestComplete(DataArray<T> dataArray);
 
   void onRequestComplete(int code, String error);
 
-  void onRequestFailure(Result<T> result);
+  void onRequestFailure(DataArray<T> dataArray);
 
   void onRequestFailure(Throwable error);
 

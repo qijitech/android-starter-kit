@@ -1,13 +1,14 @@
 /**
- * Created by YuGang Yang on September 25, 2015.
+ * Created by YuGang Yang on September 30, 2015.
  * Copyright 2007-2015 Laputapp.com. All rights reserved.
  */
-package com.smartydroid.android.starter.kit.network;
+package com.smartydroid.android.starter.kit.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import java.util.List;
 
-public class Result<T> implements Data<T> {
-
+public class PagesData<T extends Entitiy> implements DataArray<T> {
   /**
    * 返回的错误码、0代表成功
    */
@@ -36,7 +37,7 @@ public class Result<T> implements Data<T> {
   /**
    * 返回的数据 T
    */
-  @JsonProperty("data") public T mData;
+  @JsonProperty("data") public List<T> mData;
 
   @Override public int code() {
     return mCode;
@@ -58,11 +59,21 @@ public class Result<T> implements Data<T> {
     return mTotalSize;
   }
 
-  @Override public T data() {
+  @Override public List<T> data() {
     return mData;
   }
 
   @Override public boolean isSuccess() {
     return code() == 0;
   }
+
+  @Override public boolean isNull() {
+    return mData == null || mData.size() <= 0;
+  }
+
+  @Override public int size() {
+    return mData == null ? 0 : mData.size();
+  }
 }
+
+

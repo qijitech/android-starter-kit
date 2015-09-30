@@ -8,9 +8,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Tweet implements Parcelable {
+public class Tweet extends Entitiy {
 
   public Integer id;
   public String source;

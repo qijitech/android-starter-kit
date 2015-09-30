@@ -7,8 +7,7 @@ package com.smartydroid.android.kit.demo;
 import android.os.Bundle;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.starter.kit.app.PagesRecyclerViewFragment;
-import com.smartydroid.android.starter.kit.network.Result;
-import java.util.List;
+import com.smartydroid.android.starter.kit.model.dto.PagesData;
 import retrofit.Call;
 
 public class FeedFragment extends PagesRecyclerViewFragment<Tweet> {
@@ -24,8 +23,8 @@ public class FeedFragment extends PagesRecyclerViewFragment<Tweet> {
     adapter.bind(Tweet.class, TweetViewHolder.class);
   }
 
-  @Override public Call<Result<List<Tweet>>> paginate(int page, int pageSize) {
-    return mFeedService.getTweetList(page, pageSize);
+  @Override public Call<PagesData<Tweet>> paginate(int page, int perPage) {
+    return mFeedService.getTweetList(page, perPage);
   }
 
   @Override public Object getKeyForData(Tweet item) {

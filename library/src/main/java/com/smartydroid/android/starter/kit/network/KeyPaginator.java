@@ -7,6 +7,8 @@ package com.smartydroid.android.starter.kit.network;
 import com.smartydroid.android.starter.kit.contracts.Pagination.IdEmitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.IdPaginator;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
+import com.smartydroid.android.starter.kit.model.dto.DataArray;
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,9 +16,8 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Response;
 
-public class KeyPaginator<T> implements IdPaginator<T> {
+public class KeyPaginator<T extends Entitiy> implements IdPaginator<T> {
 
-  private static final int DEFAULT_START_PAGE = 1;
   private static final int DEFAULT_PER_PAGE = 20;
 
   int mPerPage;
@@ -31,18 +32,18 @@ public class KeyPaginator<T> implements IdPaginator<T> {
   final LinkedHashMap<Object, T> mResources = new LinkedHashMap<>();
 
   private IdEmitter<T> mEmitter;
-  private PageCallback<List<T>> mPageCallback;
+  private PageCallback<T> mPageCallback;
   private LoadStyle mLoadStyle = LoadStyle.REFRESH;
 
-  private Call<Result<List<T>>> mCall;
+  private Call<DataArray<T>> mCall;
   public enum LoadStyle {
     REFRESH,
     LOAD_MORE,
   }
 
-  public static class Builder<T> {
+  public static class Builder<T extends Entitiy> {
     private IdEmitter<T> emitter;
-    private PageCallback<List<T>> pageCallback;
+    private PageCallback<T> pageCallback;
 
     private int perPage;
 
@@ -69,7 +70,7 @@ public class KeyPaginator<T> implements IdPaginator<T> {
       return this;
     }
 
-    public Builder<T> setPageCallback(PageCallback<List<T>> pageCallback) {
+    public Builder<T> setPageCallback(PageCallback<T> pageCallback) {
       this.pageCallback = pageCallback;
       return this;
     }
@@ -80,7 +81,7 @@ public class KeyPaginator<T> implements IdPaginator<T> {
     }
   }
 
-  private KeyPaginator(IdEmitter<T> emitter, PageCallback<List<T>> pageCallback, int perPage) {
+  private KeyPaginator(IdEmitter<T> emitter, PageCallback<T> pageCallback, int perPage) {
     mEmitter = emitter;
     mPageCallback = pageCallback;
     mPerPage = perPage;
@@ -154,7 +155,7 @@ public class KeyPaginator<T> implements IdPaginator<T> {
     mLoadStyle = LoadStyle.REFRESH;
     mEmitter.beforeRefresh();
 
-    mCall = mEmitter.paginate(lastItem(), fisrtItem(), perPage());
+    mCall = (Call<DataArray<T>>) mEmitter.paginate(lastItem(), fisrtItem(), perPage());
     mCall.enqueue(this);
   }
 
@@ -163,20 +164,20 @@ public class KeyPaginator<T> implements IdPaginator<T> {
     mIsLoading = true;
     mLoadStyle = LoadStyle.LOAD_MORE;
     mEmitter.beforeLoadMore();
-    mCall = mEmitter.paginate(previousItem, nextItem, perPage());
+    mCall = (Call<DataArray<T>>) mEmitter.paginate(previousItem, nextItem, perPage());
     mCall.enqueue(this);
   }
 
-  @Override public void onResponse(Response<Result<List<T>>> response) {
+  @Override public void onResponse(Response<DataArray<T>> response) {
     mIsLoading = false;
     mDataHasLoaded = true;
     if (response.isSuccess()) {
-      final Result<List<T>> result = response.body();
-      if (result.isSuccess()) {
-        handResult(result);
-        onRequestComplete(result);
+      final DataArray<T> dataArray = response.body();
+      if (dataArray.isSuccess()) {
+        handResult(dataArray);
+        onRequestComplete(dataArray);
       } else {
-        onRequestFailure(result);
+        onRequestFailure(dataArray);
       }
     } else {
       try {
@@ -196,10 +197,10 @@ public class KeyPaginator<T> implements IdPaginator<T> {
     onFinish();
   }
 
-  private void onRequestComplete(Result<List<T>> result) {
+  private void onRequestComplete(DataArray<T> dataArray) {
     mHasError = false;
     if (mPageCallback != null) {
-      mPageCallback.onRequestComplete(result);
+      mPageCallback.onRequestComplete(dataArray);
     }
   }
 
@@ -210,10 +211,10 @@ public class KeyPaginator<T> implements IdPaginator<T> {
     }
   }
 
-  private void onRequestFailure(Result<List<T>> result) {
+  private void onRequestFailure(DataArray<T> dataArray) {
     mHasError = true;
     if (mPageCallback != null) {
-      mPageCallback.onRequestFailure(result);
+      mPageCallback.onRequestFailure(dataArray);
     }
   }
 
@@ -230,15 +231,17 @@ public class KeyPaginator<T> implements IdPaginator<T> {
     }
   }
 
-  private void handResult(Result<List<T>> result) {
-    final List<T> items = result.mData;
-    mHasMore = result != null && items != null && items.size() >= mPerPage;
+  private void handResult(DataArray<T> dataArray) {
+
+    mHasMore = dataArray.size() >= mPerPage;
 
     if (isRefresh()) {
       mResources.clear();
     }
 
-    if (items != null && items.size() > 0) {
+    if (!dataArray.isNull()) {
+      final List<T> items = dataArray.data();
+
       nextItem = items.get(items.size() - 1);
       previousItem = items.get(0);
 

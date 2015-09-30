@@ -4,15 +4,14 @@
  */
 package com.smartydroid.android.kit.demo;
 
-import com.smartydroid.android.starter.kit.network.Result;
-import java.util.List;
+import com.smartydroid.android.starter.kit.model.dto.PagesData;
 import retrofit.Call;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
 public interface FeedService {
 
-  @GET("api/v1/tweet/list") Call<Result<List<Tweet>>> getTweetList(
+  @GET("api/v1/tweet/list") Call<PagesData<Tweet>> getTweetList(
       @Query("page") int page,
       @Query("page_size") int pageSize);
 }

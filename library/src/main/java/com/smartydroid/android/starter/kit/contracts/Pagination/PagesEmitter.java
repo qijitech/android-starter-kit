@@ -4,11 +4,11 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-import com.smartydroid.android.starter.kit.network.Result;
-import java.util.List;
+import com.smartydroid.android.starter.kit.model.dto.DataArray;
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import retrofit.Call;
 
-public interface PagesEmitter<T> extends Emitter<T> {
+public interface PagesEmitter<T extends Entitiy> extends Emitter<T> {
 
-  Call<Result<List<T>>> paginate(int page, int perPage);
+  Call<? extends DataArray<T>> paginate(int page, int perPage);
 }

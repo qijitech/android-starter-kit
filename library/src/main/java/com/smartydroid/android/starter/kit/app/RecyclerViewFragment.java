@@ -12,20 +12,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.starter.kit.R;
-import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
-import com.smartydroid.android.starter.kit.network.Result;
+import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.utilities.RecyclerViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import com.smartydroid.android.starter.kit.widget.LoadMoreView;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 import java.net.UnknownHostException;
-import java.util.List;
 
 public abstract class RecyclerViewFragment<E> extends BaseFragment
-    implements PageCallback<List<E>>, LoadingLayout.OnButtonClickListener,
+    implements PageCallback<E>, LoadingLayout.OnButtonClickListener,
     SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener {
 
   private LoadingLayout mLoadingLayout;
@@ -127,7 +125,7 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
     }
   }
 
-  @Override public void onRequestComplete(Result<List<E>> result) {
+  @Override public void onRequestComplete(DataArray dataArray) {
     mRecyclerAdapter.addAll(mPagePaginator.items());
   }
 
@@ -138,7 +136,7 @@ public abstract class RecyclerViewFragment<E> extends BaseFragment
     mLoadingLayout.setOnButtonClickListener(this);
   }
 
-  @Override public void onRequestFailure(Result<List<E>> result) {
+  @Override public void onRequestFailure(DataArray dataArray) {
   }
 
   @Override public void onRequestFailure(Throwable error) {

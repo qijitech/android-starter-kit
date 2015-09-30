@@ -4,11 +4,12 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-import com.smartydroid.android.starter.kit.network.Result;
+import com.smartydroid.android.starter.kit.model.dto.DataArray;
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import java.util.List;
 import retrofit.Callback;
 
-public interface Paginator<T> extends Callback<Result<List<T>>> {
+public interface Paginator<T extends Entitiy> extends Callback<DataArray<T>> {
 
   /**
    * Get all of the items being paginated.
@@ -45,12 +46,18 @@ public interface Paginator<T> extends Callback<Result<List<T>>> {
   boolean isEmpty();
 
   boolean hasError();
+
   boolean dataHasLoaded();
+
   boolean canLoadMore();
+
   boolean isRefresh();
+
   boolean isLoading();
 
   void refresh();
+
   void loadMore();
+
   void cancel();
 }

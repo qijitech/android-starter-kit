@@ -4,11 +4,11 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-import com.smartydroid.android.starter.kit.network.Result;
-import java.util.List;
+import com.smartydroid.android.starter.kit.model.dto.DataArray;
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import retrofit.Call;
 
-public interface IdEmitter<T> extends Emitter<T> {
+public interface IdEmitter<T extends Entitiy> extends Emitter<T> {
 
   /**
    * maxItem 在 loadMore 的时候需要
@@ -18,6 +18,6 @@ public interface IdEmitter<T> extends Emitter<T> {
    * @param perPage
    * @return
    */
-  Call<Result<List<T>>> paginate(T sinceItem, T maxItem, int perPage);
+  Call<? extends DataArray<T>> paginate(T sinceItem, T maxItem, int perPage);
 
 }

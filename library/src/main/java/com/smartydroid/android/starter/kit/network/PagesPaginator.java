@@ -7,6 +7,8 @@ package com.smartydroid.android.starter.kit.network;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PageCallback;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PagePaginator;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PagesEmitter;
+import com.smartydroid.android.starter.kit.model.dto.DataArray;
+import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,7 +16,7 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Response;
 
-public class PagesPaginator<T> implements PagePaginator<T> {
+public class PagesPaginator<T extends Entitiy> implements PagePaginator<T> {
 
   private static final int DEFAULT_START_PAGE = 1;
   private static final int DEFAULT_PER_PAGE = 20;
@@ -31,18 +33,19 @@ public class PagesPaginator<T> implements PagePaginator<T> {
   final LinkedHashMap<Object, T> mResources = new LinkedHashMap<>();
 
   private PagesEmitter<T> mEmitter;
-  private PageCallback<List<T>> mPageCallback;
+  private PageCallback<T> mPageCallback;
   private LoadStyle mLoadStyle = LoadStyle.REFRESH;
 
-  private Call<Result<List<T>>> mCall;
+  private Call<DataArray<T>> mCall;
+
   public enum LoadStyle {
     REFRESH,
     LOAD_MORE,
   }
 
-  public static class Builder<T> {
+  public static class Builder<T extends Entitiy> {
     private PagesEmitter<T> emitter;
-    private PageCallback<List<T>> pageCallback;
+    private PageCallback<T> pageCallback;
 
     private int startPage;
     private int perPage;
@@ -70,7 +73,7 @@ public class PagesPaginator<T> implements PagePaginator<T> {
       return this;
     }
 
-    public Builder<T> setPageCallback(PageCallback<List<T>> pageCallback) {
+    public Builder<T> setPageCallback(PageCallback<T> pageCallback) {
       this.pageCallback = pageCallback;
       return this;
     }
@@ -86,7 +89,7 @@ public class PagesPaginator<T> implements PagePaginator<T> {
     }
   }
 
-  private PagesPaginator(PagesEmitter<T> emitter, PageCallback<List<T>> pageCallback, int startPage,
+  private PagesPaginator(PagesEmitter<T> emitter, PageCallback<T> pageCallback, int startPage,
       int perPage) {
     mEmitter = emitter;
     mPageCallback = pageCallback;
@@ -157,7 +160,7 @@ public class PagesPaginator<T> implements PagePaginator<T> {
     mIsLoading = true;
     mLoadStyle = LoadStyle.REFRESH;
     mEmitter.beforeRefresh();
-    mCall = mEmitter.paginate(mStartPage, perPage());
+    mCall = (Call<DataArray<T>>) mEmitter.paginate(mStartPage, perPage());
     mCall.enqueue(this);
   }
 
@@ -166,20 +169,20 @@ public class PagesPaginator<T> implements PagePaginator<T> {
     mIsLoading = true;
     mLoadStyle = LoadStyle.LOAD_MORE;
     mEmitter.beforeLoadMore();
-    mCall = mEmitter.paginate(currentPage() + 1, perPage());
+    mCall = (Call<DataArray<T>>) mEmitter.paginate(currentPage() + 1, perPage());
     mCall.enqueue(this);
   }
 
-  @Override public void onResponse(Response<Result<List<T>>> response) {
+  @Override public void onResponse(Response<DataArray<T>> response) {
     mIsLoading = false;
     mDataHasLoaded = true;
     if (response.isSuccess()) {
-      final Result<List<T>> result = response.body();
-      if (result.isSuccess()) {
-        handResult(result);
-        onRequestComplete(result);
+      final DataArray<T> dataArray = response.body();
+      if (dataArray.isSuccess()) {
+        handResult(dataArray);
+        onRequestComplete(dataArray);
       } else {
-        onRequestFailure(result);
+        onRequestFailure(dataArray);
       }
     } else {
       try {
@@ -199,10 +202,10 @@ public class PagesPaginator<T> implements PagePaginator<T> {
     onFinish();
   }
 
-  private void onRequestComplete(Result<List<T>> result) {
+  private void onRequestComplete(DataArray<T> dataArray) {
     mHasError = false;
     if (mPageCallback != null) {
-      mPageCallback.onRequestComplete(result);
+      mPageCallback.onRequestComplete(dataArray);
     }
   }
 
@@ -213,10 +216,10 @@ public class PagesPaginator<T> implements PagePaginator<T> {
     }
   }
 
-  private void onRequestFailure(Result<List<T>> result) {
+  private void onRequestFailure(DataArray<T> dataArray) {
     mHasError = true;
     if (mPageCallback != null) {
-      mPageCallback.onRequestFailure(result);
+      mPageCallback.onRequestFailure(dataArray);
     }
   }
 
@@ -233,10 +236,10 @@ public class PagesPaginator<T> implements PagePaginator<T> {
     }
   }
 
-  private void handResult(Result<List<T>> result) {
-    mPerPage = result.perPage();
-    mCurrentPage = result.currentPage();
-    mTotalSize = result.total();
+  private void handResult(DataArray<T> dataArray) {
+    mPerPage = dataArray.perPage();
+    mCurrentPage = dataArray.currentPage();
+    mTotalSize = dataArray.total();
 
     mHasMore = mTotalSize > mPerPage * mCurrentPage;
 
@@ -244,8 +247,8 @@ public class PagesPaginator<T> implements PagePaginator<T> {
       mResources.clear();
     }
 
-    final List<T> items = result.mData;
-    if (items != null) {
+    if (! dataArray.isNull()) {
+      final List<T> items = dataArray.data();
       for (T item : items) {
         item = mEmitter.register(item);
         final Object key = mEmitter.getKeyForData(item);
