@@ -38,4 +38,14 @@
     </attr>
   </declare-styleable>
 
+  <declare-styleable name="ForegroundLayout">
+    <attr name="android:foreground" />
+    <attr name="android:foregroundInsidePadding" />
+    <attr name="android:foregroundGravity" />
+  </declare-styleable>
+
+  <declare-styleable name="ForegroundImageView">
+    <attr name="android:foreground"/>
+  </declare-styleable>
+
 </resources>
