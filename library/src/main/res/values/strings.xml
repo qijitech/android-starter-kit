@@ -6,4 +6,8 @@
   <string name="starter_error_title_placeholder">No Connection</string>
   <string name="starter_error_content_placeholder">We could not establish a connection with our servers. Please try again when you are connected to the internet.</string>
 
+  <string name="starter_loadingmore">正在加载更多...</string>
+  <string name="starter_loadingmore_more">查看更多</string>
+  <string name="starter_loadingmore_nomore">没有更多数据</string>
+
 </resources>
