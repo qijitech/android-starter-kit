@@ -158,7 +158,7 @@ public class FeedFragment extends PagesRecyclerViewFragment<Tweet> {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mFeedService = StarterNetwork.createFeedService();
+    mTweetService = StarterNetwork.createTweetService();
   }
 
   @Override public void bindViewHolders(EasyRecyclerAdapter adapter) {
