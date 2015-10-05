@@ -21,15 +21,13 @@ import com.smartydroid.android.starter.kit.utilities.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import com.smartydroid.android.starter.kit.widget.LoadMoreView;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 
 public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragment
     implements PaginationCallback<E>, LoadingLayout.OnButtonClickListener,
     SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener {
 
   private LoadingLayout mLoadingLayout;
-  private LoadMoreView mLoadMoreView; // TODO loadmore 和 loading layout 是否可以合并成一个？
+  private LoadMoreView mLoadMoreView;
 
   private SwipeRefreshLayout mSwipeRefreshLayout;
   private RecyclerView mRecyclerView;
@@ -44,9 +42,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
     mPagePaginator = buildPaginator();
-
     mLoadMoreView = new LoadMoreView();
     mRecyclerViewHandler = new RecyclerViewHandler();
   }
@@ -134,18 +130,17 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
   }
 
   @Override public void respondWithError(Throwable error) {
-    if (error instanceof SocketTimeoutException) {
-      // 网络链接超时
-      mLoadMoreView.showFailure(error);
-    }
+    mLoadMoreView.showFailure(error);
   }
 
-  @Override public void onStart() {
-    super.onStart();
-
+  @Override public void onStart(boolean isRefresh) {
     if (isEmpty()) {
       mLoadingLayout.showLoadingView();
-    } else {
+      mLoadMoreView.hideLoading();
+      return;
+    }
+
+    if (! isRefresh) {
       mLoadMoreView.showLoading();
     }
   }
@@ -154,6 +149,11 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     if (mPagePaginator.isRefresh()) {
       mSwipeRefreshLayout.setRefreshing(false);
     }
+
+    if (! mPagePaginator.hasMorePages()) {
+      mLoadMoreView.showNoMore();
+    }
+
     updateView();
   }
 

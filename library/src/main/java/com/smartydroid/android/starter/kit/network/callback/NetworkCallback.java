@@ -9,7 +9,7 @@ public interface NetworkCallback<T> {
   /**
    * 请求开始
    */
-  void onStart();
+  void onStart(boolean isRefresh);
 
   /**
    * 请求返回数据

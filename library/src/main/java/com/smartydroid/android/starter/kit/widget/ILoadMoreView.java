@@ -10,6 +10,8 @@ public interface ILoadMoreView {
 
   void init(FootViewAdder footViewHolder, View.OnClickListener onClickLoadMoreListener);
 
+  void hideLoading();
+
   /**
    * 显示正在加载中的布局
    */

@@ -108,7 +108,7 @@ public abstract class PaginatorImpl<T extends Entitiy>
     mEmitter.beforeRefresh();
     mCall = paginate(true);
 
-    onStart();
+    onStart(true);
 
     if (mCall != null) {
       mCall.enqueue(this);
@@ -122,7 +122,7 @@ public abstract class PaginatorImpl<T extends Entitiy>
     mEmitter.beforeLoadMore();
     mCall = paginate(false);
 
-    onStart();
+    onStart(false);
 
     if (mCall != null) {
       mCall.enqueue(this);
@@ -216,9 +216,9 @@ public abstract class PaginatorImpl<T extends Entitiy>
     }
   }
 
-  private void onStart() {
+  private void onStart(boolean isRefresh) {
     if (mCallback != null) {
-      mCallback.onStart();
+      mCallback.onStart(isRefresh);
     }
   }
 }

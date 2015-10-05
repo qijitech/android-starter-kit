@@ -9,5 +9,6 @@
   <string name="starter_loadingmore">正在加载更多...</string>
   <string name="starter_loadingmore_more">查看更多</string>
   <string name="starter_loadingmore_nomore">没有更多数据</string>
+  <string name="starter_loadingmore_failure">出问题了</string>
 
 </resources>
