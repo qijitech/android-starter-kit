@@ -64,11 +64,12 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
 
     setupEmptyView();
     initRecyclerView();
-    updateView();
   }
 
   @Override public void onResume() {
     super.onResume();
+    updateView();
+
     if (!mPagePaginator.dataHasLoaded()) {
       mPagePaginator.refresh();
     }
@@ -105,9 +106,9 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
   }
 
   private void updateView() {
-    if (!isEmpty()) {
+    if (! isEmpty()) {
       mLoadingLayout.showContentView();
-    } else if (!mPagePaginator.dataHasLoaded()) {
+    } else if (! mPagePaginator.dataHasLoaded()) {
       mLoadingLayout.showLoadingView();
     } else if (mPagePaginator.hasError()) {
       mLoadingLayout.showErrorView();
@@ -133,23 +134,10 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
   }
 
   @Override public void respondWithError(Throwable error) {
-    if (error instanceof UnknownHostException) { // 网络问题
-      mLoadingLayout.setErrorTitle("网络问题");
-      mLoadingLayout.setErrorSubtitle("网络问题");
-      mLoadingLayout.setErrorButtonText("重试");
-      mLoadingLayout.setOnButtonClickListener(this);
-      return;
-    }
-
     if (error instanceof SocketTimeoutException) {
       // 网络链接超时
       mLoadMoreView.showFailure(error);
     }
-
-    mLoadingLayout.setErrorTitle("网络问题");
-    mLoadingLayout.setErrorSubtitle("网络问题");
-    mLoadingLayout.setErrorButtonText("重试");
-    mLoadingLayout.setOnButtonClickListener(this);
   }
 
   @Override public void onStart() {
@@ -170,9 +158,6 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
   }
 
   public void setupEmptyView() {
-    mLoadingLayout.setErrorTitle("没有数据");
-    mLoadingLayout.setErrorSubtitle("没有数据");
-    mLoadingLayout.setErrorButtonText("重试");
     mLoadingLayout.setOnButtonClickListener(this);
   }
 

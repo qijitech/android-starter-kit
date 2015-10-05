@@ -162,7 +162,7 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       mLoadingBackgroundColor = a.getColor(R.styleable.StarterLoadingLayout_loadingBackgroundColor, Color.TRANSPARENT);
 
       //Empty state attrs
-      final int emptyDefaultDrawable = a.getResourceId(R.styleable.StarterLoadingLayout_emptyImage, 0);
+      final int emptyDefaultDrawable = a.getResourceId(R.styleable.StarterLoadingLayout_emptyImage, R.drawable.ic_starter_empty);
       mEmptyDefaultDrawable = ResourcesCompat.getDrawable(getResources(), emptyDefaultDrawable, getContext().getTheme());
       final int emptyDefaultTitle = a.getResourceId(R.styleable.StarterLoadingLayout_emptyTitleText, R.string.starter_empty_title_placeholder);
       mEmptyDefaultTitleText = getString(emptyDefaultTitle);
@@ -178,7 +178,7 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       mEmptyBackgroundColor = a.getColor(R.styleable.StarterLoadingLayout_emptyBackgroundColor, Color.TRANSPARENT);
 
       //Error state attrs
-      final int errorDefaultDrawable = a.getResourceId(R.styleable.StarterLoadingLayout_errorImage, 0);
+      final int errorDefaultDrawable = a.getResourceId(R.styleable.StarterLoadingLayout_errorImage, R.drawable.ic_starter_network_error);
       mErrorDefaultDrawable = ResourcesCompat.getDrawable(getResources(), errorDefaultDrawable, getContext().getTheme());
       final int errorDefaultTitle = a.getResourceId(R.styleable.StarterLoadingLayout_errorTitleText, R.string.starter_empty_title_placeholder);
       mErrorDefaultTitleText = getString(errorDefaultTitle);
@@ -562,11 +562,11 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       if (onErrorButtonClickListener != null) {
         gone = false;
         mErrorButton.setOnClickListener(onErrorButtonClickListener);
-        mErrorView.setOnClickListener(onErrorButtonClickListener);
+        errorView.setOnClickListener(onErrorButtonClickListener);
       } else if (getOnButtonClickListener() != null) {
         gone = false;
         mErrorButton.setOnClickListener(this);
-        mErrorView.setOnClickListener(this);
+        errorView.setOnClickListener(this);
       }
       ViewUtils.setGone(mErrorButton, gone);
 
@@ -652,11 +652,11 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       if (onEmptyButtonClickListener != null) {
         gone = false;
         mEmptyButton.setOnClickListener(onEmptyButtonClickListener);
-        mEmptyView.setOnClickListener(onEmptyButtonClickListener);
+        emptyView.setOnClickListener(onEmptyButtonClickListener);
       } else if (getOnButtonClickListener() != null) {
         gone = false;
         mEmptyButton.setOnClickListener(this);
-        mEmptyView.setOnClickListener(this);
+        emptyView.setOnClickListener(this);
       }
 
       ViewUtils.setGone(mEmptyButton, gone);
@@ -698,12 +698,12 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
 
   @Override public void onClick(View v) {
     if (getOnButtonClickListener() != null) {
-      if (v == mEmptyButton) {
+      if (v == mEmptyButton || v == mEmptyView) {
         getOnButtonClickListener().onEmptyButtonClick(v);
         return;
       }
 
-      if (v == mErrorButton) {
+      if (v == mErrorButton || v == mErrorView) {
         getOnButtonClickListener().onErrorButtonClick(v);
       }
     }
