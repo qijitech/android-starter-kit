@@ -57,12 +57,12 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
   View mEmptyView;
   ImageView mEmptyImageView;
   TextView mEmptyTitleTextView;
-  TextView mEmptyContentTextView;
+  TextView mEmptySubtitleTextView;
 
   View mErrorView;
   ImageView mErrorImageView;
   TextView mErrorTitleTextView;
-  TextView mErrorContentTextView;
+  TextView mErrorSubtitleTextView;
 
   Button mErrorButton;
   Button mEmptyButton;
@@ -82,21 +82,42 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
   int mEmptyImageWidth;
   int mEmptyImageHeight;
   int mEmptyTitleTextSize;
-  int mEmptyContentTextSize;
+  int mEmptySubtitleTextSize;
   int mEmptyTitleTextColor;
-  int mEmptyContentTextColor;
+  int mEmptySubtitleTextColor;
   int mEmptyBackgroundColor;
 
   int mErrorImageWidth;
   int mErrorImageHeight;
   int mErrorTitleTextSize;
-  int mErrorContentTextSize;
+  int mErrorSubtitleTextSize;
   int mErrorTitleTextColor;
-  int mErrorContentTextColor;
+  int mErrorSubtitleTextColor;
   int mErrorBackgroundColor;
 
   int mButtonTextColor;
   int mButtonBackgroundRes;
+
+  // default
+  Drawable mEmptyDefaultDrawable;
+  Drawable mErrorDefaultDrawable;
+  String mEmptyDefaultTitleText;
+  String mEmptyDefaultSubtitleText;
+  String mErrorDefaultTitleText;
+  String mErrorDefaultSubtitleText;
+  String mButtonDefaultText;
+
+  Drawable mEmptyDrawable;
+  String mEmptyTitleText;
+  String mEmptySubtitleText;
+  String mEmptyButtonText;
+  OnClickListener onEmptyButtonClickListener;
+
+   Drawable mErrorDrawable;
+   String mErrorTitleText;
+   String mErrorSubtitleText;
+   String mErrorButtonText;
+   OnClickListener onErrorButtonClickListener;
 
   private WeakReference<OnButtonClickListener> mListenerRef;
 
@@ -141,25 +162,41 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       mLoadingBackgroundColor = a.getColor(R.styleable.StarterLoadingLayout_loadingBackgroundColor, Color.TRANSPARENT);
 
       //Empty state attrs
+      final int emptyDefaultDrawable = a.getResourceId(R.styleable.StarterLoadingLayout_emptyImage, 0);
+      mEmptyDefaultDrawable = ResourcesCompat.getDrawable(getResources(), emptyDefaultDrawable, getContext().getTheme());
+      final int emptyDefaultTitle = a.getResourceId(R.styleable.StarterLoadingLayout_emptyTitleText, R.string.starter_empty_title_placeholder);
+      mEmptyDefaultTitleText = getString(emptyDefaultTitle);
+      final int emptyDefaultSubtitle = a.getResourceId(R.styleable.StarterLoadingLayout_emptySubtitleText, R.string.starter_empty_subtitle_placeholder);
+      mEmptySubtitleText = getString(emptyDefaultSubtitle);
+
       mEmptyImageWidth = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_emptyImageWidth, DEFAULT_IMAGE_WIDTH);
       mEmptyImageHeight = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_emptyImageHeight, DEFAULT_IMAGE_HEIGHT);
       mEmptyTitleTextSize = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_emptyTitleTextSize, DEFAULT_TITLE_TEXT_SIZE);
-      mEmptyContentTextSize = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_emptyContentTextSize, DEFAULT_SUBTITLE_TEXT_SIZE);
+      mEmptySubtitleTextSize = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_emptySubtitleTextSize, DEFAULT_SUBTITLE_TEXT_SIZE);
       mEmptyTitleTextColor = a.getColor(R.styleable.StarterLoadingLayout_emptyTitleTextColor, Color.BLACK);
-      mEmptyContentTextColor = a.getColor(R.styleable.StarterLoadingLayout_emptyContentTextColor, Color.BLACK);
+      mEmptySubtitleTextColor = a.getColor(R.styleable.StarterLoadingLayout_emptySubtitleTextColor, Color.BLACK);
       mEmptyBackgroundColor = a.getColor(R.styleable.StarterLoadingLayout_emptyBackgroundColor, Color.TRANSPARENT);
 
       //Error state attrs
+      final int errorDefaultDrawable = a.getResourceId(R.styleable.StarterLoadingLayout_errorImage, 0);
+      mErrorDefaultDrawable = ResourcesCompat.getDrawable(getResources(), errorDefaultDrawable, getContext().getTheme());
+      final int errorDefaultTitle = a.getResourceId(R.styleable.StarterLoadingLayout_errorTitleText, R.string.starter_empty_title_placeholder);
+      mErrorDefaultTitleText = getString(errorDefaultTitle);
+      final int errorDefaultSubtitle = a.getResourceId(R.styleable.StarterLoadingLayout_errorSubtitleText, R.string.starter_error_subtitle_placeholder);
+      mErrorSubtitleText = getString(errorDefaultSubtitle);
+
       mErrorImageWidth = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_errorImageWidth, DEFAULT_IMAGE_WIDTH);
       mErrorImageHeight = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_errorImageHeight, DEFAULT_IMAGE_HEIGHT);
       mErrorTitleTextSize = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_errorTitleTextSize, DEFAULT_TITLE_TEXT_SIZE);
-      mErrorContentTextSize = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_errorContentTextSize, DEFAULT_SUBTITLE_TEXT_SIZE);
+      mErrorSubtitleTextSize = a.getDimensionPixelSize(R.styleable.StarterLoadingLayout_errorSubtitleTextSize, DEFAULT_SUBTITLE_TEXT_SIZE);
       mErrorTitleTextColor = a.getColor(R.styleable.StarterLoadingLayout_errorTitleTextColor, Color.BLACK);
-      mErrorContentTextColor = a.getColor(R.styleable.StarterLoadingLayout_errorContentTextColor, Color.BLACK);
+      mErrorSubtitleTextColor = a.getColor(R.styleable.StarterLoadingLayout_errorSubtitleTextColor, Color.BLACK);
       mErrorBackgroundColor = a.getColor(R.styleable.StarterLoadingLayout_errorBackgroundColor, Color.TRANSPARENT);
 
       mButtonTextColor = a.getColor(R.styleable.StarterLoadingLayout_buttonTextColor, Color.BLACK);
       mButtonBackgroundRes = a.getResourceId(R.styleable.StarterLoadingLayout_buttonBackground, 0);
+      final int buttonDefaultText = a.getResourceId(R.styleable.StarterLoadingLayout_buttonText, R.string.starter_button_placeholder);
+      mButtonDefaultText = getString(buttonDefaultText);
 
       final int viewState = a.getInt(R.styleable.StarterLoadingLayout_viewState, VIEW_STATE_CONTENT);
       switch (viewState) {
@@ -275,6 +312,96 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
     return mCurrentViewStatus == VIEW_STATE_ERROR;
   }
 
+  public LoadingLayout setEmptyDrawable(int drawableRes) {
+    mEmptyDrawable = getDrawable(drawableRes);
+    return this;
+  }
+
+  public LoadingLayout setEmptyDrawable(Drawable drawable) {
+    mEmptyDrawable = drawable;
+    return this;
+  }
+
+  public LoadingLayout setEmptyTitle(int titleRes) {
+    mEmptyTitleText = getString(titleRes);
+    return this;
+  }
+
+  public LoadingLayout setEmptyTitle(String title) {
+    mEmptyTitleText = title;
+    return this;
+  }
+
+  public LoadingLayout setEmptySubtitle(int subtitleRes) {
+    mEmptySubtitleText = getString(subtitleRes);
+    return this;
+  }
+
+  public LoadingLayout setEmptySubtitle(String subtitle) {
+    mEmptySubtitleText = subtitle;
+    return this;
+  }
+
+  public LoadingLayout setEmptyButtonText(int buttonTextRes) {
+    mEmptyButtonText = getString(buttonTextRes);
+    return this;
+  }
+
+  public LoadingLayout setEmptyButtonText(String buttonText) {
+    mEmptyButtonText = buttonText;
+    return this;
+  }
+
+  public LoadingLayout setOnEmptyButtonClickListener(OnClickListener l) {
+    onEmptyButtonClickListener = l;
+    return this;
+  }
+
+  public LoadingLayout setErrorDrawable(int drawableRes) {
+    mErrorDrawable = getDrawable(drawableRes);
+    return this;
+  }
+
+  public LoadingLayout setErrorDrawable(Drawable drawable) {
+    mErrorDrawable = drawable;
+    return this;
+  }
+
+  public LoadingLayout setErrorTitle(int titleRes) {
+    mErrorTitleText = getString(titleRes);
+    return this;
+  }
+
+  public LoadingLayout setErrorTitle(String title) {
+    mErrorTitleText = title;
+    return this;
+  }
+
+  public LoadingLayout setErrorSubtitle(int subtitleRes) {
+    mErrorSubtitleText = getString(subtitleRes);
+    return this;
+  }
+
+  public LoadingLayout setErrorSubtitle(String subtitle) {
+    mErrorSubtitleText = subtitle;
+    return this;
+  }
+
+  public LoadingLayout setErrorButtonText(int buttonTextRes) {
+    mErrorButtonText = getString(buttonTextRes);
+    return this;
+  }
+
+  public LoadingLayout setErrorButtonText(String buttonText) {
+    mErrorButtonText = buttonText;
+    return this;
+  }
+
+  public LoadingLayout setOnErrorButtonClickListener(OnClickListener l) {
+    onErrorButtonClickListener = l;
+    return this;
+  }
+
   private void switchState(int state) {
     if (mCurrentViewStatus == state) return;
     mCurrentViewStatus = state;
@@ -375,7 +502,7 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
 
       mErrorImageView = (ImageView) errorView.findViewById(android.R.id.icon);
       mErrorTitleTextView = (TextView) errorView.findViewById(android.R.id.text1);
-      mErrorContentTextView = (TextView) errorView.findViewById(android.R.id.text2);
+      mErrorSubtitleTextView = (TextView) errorView.findViewById(android.R.id.text2);
       mErrorButton = (Button) errorView.findViewById(android.R.id.button1);
 
       //Set error state image width and height
@@ -384,9 +511,9 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       mErrorImageView.requestLayout();
 
       mErrorTitleTextView.setTextSize(mErrorTitleTextSize);
-      mErrorContentTextView.setTextSize(mErrorContentTextSize);
+      mErrorSubtitleTextView.setTextSize(mErrorSubtitleTextSize);
       mErrorTitleTextView.setTextColor(mErrorTitleTextColor);
-      mErrorContentTextView.setTextColor(mErrorContentTextColor);
+      mErrorSubtitleTextView.setTextColor(mErrorSubtitleTextColor);
       mErrorButton.setTextColor(mButtonTextColor);
 
       if (mButtonBackgroundRes > 0) {
@@ -396,36 +523,50 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       if (mErrorDrawable != null) {
         ViewUtils.setGone(mErrorImageView, false);
         mErrorImageView.setImageDrawable(mErrorDrawable);
+      } else if (mErrorDefaultDrawable != null) {
+        ViewUtils.setGone(mErrorImageView, false);
+        mErrorImageView.setImageDrawable(mErrorDefaultDrawable);
       } else {
         ViewUtils.setGone(mErrorImageView, true);
       }
 
-      if (!isNull(mErrorTitleText)) {
+      if (! isNull(mErrorTitleText)) {
         ViewUtils.setGone(mErrorTitleTextView, false);
         mErrorTitleTextView.setText(mErrorTitleText);
+      } else if (! isNull(mErrorDefaultTitleText)) {
+        ViewUtils.setGone(mErrorTitleTextView, false);
+        mErrorTitleTextView.setText(mErrorDefaultTitleText);
       } else {
         ViewUtils.setGone(mErrorTitleTextView, true);
       }
 
-      if (!isNull(mErrorSubtitleText)) {
-        ViewUtils.setGone(mErrorContentTextView, false);
-        mErrorContentTextView.setText(mErrorSubtitleText);
+      if (! isNull(mErrorSubtitleText)) {
+        ViewUtils.setGone(mErrorSubtitleTextView, false);
+        mErrorSubtitleTextView.setText(mErrorSubtitleText);
+      } else if (! isNull(mErrorDefaultSubtitleText)) {
+        ViewUtils.setGone(mErrorSubtitleTextView, false);
+        mErrorSubtitleTextView.setText(mErrorDefaultSubtitleText);
       } else {
-        ViewUtils.setGone(mErrorContentTextView, true);
+        ViewUtils.setGone(mErrorSubtitleTextView, true);
       }
 
       boolean gone = true;
-      if (!isNull(mErrorButtonText)) {
+      if (! isNull(mErrorButtonText)) {
         gone = false;
         mErrorButton.setText(mErrorButtonText);
+      } else if (! isNull(mButtonDefaultText)) {
+        gone = false;
+        mErrorButton.setText(mButtonDefaultText);
       }
 
       if (onErrorButtonClickListener != null) {
         gone = false;
         mErrorButton.setOnClickListener(onErrorButtonClickListener);
+        mErrorView.setOnClickListener(onErrorButtonClickListener);
       } else if (getOnButtonClickListener() != null) {
         gone = false;
         mErrorButton.setOnClickListener(this);
+        mErrorView.setOnClickListener(this);
       }
       ViewUtils.setGone(mErrorButton, gone);
 
@@ -441,108 +582,6 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
     }
   }
 
-  private Drawable mEmptyDrawable;
-  private String mEmptyTitleText;
-  private String mEmptySubtitleText;
-  private String mEmptyButtonText;
-  private OnClickListener onEmptyButtonClickListener;
-
-  private Drawable mErrorDrawable;
-  private String mErrorTitleText;
-  private String mErrorSubtitleText;
-  private String mErrorButtonText;
-  private OnClickListener onErrorButtonClickListener;
-
-  public LoadingLayout setEmptyDrawable(int drawableRes) {
-    mEmptyDrawable = getDrawable(drawableRes);
-    return this;
-  }
-
-  public LoadingLayout setEmptyDrawable(Drawable drawable) {
-    mEmptyDrawable = drawable;
-    return this;
-  }
-
-  public LoadingLayout setEmptyTitle(int titleRes) {
-    mEmptyTitleText = getString(titleRes);
-    return this;
-  }
-
-  public LoadingLayout setEmptyTitle(String title) {
-    mEmptyTitleText = title;
-    return this;
-  }
-
-  public LoadingLayout setEmptySubtitle(int subtitleRes) {
-    mEmptySubtitleText = getString(subtitleRes);
-    return this;
-  }
-
-  public LoadingLayout setEmptySubtitle(String subtitle) {
-    mEmptySubtitleText = subtitle;
-    return this;
-  }
-
-  public LoadingLayout setEmptyButtonText(int buttonTextRes) {
-    mEmptyButtonText = getString(buttonTextRes);
-    return this;
-  }
-
-  public LoadingLayout setEmptyButtonText(String buttonText) {
-    mEmptyButtonText = buttonText;
-    return this;
-  }
-
-  public LoadingLayout setOnEmptyButtonClickListener(OnClickListener l) {
-    onEmptyButtonClickListener = l;
-    return this;
-  }
-
-  public LoadingLayout setErrorDrawable(int drawableRes) {
-    mErrorDrawable = getDrawable(drawableRes);
-    return this;
-  }
-
-  public LoadingLayout setErrorDrawable(Drawable drawable) {
-    mErrorDrawable = drawable;
-    return this;
-  }
-
-  public LoadingLayout setErrorTitle(int titleRes) {
-    mErrorTitleText = getString(titleRes);
-    return this;
-  }
-
-  public LoadingLayout setErrorTitle(String title) {
-    mErrorTitleText = title;
-    return this;
-  }
-
-  public LoadingLayout setErrorSubtitle(int subtitleRes) {
-    mErrorSubtitleText = getString(subtitleRes);
-    return this;
-  }
-
-  public LoadingLayout setErrorSubtitle(String subtitle) {
-    mErrorSubtitleText = subtitle;
-    return this;
-  }
-
-  public LoadingLayout setErrorButtonText(int buttonTextRes) {
-    mErrorButtonText = getString(buttonTextRes);
-    return this;
-  }
-
-  public LoadingLayout setErrorButtonText(String buttonText) {
-    mErrorButtonText = buttonText;
-    return this;
-  }
-
-  public LoadingLayout setOnErrorButtonClickListener(OnClickListener l) {
-    onErrorButtonClickListener = l;
-    return this;
-  }
-
   /**
    * 设置空白页面
    */
@@ -553,7 +592,7 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
 
       mEmptyImageView = (ImageView) emptyView.findViewById(android.R.id.icon);
       mEmptyTitleTextView = (TextView) emptyView.findViewById(android.R.id.text1);
-      mEmptyContentTextView = (TextView) emptyView.findViewById(android.R.id.text2);
+      mEmptySubtitleTextView = (TextView) emptyView.findViewById(android.R.id.text2);
       mEmptyButton = (Button) emptyView.findViewById(android.R.id.button1);
 
       //Set empty state image width and height
@@ -562,9 +601,9 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       mEmptyImageView.requestLayout();
 
       mEmptyTitleTextView.setTextSize(mEmptyTitleTextSize);
-      mEmptyContentTextView.setTextSize(mEmptyContentTextSize);
+      mEmptySubtitleTextView.setTextSize(mEmptySubtitleTextSize);
       mEmptyTitleTextView.setTextColor(mEmptyTitleTextColor);
-      mEmptyContentTextView.setTextColor(mEmptyContentTextColor);
+      mEmptySubtitleTextView.setTextColor(mEmptySubtitleTextColor);
 
       //Set background color if not TRANSPARENT
       if (mEmptyBackgroundColor != Color.TRANSPARENT) {
@@ -574,36 +613,50 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
       if (mEmptyDrawable != null) {
         ViewUtils.setGone(mEmptyTitleTextView, false);
         mEmptyImageView.setImageDrawable(mEmptyDrawable);
+      } else if (mEmptyDefaultDrawable != null) {
+        ViewUtils.setGone(mEmptyTitleTextView, false);
+        mEmptyImageView.setImageDrawable(mEmptyDefaultDrawable);
       } else {
         ViewUtils.setGone(mEmptyTitleTextView, true);
       }
 
-      if (!isNull(mEmptyTitleText)) {
+      if (! isNull(mEmptyTitleText)) {
         ViewUtils.setGone(mEmptyTitleTextView, false);
         mEmptyTitleTextView.setText(mEmptyTitleText);
+      } else if (! isNull(mEmptyDefaultTitleText)) {
+        ViewUtils.setGone(mEmptyTitleTextView, false);
+        mEmptyTitleTextView.setText(mEmptyDefaultTitleText);
       } else {
         ViewUtils.setGone(mEmptyTitleTextView, true);
       }
 
       if (!isNull(mEmptySubtitleText)) {
-        ViewUtils.setGone(mEmptyContentTextView, false);
-        mEmptyContentTextView.setText(mEmptySubtitleText);
+        ViewUtils.setGone(mEmptySubtitleTextView, false);
+        mEmptySubtitleTextView.setText(mEmptySubtitleText);
+      } else if (! isNull(mEmptyDefaultSubtitleText)) {
+        ViewUtils.setGone(mEmptySubtitleTextView, false);
+        mEmptySubtitleTextView.setText(mEmptyDefaultSubtitleText);
       } else {
-        ViewUtils.setGone(mEmptyContentTextView, true);
+        ViewUtils.setGone(mEmptySubtitleTextView, true);
       }
 
       boolean gone = true;
       if (!isNull(mEmptyButtonText)) {
         gone = false;
         mEmptyButton.setText(mEmptyButtonText);
+      } else if (! isNull(mButtonDefaultText)) {
+        gone = false;
+        mEmptyButton.setText(mButtonDefaultText);
       }
 
       if (onEmptyButtonClickListener != null) {
         gone = false;
         mEmptyButton.setOnClickListener(onEmptyButtonClickListener);
+        mEmptyView.setOnClickListener(onEmptyButtonClickListener);
       } else if (getOnButtonClickListener() != null) {
         gone = false;
         mEmptyButton.setOnClickListener(this);
+        mEmptyView.setOnClickListener(this);
       }
 
       ViewUtils.setGone(mEmptyButton, gone);
