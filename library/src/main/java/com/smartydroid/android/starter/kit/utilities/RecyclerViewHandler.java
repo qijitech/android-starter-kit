@@ -28,7 +28,7 @@ public class RecyclerViewHandler implements ViewHandler {
       adapter2 = hfAdapter;
 
       final Context context = recyclerView.getContext().getApplicationContext();
-      loadMoreView.init(new ILoadMoreView.FootViewAdder() {
+      loadMoreView.initialize(new ILoadMoreView.FootViewAdder() {
         @Override public View addFootView(View view) {
           hfAdapter.addFooter(view);
           return view;

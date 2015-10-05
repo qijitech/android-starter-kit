@@ -4,14 +4,14 @@
  */
 package com.smartydroid.android.kit.demo;
 
-import android.app.Application;
 import android.os.StrictMode;
+import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.squareup.leakcanary.LeakCanary;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.GINGERBREAD;
 
-public class App extends Application {
+public class App extends StarterKitApp {
 
   @Override public void onCreate() {
     super.onCreate();

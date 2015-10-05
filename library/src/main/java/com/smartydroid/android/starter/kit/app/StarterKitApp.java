@@ -33,11 +33,11 @@ public class StarterKitApp extends Application {
    *
    * @return applicaton info
    */
-  public static AppInfo getAppInfo() {
+  public static AppInfo appInfo() {
     if (mAppInfo == null) {
       mAppInfo = new AppInfo(appContext());
     }
-    return getInstance().mAppInfo;
+    return mAppInfo;
   }
 
   /**
@@ -73,5 +73,6 @@ public class StarterKitApp extends Application {
     sAppContext = null;
     mInstance = null;
     sAppHandler = null;
+    mAppInfo = null;
   }
 }

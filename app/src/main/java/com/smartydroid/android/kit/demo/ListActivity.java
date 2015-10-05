@@ -6,6 +6,7 @@ package com.smartydroid.android.kit.demo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import com.smartydroid.android.starter.kit.app.StarterKitApp;
 
 public class ListActivity extends AppCompatActivity {
 
