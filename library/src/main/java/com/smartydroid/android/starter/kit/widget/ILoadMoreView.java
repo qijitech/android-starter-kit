@@ -8,7 +8,7 @@ import android.view.View;
 
 public interface ILoadMoreView {
 
-  void init(FootViewAdder footViewHolder, View.OnClickListener onClickLoadMoreListener);
+  void initialize(FootViewAdder footViewHolder, View.OnClickListener onClickLoadMoreListener);
 
   void hideLoading();
 

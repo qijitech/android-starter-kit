@@ -4,7 +4,11 @@
  */
 package com.smartydroid.android.starter.kit.utilities;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 
 public class AndroidUtilities {
 
@@ -30,6 +34,33 @@ public class AndroidUtilities {
 
   public static boolean hasLollipop() {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+  }
+
+  /**
+   * 获取AndroidManifest中配置的meta-data
+   * @param context
+   * @param key
+   * @return
+   */
+  public static String getMetaData(Context context, String key) {
+    Bundle metaData = null;
+    String value = null;
+    if (context == null || key == null) {
+      return null;
+    }
+    try {
+      ApplicationInfo ai = context.getPackageManager().getApplicationInfo(
+          context.getPackageName(), PackageManager.GET_META_DATA);
+      if (null != ai) {
+        metaData = ai.metaData;
+      }
+      if (null != metaData) {
+        value = metaData.getString(key);
+      }
+    } catch (PackageManager.NameNotFoundException e) {
+
+    }
+    return value;
   }
 
   private AndroidUtilities() {

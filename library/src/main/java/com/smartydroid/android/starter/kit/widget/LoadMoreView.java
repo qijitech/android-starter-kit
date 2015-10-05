@@ -17,7 +17,7 @@ public class LoadMoreView implements ILoadMoreView {
   private ProgressBar mProgress;
 
   @Override
-  public void init(FootViewAdder footViewHolder, View.OnClickListener onClickLoadMoreListener) {
+  public void initialize(FootViewAdder footViewHolder, View.OnClickListener onClickLoadMoreListener) {
     mContainer = footViewHolder.addFootView(R.layout.include_loadmore_view);
 
     if (onClickLoadMoreListener != null) {
