@@ -7,9 +7,10 @@ package com.smartydroid.android.starter.kit.contracts.Pagination;
 public interface Emitter<T> {
 
   void beforeRefresh();
+
   void beforeLoadMore();
 
   T register(final T item);
-  Object getKeyForData(T item);
 
+  Object getKeyForData(T item);
 }

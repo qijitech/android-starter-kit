@@ -17,16 +17,6 @@ public interface Paginator<T extends Entitiy> {
   List<T> items();
 
   /**
-   * Get the "index" of the first item being paginated.
-   */
-  T fisrtItem();
-
-  /**
-   * Get the "index" of the last item being paginated.
-   */
-  T lastItem();
-
-  /**
    * Determine how many items are being shown per page.
    */
   int perPage();

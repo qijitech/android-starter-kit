@@ -14,9 +14,10 @@ import retrofit.Call;
 
 public class KeyPaginator<T extends Entitiy> extends PaginatorImpl<T> implements IdPaginator<T> {
 
-  private T nextItem;
-  private T previousItem;
-
+  /**
+   * Builder key paginator
+   * @param <T>
+   */
   public static class Builder<T extends Entitiy> {
     private IdEmitter<T> emitter;
     private PaginationCallback<T> callback;
@@ -61,26 +62,26 @@ public class KeyPaginator<T extends Entitiy> extends PaginatorImpl<T> implements
     super(emitter, callback, perPage);
   }
 
+  @SuppressWarnings("unchecked")
   @Override protected Call<DataArray<T>> paginate(boolean isRefresh) {
     final IdEmitter<T> idEmitter = (IdEmitter<T>) mEmitter;
-    return (Call<DataArray<T>>) idEmitter.paginate(previousItem, nextItem, perPage());
+    if (idEmitter != null) {
+      return (Call<DataArray<T>>) idEmitter.paginate(previousPageItem(), nextPageItem(), perPage());
+    }
+    return null;
   }
 
   @Override protected void processPage(DataArray<T> dataArray) {
     mHasMore = dataArray.size() >= mPerPage;
-
-    if (!dataArray.isNull()) {
-      final List<T> items = dataArray.data();
-      nextItem = items.get(items.size() - 1);
-      previousItem = items.get(0);
-    }
   }
 
   @Override public T previousPageItem() {
-    return null;
+    final List<T> items = items();
+    return items.isEmpty() ? null : items.get(0);
   }
 
   @Override public T nextPageItem() {
-    return null;
+    final List<T> items = items();
+    return items.isEmpty() ? null : items.get(items.size() - 1);
   }
 }

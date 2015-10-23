@@ -4,6 +4,7 @@
  */
 package com.smartydroid.android.starter.kit.network;
 
+import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PagePaginator;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PagesEmitter;
 import com.smartydroid.android.starter.kit.model.dto.DataArray;
@@ -20,7 +21,7 @@ public class PagesPaginator<T extends Entitiy> extends PaginatorImpl<T>
   int mCurrentPage;
   long mTotalSize;
 
-  private PagesPaginator(PagesEmitter<T> emitter, PaginationCallback<T> callback, int startPage,
+  private PagesPaginator(Emitter<T> emitter, PaginationCallback<T> callback, int startPage,
       int perPage) {
     super(emitter, callback, perPage);
     mFirstPage = startPage;
@@ -42,6 +43,7 @@ public class PagesPaginator<T extends Entitiy> extends PaginatorImpl<T>
     mHasMore = mTotalSize > mPerPage * mCurrentPage;
   }
 
+  @SuppressWarnings("unchecked")
   @Override protected Call<DataArray<T>> paginate(boolean isRefresh) {
     final PagesEmitter<T> emitter = (PagesEmitter<T>) mEmitter;
     if (emitter != null) {

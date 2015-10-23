@@ -13,12 +13,12 @@ public interface IdPaginator<T extends Entitiy> extends Paginator<T> {
    *
    * @return T
    */
-  public T nextPageItem();
+  T nextPageItem();
 
   /**
    * Get the previous item, or null.
    *
    * @return T
    */
-  public T previousPageItem();
+  T previousPageItem();
 }

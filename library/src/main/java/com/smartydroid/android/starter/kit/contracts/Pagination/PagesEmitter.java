@@ -10,5 +10,10 @@ import retrofit.Call;
 
 public interface PagesEmitter<T extends Entitiy> extends Emitter<T> {
 
+  /**
+   * @param page 当前页面
+   * @param perPage 每页显示多少
+   * @return Call
+   */
   Call<? extends DataArray<T>> paginate(int page, int perPage);
 }

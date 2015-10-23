@@ -16,6 +16,7 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import retrofit.Retrofit;
 
 public abstract class PaginatorImpl<T extends Entitiy>
     implements Paginator<T>, Callback<DataArray<T>> {
@@ -49,16 +50,6 @@ public abstract class PaginatorImpl<T extends Entitiy>
 
   @Override public List<T> items() {
     return new ArrayList<>(mResources.values());
-  }
-
-  @Override public T fisrtItem() {
-    final List<T> items = items();
-    return items.isEmpty() ? null : items.get(0);
-  }
-
-  @Override public T lastItem() {
-    final List<T> items = items();
-    return items.isEmpty() ? null : items.get(items.size() - 1);
   }
 
   @Override public int perPage() {
@@ -129,7 +120,7 @@ public abstract class PaginatorImpl<T extends Entitiy>
     }
   }
 
-  @Override public void onResponse(Response<DataArray<T>> response) {
+  @Override public void onResponse(Response<DataArray<T>> response, Retrofit retrofit) {
     mIsLoading = false;
     mDataHasLoaded = true;
     if (response.isSuccess()) {

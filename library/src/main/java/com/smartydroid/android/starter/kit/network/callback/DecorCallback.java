@@ -6,10 +6,11 @@ package com.smartydroid.android.starter.kit.network.callback;
 
 import retrofit.Callback;
 import retrofit.Response;
+import retrofit.Retrofit;
 
 public abstract class DecorCallback<T> implements NetworkCallback<T>, Callback<T> {
 
-  @Override public void onResponse(Response<T> response) {
+  @Override public void onResponse(Response<T> response, Retrofit retrofit) {
 
     respondSuccess(response.body());
 

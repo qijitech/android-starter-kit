@@ -12,7 +12,7 @@ import com.smartydroid.android.starter.kit.network.KeyPaginator;
 public abstract class KeyRecyclerViewFragment<E extends Entitiy> extends RecyclerViewFragment<E>
     implements IdEmitter<E> {
 
-  @Override public Paginator buildPaginator() {
+  @Override public Paginator<E> buildPaginator() {
     return new KeyPaginator.Builder<E>()
         .emitter(this)
         .callback(this)

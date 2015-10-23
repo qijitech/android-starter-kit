@@ -38,7 +38,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
   private RecyclerViewHandler mRecyclerViewHandler;
 
   public abstract void bindViewHolders(EasyRecyclerAdapter adapter);
-  public abstract Paginator buildPaginator();
+  public abstract Paginator<E> buildPaginator();
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
