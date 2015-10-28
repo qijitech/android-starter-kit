@@ -52,6 +52,7 @@ dependencies {
   compile 'com.android.support:appcompat-v7:23.1.0'
 
   compile 'com.jakewharton:butterknife:7.0.1'
+  compile 'com.jakewharton.timber:timber:3.1.0'
 
   // Recycler View
   compile 'com.android.support:recyclerview-v7:23.1.0'

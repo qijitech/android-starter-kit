@@ -6,16 +6,26 @@ package com.smartydroid.android.kit.demo;
 
 import android.content.Context;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 
 public class NewsViewHolder extends EasyViewHolder<News> {
+
+  @Bind(R.id.text_tweet_content) TextView mTweetContent;
+  @Bind(R.id.text_tweet_published_time) TextView mTweetPublishAt;
+  @Bind(R.id.text_tweet_source) TextView mTweetSource;
 
   public NewsViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_news);
     ButterKnife.bind(this, itemView);
   }
 
-  @Override public void bindTo(News tweet) {
+  @Override public void bindTo(News news) {
+
+    mTweetContent.setText(news.title);
+    mTweetSource.setText(news.subtitle);
+    mTweetPublishAt.setText(String.valueOf(news.reviewedAt));
   }
 }

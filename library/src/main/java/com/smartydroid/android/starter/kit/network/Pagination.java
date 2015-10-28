@@ -18,6 +18,7 @@ public class Pagination<T extends Entitiy> extends Paginator<T> implements PageP
   int mFirstPage = DEFAULT_FIRST_PAGE;
 
   int mCurrentPage;
+  int mNextPage = mCurrentPage;
 
   private Pagination(Emitter<T> emitter, PaginatorCallback<T> callback, int startPage,
       int perPage) {
@@ -35,12 +36,22 @@ public class Pagination<T extends Entitiy> extends Paginator<T> implements PageP
 
   @Override protected void processPage(ArrayList<T> dataArray) {
     mHasMore = dataArray.size() >= mPerPage;
+
+    if (isRefresh()) {
+      mCurrentPage = mFirstPage;
+    } else {
+      mCurrentPage = mNextPage;
+    }
+
+    if (mHasMore) {
+      mNextPage = mCurrentPage + 1;
+    }
   }
 
   @Override protected Call<ArrayList<T>> paginate(boolean isRefresh) {
     final PaginationEmitter<T> emitter = (PaginationEmitter<T>) mEmitter;
     if (emitter != null) {
-      return emitter.paginate(isRefresh ? mFirstPage : (currentPage() + 1), perPage());
+      return emitter.paginate(isRefresh ? mFirstPage : mNextPage, perPage());
     }
     return null;
   }

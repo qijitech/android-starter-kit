@@ -4,6 +4,8 @@
  */
 package com.smartydroid.android.kit.demo;
 
+import com.smartydroid.android.starter.kit.retrofit.TimberLoggingInterceptor;
+import com.squareup.okhttp.OkHttpClient;
 import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 
@@ -28,8 +30,12 @@ public class ApiService {
   private Retrofit retrofit() {
     if (mRetrofit == null) {
       Retrofit.Builder builder = newRetrofitBuilder();
-      mRetrofit =
-          builder.baseUrl(sBaseUrl).addConverterFactory(JacksonConverterFactory.create()).build();
+      OkHttpClient client = new OkHttpClient();
+      client.interceptors().add(new TimberLoggingInterceptor());
+      mRetrofit = builder.baseUrl(sBaseUrl)
+          .addConverterFactory(JacksonConverterFactory.create())
+          .client(client)
+          .build();
     }
 
     return mRetrofit;
