@@ -7,7 +7,7 @@
       xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:name="com.smartydroid.android.kit.demo.FeedFragment"
-      android:tag="com.smartydroid.android.kit.demo.FeedFragment"
+      android:name="com.smartydroid.android.kit.demo.NewsFragment"
+      android:tag="com.smartydroid.android.kit.demo.NewsFragment"
       />
 </FrameLayout>

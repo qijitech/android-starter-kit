@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.smartydroid.android.starter.kit.widget.ForegroundLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    >
+  <TextView
+      android:id="@+id/text_tweet_content"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:layout_marginTop="8dp"
+      android:maxLines="5"
+      android:text="今日负能量：小米官网发布1999元小米4，移动4G版9月份上市，小米越来越好，米黑却越来越多"
+      android:textColor="#636363"
+      android:textSize="18sp"
+      />
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/activity_horizontal_margin"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:layout_marginTop="4dp"
+      android:paddingBottom="8dp"
+      >
+
+    <TextView
+        android:id="@+id/text_tweet_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:singleLine="true"
+        android:text="来源：@负能量"
+        android:textColor="#919191"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/text_tweet_published_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="16dp"
+        android:singleLine="true"
+        android:text="12:48"
+        android:textColor="#919191"
+        android:textSize="14sp"
+        />
+  </RelativeLayout>
+</com.smartydroid.android.starter.kit.widget.ForegroundLinearLayout>
