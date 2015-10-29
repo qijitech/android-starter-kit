@@ -11,6 +11,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -58,7 +59,7 @@ public final class DeviceID {
       String m_szBTMAC = m_BluetoothAdapter.getAddress();
       return m_szBTMAC;
     } catch (Exception e) {
-      //e.printStackTrace();
+      // Nothing to do
     }
     return "";
   }
@@ -86,7 +87,7 @@ public final class DeviceID {
 
       return m_szDevIDShort;
     } catch (Exception e) {
-      e.printStackTrace();
+      // Nothing to do
     }
     return "";
   }
@@ -99,10 +100,9 @@ public final class DeviceID {
     try {
       TelephonyManager TelephonyMgr =
           (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-      String szImei = TelephonyMgr.getDeviceId();
-      return szImei;
+      return TelephonyMgr.getDeviceId();
     } catch (Exception e) {
-      e.printStackTrace();
+      // Nothing to do
     }
     return "";
   }
@@ -117,7 +117,7 @@ public final class DeviceID {
       WifiInfo info = wifi.getConnectionInfo();
       return info.getMacAddress();
     } catch (Exception e) {
-      e.printStackTrace();
+      // Nothing to do
     }
     return "";
   }

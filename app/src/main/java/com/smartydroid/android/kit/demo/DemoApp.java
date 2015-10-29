@@ -7,18 +7,23 @@ package com.smartydroid.android.kit.demo;
 import android.os.StrictMode;
 import com.smartydroid.android.starter.kit.account.Account;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
-import com.smartydroid.android.starter.kit.retrofit.ApiVersion;
-import com.squareup.leakcanary.LeakCanary;
+import com.smartydroid.android.starter.kit.retrofit.RetrofitBuilder;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.GINGERBREAD;
 
-public class DemoApp extends StarterKitApp implements ApiVersion {
+public class DemoApp extends StarterKitApp {
 
   @Override public void onCreate() {
     super.onCreate();
     //enabledStrictMode();
     //LeakCanary.install(this);
+
+    // init api service
+    new RetrofitBuilder.Builder()
+        .debug(BuildConfig.DEBUG)
+        .baseUrl(Profile.API_ENDPOINT)
+        .build();
   }
 
   private void enabledStrictMode() {

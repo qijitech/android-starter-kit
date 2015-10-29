@@ -58,7 +58,7 @@ public class AndroidUtilities {
         value = metaData.getString(key);
       }
     } catch (PackageManager.NameNotFoundException e) {
-
+      // Nothing to do
     }
     return value;
   }

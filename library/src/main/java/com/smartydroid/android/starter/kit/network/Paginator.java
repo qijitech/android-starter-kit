@@ -133,6 +133,9 @@ public abstract class Paginator<T extends Entitiy>
         respondWithError(dataArray);
       }
     } else {
+      if (response.code() == 400) {
+        // Nothing to do
+      }
       respondWithError(new Throwable(response.message()));
     }
     onFinish();

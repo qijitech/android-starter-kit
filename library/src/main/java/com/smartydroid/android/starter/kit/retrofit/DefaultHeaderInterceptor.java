@@ -4,7 +4,6 @@
  */
 package com.smartydroid.android.starter.kit.retrofit;
 
-import android.support.v4.text.TextUtilsCompat;
 import android.text.TextUtils;
 import com.smartydroid.android.starter.kit.account.AccountProvider;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
