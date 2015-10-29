@@ -15,6 +15,18 @@ public class ApiService {
 
   private static final String sBaseUrl = "http://123.57.78.45";
   private Retrofit mRetrofit;
+  private DefaultHeaderInterceptor mHeaderInterceptor;
+  private HttpLoggingInterceptor mLoggingInterceptor;
+
+  private ApiService() {
+    mHeaderInterceptor = new DefaultHeaderInterceptor(null, null);
+    mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+      @Override public void log(String message) {
+        Timber.d(message);
+      }
+    });
+    mLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+  }
 
   // Make this class a thread safe singleton
   private static class SingletonHolder {
@@ -33,15 +45,8 @@ public class ApiService {
     if (mRetrofit == null) {
       Retrofit.Builder builder = newRetrofitBuilder();
       OkHttpClient client = new OkHttpClient();
-      client.interceptors().add(new DefaultHeaderInterceptor());
-      HttpLoggingInterceptor logging =
-          new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override public void log(String message) {
-              Timber.d(message);
-            }
-          });
-      logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-      client.interceptors().add(logging);
+      client.networkInterceptors().add(mHeaderInterceptor);
+      client.networkInterceptors().add(mLoggingInterceptor);
       mRetrofit = builder.baseUrl(sBaseUrl)
           .addConverterFactory(JacksonConverterFactory.create())
           .client(client)

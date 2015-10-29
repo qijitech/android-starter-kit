@@ -4,7 +4,10 @@
  */
 package com.smartydroid.android.starter.kit.retrofit;
 
+import com.smartydroid.android.starter.kit.account.AccountProvider;
+import com.smartydroid.android.starter.kit.account.ApiVersion;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -12,17 +15,31 @@ import java.io.IOException;
 
 public class DefaultHeaderInterceptor implements Interceptor {
 
+  AccountProvider mAccountProvider;
+  ApiVersion mApiVersion;
+
+  public DefaultHeaderInterceptor(AccountProvider accountProvider, ApiVersion apiVersion) {
+    mAccountProvider = accountProvider;
+    mApiVersion = apiVersion;
+  }
+
   @Override public Response intercept(Chain chain) throws IOException {
     Request originalRequest = chain.request();
+    Headers.Builder builder = new Headers.Builder();
+    builder.add("Content-Encoding", "gzip")
+        .add("version-code", StarterKitApp.appInfo().versionCode)
+        .add("version-name", StarterKitApp.appInfo().version)
+        .add("device", StarterKitApp.appInfo().deviceId)
+        .add("channel", StarterKitApp.appInfo().channel)
+        .add("platform", "android");
+    if (mAccountProvider != null && mAccountProvider.provideToken() != null) {
+      builder.add("Authorization", "Bearer " + mAccountProvider.provideToken());
+    }
+    if (mApiVersion != null && mApiVersion.accept() != null) {
+      builder.add("Accept", mApiVersion.accept());
+    }
     Request compressedRequest = originalRequest.newBuilder()
-        .header("Content-Encoding", "gzip")
-        .header("version-code", StarterKitApp.appInfo().versionCode)
-        .header("version-name", StarterKitApp.appInfo().version)
-        .header("device", StarterKitApp.appInfo().deviceId)
-        .header("channel", StarterKitApp.appInfo().channel)
-        .header("platform", "android")
-        .header("Authorization", "Bearer {yourtokenhere}")
-        .header("Accept", "application/vnd.financerapp.v1+json")
+        .headers(builder.build())
         .build();
     return chain.proceed(compressedRequest);
   }

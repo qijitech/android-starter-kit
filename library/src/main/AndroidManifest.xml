@@ -1,1 +1,11 @@
-<manifest package="com.smartydroid.android.starter.kit"/>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.smartydroid.android.starter.kit"
+    >
+
+  <uses-sdk
+      tools:overrideLibrary="me.alexrs.prefs.lib"
+      android:minSdkVersion="14"
+      />
+</manifest>
