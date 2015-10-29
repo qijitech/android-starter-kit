@@ -10,11 +10,11 @@ import com.smartydroid.android.kit.demo.api.ApiService;
 import com.smartydroid.android.kit.demo.model.entity.News;
 import com.smartydroid.android.kit.demo.api.service.NewsService;
 import com.smartydroid.android.kit.demo.ui.viewholder.NewsViewHolder;
-import com.smartydroid.android.starter.kit.app.PagesRecyclerViewFragment;
+import com.smartydroid.android.starter.kit.app.PagedRecyclerViewFragment;
 import java.util.ArrayList;
 import retrofit.Call;
 
-public class NewsFragment extends PagesRecyclerViewFragment<News> {
+public class NewsFragment extends PagedRecyclerViewFragment<News> {
 
   private NewsService mNewsService;
 

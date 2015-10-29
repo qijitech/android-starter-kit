@@ -4,27 +4,27 @@
  */
 package com.smartydroid.android.starter.kit.network;
 
-import com.smartydroid.android.starter.kit.contracts.Pagination.IdEmitter;
-import com.smartydroid.android.starter.kit.contracts.Pagination.IdPaginator;
+import com.smartydroid.android.starter.kit.contracts.Pagination.KeyEmitter;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit.Call;
 
-public class KeyPaginator<T extends Entitiy> extends Paginator<T> implements IdPaginator<T> {
+public class KeyPaginator<T extends Entitiy> extends Paginator<T> implements
+    com.smartydroid.android.starter.kit.contracts.Pagination.KeyPaginator<T> {
 
   /**
    * Builder key paginator
    */
   public static class Builder<T extends Entitiy> {
-    private IdEmitter<T> emitter;
+    private KeyEmitter<T> emitter;
     private PaginatorCallback<T> callback;
 
     private int perPage;
 
     /** Create the {@link KeyPaginator} instances. */
-    public KeyPaginator<T> build() {
+    public KeyPaginator build() {
       if (callback == null) {
         throw new IllegalArgumentException("PaginationCallback may not be null.");
       }
@@ -32,7 +32,7 @@ public class KeyPaginator<T extends Entitiy> extends Paginator<T> implements IdP
         throw new IllegalArgumentException("Emitter may not be null.");
       }
       ensureSaneDefaults();
-      return new KeyPaginator<>(emitter, callback, perPage);
+      return new KeyPaginator(emitter, callback, perPage);
     }
 
     private void ensureSaneDefaults() {
@@ -41,7 +41,7 @@ public class KeyPaginator<T extends Entitiy> extends Paginator<T> implements IdP
       }
     }
 
-    public Builder<T> emitter(IdEmitter<T> emitter) {
+    public Builder<T> emitter(KeyEmitter<T> emitter) {
       this.emitter = emitter;
       return this;
     }
@@ -57,14 +57,14 @@ public class KeyPaginator<T extends Entitiy> extends Paginator<T> implements IdP
     }
   }
 
-  private KeyPaginator(IdEmitter<T> emitter, PaginatorCallback<T> callback, int perPage) {
+  private KeyPaginator(KeyEmitter<T> emitter, PaginatorCallback<T> callback, int perPage) {
     super(emitter, callback, perPage);
   }
 
   @Override protected Call<ArrayList<T>> paginate(boolean isRefresh) {
-    final IdEmitter<T> idEmitter = (IdEmitter<T>) mEmitter;
-    if (idEmitter != null) {
-      return idEmitter.paginate(previousPageItem(), nextPageItem(), perPage());
+    final KeyEmitter<T> keyEmitter = (KeyEmitter<T>) mEmitter;
+    if (keyEmitter != null) {
+      return keyEmitter.paginate(previousPageItem(), nextPageItem(), perPage());
     }
     return null;
   }

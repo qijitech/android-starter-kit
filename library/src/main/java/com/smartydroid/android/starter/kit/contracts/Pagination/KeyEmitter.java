@@ -8,7 +8,7 @@ import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import java.util.ArrayList;
 import retrofit.Call;
 
-public interface IdEmitter<T extends Entitiy> extends Emitter<T> {
+public interface KeyEmitter<T extends Entitiy> extends Emitter<T> {
 
   /**
    * maxItem 在 loadMore 的时候需要

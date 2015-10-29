@@ -16,14 +16,14 @@ import me.alexrs.prefs.lib.Prefs;
  */
 public class AccountManager implements AccountProvider {
 
-  private static final String USER_STORAGE = "user_preference";
-  private static final String USER_JSON_KEY = "user_json";
+  private static final String PREFS_ACCOUNT_STORAGE = "accounts";
+  private static final String PREFS_KEY_ACCOUNT_JSON = "accounts_json";
 
   private ArrayList<CurrentAccountObserver> mObservers;
   private Account mCurrentAccount;
 
   public interface CurrentAccountObserver {
-    public void notifyChange();
+    void notifyChange();
   }
 
   public static void registerObserver(CurrentAccountObserver observer) {
@@ -72,7 +72,7 @@ public class AccountManager implements AccountProvider {
   }
 
   public static void store() {
-    getInstance().saveUserData();
+    getInstance().saveAccountData();
   }
 
   /**
@@ -80,7 +80,7 @@ public class AccountManager implements AccountProvider {
    */
   public static void store(Account account) {
     setCurrentAccount(account);
-    getInstance().saveUserData();
+    getInstance().saveAccountData();
   }
 
   public static void logout() {
@@ -89,33 +89,33 @@ public class AccountManager implements AccountProvider {
   }
 
   private AccountManager() {
-    loadUserDataFromStorage();
+    loadAccountDataFromPrefs();
   }
 
-  private void loadUserDataFromStorage() {
-    String userJson = prefs().getString(USER_JSON_KEY, null);
-    if (!TextUtils.isEmpty(userJson)) {
-      mCurrentAccount = mCurrentAccount.fromJson(userJson);
+  private void loadAccountDataFromPrefs() {
+    String accountJson = prefs().getString(PREFS_KEY_ACCOUNT_JSON, null);
+    if (!TextUtils.isEmpty(accountJson)) {
+      mCurrentAccount = StarterKitApp.getInstance().accountFromJson(accountJson);
     }
   }
 
-  private void saveUserData() {
+  private void saveAccountData() {
     if (mCurrentAccount != null) {
-      prefs().save(USER_JSON_KEY, mCurrentAccount.toJson());
+      prefs().save(PREFS_KEY_ACCOUNT_JSON, mCurrentAccount.toJson());
     }
   }
 
   private void clear() {
     mCurrentAccount = null;
-    clearUserData();
+    clearAccountData();
   }
 
-  private void clearUserData() {
-    prefs().remove(USER_STORAGE);
+  private void clearAccountData() {
+    prefs().remove(PREFS_ACCOUNT_STORAGE);
   }
 
   private static Prefs prefs() {
-    return Prefs.with(StarterKitApp.appContext(), USER_STORAGE, Context.MODE_PRIVATE);
+    return Prefs.with(StarterKitApp.appContext(), PREFS_ACCOUNT_STORAGE, Context.MODE_PRIVATE);
   }
 
   // Make this class a thread safe singleton

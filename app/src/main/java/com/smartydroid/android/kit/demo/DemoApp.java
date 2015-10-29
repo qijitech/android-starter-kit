@@ -5,6 +5,7 @@
 package com.smartydroid.android.kit.demo;
 
 import android.os.StrictMode;
+import com.smartydroid.android.starter.kit.account.Account;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.smartydroid.android.starter.kit.retrofit.ApiVersion;
 import com.squareup.leakcanary.LeakCanary;
@@ -28,6 +29,10 @@ public class DemoApp extends StarterKitApp implements ApiVersion {
           .penaltyDeath() //
           .build());
     }
+  }
+
+  @Override public Account accountFromJson(String json) {
+    return null;
   }
 
   @Override public String accept() {

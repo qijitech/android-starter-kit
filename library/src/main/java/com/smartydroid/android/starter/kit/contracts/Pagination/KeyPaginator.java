@@ -6,7 +6,7 @@ package com.smartydroid.android.starter.kit.contracts.Pagination;
 
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 
-public interface IdPaginator<T extends Entitiy> extends Paginator<T> {
+public interface KeyPaginator<T extends Entitiy> extends Paginator<T> {
 
   /**
    * The next item, or null.

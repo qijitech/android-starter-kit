@@ -11,6 +11,4 @@ public interface Account {
   Object key();
 
   String toJson();
-
-  Account fromJson(String json);
 }

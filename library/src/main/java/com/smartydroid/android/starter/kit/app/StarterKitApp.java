@@ -9,23 +9,31 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
-import com.smartydroid.android.starter.kit.BuildConfig;
+import com.smartydroid.android.starter.kit.account.Account;
 import com.smartydroid.android.starter.kit.utilities.AppInfo;
 import com.smartydroid.android.starter.kit.utilities.FakeCrashLibrary;
 import timber.log.Timber;
 
-public class StarterKitApp extends Application {
+public abstract class StarterKitApp extends Application {
 
   private static volatile Context sAppContext;
   private static volatile StarterKitApp mInstance;
   private static volatile Handler sAppHandler;
   private static volatile AppInfo mAppInfo;
 
+  /**
+   * 根据 account json 返回 account
+   *
+   * @param json json value
+   * @return Account
+   */
+  public abstract Account accountFromJson(String json);
+
   @Override public void onCreate() {
     super.onCreate();
 
     //if (BuildConfig.DEBUG) {
-      Timber.plant(new Timber.DebugTree());
+    Timber.plant(new Timber.DebugTree());
     //} else {
     //  Timber.plant(new CrashReportingTree());
     //}
@@ -40,7 +48,6 @@ public class StarterKitApp extends Application {
   }
 
   /**
-   *
    * @return applicaton info
    */
   public static AppInfo appInfo() {
