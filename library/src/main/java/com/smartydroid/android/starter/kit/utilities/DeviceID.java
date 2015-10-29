@@ -58,7 +58,7 @@ public final class DeviceID {
       String m_szBTMAC = m_BluetoothAdapter.getAddress();
       return m_szBTMAC;
     } catch (Exception e) {
-      e.printStackTrace();
+      //e.printStackTrace();
     }
     return "";
   }

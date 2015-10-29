@@ -4,6 +4,7 @@
  */
 package com.smartydroid.android.kit.demo;
 
+import com.smartydroid.android.starter.kit.retrofit.DefaultHeaderInterceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import retrofit.JacksonConverterFactory;
@@ -32,6 +33,7 @@ public class ApiService {
     if (mRetrofit == null) {
       Retrofit.Builder builder = newRetrofitBuilder();
       OkHttpClient client = new OkHttpClient();
+      client.interceptors().add(new DefaultHeaderInterceptor());
       HttpLoggingInterceptor logging =
           new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override public void log(String message) {
