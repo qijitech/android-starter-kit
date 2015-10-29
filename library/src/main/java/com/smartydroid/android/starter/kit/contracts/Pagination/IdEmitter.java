@@ -4,8 +4,8 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import java.util.ArrayList;
 import retrofit.Call;
 
 public interface IdEmitter<T extends Entitiy> extends Emitter<T> {
@@ -19,5 +19,5 @@ public interface IdEmitter<T extends Entitiy> extends Emitter<T> {
    * @param perPage 每页获取多少条数据
    * @return Call
    */
-  Call<? extends DataArray<T>> paginate(T sinceItem, T maxItem, int perPage);
+  Call<ArrayList<T>> paginate(T sinceItem, T maxItem, int perPage);
 }

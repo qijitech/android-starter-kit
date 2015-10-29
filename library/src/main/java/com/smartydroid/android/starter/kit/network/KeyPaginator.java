@@ -6,21 +6,20 @@ package com.smartydroid.android.starter.kit.network;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.IdEmitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.IdPaginator;
-import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
-import com.smartydroid.android.starter.kit.network.callback.PaginationCallback;
+import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
+import java.util.ArrayList;
 import java.util.List;
 import retrofit.Call;
 
-public class KeyPaginator<T extends Entitiy> extends PaginatorImpl<T> implements IdPaginator<T> {
+public class KeyPaginator<T extends Entitiy> extends Paginator<T> implements IdPaginator<T> {
 
   /**
    * Builder key paginator
-   * @param <T>
    */
   public static class Builder<T extends Entitiy> {
     private IdEmitter<T> emitter;
-    private PaginationCallback<T> callback;
+    private PaginatorCallback<T> callback;
 
     private int perPage;
 
@@ -47,7 +46,7 @@ public class KeyPaginator<T extends Entitiy> extends PaginatorImpl<T> implements
       return this;
     }
 
-    public Builder<T> callback(PaginationCallback<T> callback) {
+    public Builder<T> callback(PaginatorCallback<T> callback) {
       this.callback = callback;
       return this;
     }
@@ -58,20 +57,19 @@ public class KeyPaginator<T extends Entitiy> extends PaginatorImpl<T> implements
     }
   }
 
-  private KeyPaginator(IdEmitter<T> emitter, PaginationCallback<T> callback, int perPage) {
+  private KeyPaginator(IdEmitter<T> emitter, PaginatorCallback<T> callback, int perPage) {
     super(emitter, callback, perPage);
   }
 
-  @SuppressWarnings("unchecked")
-  @Override protected Call<DataArray<T>> paginate(boolean isRefresh) {
+  @Override protected Call<ArrayList<T>> paginate(boolean isRefresh) {
     final IdEmitter<T> idEmitter = (IdEmitter<T>) mEmitter;
     if (idEmitter != null) {
-      return (Call<DataArray<T>>) idEmitter.paginate(previousPageItem(), nextPageItem(), perPage());
+      return idEmitter.paginate(previousPageItem(), nextPageItem(), perPage());
     }
     return null;
   }
 
-  @Override protected void processPage(DataArray<T> dataArray) {
+  @Override protected void processPage(ArrayList<T> dataArray) {
     mHasMore = dataArray.size() >= mPerPage;
   }
 

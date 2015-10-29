@@ -2,8 +2,9 @@
  * Created by YuGang Yang on September 25, 2015.
  * Copyright 2007-2015 Laputapp.com. All rights reserved.
  */
-package com.smartydroid.android.kit.demo;
+package com.smartydroid.android.kit.demo.api.service;
 
+import com.smartydroid.android.kit.demo.model.entity.News;
 import java.util.ArrayList;
 import retrofit.Call;
 import retrofit.http.GET;

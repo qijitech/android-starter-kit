@@ -2,7 +2,7 @@
  * Created by YuGang Yang on October 28, 2015.
  * Copyright 2007-2015 Laputapp.com. All rights reserved.
  */
-package com.smartydroid.android.kit.demo;
+package com.smartydroid.android.kit.demo.model.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;

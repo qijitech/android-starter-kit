@@ -8,7 +8,7 @@ import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import java.util.ArrayList;
 import retrofit.Call;
 
-public interface PaginationEmitter<T extends Entitiy> extends Emitter<T> {
+public interface PageEmitter<T extends Entitiy> extends Emitter<T> {
 
   /**
    * @param page 当前页面

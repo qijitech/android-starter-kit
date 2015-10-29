@@ -1,10 +1,11 @@
-package com.smartydroid.android.kit.demo;
+package com.smartydroid.android.kit.demo.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import com.smartydroid.android.kit.demo.R;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 
 public class MainActivity extends AppCompatActivity implements LoadingLayout.OnButtonClickListener {

@@ -5,7 +5,6 @@
 package com.smartydroid.android.starter.kit.retrofit;
 
 import com.smartydroid.android.starter.kit.account.AccountProvider;
-import com.smartydroid.android.starter.kit.account.ApiVersion;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Interceptor;

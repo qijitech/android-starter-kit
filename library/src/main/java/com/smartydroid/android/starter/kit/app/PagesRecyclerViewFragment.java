@@ -4,20 +4,18 @@
  */
 package com.smartydroid.android.starter.kit.app;
 
-import com.smartydroid.android.starter.kit.contracts.Pagination.PagesEmitter;
+import com.smartydroid.android.starter.kit.contracts.Pagination.PageEmitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
-import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
-import com.smartydroid.android.starter.kit.network.PagesPaginator;
+import com.smartydroid.android.starter.kit.network.PagePaginator;
 
-public abstract class PagesRecyclerViewFragment<E extends Entitiy> extends RecyclerViewFragment<E>
-    implements PagesEmitter<E> {
+public abstract class PagesRecyclerViewFragment<E extends Entitiy>
+    extends RecyclerViewFragment<E> implements PageEmitter<E> {
 
   @Override public Paginator<E> buildPaginator() {
-    return new PagesPaginator.Builder<E>()
+    return new PagePaginator.Builder<E>()
         .emitter(this)
-        .callback(this)
-        .build();
+        .callback(this).build();
   }
 
   @Override public E register(E item) {

@@ -2,8 +2,11 @@
  * Created by YuGang Yang on September 25, 2015.
  * Copyright 2007-2015 Laputapp.com. All rights reserved.
  */
-package com.smartydroid.android.kit.demo;
+package com.smartydroid.android.kit.demo.api;
 
+import com.smartydroid.android.kit.demo.DemoApp;
+import com.smartydroid.android.kit.demo.api.service.NewsService;
+import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.smartydroid.android.starter.kit.retrofit.DefaultHeaderInterceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
@@ -19,7 +22,7 @@ public class ApiService {
   private HttpLoggingInterceptor mLoggingInterceptor;
 
   private ApiService() {
-    mHeaderInterceptor = new DefaultHeaderInterceptor(null, null);
+    mHeaderInterceptor = new DefaultHeaderInterceptor(AccountManager.getInstance(), (DemoApp) DemoApp.getInstance());
     mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
       @Override public void log(String message) {
         Timber.d(message);

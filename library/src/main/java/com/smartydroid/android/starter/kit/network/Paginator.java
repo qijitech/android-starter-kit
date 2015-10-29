@@ -5,7 +5,6 @@
 package com.smartydroid.android.starter.kit.network;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
-import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import java.net.SocketTimeoutException;

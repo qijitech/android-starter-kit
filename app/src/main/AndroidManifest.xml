@@ -13,9 +13,9 @@
       android:label="@string/app_name"
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
-      android:name=".App"
+      android:name=".DemoApp"
       >
-    <activity android:name="com.smartydroid.android.kit.demo.ListActivity">
+    <activity android:name=".ui.activity.ListActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 

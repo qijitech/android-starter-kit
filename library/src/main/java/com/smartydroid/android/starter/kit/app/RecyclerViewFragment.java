@@ -13,17 +13,17 @@ import android.view.View;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
-import com.smartydroid.android.starter.kit.model.dto.DataArray;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
-import com.smartydroid.android.starter.kit.network.callback.PaginationCallback;
+import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import com.smartydroid.android.starter.kit.utilities.RecyclerViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import com.smartydroid.android.starter.kit.widget.LoadMoreView;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
+import java.util.ArrayList;
 
 public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragment
-    implements PaginationCallback<E>, LoadingLayout.OnButtonClickListener,
+    implements PaginatorCallback<E>, LoadingLayout.OnButtonClickListener,
     SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener {
 
   private LoadingLayout mLoadingLayout;
@@ -132,7 +132,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     }
   }
 
-  @Override public void respondSuccess(DataArray<E> data) {
+  @Override public void respondSuccess(ArrayList<E> data) {
     mRecyclerAdapter.addAll(mPagePaginator.items());
   }
 
