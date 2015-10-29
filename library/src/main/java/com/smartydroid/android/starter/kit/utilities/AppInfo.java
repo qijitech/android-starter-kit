@@ -53,9 +53,6 @@ public final class AppInfo {
 
   private void initChannel(Context context) {
     this.channel = AndroidUtilities.getMetaData(context, "UMENG_CHANNEL");
-    if (this.channel == null) {
-      this.channel = "loopeer";
-    }
   }
 
   private void initDeviceName() {
