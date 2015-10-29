@@ -60,7 +60,7 @@ public class AccountManager implements AccountProvider {
     return getInstance().mCurrentAccount;
   }
 
-  public static boolean isLoggedIn() {
+  public static boolean isLogin() {
     return getCurrentAccount() != null;
   }
 
@@ -128,6 +128,10 @@ public class AccountManager implements AccountProvider {
   }
 
   @Override public String provideToken() {
-    return getCurrentAccount().token();
+    if (isLogin()) {
+      return getCurrentAccount().token();
+    }
+
+    return null;
   }
 }
