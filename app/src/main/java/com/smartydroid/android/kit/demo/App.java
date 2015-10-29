@@ -15,8 +15,8 @@ public class App extends StarterKitApp {
 
   @Override public void onCreate() {
     super.onCreate();
-    enabledStrictMode();
-    LeakCanary.install(this);
+    //enabledStrictMode();
+    //LeakCanary.install(this);
   }
 
   private void enabledStrictMode() {

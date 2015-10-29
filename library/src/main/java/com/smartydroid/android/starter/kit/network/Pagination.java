@@ -14,7 +14,6 @@ import retrofit.Call;
 
 public class Pagination<T extends Entitiy> extends Paginator<T> implements PagePaginator<T> {
 
-  private static final int DEFAULT_FIRST_PAGE = 1;
   int mFirstPage = DEFAULT_FIRST_PAGE;
 
   int mCurrentPage;
@@ -79,6 +78,11 @@ public class Pagination<T extends Entitiy> extends Paginator<T> implements PageP
       if (perPage <= 0) {
         perPage = DEFAULT_PER_PAGE;
       }
+
+      if (firstPage <= 0) {
+        firstPage = DEFAULT_FIRST_PAGE;
+      }
+
     }
 
     public Builder<T> emitter(PaginationEmitter<T> emitter) {

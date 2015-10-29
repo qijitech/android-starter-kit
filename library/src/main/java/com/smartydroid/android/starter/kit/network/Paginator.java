@@ -22,6 +22,7 @@ public abstract class Paginator<T extends Entitiy>
     Callback<ArrayList<T>> {
 
   static final int DEFAULT_PER_PAGE = 20;
+  static final int DEFAULT_FIRST_PAGE = 1;
 
   int mPerPage;
 

@@ -24,11 +24,11 @@ public class StarterKitApp extends Application {
   @Override public void onCreate() {
     super.onCreate();
 
-    if (BuildConfig.DEBUG) {
+    //if (BuildConfig.DEBUG) {
       Timber.plant(new Timber.DebugTree());
-    } else {
-      Timber.plant(new CrashReportingTree());
-    }
+    //} else {
+    //  Timber.plant(new CrashReportingTree());
+    //}
 
     initialize();
   }
