@@ -81,13 +81,17 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
   @Override public void onDestroyView() {
     super.onDestroyView();
     mLoadingLayout = null;
-    mLoadMoreView = null;
     mSwipeRefreshLayout = null;
     mRecyclerView = null;
     mRecyclerAdapter = null;
-    mRecyclerViewHandler = null;
-    mPagePaginator = null;
   }
+
+  @Override public void onDestroy() {
+    super.onDestroy();
+    mPagePaginator = null;
+    mLoadMoreView = null;
+    mRecyclerViewHandler = null;
+  }≠
 
   /**
    * setup
