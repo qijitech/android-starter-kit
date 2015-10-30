@@ -45,6 +45,9 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     mPagePaginator = buildPaginator();
     mLoadMoreView = new LoadMoreView();
     mRecyclerViewHandler = new RecyclerViewHandler();
+
+    mRecyclerAdapter = new EasyRecyclerAdapter(getContext());
+    bindViewHolders(mRecyclerAdapter);
   }
 
   @Override protected int getFragmentLayout() {
@@ -83,7 +86,6 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     mLoadingLayout = null;
     mSwipeRefreshLayout = null;
     mRecyclerView = null;
-    mRecyclerAdapter = null;
   }
 
   @Override public void onDestroy() {
@@ -91,15 +93,14 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     mPagePaginator = null;
     mLoadMoreView = null;
     mRecyclerViewHandler = null;
+
+    mRecyclerAdapter = null;
   }
 
   /**
    * setup
    */
   private void initRecyclerView() {
-    mRecyclerAdapter = new EasyRecyclerAdapter(getContext());
-    bindViewHolders(mRecyclerAdapter);
-
     if (!setupRecyclerView()) {
       mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
