@@ -7,8 +7,11 @@ package com.smartydroid.android.starter.kit.retrofit;
 import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.smartydroid.android.starter.kit.utilities.Utils;
+import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+import java.util.ArrayList;
+import java.util.List;
 import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 import timber.log.Timber;
@@ -17,19 +20,10 @@ public class RetrofitBuilder {
 
   private String baseUrl;
   private Retrofit mRetrofit;
-  private HttpLoggingInterceptor.Level level;
 
-  private DefaultHeaderInterceptor mHeaderInterceptor;
-  private HttpLoggingInterceptor mLoggingInterceptor;
+  private OkHttpClient client;
 
   private RetrofitBuilder() {
-    mHeaderInterceptor = new DefaultHeaderInterceptor(AccountManager.getInstance(), StarterKitApp.getInstance());
-    mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-      @Override public void log(String message) {
-        Timber.d(message);
-      }
-    });
-    mLoggingInterceptor.setLevel(level);
   }
 
   // Make this class a thread safe singleton
@@ -53,11 +47,6 @@ public class RetrofitBuilder {
     if (mRetrofit == null) {
       Retrofit.Builder builder = newRetrofitBuilder();
 
-      OkHttpClient client = new OkHttpClient();
-
-      client.interceptors().add(mHeaderInterceptor);
-      client.interceptors().add(mLoggingInterceptor);
-
       mRetrofit = builder.baseUrl(baseUrl)
           .addConverterFactory(JacksonConverterFactory.create())
           .client(client)
@@ -76,7 +65,16 @@ public class RetrofitBuilder {
 
   public static class Builder {
     private String baseUrl;
+
+    private HeaderInterceptor mHeaderInterceptor;
+
     private HttpLoggingInterceptor.Level level;
+    private HttpLoggingInterceptor mLoggingInterceptor;
+
+    private final List<Interceptor> interceptors = new ArrayList<>();
+    private final List<Interceptor> networkInterceptors = new ArrayList<>();
+
+    private OkHttpClient mClient;
 
     public RetrofitBuilder build() {
       if (baseUrl == null) {
@@ -87,7 +85,15 @@ public class RetrofitBuilder {
 
       RetrofitBuilder retrofitBuilder = get();
       retrofitBuilder.baseUrl = baseUrl;
-      retrofitBuilder.level = level;
+
+      // custom interceptors
+      interceptors.add(mHeaderInterceptor);
+      interceptors.add(mLoggingInterceptor);
+      mClient.interceptors().addAll(interceptors);
+      mClient.networkInterceptors().addAll(networkInterceptors);
+
+      retrofitBuilder.client = mClient;
+
       return retrofitBuilder;
     }
 
@@ -95,6 +101,48 @@ public class RetrofitBuilder {
       if (level == null) {
         level = HttpLoggingInterceptor.Level.NONE;
       }
+
+      if (mHeaderInterceptor == null) {
+        mHeaderInterceptor = new DefaultHeaderInterceptor(AccountManager.getInstance(), StarterKitApp.getInstance());
+      }
+
+      if (mLoggingInterceptor == null) {
+        mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+          @Override public void log(String message) {
+            Timber.d(message);
+          }
+        });
+        mLoggingInterceptor.setLevel(level);
+      }
+
+      if (mClient == null) {
+        mClient = new OkHttpClient();
+      }
+    }
+
+    public Builder client(OkHttpClient client) {
+      mClient = client;
+      return this;
+    }
+
+    public Builder headerInterceptor(HeaderInterceptor headerInterceptor) {
+      mHeaderInterceptor = headerInterceptor;
+      return this;
+    }
+
+    public Builder loggingInterceptor(HttpLoggingInterceptor loggingInterceptor) {
+      mLoggingInterceptor = loggingInterceptor;
+      return this;
+    }
+
+    public Builder addInterceptors(Interceptor interceptor) {
+      interceptors.add(interceptor);
+      return this;
+    }
+
+    public Builder addNetworkInterceptors(Interceptor interceptor) {
+      networkInterceptors.add(interceptor);
+      return this;
     }
 
     public Builder baseUrl(String baseUrl) {

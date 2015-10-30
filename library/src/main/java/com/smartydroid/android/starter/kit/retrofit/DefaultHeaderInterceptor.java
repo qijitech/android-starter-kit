@@ -9,12 +9,11 @@ import com.smartydroid.android.starter.kit.account.AccountProvider;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.smartydroid.android.starter.kit.utilities.AppInfo;
 import com.squareup.okhttp.Headers;
-import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import java.io.IOException;
 
-public class DefaultHeaderInterceptor implements Interceptor {
+public class DefaultHeaderInterceptor implements HeaderInterceptor {
 
   AccountProvider mAccountProvider;
   ApiVersion mApiVersion;
