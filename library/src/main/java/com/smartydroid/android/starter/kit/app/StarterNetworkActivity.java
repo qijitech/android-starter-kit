@@ -51,6 +51,10 @@ public abstract class StarterNetworkActivity<T> extends StarterActivity implemen
 
   }
 
+  @Override public void errorSocketTimeout(Throwable t) {
+
+  }
+
   @Override public void error(ErrorModel errorModel) {
     if (showMessage() && errorModel != null && provideSnackbarView() != null) {
       Snackbar.make(provideSnackbarView(),
