@@ -91,7 +91,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     mPagePaginator = null;
     mLoadMoreView = null;
     mRecyclerViewHandler = null;
-  }≠
+  }
 
   /**
    * setup
