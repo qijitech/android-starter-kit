@@ -47,10 +47,10 @@ public class PagePaginator<T extends Entitiy> extends Paginator<T>
     }
   }
 
-  @Override protected Call<ArrayList<T>> paginate(boolean isRefresh) {
+  @Override protected Call<ArrayList<T>> paginate() {
     final PageEmitter<T> emitter = (PageEmitter<T>) mEmitter;
     if (emitter != null) {
-      return emitter.paginate(isRefresh ? mFirstPage : mNextPage, perPage());
+      return emitter.paginate(isRefresh() ? mFirstPage : mNextPage, perPage());
     }
     return null;
   }

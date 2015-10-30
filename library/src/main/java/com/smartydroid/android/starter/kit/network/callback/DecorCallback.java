@@ -1,26 +1,63 @@
 /**
- * Created by YuGang Yang on September 30, 2015.
+ * Created by YuGang Yang on October 30, 2015.
  * Copyright 2007-2015 Laputapp.com. All rights reserved.
  */
 package com.smartydroid.android.starter.kit.network.callback;
 
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import com.smartydroid.android.starter.kit.model.ErrorModel;
 
-public abstract class DecorCallback<T> implements NetworkCallback<T>, Callback<T> {
+import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
 
-  @Override public void onResponse(Response<T> response, Retrofit retrofit) {
+public class DecorCallback<T> implements GenericCallback<T> {
 
-    respondSuccess(response.body());
+  private final GenericCallback<T> delegate;
 
-    onFinish();
+  public DecorCallback(GenericCallback<T> delegate) {
+    checkNotNull(delegate, "delegate == null");
+    this.delegate = delegate;
   }
 
-  @Override public void onFailure(Throwable t) {
+  @Override public void errorNotFound(ErrorModel errorModel) {
+    delegate.errorNotFound(errorModel);
+  }
 
-    respondWithError(t);
+  @Override public void errorUnprocessable(ErrorModel errorModel) {
+    delegate.errorUnprocessable(errorModel);
+  }
 
-    onFinish();
+  @Override public void errorUnauthorized(ErrorModel errorModel) {
+    delegate.errorUnauthorized(errorModel);
+  }
+
+  @Override public void errorForbidden(ErrorModel errorModel) {
+    delegate.errorForbidden(errorModel);
+  }
+
+  @Override public void eNetUnreach(Throwable t) {
+    delegate.eNetUnreach(t);
+  }
+
+  @Override public void errorSocketTimeout(Throwable t) {
+    delegate.errorSocketTimeout(t);
+  }
+
+  @Override public void error(ErrorModel errorModel) {
+    delegate.error(errorModel);
+  }
+
+  @Override public void startRequest() {
+    delegate.startRequest();
+  }
+
+  @Override public void respondSuccess(T data) {
+    delegate.respondSuccess(data);
+  }
+
+  @Override public void respondWithError(Throwable t) {
+    delegate.respondWithError(t);
+  }
+
+  @Override public void endRequest() {
+    delegate.endRequest();
   }
 }

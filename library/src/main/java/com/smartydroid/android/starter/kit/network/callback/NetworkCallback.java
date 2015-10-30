@@ -1,5 +1,5 @@
 /**
- * Created by YuGang Yang on September 30, 2015.
+ * Created by YuGang Yang on October 30, 2015.
  * Copyright 2007-2015 Laputapp.com. All rights reserved.
  */
 package com.smartydroid.android.starter.kit.network.callback;
@@ -9,7 +9,7 @@ public interface NetworkCallback<T> {
   /**
    * 请求开始
    */
-  void onStart(boolean isRefresh);
+  void startRequest();
 
   /**
    * 请求返回数据
@@ -22,7 +22,8 @@ public interface NetworkCallback<T> {
   void respondWithError(Throwable t);
 
   /**
-   * 请求结束，成功或者失败都会调用 onFinish()
+   * 请求结束，成功或者失败都会调用 endRequest()
    */
-  void onFinish();
+  void endRequest();
 }
+

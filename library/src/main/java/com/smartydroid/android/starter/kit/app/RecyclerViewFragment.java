@@ -13,6 +13,7 @@ import android.view.View;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
+import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import com.smartydroid.android.starter.kit.utilities.RecyclerViewHandler;
@@ -23,8 +24,9 @@ import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 import java.util.ArrayList;
 
 public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragment
-    implements PaginatorCallback<E>, LoadingLayout.OnButtonClickListener,
-    SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener {
+    implements LoadingLayout.OnButtonClickListener,
+    SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener,
+    PaginatorCallback<E> {
 
   private LoadingLayout mLoadingLayout;
   private LoadMoreView mLoadMoreView;
@@ -137,38 +139,6 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     }
   }
 
-  @Override public void respondSuccess(ArrayList<E> data) {
-    mRecyclerAdapter.addAll(mPagePaginator.items());
-  }
-
-  @Override public void respondWithError(Throwable error) {
-    mLoadMoreView.showFailure(error);
-  }
-
-  @Override public void onStart(boolean isRefresh) {
-    if (isEmpty()) {
-      mLoadingLayout.showLoadingView();
-      mLoadMoreView.hideLoading();
-      return;
-    }
-
-    if (! isRefresh) {
-      mLoadMoreView.showLoading();
-    }
-  }
-
-  @Override public void onFinish() {
-    if (mPagePaginator.isRefresh()) {
-      mSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    if (! mPagePaginator.hasMorePages()) {
-      mLoadMoreView.showNoMore();
-    }
-
-    updateView();
-  }
-
   public void setupEmptyView() {
     mLoadingLayout.setOnButtonClickListener(this);
   }
@@ -192,5 +162,68 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     if (mPagePaginator.canLoadMore()) {
       mPagePaginator.loadMore();
     }
+  }
+
+
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  @Override public void startRequest() {
+    if (isEmpty()) {
+      mLoadingLayout.showLoadingView();
+      mLoadMoreView.hideLoading();
+      return;
+    }
+
+    if (! mPagePaginator.isRefresh()) {
+      mLoadMoreView.showLoading();
+    }
+  }
+
+  @Override public void endRequest() {
+    if (mPagePaginator.isRefresh()) {
+      mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    if (! mPagePaginator.hasMorePages()) {
+      mLoadMoreView.showNoMore();
+    }
+
+    updateView();
+  }
+
+  @Override public void respondSuccess(ArrayList<E> data) {
+    mRecyclerAdapter.addAll(mPagePaginator.items());
+  }
+
+  @Override public void respondWithError(Throwable error) {
+    mLoadMoreView.showFailure(error);
+  }
+
+  @Override public void errorNotFound(ErrorModel errorModel) {
+
+  }
+
+  @Override public void errorUnprocessable(ErrorModel errorModel) {
+
+  }
+
+  @Override public void errorUnauthorized(ErrorModel errorModel) {
+
+  }
+
+  @Override public void errorForbidden(ErrorModel errorModel) {
+
+  }
+
+  @Override public void eNetUnreach(Throwable t) {
+
+  }
+
+  @Override public void errorSocketTimeout(Throwable t) {
+
+  }
+
+  @Override public void error(ErrorModel errorModel) {
+
   }
 }

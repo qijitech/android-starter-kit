@@ -4,7 +4,5 @@
  */
 package com.smartydroid.android.starter.kit.network.callback;
 
-import java.util.ArrayList;
-
-public interface PaginatorCallback<T> extends GenericCallback<ArrayList<T>> {
+public interface GenericCallback<T> extends NetworkCallback<T>, ErrorCallback {
 }

@@ -24,7 +24,7 @@ public class KeyPaginator<T extends Entitiy> extends Paginator<T> implements
     private int perPage;
 
     /** Create the {@link KeyPaginator} instances. */
-    public KeyPaginator build() {
+    public KeyPaginator<T> build() {
       if (callback == null) {
         throw new IllegalArgumentException("PaginationCallback may not be null.");
       }
@@ -32,7 +32,7 @@ public class KeyPaginator<T extends Entitiy> extends Paginator<T> implements
         throw new IllegalArgumentException("Emitter may not be null.");
       }
       ensureSaneDefaults();
-      return new KeyPaginator(emitter, callback, perPage);
+      return new KeyPaginator<>(emitter, callback, perPage);
     }
 
     private void ensureSaneDefaults() {
@@ -61,7 +61,7 @@ public class KeyPaginator<T extends Entitiy> extends Paginator<T> implements
     super(emitter, callback, perPage);
   }
 
-  @Override protected Call<ArrayList<T>> paginate(boolean isRefresh) {
+  @Override protected Call<ArrayList<T>> paginate() {
     final KeyEmitter<T> keyEmitter = (KeyEmitter<T>) mEmitter;
     if (keyEmitter != null) {
       return keyEmitter.paginate(previousPageItem(), nextPageItem(), perPage());

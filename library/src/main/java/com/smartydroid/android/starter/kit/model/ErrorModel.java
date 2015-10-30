@@ -9,4 +9,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ErrorModel {
   @JsonProperty("status_code") public int mStatusCode;
   @JsonProperty("message") public String mMessage;
+
+  public ErrorModel() {
+
+  }
+
+  public ErrorModel(int statusCode, String msg) {
+    this.mStatusCode = statusCode;
+    this.mMessage = msg;
+  }
+
+  public String getMessage() {
+    return mMessage == null ? "" : mMessage;
+  }
+
+  public int getStatusCode() {
+    return mStatusCode;
+  }
 }

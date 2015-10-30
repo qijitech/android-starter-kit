@@ -5,20 +5,21 @@
 package com.smartydroid.android.starter.kit.network;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
+import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.network.callback.GenericCallback;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
-import java.net.SocketTimeoutException;
+import com.smartydroid.android.starter.kit.retrofit.NetworkQueue;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+
+import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
 
 public abstract class Paginator<T extends Entitiy>
     implements com.smartydroid.android.starter.kit.contracts.Pagination.Paginator<T>,
-    Callback<ArrayList<T>> {
+    GenericCallback<ArrayList<T>> {
 
   static final int DEFAULT_PER_PAGE = 20;
   static final int DEFAULT_FIRST_PAGE = 1;
@@ -33,18 +34,23 @@ public abstract class Paginator<T extends Entitiy>
   final LinkedHashMap<Object, T> mResources = new LinkedHashMap<>();
 
   protected Emitter<T> mEmitter;
-  private PaginatorCallback<T> mCallback;
+  private PaginatorCallback<T> delegate;
   private LoadStyle mLoadStyle = LoadStyle.REFRESH;
 
-  private Call<ArrayList<T>> mCall;
+  private NetworkQueue<ArrayList<T>> networkQueue;
 
-  protected Paginator(Emitter<T> emitter, PaginatorCallback<T> callback, int perPage) {
+  protected Paginator(Emitter<T> emitter, PaginatorCallback<T> delegate, int perPage) {
+    checkNotNull(emitter, "emitter == null");
+    checkNotNull(delegate, "delegate == null");
+
     mEmitter = emitter;
-    mCallback = callback;
+    this.delegate = delegate;
     mPerPage = perPage;
+
+    networkQueue = new NetworkQueue<>(this);
   }
 
-  protected abstract Call<ArrayList<T>> paginate(boolean isRefresh);
+  protected abstract Call<ArrayList<T>> paginate();
   protected abstract void processPage(ArrayList<T> dataArray);
 
   @Override public List<T> items() {
@@ -85,70 +91,85 @@ public abstract class Paginator<T extends Entitiy>
 
   @Override public void cancel() {
     mIsLoading = false;
-    if (mCall != null) {
-      mCall.cancel();
-      mCall = null;
-    }
+    networkQueue.cancel();
   }
 
   @Override public void refresh() {
     if (mIsLoading) return;
-    mIsLoading = true;
     mLoadStyle = LoadStyle.REFRESH;
     mEmitter.beforeRefresh();
-    mCall = paginate(true);
+    requestData();
+  }
 
-    onStart(true);
-
-    if (mCall != null) {
-      mCall.enqueue(this);
-    }
+  private void requestData() {
+    final Call<ArrayList<T>> call = paginate();
+    networkQueue.enqueue(call);
   }
 
   @Override public void loadMore() {
     if (mIsLoading) return;
-    mIsLoading = true;
     mLoadStyle = LoadStyle.LOAD_MORE;
     mEmitter.beforeLoadMore();
-    mCall = paginate(false);
-
-    onStart(false);
-
-    if (mCall != null) {
-      mCall.enqueue(this);
-    }
+    requestData();
   }
 
-  @Override public void onResponse(Response<ArrayList<T>> response, Retrofit retrofit) {
-    mIsLoading = false;
+  @Override public void respondSuccess(ArrayList<T> data) {
+    mHasError = false;
     mDataHasLoaded = true;
-    if (response.isSuccess()) {
-      final ArrayList<T> dataArray = response.body();
-      if (!isNull(dataArray)) {
-        processPage(dataArray);
-        handDataArray(dataArray);
-        respondSuccess(dataArray);
-      } else {
-        mHasMore = false;
-        respondWithError(dataArray);
-      }
+    if (!isNull(data)) {
+      processPage(data);
+      handDataArray(data);
+
+      delegate.respondSuccess(data);
     } else {
-      if (response.code() == 400) {
-        // Nothing to do
-      }
-      respondWithError(new Throwable(response.message()));
+      mHasMore = false;
+      delegate.errorNotFound(new ErrorModel(404, "no more"));
     }
-    onFinish();
   }
 
-  @Override public void onFailure(Throwable t) {
+  @Override public void startRequest() {
+    mIsLoading = true;
+    delegate.startRequest();
+  }
+
+  @Override public void endRequest() {
     mIsLoading = false;
     mDataHasLoaded = true;
+    delegate.endRequest();
+  }
+
+  @Override public void errorNotFound(ErrorModel errorModel) {
+    delegate.errorNotFound(errorModel);
+  }
+
+  @Override public void errorUnprocessable(ErrorModel errorModel) {
+    delegate.errorUnprocessable(errorModel);
+  }
+
+  @Override public void errorUnauthorized(ErrorModel errorModel) {
+    delegate.errorUnauthorized(errorModel);
+  }
+
+  @Override public void errorForbidden(ErrorModel errorModel) {
+    delegate.errorForbidden(errorModel);
+  }
+
+  @Override public void eNetUnreach(Throwable t) {
+    delegate.eNetUnreach(t);
+  }
+
+  @Override public void errorSocketTimeout(Throwable t) {
+    delegate.errorSocketTimeout(t);
+  }
+
+  @Override public void error(ErrorModel errorModel) {
     mHasError = true;
+    mHasMore = false;
+    delegate.error(errorModel);
+  }
 
-    respondWithError(t);
-
-    onFinish();
+  @Override public void respondWithError(Throwable t) {
+    delegate.respondWithError(t);
   }
 
   private boolean isNull(ArrayList<T> dataArray) {
@@ -171,47 +192,4 @@ public abstract class Paginator<T extends Entitiy>
     }
   }
 
-  /**
-   * 成功
-   */
-  private void respondSuccess(ArrayList<T> dataArray) {
-    mHasError = false;
-    if (mCallback != null) {
-      mCallback.respondSuccess(dataArray);
-    }
-  }
-
-  private void respondWithError(ArrayList<T> dataArray) {
-    if (mCallback != null) {
-      mCallback.respondWithError(new Throwable());
-    }
-  }
-
-  /**
-   * 错误
-   */
-  private void respondWithError(Throwable t) {
-    if (mCallback != null) {
-      if (t instanceof SocketTimeoutException) {
-        // 网络链接超时
-        // TODO
-      }
-      mCallback.respondWithError(t);
-    }
-  }
-
-  /**
-   * 处理完毕
-   */
-  private void onFinish() {
-    if (mCallback != null) {
-      mCallback.onFinish();
-    }
-  }
-
-  private void onStart(boolean isRefresh) {
-    if (mCallback != null) {
-      mCallback.onStart(isRefresh);
-    }
-  }
 }
