@@ -4,9 +4,10 @@
  */
 package com.smartydroid.android.starter.kit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ErrorModel {
+@JsonIgnoreProperties(ignoreUnknown = true) public class ErrorModel {
   @JsonProperty("status_code") public int mStatusCode;
   @JsonProperty("message") public String mMessage;
 
