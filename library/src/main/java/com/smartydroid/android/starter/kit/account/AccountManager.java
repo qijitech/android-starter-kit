@@ -56,8 +56,8 @@ public class AccountManager implements AccountProvider {
         && getCurrentAccount().key() == account.key();
   }
 
-  public static Account getCurrentAccount() {
-    return getInstance().mCurrentAccount;
+  @SuppressWarnings("unchecked") public static <T extends Account> T getCurrentAccount() {
+    return (T) getInstance().mCurrentAccount;
   }
 
   public static boolean isLogin() {
