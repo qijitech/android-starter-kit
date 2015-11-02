@@ -5,12 +5,15 @@
 package com.smartydroid.android.starter.kit.app;
 
 import android.os.Bundle;
+import android.support.annotation.DimenRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
+import com.carlosdelachica.easyrecycleradapters.decorations.DividerItemDecoration;
 import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
@@ -64,7 +67,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
     mSwipeRefreshLayout.setOnRefreshListener(this);
 
     setupEmptyView();
-    initRecyclerView();
+    setupRecyclerView();
   }
 
   @Override public void onResume() {
@@ -102,17 +105,39 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragme
   /**
    * setup
    */
-  private void initRecyclerView() {
-    if (!setupRecyclerView()) {
-      mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
+  private void setupRecyclerView() {
+    buildRecyclerView();
     mRecyclerViewHandler.handleSetAdapter(mRecyclerView, mRecyclerAdapter, mLoadMoreView, this);
     mRecyclerViewHandler.setOnScrollBottomListener(mRecyclerView, this);
   }
 
-  protected boolean setupRecyclerView() {
-    return false;
+  public void buildRecyclerView() {
+    // set layout manager
+    mRecyclerView.setLayoutManager(buildLayoutManager());
+    // add item decoration
+    mRecyclerView.addItemDecoration(buildItemDecoration());
+  }
+
+  public RecyclerView.LayoutManager buildLayoutManager() {
+    return new LinearLayoutManager(getContext());
+  }
+
+  public RecyclerView.ItemDecoration buildItemDecoration() {
+    DividerItemDecoration decoration = new DividerItemDecoration(getContext());
+    decoration.setInsets(buildInsets());
+    final int dividerRes = buildDivider();
+    if (dividerRes > 0) {
+      decoration.setDivider(dividerRes);
+    }
+    return decoration;
+  }
+
+  public @DrawableRes int buildDivider() {
+    return 0;
+  }
+
+  public @DimenRes int buildInsets() {
+    return R.dimen.starter_divider_insets;
   }
 
   private void updateView() {
