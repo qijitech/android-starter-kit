@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import com.smartydroid.android.starter.kit.utilities.StarterCommon;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class StarterFragment extends Fragment {
 
   private StarterCommon starterCommon;
 
@@ -31,7 +31,7 @@ public abstract class BaseFragment extends Fragment {
    * Every fragment has to inflate a layout in the onCreateView method. We have added this method
    * to
    * avoid duplicate all the inflate code in every fragment. You only have to return the layout to
-   * inflate in this method when extends BaseFragment.
+   * inflate in this method when extends StarterFragment.
    */
   protected abstract int getFragmentLayout();
 

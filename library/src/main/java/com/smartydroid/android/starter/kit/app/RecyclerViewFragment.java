@@ -26,7 +26,7 @@ import com.smartydroid.android.starter.kit.widget.LoadMoreView;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 import java.util.ArrayList;
 
-public abstract class RecyclerViewFragment<E extends Entitiy> extends BaseFragment
+public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFragment
     implements LoadingLayout.OnButtonClickListener,
     SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener,
     PaginatorCallback<E> {
