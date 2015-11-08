@@ -8,7 +8,10 @@ import android.view.View;
 
 public interface ILoadMoreView {
 
-  void initialize(FootViewAdder footViewHolder, View.OnClickListener onClickLoadMoreListener);
+  void setOnLoadMoreClickListener(OnLoadMoreClickListener l);
+
+  void initialize(FootViewAdder footViewHolder);
+  void onDestroy();
 
   void hideLoading();
 
@@ -31,6 +34,10 @@ public interface ILoadMoreView {
    * 显示加载失败的布局
    */
   void showFailure(Throwable t);
+
+  interface OnLoadMoreClickListener {
+    void onLoadMoreClick(View view);
+  }
 
   interface FootViewAdder {
 

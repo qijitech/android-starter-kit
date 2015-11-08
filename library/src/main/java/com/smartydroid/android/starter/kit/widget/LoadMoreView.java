@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
+import java.lang.ref.WeakReference;
 
 public class LoadMoreView implements ILoadMoreView {
 
@@ -16,16 +17,19 @@ public class LoadMoreView implements ILoadMoreView {
   private TextView mTextView;
   private ProgressBar mProgress;
 
-  @Override
-  public void initialize(FootViewAdder footViewHolder, View.OnClickListener onClickLoadMoreListener) {
+  @Override public void initialize(FootViewAdder footViewHolder) {
     mContainer = footViewHolder.addFootView(R.layout.include_loadmore_view);
-
-    if (onClickLoadMoreListener != null) {
-      mContainer.setOnClickListener(onClickLoadMoreListener);
-    }
-
     mProgress = ViewUtils.getView(mContainer, android.R.id.progress);
     mTextView = ViewUtils.getView(mContainer, android.R.id.text1);
+  }
+
+  @Override public void onDestroy() {
+  }
+
+  @Override public void setOnLoadMoreClickListener(OnLoadMoreClickListener l) {
+    if (mContainer != null && l != null) {
+      mContainer.setOnClickListener(new MyClick(l));
+    }
   }
 
   @Override public void hideLoading() {
@@ -58,5 +62,21 @@ public class LoadMoreView implements ILoadMoreView {
     ViewUtils.setGone(mProgress, true);
     ViewUtils.setGone(mTextView, false);
     mTextView.setText(R.string.starter_loadingmore_failure);
+  }
+
+  private static class MyClick implements View.OnClickListener {
+
+    private WeakReference<OnLoadMoreClickListener> mRefs;
+
+    public MyClick(OnLoadMoreClickListener listener) {
+      mRefs = new WeakReference<>(listener);
+    }
+
+    @Override public void onClick(View v) {
+      if (mRefs != null && mRefs.get() != null) {
+        final OnLoadMoreClickListener onLoadMoreClickListener = mRefs.get();
+        onLoadMoreClickListener.onLoadMoreClick(v);
+      }
+    }
   }
 }

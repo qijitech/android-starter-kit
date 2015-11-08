@@ -19,40 +19,43 @@ import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
-import com.smartydroid.android.starter.kit.utilities.RecyclerViewHandler;
-import com.smartydroid.android.starter.kit.utilities.ViewHandler;
+import com.smartydroid.android.starter.kit.recyclerview.RecyclerViewHandler;
+import com.smartydroid.android.starter.kit.recyclerview.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
-import com.smartydroid.android.starter.kit.widget.LoadMoreView;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 import java.util.ArrayList;
 
 public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFragment
     implements LoadingLayout.OnButtonClickListener,
-    SwipeRefreshLayout.OnRefreshListener, ViewHandler.OnScrollBottomListener, View.OnClickListener,
+    SwipeRefreshLayout.OnRefreshListener,
+    View.OnClickListener,
     PaginatorCallback<E> {
 
-  private LoadingLayout mLoadingLayout;
-  private LoadMoreView mLoadMoreView;
+  LoadingLayout mLoadingLayout;
+  SwipeRefreshLayout mSwipeRefreshLayout;
+  RecyclerView mRecyclerView;
 
-  private SwipeRefreshLayout mSwipeRefreshLayout;
-  private RecyclerView mRecyclerView;
-
-  private EasyRecyclerAdapter mRecyclerAdapter;
-
-  private Paginator<E> mPagePaginator;
-  private RecyclerViewHandler mRecyclerViewHandler;
+  Paginator<E> mPagePaginator;
+  ViewHandler mViewHandler;
 
   public abstract void bindViewHolders(EasyRecyclerAdapter adapter);
+
   public abstract Paginator<E> buildPaginator();
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mPagePaginator = buildPaginator();
-    mLoadMoreView = new LoadMoreView();
-    mRecyclerViewHandler = new RecyclerViewHandler();
+    mViewHandler = buildViewHandler();
+    mViewHandler.onCreate();
+    bindViewHolders(mViewHandler.getAdapter());
+  }
 
-    mRecyclerAdapter = new EasyRecyclerAdapter(getContext());
-    bindViewHolders(mRecyclerAdapter);
+  public Paginator<E> getPagePaginator() {
+    return mPagePaginator;
+  }
+
+  public ViewHandler buildViewHandler() {
+    return new RecyclerViewHandler(getContext());
   }
 
   @Override protected int getFragmentLayout() {
@@ -66,6 +69,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     mRecyclerView = ViewUtils.getView(mSwipeRefreshLayout, android.R.id.list);
     mSwipeRefreshLayout.setOnRefreshListener(this);
 
+    buildRecyclerView();
     setupEmptyView();
     setupRecyclerView();
   }
@@ -88,6 +92,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
 
   @Override public void onDestroyView() {
     super.onDestroyView();
+    mViewHandler.onDestroyView(mRecyclerView);
     mLoadingLayout = null;
     mSwipeRefreshLayout = null;
     mRecyclerView = null;
@@ -95,20 +100,16 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
 
   @Override public void onDestroy() {
     super.onDestroy();
+    mViewHandler.onDestroy();
     mPagePaginator = null;
-    mLoadMoreView = null;
-    mRecyclerViewHandler = null;
-
-    mRecyclerAdapter = null;
+    mViewHandler = null;
   }
 
   /**
    * setup
    */
   private void setupRecyclerView() {
-    buildRecyclerView();
-    mRecyclerViewHandler.handleSetAdapter(mRecyclerView, mRecyclerAdapter, mLoadMoreView, this);
-    mRecyclerViewHandler.setOnScrollBottomListener(mRecyclerView, this);
+    mViewHandler.setupAdapter(mRecyclerView);
   }
 
   public void buildRecyclerView() {
@@ -141,9 +142,9 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
   }
 
   private void updateView() {
-    if (! isEmpty()) {
+    if (!isEmpty()) {
       mLoadingLayout.showContentView();
-    } else if (! mPagePaginator.dataHasLoaded()) {
+    } else if (!mPagePaginator.dataHasLoaded()) {
       mLoadingLayout.showLoadingView();
     } else if (mPagePaginator.hasError()) {
       mLoadingLayout.showErrorView();
@@ -183,24 +184,11 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     mPagePaginator.refresh();
   }
 
-  @Override public void onScorllBootom() {
-    if (mPagePaginator.canLoadMore()) {
-      mPagePaginator.loadMore();
-    }
-  }
-
-
   ///////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////
   @Override public void startRequest() {
     if (isEmpty()) {
       mLoadingLayout.showLoadingView();
-      mLoadMoreView.hideLoading();
-      return;
-    }
-
-    if (! mPagePaginator.isRefresh()) {
-      mLoadMoreView.showLoading();
     }
   }
 
@@ -209,23 +197,17 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
       mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    if (! mPagePaginator.hasMorePages()) {
-      mLoadMoreView.showNoMore();
-    }
-
     updateView();
   }
 
   @Override public void respondSuccess(ArrayList<E> data) {
-    mRecyclerAdapter.addAll(mPagePaginator.items());
+    mViewHandler.notifyDataSetChanged(mPagePaginator.items());
   }
 
   @Override public void respondWithError(Throwable error) {
-    mLoadMoreView.showFailure(error);
   }
 
   @Override public void errorNotFound(ErrorModel errorModel) {
-
   }
 
   @Override public void errorUnprocessable(ErrorModel errorModel) {
