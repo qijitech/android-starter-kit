@@ -142,6 +142,9 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
   }
 
   private void updateView() {
+    if (mLoadingLayout == null) {
+      return;
+    }
     if (!isEmpty()) {
       mLoadingLayout.showContentView();
     } else if (!mPagePaginator.dataHasLoaded()) {
@@ -151,7 +154,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     } else {
       mLoadingLayout.showEmptyView();
     }
-  }
+}
 
   public boolean isEmpty() {
     return mPagePaginator.isEmpty();

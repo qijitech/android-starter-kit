@@ -15,7 +15,12 @@ public abstract class StarterKeysFragment<E extends Entitiy>
   @Override public Paginator<E> buildPaginator() {
     return new KeyPaginator.Builder<E>()
         .emitter(this)
+        .perPage(perPage())
         .callback(this).build();
+  }
+
+  public int perPage() {
+    return 0;
   }
 
   @Override public E register(E item) {

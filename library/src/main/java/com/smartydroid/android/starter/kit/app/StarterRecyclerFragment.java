@@ -16,6 +16,7 @@ public abstract class StarterRecyclerFragment<E extends Entitiy> extends Recycle
     return new PagePaginator.Builder<E>().emitter(this).callback(this).build();
   }
 
+
   @Override public E register(E item) {
     return item;
   }

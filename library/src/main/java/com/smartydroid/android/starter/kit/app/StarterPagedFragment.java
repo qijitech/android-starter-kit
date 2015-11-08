@@ -15,7 +15,12 @@ public abstract class StarterPagedFragment<E extends Entitiy>
   @Override public Paginator<E> buildPaginator() {
     return new PagePaginator.Builder<E>()
         .emitter(this)
+        .perPage(perPage())
         .callback(this).build();
+  }
+
+  public int perPage() {
+    return 0;
   }
 
   @Override public E register(E item) {
