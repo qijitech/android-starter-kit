@@ -78,7 +78,7 @@ public abstract class Paginator<T extends Entitiy>
   }
 
   @Override public boolean canLoadMore() {
-    return !isLoading() && hasMorePages();
+    return !isLoading() && hasMorePages() && !hasError();
   }
 
   @Override public boolean isRefresh() {
