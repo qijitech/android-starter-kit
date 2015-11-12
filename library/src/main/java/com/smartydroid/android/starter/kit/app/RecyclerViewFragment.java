@@ -201,13 +201,13 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
   ///////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////
   @Override public void startRequest() {
-    if (isEmpty()) {
+    if (isEmpty() && mLoadingLayout != null) {
       mLoadingLayout.showLoadingView();
     }
   }
 
   @Override public void endRequest() {
-    if (mPagePaginator.isRefresh()) {
+    if (mSwipeRefreshLayout != null && mPagePaginator.isRefresh()) {
       mSwipeRefreshLayout.setRefreshing(false);
     }
 
