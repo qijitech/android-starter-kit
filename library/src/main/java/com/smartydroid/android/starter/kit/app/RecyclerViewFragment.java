@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
+import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.carlosdelachica.easyrecycleradapters.decorations.DividerItemDecoration;
 import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
@@ -27,8 +28,9 @@ import java.util.ArrayList;
 
 public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFragment
     implements LoadingLayout.OnButtonClickListener,
+    EasyViewHolder.OnItemClickListener,
+    EasyViewHolder.OnItemLongClickListener,
     SwipeRefreshLayout.OnRefreshListener,
-    View.OnClickListener,
     PaginatorCallback<E> {
 
   LoadingLayout mLoadingLayout;
@@ -47,7 +49,10 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     mPagePaginator = buildPaginator();
     mViewHandler = buildViewHandler();
     mViewHandler.onCreate();
-    bindViewHolders(mViewHandler.getAdapter());
+    final EasyRecyclerAdapter adapter = mViewHandler.getAdapter();
+    adapter.setOnClickListener(this);
+    adapter.setOnLongClickListener(this);
+    bindViewHolders(adapter);
   }
 
   public Paginator<E> getPagePaginator() {
@@ -172,19 +177,25 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     mLoadingLayout.setOnButtonClickListener(this);
   }
 
-  /**
-   * load more click
-   */
-  @Override public void onClick(View v) {
-    mPagePaginator.loadMore();
-  }
-
   @Override public void onEmptyButtonClick(View view) {
     mPagePaginator.refresh();
   }
 
   @Override public void onErrorButtonClick(View view) {
     mPagePaginator.refresh();
+  }
+
+  public E getItem(int position) {
+    if (mPagePaginator == null || mPagePaginator.isEmpty()) {
+      return null;
+    }
+    return mPagePaginator.items().get(position);
+  }
+
+  @Override public void onItemClick(int position, View view) {
+  }
+  @Override public boolean onLongItemClicked(int position, View view) {
+    return false;
   }
 
   ///////////////////////////////////////////////////////////

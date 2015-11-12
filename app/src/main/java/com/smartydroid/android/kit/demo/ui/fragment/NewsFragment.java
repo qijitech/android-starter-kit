@@ -5,6 +5,8 @@
 package com.smartydroid.android.kit.demo.ui.fragment;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.kit.demo.api.ApiService;
 import com.smartydroid.android.kit.demo.api.service.NewsService;
@@ -33,5 +35,11 @@ public class NewsFragment extends StarterPagedFragment<News> {
 
   @Override public void bindViewHolders(EasyRecyclerAdapter adapter) {
     adapter.bind(News.class, NewsViewHolder.class);
+  }
+
+  @Override public void onItemClick(int position, View view) {
+    super.onItemClick(position, view);
+    final News news = getItem(position);
+    Toast.makeText(getContext(), news.title, Toast.LENGTH_SHORT).show();
   }
 }

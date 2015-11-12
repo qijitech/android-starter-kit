@@ -57,7 +57,7 @@ dependencies {
 
   // Recycler View
   compile 'com.android.support:recyclerview-v7:23.1.0'
-  compile 'com.github.cmc00022:easyrecycleradapters:1.0.6'
+  compile 'com.github.cmc00022:easyrecycleradapters:1.0.9'
 
   // Retorfit
   compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'

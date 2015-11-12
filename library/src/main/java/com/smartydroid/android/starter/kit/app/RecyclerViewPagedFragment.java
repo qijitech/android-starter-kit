@@ -33,6 +33,10 @@ public abstract class RecyclerViewPagedFragment<E extends Entitiy>
     mViewHandler.setOnLoadMoreClickListener(this);
   }
 
+  /**
+   * load more click
+   * @param view View
+   */
   @Override public void onLoadMoreClick(View view) {
     if (checkPaginator()) {
       getPagePaginator().loadMore();
