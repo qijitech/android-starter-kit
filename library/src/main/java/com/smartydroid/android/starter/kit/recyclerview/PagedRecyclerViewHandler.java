@@ -84,18 +84,18 @@ public class PagedRecyclerViewHandler implements ViewHandler {
 
     @Override public void onScrollStateChanged(android.support.v7.widget.RecyclerView recyclerView,
         int newState) {
-      if (newState == RecyclerView.SCROLL_STATE_IDLE && isScollBottom(recyclerView)) {
+      if (newState == RecyclerView.SCROLL_STATE_IDLE && isScrollBottom(recyclerView)) {
         if (onScrollBottomListener != null) {
-          onScrollBottomListener.onScorllBootom();
+          onScrollBottomListener.OnScrollBottom();
         }
       }
     }
 
-    private boolean isScollBottom(RecyclerView recyclerView) {
-      return !isCanScollVertically(recyclerView);
+    private boolean isScrollBottom(RecyclerView recyclerView) {
+      return !isCanScrollVertically(recyclerView);
     }
 
-    private boolean isCanScollVertically(RecyclerView recyclerView) {
+    private boolean isCanScrollVertically(RecyclerView recyclerView) {
       if (android.os.Build.VERSION.SDK_INT < 14) {
         return ViewCompat.canScrollVertically(recyclerView, 1)
             || recyclerView.getScrollY() < recyclerView.getHeight();

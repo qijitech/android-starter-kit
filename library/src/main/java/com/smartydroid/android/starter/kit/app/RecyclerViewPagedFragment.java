@@ -21,7 +21,7 @@ public abstract class RecyclerViewPagedFragment<E extends Entitiy>
     return new PagedRecyclerViewHandler(getContext());
   }
 
-  @Override public void onScorllBootom() {
+  @Override public void OnScrollBottom() {
     if (getPagePaginator().canLoadMore()) {
       getPagePaginator().loadMore();
     }

@@ -29,6 +29,6 @@ public interface ViewHandler {
   ILoadMoreView getLoadMoreView();
 
   interface OnScrollBottomListener {
-    void onScorllBootom();
+    void OnScrollBottom();
   }
 }
