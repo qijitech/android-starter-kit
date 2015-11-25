@@ -45,6 +45,11 @@ android {
   }
 }
 
+repositories {
+  maven { url "${System.env.HOME}/.m2/repository" }
+  mavenCentral()
+}
+
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
@@ -57,7 +62,7 @@ dependencies {
 
   // Recycler View
   compile 'com.android.support:recyclerview-v7:23.1.1'
-  compile 'com.github.cmc00022:easyrecycleradapters:1.0.9'
+  compile 'com.smartydroid:easyrecycleradapters:1.0.10'
 
   // Retrofit
   compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
