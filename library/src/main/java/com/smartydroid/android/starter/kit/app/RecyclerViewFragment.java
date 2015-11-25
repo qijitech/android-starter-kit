@@ -44,12 +44,17 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
 
   public abstract Paginator<E> buildPaginator();
 
+  public void viewHolderFactory(EasyRecyclerAdapter adapter) {
+    // Left blank
+  }
+
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mPagePaginator = buildPaginator();
     mViewHandler = buildViewHandler();
     mViewHandler.onCreate();
     final EasyRecyclerAdapter adapter = mViewHandler.getAdapter();
+    viewHolderFactory(adapter);
     adapter.setOnClickListener(this);
     adapter.setOnLongClickListener(this);
     bindViewHolders(adapter);
