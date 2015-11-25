@@ -49,14 +49,14 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
 
-  compile 'com.android.support:appcompat-v7:23.1.0'
-  compile 'com.android.support:design:23.1.0'
+  compile 'com.android.support:appcompat-v7:23.1.1'
+  compile 'com.android.support:design:23.1.1'
 
   compile 'com.jakewharton:butterknife:7.0.1'
-  compile 'com.jakewharton.timber:timber:3.1.0'
+  compile 'com.jakewharton.timber:timber:4.1.0'
 
   // Recycler View
-  compile 'com.android.support:recyclerview-v7:23.1.0'
+  compile 'com.android.support:recyclerview-v7:23.1.1'
   compile 'com.github.cmc00022:easyrecycleradapters:1.0.9'
 
   // Retrofit

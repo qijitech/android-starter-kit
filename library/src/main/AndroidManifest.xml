@@ -5,7 +5,7 @@
     >
 
   <uses-sdk
-      tools:overrideLibrary="me.alexrs.prefs.lib"
+      tools:overrideLibrary="me.alexrs.prefs.lib, timber.log"
       android:minSdkVersion="14"
       />
 </manifest>
