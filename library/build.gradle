@@ -59,12 +59,12 @@ dependencies {
   compile 'com.android.support:recyclerview-v7:23.1.0'
   compile 'com.github.cmc00022:easyrecycleradapters:1.0.9'
 
-  // Retorfit
+  // Retrofit
   compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
   compile 'com.squareup.retrofit:converter-jackson:2.0.0-beta2'
 
-//  compile 'com.squareup.okhttp:okhttp:2.6.0-SNAPSHOT'
-//  compile 'com.squareup.okhttp:logging-interceptor:2.6.0-SNAPSHOT'
+  compile 'com.squareup.okhttp:okhttp:2.6.0'
+  compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
 
   compile 'me.alexrs:prefs:1.1.0'
 }
