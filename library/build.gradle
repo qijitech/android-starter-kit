@@ -45,10 +45,10 @@ android {
   }
 }
 
-repositories {
-  maven { url "${System.env.HOME}/.m2/repository" }
-  mavenCentral()
-}
+//repositories {
+//  maven { url "${System.env.HOME}/.m2/repository" }
+//  mavenCentral()
+//}
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])

@@ -49,6 +49,10 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     // Left blank
   }
 
+  public void setupLoadingLayout(LoadingLayout layout) {
+    // Left blank
+  }
+
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mPagePaginator = buildPaginator();
@@ -83,6 +87,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     buildRecyclerView();
     setupEmptyView();
     setupRecyclerView();
+    setupLoadingLayout(mLoadingLayout);
   }
 
   @Override public void onResume() {
