@@ -10,6 +10,7 @@ import android.view.View;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.network.callback.GenericCallback;
 import com.smartydroid.android.starter.kit.retrofit.NetworkQueue;
+import java.net.UnknownHostException;
 
 public abstract class StarterNetworkActivity<T> extends StarterActivity implements GenericCallback<T> {
 
@@ -36,29 +37,48 @@ public abstract class StarterNetworkActivity<T> extends StarterActivity implemen
   }
 
   @Override public void errorNotFound(ErrorModel errorModel) {
+    showErrorModel(errorModel);
   }
 
   @Override public void errorUnprocessable(ErrorModel errorModel) {
+    showErrorModel(errorModel);
   }
 
   @Override public void errorUnauthorized(ErrorModel errorModel) {
+    showErrorModel(errorModel);
   }
 
   @Override public void errorForbidden(ErrorModel errorModel) {
+    showErrorModel(errorModel);
   }
 
   @Override public void eNetUnreach(Throwable t) {
-
+    showException(t);
   }
 
   @Override public void errorSocketTimeout(Throwable t) {
+    showException(t);
+  }
 
+  @Override public void EAI_NODATA(UnknownHostException e) {
+    showException(e);
   }
 
   @Override public void error(ErrorModel errorModel) {
+    showErrorModel(errorModel);
+  }
+
+  private void showErrorModel(ErrorModel errorModel) {
     if (showMessage() && errorModel != null && provideSnackbarView() != null) {
       Snackbar.make(provideSnackbarView(),
           errorModel.getMessage(), Snackbar.LENGTH_SHORT).show();
+    }
+  }
+
+  private void showException(Throwable e) {
+    if (showMessage() && e != null && provideSnackbarView() != null) {
+      Snackbar.make(provideSnackbarView(),
+          e.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
   }
 
@@ -69,6 +89,7 @@ public abstract class StarterNetworkActivity<T> extends StarterActivity implemen
   }
 
   @Override public void respondWithError(Throwable t) {
+    showException(t);
   }
 
   @Override public void endRequest() {
