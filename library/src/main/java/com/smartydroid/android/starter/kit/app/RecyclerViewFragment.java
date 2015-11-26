@@ -24,6 +24,7 @@ import com.smartydroid.android.starter.kit.recyclerview.RecyclerViewHandler;
 import com.smartydroid.android.starter.kit.recyclerview.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFragment
@@ -224,32 +225,48 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
   }
 
   @Override public void respondWithError(Throwable error) {
+    setupException(error);
   }
 
   @Override public void errorNotFound(ErrorModel errorModel) {
+    setupErrorModel(errorModel);
   }
 
   @Override public void errorUnprocessable(ErrorModel errorModel) {
-
+    setupErrorModel(errorModel);
   }
 
   @Override public void errorUnauthorized(ErrorModel errorModel) {
-
+    setupErrorModel(errorModel);
   }
 
   @Override public void errorForbidden(ErrorModel errorModel) {
-
+    setupErrorModel(errorModel);
   }
 
   @Override public void eNetUnreach(Throwable t) {
-
+    setupException(t);
   }
 
   @Override public void errorSocketTimeout(Throwable t) {
+    setupException(t);
+  }
 
+  @Override public void EAI_NODATA(UnknownHostException e) {
+    setupException(e);
   }
 
   @Override public void error(ErrorModel errorModel) {
+    setupErrorModel(errorModel);
+  }
 
+  private void setupException(Throwable t) {
+    mLoadingLayout.setErrorTitle(t.getMessage());
+    mLoadingLayout.setErrorSubtitle("");
+  }
+
+  private void setupErrorModel(ErrorModel errorModel) {
+    mLoadingLayout.setErrorTitle(errorModel.getMessage());
+    mLoadingLayout.setErrorSubtitle("");
   }
 }

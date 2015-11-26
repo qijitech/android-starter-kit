@@ -32,6 +32,7 @@
         android:layout_marginTop="20dp"
         android:textSize="15sp"
         android:textStyle="bold"
+        android:gravity="center"
         android:text="@string/starter_error_title_placeholder"
         />
 

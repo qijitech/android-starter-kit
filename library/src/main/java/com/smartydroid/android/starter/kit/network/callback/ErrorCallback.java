@@ -5,6 +5,7 @@
 package com.smartydroid.android.starter.kit.network.callback;
 
 import com.smartydroid.android.starter.kit.model.ErrorModel;
+import java.net.UnknownHostException;
 
 public interface ErrorCallback {
 
@@ -51,7 +52,13 @@ public interface ErrorCallback {
   void errorSocketTimeout(Throwable t);
 
   /**
-   * 此方法不能同时和其他 errorXXX() 方法使用
+   * java.net.UnknownHostException: Unable to resolve host "xxx": No address associated with hostname
+   * @param e UnknownHostException
+   */
+  void EAI_NODATA(UnknownHostException e);
+
+  /**
+   * 未处理的 error 信息
    *
    * @param errorModel ErrorModel
    */

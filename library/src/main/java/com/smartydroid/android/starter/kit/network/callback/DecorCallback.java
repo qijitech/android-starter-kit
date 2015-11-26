@@ -5,6 +5,7 @@
 package com.smartydroid.android.starter.kit.network.callback;
 
 import com.smartydroid.android.starter.kit.model.ErrorModel;
+import java.net.UnknownHostException;
 
 import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
 
@@ -39,6 +40,10 @@ public class DecorCallback<T> implements GenericCallback<T> {
 
   @Override public void errorSocketTimeout(Throwable t) {
     delegate.errorSocketTimeout(t);
+  }
+
+  @Override public void EAI_NODATA(UnknownHostException e) {
+    delegate.EAI_NODATA(e);
   }
 
   @Override public void error(ErrorModel errorModel) {

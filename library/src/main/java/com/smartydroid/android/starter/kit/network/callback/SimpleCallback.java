@@ -5,6 +5,7 @@
 package com.smartydroid.android.starter.kit.network.callback;
 
 import com.smartydroid.android.starter.kit.model.ErrorModel;
+import java.net.UnknownHostException;
 
 public class SimpleCallback<T> implements GenericCallback<T> {
 
@@ -41,6 +42,10 @@ public class SimpleCallback<T> implements GenericCallback<T> {
   }
 
   @Override public void errorSocketTimeout(Throwable t) {
+
+  }
+
+  @Override public void EAI_NODATA(UnknownHostException e) {
 
   }
 

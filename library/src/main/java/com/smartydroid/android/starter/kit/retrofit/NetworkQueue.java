@@ -11,6 +11,7 @@ import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -54,7 +55,7 @@ public class NetworkQueue<T> implements Callback<T> {
           String json = errorBody.string();
           errorModel = mapper.readValue(json, ErrorModel.class);
         } catch (IOException e) {
-          // Nothing to do
+          errorModel = new ErrorModel(statusCode, e.getMessage());
         }
       }
       processError(statusCode, errorModel);
@@ -68,6 +69,9 @@ public class NetworkQueue<T> implements Callback<T> {
       callback.eNetUnreach(t);
     } else if (t instanceof SocketTimeoutException) { // 链接超时
       callback.errorSocketTimeout(t);
+    } else if (t instanceof UnknownHostException) {
+      final UnknownHostException e = (UnknownHostException) t;
+      callback.EAI_NODATA(e);
     } else {
       callback.respondWithError(t);
     }
@@ -88,7 +92,9 @@ public class NetworkQueue<T> implements Callback<T> {
       case 422:
         callback.errorUnprocessable(errorModel);
         break;
+      default:
+        callback.error(errorModel);
+        break;
     }
-    callback.error(errorModel);
   }
 }

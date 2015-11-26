@@ -10,6 +10,7 @@ import com.smartydroid.android.starter.kit.model.entity.Entitiy;
 import com.smartydroid.android.starter.kit.network.callback.GenericCallback;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import com.smartydroid.android.starter.kit.retrofit.NetworkQueue;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -114,15 +115,15 @@ public abstract class Paginator<T extends Entitiy>
   }
 
   @Override public void respondSuccess(ArrayList<T> data) {
-    mHasError = false;
-    mDataHasLoaded = true;
     if (!isNull(data)) {
+      mHasError = false;
       processPage(data);
       handDataArray(data);
 
       delegate.respondSuccess(data);
     } else {
       mHasMore = false;
+      mHasError = true;
       delegate.errorNotFound(new ErrorModel(404, "no more"));
     }
   }
@@ -143,29 +144,43 @@ public abstract class Paginator<T extends Entitiy>
   }
 
   @Override public void errorUnprocessable(ErrorModel errorModel) {
+    setupError();
     delegate.errorUnprocessable(errorModel);
   }
 
   @Override public void errorUnauthorized(ErrorModel errorModel) {
+    setupError();
     delegate.errorUnauthorized(errorModel);
   }
 
   @Override public void errorForbidden(ErrorModel errorModel) {
+    setupError();
     delegate.errorForbidden(errorModel);
   }
 
   @Override public void eNetUnreach(Throwable t) {
+    setupError();
     delegate.eNetUnreach(t);
   }
 
   @Override public void errorSocketTimeout(Throwable t) {
+    setupError();
     delegate.errorSocketTimeout(t);
   }
 
+  @Override public void EAI_NODATA(UnknownHostException e) {
+    setupError();
+    delegate.EAI_NODATA(e);
+  }
+
   @Override public void error(ErrorModel errorModel) {
+    setupError();
+    delegate.error(errorModel);
+  }
+
+  private void setupError() {
     mHasError = true;
     mHasMore = false;
-    delegate.error(errorModel);
   }
 
   @Override public void respondWithError(Throwable t) {

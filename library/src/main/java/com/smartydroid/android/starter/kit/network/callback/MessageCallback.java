@@ -7,6 +7,7 @@ package com.smartydroid.android.starter.kit.network.callback;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
+import java.net.UnknownHostException;
 
 import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
 
@@ -19,10 +20,23 @@ public class MessageCallback<T> extends SimpleCallback<T> {
     this.view = view;
   }
 
+  @Override public void EAI_NODATA(UnknownHostException e) {
+    if (e != null) {
+      Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+    }
+  }
+
   @Override public void error(ErrorModel errorModel) {
     super.error(errorModel);
     if (errorModel != null) {
       Snackbar.make(view, errorModel.getMessage(), Snackbar.LENGTH_SHORT).show();
+    }
+  }
+
+  @Override public void errorSocketTimeout(Throwable t) {
+    super.errorSocketTimeout(t);
+    if (t != null) {
+      Snackbar.make(view, t.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
   }
 }
