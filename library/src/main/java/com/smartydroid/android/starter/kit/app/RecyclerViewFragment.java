@@ -274,4 +274,12 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     mLoadingLayout.setErrorTitle(errorModel.getMessage());
     mLoadingLayout.setErrorSubtitle("");
   }
+
+  /**
+   *
+   * @return LoadingLayout
+   */
+  public LoadingLayout loadingLayout() {
+    return mLoadingLayout;
+  }
 }
