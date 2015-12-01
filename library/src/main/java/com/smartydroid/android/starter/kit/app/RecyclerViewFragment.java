@@ -4,6 +4,7 @@
  */
 package com.smartydroid.android.starter.kit.app;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
@@ -94,9 +95,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     super.onResume();
     updateView();
 
-    if (!mPagePaginator.dataHasLoaded()) {
-      mPagePaginator.refresh();
-    }
+    refresh();
   }
 
   @Override public void onPause() {
@@ -158,7 +157,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
   }
 
   private void updateView() {
-    if (mLoadingLayout == null) {
+    if (! viewValid(mLoadingLayout)) {
       return;
     }
     if (!isEmpty()) {
@@ -265,21 +264,51 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
     setupErrorModel(errorModel);
   }
 
+  public void refresh() {
+    if (mPagePaginator != null && !mPagePaginator.isLoading()) {
+      mPagePaginator.refresh();
+    }
+  }
+
   private void setupException(Throwable t) {
-    mLoadingLayout.setErrorTitle(t.getMessage());
-    mLoadingLayout.setErrorSubtitle("");
+    if (viewValid(mLoadingLayout)) {
+      mLoadingLayout.setErrorTitle(t.getMessage());
+      mLoadingLayout.setErrorSubtitle("");
+    }
   }
 
   private void setupErrorModel(ErrorModel errorModel) {
-    mLoadingLayout.setErrorTitle(errorModel.getMessage());
-    mLoadingLayout.setErrorSubtitle("");
+    if (errorModel != null) {
+      setupError(errorModel.getMessage(), null);
+    }
   }
 
-  /**
-   *
-   * @return LoadingLayout
-   */
-  public LoadingLayout loadingLayout() {
-    return mLoadingLayout;
+  public void setupError(String title, String subtitle) {
+    setupError(null, title, subtitle);
   }
+
+  public void setupError(Drawable drawable, String title, String subtitle) {
+    if (viewValid(mLoadingLayout)) {
+      if (drawable != null) {
+        mLoadingLayout.setErrorDrawable(drawable);
+      }
+      mLoadingLayout.setErrorTitle(title);
+      mLoadingLayout.setErrorSubtitle(subtitle);
+    }
+  }
+
+  public void setupEmpty(String title, String subtitle) {
+    setupEmpty(null, title, subtitle);
+  }
+
+  public void setupEmpty(Drawable drawable, String title, String subtitle) {
+    if (viewValid(mLoadingLayout)) {
+      if (drawable != null) {
+        mLoadingLayout.setEmptyDrawable(drawable);
+      }
+      mLoadingLayout.setEmptyTitle(title);
+      mLoadingLayout.setEmptySubtitle(subtitle);
+    }
+  }
+
 }

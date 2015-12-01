@@ -58,6 +58,10 @@ public abstract class StarterFragment extends Fragment {
     }
   }
 
+  public boolean viewValid(View view) {
+    return getActivity() != null && !isDetached() && view != null;
+  }
+
   public boolean isProgressShow() {
     return starterCommon != null && starterCommon.isProgressShow();
   }
