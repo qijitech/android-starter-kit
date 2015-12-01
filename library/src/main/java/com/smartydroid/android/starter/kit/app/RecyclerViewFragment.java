@@ -211,7 +211,7 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
   ///////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////
   @Override public void startRequest() {
-    if (isEmpty() && mLoadingLayout != null) {
+    if (isEmpty() && viewValid(mLoadingLayout)) {
       mLoadingLayout.showLoadingView();
     }
   }
@@ -225,7 +225,9 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
   }
 
   @Override public void respondSuccess(ArrayList<E> data) {
-    mViewHandler.notifyDataSetChanged(mPagePaginator.items());
+    if (mViewHandler != null) {
+      mViewHandler.notifyDataSetChanged(mPagePaginator.items());
+    }
   }
 
   @Override public void respondWithError(Throwable error) {
@@ -309,6 +311,10 @@ public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFra
       mLoadingLayout.setEmptyTitle(title);
       mLoadingLayout.setEmptySubtitle(subtitle);
     }
+  }
+
+  public LoadingLayout loadingLayout() {
+    return mLoadingLayout;
   }
 
 }
