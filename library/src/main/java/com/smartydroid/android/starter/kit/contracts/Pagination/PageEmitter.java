@@ -4,11 +4,11 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.model.entity.Entity;
 import java.util.ArrayList;
 import retrofit.Call;
 
-public interface PageEmitter<T extends Entitiy> extends Emitter<T> {
+public interface PageEmitter<T extends Entity> extends Emitter<T> {
 
   /**
    * @param page 当前页面

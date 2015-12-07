@@ -4,10 +4,10 @@
  */
 package com.smartydroid.android.starter.kit.contracts.Pagination;
 
-import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.model.entity.Entity;
 import java.util.List;
 
-public interface Paginator<T extends Entitiy> {
+public interface Paginator<T extends Entity> {
 
   /**
    * Get all of the items being paginated.

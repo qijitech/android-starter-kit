@@ -6,5 +6,5 @@ package com.smartydroid.android.starter.kit.model.entity;
 
 import android.os.Parcelable;
 
-public abstract class Entitiy implements Parcelable {
+public abstract class Entity implements Parcelable {
 }

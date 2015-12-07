@@ -19,7 +19,7 @@ import com.carlosdelachica.easyrecycleradapters.decorations.DividerItemDecoratio
 import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
-import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import com.smartydroid.android.starter.kit.recyclerview.RecyclerViewHandler;
 import com.smartydroid.android.starter.kit.recyclerview.ViewHandler;
@@ -28,7 +28,7 @@ import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public abstract class RecyclerViewFragment<E extends Entitiy> extends StarterFragment
+public abstract class RecyclerViewFragment<E extends Entity> extends StarterFragment
     implements LoadingLayout.OnButtonClickListener,
     EasyViewHolder.OnItemClickListener,
     EasyViewHolder.OnItemLongClickListener,

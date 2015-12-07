@@ -6,7 +6,7 @@ package com.smartydroid.android.starter.kit.network;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
-import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.GenericCallback;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import com.smartydroid.android.starter.kit.retrofit.NetworkQueue;
@@ -18,7 +18,7 @@ import retrofit.Call;
 
 import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
 
-public abstract class Paginator<T extends Entitiy>
+public abstract class Paginator<T extends Entity>
     implements com.smartydroid.android.starter.kit.contracts.Pagination.Paginator<T>,
     GenericCallback<ArrayList<T>> {
 

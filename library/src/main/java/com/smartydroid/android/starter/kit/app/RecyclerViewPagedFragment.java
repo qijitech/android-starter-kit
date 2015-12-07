@@ -7,12 +7,12 @@ package com.smartydroid.android.starter.kit.app;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.recyclerview.PagedRecyclerViewHandler;
 import com.smartydroid.android.starter.kit.recyclerview.ViewHandler;
 import com.smartydroid.android.starter.kit.widget.ILoadMoreView;
 
-public abstract class RecyclerViewPagedFragment<E extends Entitiy>
+public abstract class RecyclerViewPagedFragment<E extends Entity>
     extends RecyclerViewFragment<E>
     implements ViewHandler.OnScrollBottomListener,
     ILoadMoreView.OnLoadMoreClickListener {

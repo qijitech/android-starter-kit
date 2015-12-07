@@ -7,9 +7,9 @@ package com.smartydroid.android.kit.demo.model.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.smartydroid.android.starter.kit.model.entity.Entitiy;
+import com.smartydroid.android.starter.kit.model.entity.Entity;
 
-@JsonIgnoreProperties(ignoreUnknown = true) public class News extends Entitiy {
+@JsonIgnoreProperties(ignoreUnknown = true) public class News extends Entity {
 
   public int id;
   public String title;
