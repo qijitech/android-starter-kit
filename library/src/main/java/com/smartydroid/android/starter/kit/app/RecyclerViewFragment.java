@@ -317,4 +317,22 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
     return mLoadingLayout;
   }
 
+  public void notifyDataSetChanged() {
+    if (mViewHandler != null && mViewHandler.getAdapter() != null) {
+      mViewHandler.getAdapter().notifyDataSetChanged();
+    }
+  }
+
+  public void notifyItemChanged(int position) {
+    if (mViewHandler != null && mViewHandler.getAdapter() != null) {
+      mViewHandler.getAdapter().notifyItemChanged(position);
+    }
+  }
+
+  public void notifyItemInserted(int position) {
+    if (mViewHandler != null && mViewHandler.getAdapter() != null) {
+      mViewHandler.getAdapter().notifyItemInserted(position);
+    }
+  }
+
 }
