@@ -317,6 +317,10 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
     return mLoadingLayout;
   }
 
+  public ViewHandler getViewHandler() {
+    return mViewHandler;
+  }
+
   public void notifyDataSetChanged() {
     if (mViewHandler != null && mViewHandler.getAdapter() != null) {
       mViewHandler.getAdapter().notifyDataSetChanged();

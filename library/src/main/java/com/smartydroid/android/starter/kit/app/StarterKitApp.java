@@ -8,9 +8,13 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.util.Log;
+import com.smartydroid.android.starter.kit.BuildConfig;
 import com.smartydroid.android.starter.kit.account.Account;
 import com.smartydroid.android.starter.kit.retrofit.ApiVersion;
 import com.smartydroid.android.starter.kit.utilities.AppInfo;
+import com.smartydroid.android.starter.kit.utilities.FakeCrashLibrary;
+import timber.log.Timber;
 
 public abstract class StarterKitApp extends Application implements ApiVersion {
 
@@ -30,11 +34,11 @@ public abstract class StarterKitApp extends Application implements ApiVersion {
   @Override public void onCreate() {
     super.onCreate();
 
-    //if (BuildConfig.DEBUG) {
-    //Timber.plant(new Timber.DebugTree());
-    //} else {
-    //  Timber.plant(new CrashReportingTree());
-    //}
+    if (BuildConfig.DEBUG) {
+      Timber.plant(new Timber.DebugTree());
+    } else {
+      Timber.plant(new CrashReportingTree());
+    }
 
     initialize();
   }
@@ -92,21 +96,21 @@ public abstract class StarterKitApp extends Application implements ApiVersion {
   }
 
   /** A tree which logs important information for crash reporting. */
-  //private static class CrashReportingTree extends Timber.Tree {
-  //  @Override protected void log(int priority, String tag, String message, Throwable t) {
-  //    if (priority == Log.VERBOSE || priority == Log.DEBUG) {
-  //      return;
-  //    }
-  //
-  //    FakeCrashLibrary.log(priority, tag, message);
-  //
-  //    if (t != null) {
-  //      if (priority == Log.ERROR) {
-  //        FakeCrashLibrary.logError(t);
-  //      } else if (priority == Log.WARN) {
-  //        FakeCrashLibrary.logWarning(t);
-  //      }
-  //    }
-  //  }
-  //}
+  private static class CrashReportingTree extends Timber.Tree {
+    @Override protected void log(int priority, String tag, String message, Throwable t) {
+      if (priority == Log.VERBOSE || priority == Log.DEBUG) {
+        return;
+      }
+
+      FakeCrashLibrary.log(priority, tag, message);
+
+      if (t != null) {
+        if (priority == Log.ERROR) {
+          FakeCrashLibrary.logError(t);
+        } else if (priority == Log.WARN) {
+          FakeCrashLibrary.logWarning(t);
+        }
+      }
+    }
+  }
 }
