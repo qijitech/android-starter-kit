@@ -5,6 +5,7 @@
 package com.smartydroid.android.starter.kit.network;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.KeyEmitter;
+import com.smartydroid.android.starter.kit.contracts.Pagination.KeyPaginatorContract;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 import retrofit.Call;
 
 public class KeyPaginator<T extends Entity> extends Paginator<T> implements
-    com.smartydroid.android.starter.kit.contracts.Pagination.KeyPaginator<T> {
+    KeyPaginatorContract<T> {
 
   /**
    * Builder key paginator

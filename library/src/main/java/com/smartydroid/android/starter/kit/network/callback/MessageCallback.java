@@ -20,7 +20,7 @@ public class MessageCallback<T> extends SimpleCallback<T> {
     this.view = view;
   }
 
-  @Override public void EAI_NODATA(UnknownHostException e) {
+  @Override public void errorUnknownHost(UnknownHostException e, ErrorModel errorModel) {
     if (e != null) {
       Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
@@ -33,8 +33,8 @@ public class MessageCallback<T> extends SimpleCallback<T> {
     }
   }
 
-  @Override public void errorSocketTimeout(Throwable t) {
-    super.errorSocketTimeout(t);
+  @Override public void errorSocketTimeout(Throwable t, ErrorModel errorModel) {
+    super.errorSocketTimeout(t, errorModel);
     if (t != null) {
       Snackbar.make(view, t.getMessage(), Snackbar.LENGTH_SHORT).show();
     }

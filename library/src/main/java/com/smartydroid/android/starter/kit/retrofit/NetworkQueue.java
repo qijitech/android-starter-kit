@@ -66,12 +66,15 @@ public class NetworkQueue<T> implements Callback<T> {
 
   @Override public void onFailure(Throwable t) {
     if (t instanceof ConnectException) { // 无网络
-      callback.eNetUnreach(t);
+      ConnectException e = (ConnectException) t;
+      callback.eNetUnReach(t, new ErrorModel(500, e.getLocalizedMessage()));
     } else if (t instanceof SocketTimeoutException) { // 链接超时
-      callback.errorSocketTimeout(t);
+      final SocketTimeoutException e = (SocketTimeoutException) t;
+      callback.errorSocketTimeout(t, new ErrorModel(500, e.getLocalizedMessage()));
     } else if (t instanceof UnknownHostException) {
       final UnknownHostException e = (UnknownHostException) t;
-      callback.EAI_NODATA(e);
+      ErrorModel errorModel = new ErrorModel(500, e.getLocalizedMessage());
+      callback.errorUnknownHost(e, errorModel);
     } else {
       callback.respondWithError(t);
     }
@@ -90,7 +93,7 @@ public class NetworkQueue<T> implements Callback<T> {
         callback.errorNotFound(errorModel);
         break;
       case 422:
-        callback.errorUnprocessable(errorModel);
+        callback.errorUnProcessable(errorModel);
         break;
       default:
         callback.error(errorModel);

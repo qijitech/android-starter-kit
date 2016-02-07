@@ -6,13 +6,14 @@ package com.smartydroid.android.starter.kit.network;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PageEmitter;
+import com.smartydroid.android.starter.kit.contracts.Pagination.PagePaginatorContract;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import java.util.ArrayList;
 import retrofit.Call;
 
 public class PagePaginator<T extends Entity> extends Paginator<T>
-    implements com.smartydroid.android.starter.kit.contracts.Pagination.PagePaginator<T> {
+    implements PagePaginatorContract<T> {
 
   int mFirstPage = DEFAULT_FIRST_PAGE;
 

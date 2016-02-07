@@ -22,34 +22,26 @@ public class SimpleCallback<T> implements GenericCallback<T> {
   }
 
   @Override public void errorNotFound(ErrorModel errorModel) {
-
   }
 
-  @Override public void errorUnprocessable(ErrorModel errorModel) {
-
+  @Override public void errorUnProcessable(ErrorModel errorModel) {
   }
 
   @Override public void errorUnauthorized(ErrorModel errorModel) {
-
   }
 
   @Override public void errorForbidden(ErrorModel errorModel) {
-
   }
 
-  @Override public void eNetUnreach(Throwable t) {
-
+  @Override public void eNetUnReach(Throwable t, ErrorModel errorModel) {
   }
 
-  @Override public void errorSocketTimeout(Throwable t) {
-
+  @Override public void errorSocketTimeout(Throwable t, ErrorModel errorModel) {
   }
 
-  @Override public void EAI_NODATA(UnknownHostException e) {
-
+  @Override public void errorUnknownHost(UnknownHostException e, ErrorModel errorModel) {
   }
 
   @Override public void error(ErrorModel errorModel) {
-
   }
 }

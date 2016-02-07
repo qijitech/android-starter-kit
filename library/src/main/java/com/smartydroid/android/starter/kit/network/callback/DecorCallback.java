@@ -22,8 +22,8 @@ public class DecorCallback<T> implements GenericCallback<T> {
     delegate.errorNotFound(errorModel);
   }
 
-  @Override public void errorUnprocessable(ErrorModel errorModel) {
-    delegate.errorUnprocessable(errorModel);
+  @Override public void errorUnProcessable(ErrorModel errorModel) {
+    delegate.errorUnProcessable(errorModel);
   }
 
   @Override public void errorUnauthorized(ErrorModel errorModel) {
@@ -34,16 +34,16 @@ public class DecorCallback<T> implements GenericCallback<T> {
     delegate.errorForbidden(errorModel);
   }
 
-  @Override public void eNetUnreach(Throwable t) {
-    delegate.eNetUnreach(t);
+  @Override public void eNetUnReach(Throwable t, ErrorModel errorModel) {
+    delegate.eNetUnReach(t, errorModel);
   }
 
-  @Override public void errorSocketTimeout(Throwable t) {
-    delegate.errorSocketTimeout(t);
+  @Override public void errorSocketTimeout(Throwable t, ErrorModel errorModel) {
+    delegate.errorSocketTimeout(t, errorModel);
   }
 
-  @Override public void EAI_NODATA(UnknownHostException e) {
-    delegate.EAI_NODATA(e);
+  @Override public void errorUnknownHost(UnknownHostException e, ErrorModel errorModel) {
+    delegate.errorUnknownHost(e, errorModel);
   }
 
   @Override public void error(ErrorModel errorModel) {

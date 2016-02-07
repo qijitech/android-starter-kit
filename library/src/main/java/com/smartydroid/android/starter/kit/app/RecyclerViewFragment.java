@@ -18,17 +18,16 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.carlosdelachica.easyrecycleradapters.decorations.DividerItemDecoration;
 import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
-import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import com.smartydroid.android.starter.kit.recyclerview.RecyclerViewHandler;
 import com.smartydroid.android.starter.kit.recyclerview.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public abstract class RecyclerViewFragment<E extends Entity> extends StarterFragment
+public abstract class RecyclerViewFragment<E extends Entity>
+    extends CallbackFragment<ArrayList<E>>
     implements LoadingLayout.OnButtonClickListener,
     EasyViewHolder.OnItemClickListener,
     EasyViewHolder.OnItemLongClickListener,
@@ -230,63 +229,10 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
     }
   }
 
-  @Override public void respondWithError(Throwable error) {
-    setupException(error);
-  }
-
-  @Override public void errorNotFound(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
-  }
-
-  @Override public void errorUnprocessable(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
-  }
-
-  @Override public void errorUnauthorized(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
-  }
-
-  @Override public void errorForbidden(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
-  }
-
-  @Override public void eNetUnreach(Throwable t) {
-    setupException(t);
-  }
-
-  @Override public void errorSocketTimeout(Throwable t) {
-    setupException(t);
-  }
-
-  @Override public void EAI_NODATA(UnknownHostException e) {
-    setupException(e);
-  }
-
-  @Override public void error(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
-  }
-
   public void refresh() {
     if (mPagePaginator != null && !mPagePaginator.isLoading()) {
       mPagePaginator.refresh();
     }
-  }
-
-  private void setupException(Throwable t) {
-    if (viewValid(mLoadingLayout)) {
-      mLoadingLayout.setErrorTitle(t.getMessage());
-      mLoadingLayout.setErrorSubtitle("");
-    }
-  }
-
-  private void setupErrorModel(ErrorModel errorModel) {
-    if (errorModel != null) {
-      setupError(errorModel.getMessage(), null);
-    }
-  }
-
-  public void setupError(String title, String subtitle) {
-    setupError(null, title, subtitle);
   }
 
   public void setupError(Drawable drawable, String title, String subtitle) {
@@ -297,10 +243,6 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
       mLoadingLayout.setErrorTitle(title);
       mLoadingLayout.setErrorSubtitle(subtitle);
     }
-  }
-
-  public void setupEmpty(String title, String subtitle) {
-    setupEmpty(null, title, subtitle);
   }
 
   public void setupEmpty(Drawable drawable, String title, String subtitle) {
