@@ -34,11 +34,11 @@ public abstract class StarterKitApp extends Application implements ApiVersion {
   @Override public void onCreate() {
     super.onCreate();
 
-    if (BuildConfig.DEBUG) {
+    //if (BuildConfig.DEBUG) {
       Timber.plant(new Timber.DebugTree());
-    } else {
-      Timber.plant(new CrashReportingTree());
-    }
+    //} else {
+    //  Timber.plant(new CrashReportingTree());
+    //}
 
     initialize();
   }

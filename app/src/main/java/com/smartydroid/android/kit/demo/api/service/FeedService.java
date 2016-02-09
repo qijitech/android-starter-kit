@@ -12,7 +12,7 @@ import retrofit.http.Query;
 
 public interface FeedService {
 
-  @GET("/news") Call<ArrayList<Feed>> getFeedList(
+  @GET("/feedsWithPage") Call<ArrayList<Feed>> getFeedList(
       @Query("page") int page,
       @Query("page_size") int pageSize);
 }
