@@ -10,7 +10,7 @@ import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import java.util.ArrayList;
 import java.util.List;
-import retrofit.Call;
+import retrofit2.Call;
 
 public class KeyPaginator<T extends Entity> extends Paginator<T> implements
     KeyPaginatorContract<T> {

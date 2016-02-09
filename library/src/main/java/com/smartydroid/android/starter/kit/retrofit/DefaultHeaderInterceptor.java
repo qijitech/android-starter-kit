@@ -8,10 +8,10 @@ import android.text.TextUtils;
 import com.smartydroid.android.starter.kit.account.AccountProvider;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.smartydroid.android.starter.kit.utilities.AppInfo;
-import com.squareup.okhttp.Headers;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import java.io.IOException;
+import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class DefaultHeaderInterceptor implements HeaderInterceptor {
 
@@ -22,6 +22,8 @@ public class DefaultHeaderInterceptor implements HeaderInterceptor {
     mAccountProvider = accountProvider;
     mApiVersion = apiVersion;
   }
+
+
 
   @Override public Response intercept(Chain chain) throws IOException {
     Request originalRequest = chain.request();

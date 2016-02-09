@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import retrofit.Call;
+import retrofit2.Call;
 
 import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
 

@@ -10,7 +10,7 @@ import com.smartydroid.android.starter.kit.contracts.Pagination.PagePaginatorCon
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import java.util.ArrayList;
-import retrofit.Call;
+import retrofit2.Call;
 
 public class PagePaginator<T extends Entity> extends Paginator<T>
     implements PagePaginatorContract<T> {

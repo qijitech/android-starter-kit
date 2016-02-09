@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
-import com.smartydroid.android.starter.kit.BuildConfig;
 import com.smartydroid.android.starter.kit.account.Account;
 import com.smartydroid.android.starter.kit.retrofit.ApiVersion;
 import com.smartydroid.android.starter.kit.utilities.AppInfo;

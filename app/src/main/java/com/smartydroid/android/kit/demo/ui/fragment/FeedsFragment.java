@@ -14,7 +14,7 @@ import com.smartydroid.android.kit.demo.model.entity.Feed;
 import com.smartydroid.android.kit.demo.ui.viewholder.FeedsViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterPagedFragment;
 import java.util.ArrayList;
-import retrofit.Call;
+import retrofit2.Call;
 
 public class FeedsFragment extends StarterPagedFragment<Feed> {
 

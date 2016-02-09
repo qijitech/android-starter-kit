@@ -33,8 +33,8 @@ ext {
   targetSdkVersion = 23
 
   supportVersion = '23.1.1'
-  okhttpVersion = '2.6.0'
-  retrofitVersion = '2.0.0-beta2'
+  okhttpVersion = '3.1.1'
+  retrofitVersion = '2.0.0-beta4'
   butterknifeVersion = '7.0.1'
   timberVersion = '4.1.0'
 
@@ -43,11 +43,11 @@ ext {
           supportDesign           : ('com.android.support:design:' + supportVersion),
           gridlayoutV7            : ('com.android.support:gridlayout-v7:' + supportVersion),
           recyclerviewV7          : ('com.android.support:recyclerview-v7:' + supportVersion),
-          okhttp                  : ('com.squareup.okhttp:okhttp:' + okhttpVersion),
-          okhttpurlconnection     : ('com.squareup.okhttp:okhttp-urlconnection:' + okhttpVersion),
-          okhttpLoggingInterceptor: ('com.squareup.okhttp:logging-interceptor:' + okhttpVersion),
-          retrofit                : ('com.squareup.retrofit:retrofit:' + retrofitVersion),
-          retrofitConverterJackson: ('com.squareup.retrofit:converter-jackson:' + retrofitVersion),
+          okhttp                  : ('com.squareup.okhttp3:okhttp:' + okhttpVersion),
+          okhttpurlconnection     : ('com.squareup.okhttp3:okhttp-urlconnection:' + okhttpVersion),
+          okhttpLoggingInterceptor: ('com.squareup.okhttp3:logging-interceptor:' + okhttpVersion),
+          retrofit                : ('com.squareup.retrofit2:retrofit:' + retrofitVersion),
+          retrofitConverterJackson: ('com.squareup.retrofit2:converter-jackson:' + retrofitVersion),
           butterknife             : ('com.jakewharton:butterknife:' + butterknifeVersion),
           timber                  : ('com.jakewharton.timber:timber:' + timberVersion),
           easyrecycleradapters    : 'com.smartydroid:easyrecycleradapters:1.0.10',
