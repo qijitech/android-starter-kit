@@ -1,14 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.2"
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion 14
-    targetSdkVersion 23
-    versionCode 1
-    versionName "1.0"
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
   }
 
   packagingOptions {
@@ -54,24 +52,26 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
 
-  compile 'com.android.support:appcompat-v7:23.1.1'
-  compile 'com.android.support:design:23.1.1'
+  compile deps.appcompatV7
+  compile deps.supportDesign
 
-  compile 'com.jakewharton:butterknife:7.0.1'
-  compile 'com.jakewharton.timber:timber:4.1.0'
+  // Jake Wharton
+  compile deps.butterknife
+  compile deps.timber
 
   // Recycler View
-  compile 'com.android.support:recyclerview-v7:23.1.1'
-  compile 'com.smartydroid:easyrecycleradapters:1.0.10'
+  compile deps.recyclerviewV7
+  compile deps.easyrecycleradapters
 
-  // Retrofit
-  compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-  compile 'com.squareup.retrofit:converter-jackson:2.0.0-beta2'
+  // Square
+  compile deps.retrofit
+  compile deps.retrofitConverterJackson
+  compile deps.okhttp
+  compile deps.okhttpLoggingInterceptor
 
-  compile 'com.squareup.okhttp:okhttp:2.6.0'
-  compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
+  // prefs
+  compile deps.prefs
 
-  compile 'me.alexrs:prefs:1.1.0'
 }
 
 apply from: '../.buildscript/deploy.gradle'

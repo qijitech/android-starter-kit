@@ -9,37 +9,37 @@ import android.view.View;
 import android.widget.Toast;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.kit.demo.api.ApiService;
-import com.smartydroid.android.kit.demo.api.service.NewsService;
-import com.smartydroid.android.kit.demo.model.entity.News;
-import com.smartydroid.android.kit.demo.ui.viewholder.NewsViewHolder;
+import com.smartydroid.android.kit.demo.api.service.FeedService;
+import com.smartydroid.android.kit.demo.model.entity.Feed;
+import com.smartydroid.android.kit.demo.ui.viewholder.FeedsViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterPagedFragment;
 import java.util.ArrayList;
 import retrofit.Call;
 
-public class NewsFragment extends StarterPagedFragment<News> {
+public class FeedsFragment extends StarterPagedFragment<Feed> {
 
-  private NewsService mNewsService;
+  private FeedService mFeedService;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mNewsService = ApiService.createNewsService();
+    mFeedService = ApiService.createFeedService();
   }
 
-  @Override public Call<ArrayList<News>> paginate(int page, int perPage) {
-    return mNewsService.getNewsList(page, perPage, 2);
+  @Override public Call<ArrayList<Feed>> paginate(int page, int perPage) {
+    return mFeedService.getFeedList(page, perPage);
   }
 
-  @Override public Object getKeyForData(News item) {
+  @Override public Object getKeyForData(Feed item) {
     return item.id;
   }
 
   @Override public void bindViewHolders(EasyRecyclerAdapter adapter) {
-    adapter.bind(News.class, NewsViewHolder.class);
+    adapter.bind(Feed.class, FeedsViewHolder.class);
   }
 
   @Override public void onItemClick(int position, View view) {
     super.onItemClick(position, view);
-    final News news = getItem(position);
-    Toast.makeText(getContext(), news.title, Toast.LENGTH_SHORT).show();
+    final Feed feed = getItem(position);
+    Toast.makeText(getContext(), feed.content, Toast.LENGTH_SHORT).show();
   }
 }

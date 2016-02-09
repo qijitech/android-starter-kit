@@ -17,7 +17,7 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.carlosdelachica.easyrecycleradapters.decorations.DividerItemDecoration;
 import com.smartydroid.android.starter.kit.R;
-import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
+import com.smartydroid.android.starter.kit.contracts.Pagination.PaginatorContract;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import com.smartydroid.android.starter.kit.recyclerview.RecyclerViewHandler;
@@ -38,12 +38,12 @@ public abstract class RecyclerViewFragment<E extends Entity>
   SwipeRefreshLayout mSwipeRefreshLayout;
   RecyclerView mRecyclerView;
 
-  Paginator<E> mPagePaginator;
+  PaginatorContract<E> mPagePaginator;
   ViewHandler mViewHandler;
 
   public abstract void bindViewHolders(EasyRecyclerAdapter adapter);
 
-  public abstract Paginator<E> buildPaginator();
+  public abstract PaginatorContract<E> buildPaginator();
 
   public void viewHolderFactory(EasyRecyclerAdapter adapter) {
     // Left blank
@@ -65,7 +65,7 @@ public abstract class RecyclerViewFragment<E extends Entity>
     bindViewHolders(adapter);
   }
 
-  public Paginator<E> getPagePaginator() {
+  public PaginatorContract<E> getPagePaginator() {
     return mPagePaginator;
   }
 

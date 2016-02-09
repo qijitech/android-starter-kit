@@ -6,6 +6,6 @@ package com.smartydroid.android.kit.demo;
 
 public interface Profile {
 
-  String API_ENDPOINT = "http://licaishi.wodetiku.com";
-  String API_ACCEPT = "application/vnd.financerapp.v1+json";
+  String API_ENDPOINT = "http://fakerapi.qiji.tech";
+  String API_ACCEPT = "application/vnd.fakerapi.v1+json";
 }

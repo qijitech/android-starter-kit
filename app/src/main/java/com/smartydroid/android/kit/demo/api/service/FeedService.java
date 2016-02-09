@@ -4,16 +4,15 @@
  */
 package com.smartydroid.android.kit.demo.api.service;
 
-import com.smartydroid.android.kit.demo.model.entity.News;
+import com.smartydroid.android.kit.demo.model.entity.Feed;
 import java.util.ArrayList;
 import retrofit.Call;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
-public interface NewsService {
+public interface FeedService {
 
-  @GET("/news") Call<ArrayList<News>> getNewsList(
+  @GET("/news") Call<ArrayList<Feed>> getFeedList(
       @Query("page") int page,
-      @Query("page_size") int pageSize,
-      @Query("category_id") int categoryId);
+      @Query("page_size") int pageSize);
 }

@@ -5,14 +5,14 @@
 package com.smartydroid.android.starter.kit.app;
 
 import com.smartydroid.android.starter.kit.contracts.Pagination.KeyEmitter;
-import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
+import com.smartydroid.android.starter.kit.contracts.Pagination.PaginatorContract;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.KeyPaginator;
 
 public abstract class StarterKeysFragment<E extends Entity>
     extends RecyclerViewPagedFragment<E> implements KeyEmitter<E> {
 
-  @Override public Paginator<E> buildPaginator() {
+  @Override public PaginatorContract<E> buildPaginator() {
     return new KeyPaginator.Builder<E>()
         .emitter(this)
         .perPage(perPage())

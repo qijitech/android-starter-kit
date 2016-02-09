@@ -40,7 +40,7 @@ public abstract class StarterNetworkActivity<T> extends StarterActivity implemen
     showErrorModel(errorModel);
   }
 
-  @Override public void errorUnprocessable(ErrorModel errorModel) {
+  @Override public void errorUnProcessable(ErrorModel errorModel) {
     showErrorModel(errorModel);
   }
 
@@ -52,15 +52,15 @@ public abstract class StarterNetworkActivity<T> extends StarterActivity implemen
     showErrorModel(errorModel);
   }
 
-  @Override public void eNetUnreach(Throwable t) {
+  @Override public void eNetUnReach(Throwable t, ErrorModel errorModel) {
     showException(t);
   }
 
-  @Override public void errorSocketTimeout(Throwable t) {
+  @Override public void errorSocketTimeout(Throwable t, ErrorModel errorModel) {
     showException(t);
   }
 
-  @Override public void EAI_NODATA(UnknownHostException e) {
+  @Override public void errorUnknownHost(UnknownHostException e, ErrorModel errorModel) {
     showException(e);
   }
 
