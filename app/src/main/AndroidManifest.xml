@@ -15,7 +15,7 @@
       android:theme="@style/AppTheme"
       android:name=".DemoApp"
       >
-    <activity android:name=".ui.activity.ListActivity">
+    <activity android:name=".ui.activity.KeysActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 

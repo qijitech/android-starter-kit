@@ -64,14 +64,17 @@ public class KeyPaginator<T extends Entity> extends Paginator<T> implements
 
   @Override protected Call<ArrayList<T>> paginate() {
     final KeyEmitter<T> keyEmitter = (KeyEmitter<T>) mEmitter;
-    if (keyEmitter != null) {
-      return keyEmitter.paginate(previousPageItem(), nextPageItem(), perPage());
+    if (keyEmitter == null) return null;
+
+    if (isRefresh()) {
+     return keyEmitter.paginate(previousPageItem(), null, perPage());
     }
-    return null;
+
+    return keyEmitter.paginate(null, nextPageItem(), perPage());
   }
 
   @Override protected void processPage(ArrayList<T> dataArray) {
-    mHasMore = dataArray.size() >= mPerPage;
+    mHasMore = dataArray.size() >= mPerPage || isRefresh();
   }
 
   @Override public T previousPageItem() {

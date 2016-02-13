@@ -15,4 +15,10 @@ public interface FeedService {
   @GET("/feedsWithPage") Call<ArrayList<Feed>> getFeedList(
       @Query("page") int page,
       @Query("page_size") int pageSize);
+
+  @GET("/feeds") Call<ArrayList<Feed>> getFeedsWith(
+      @Query("max-id") String maxId,
+      @Query("since-id") String sinceId,
+      @Query("page_size") int pageSize);
+
 }
