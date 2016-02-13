@@ -62,8 +62,9 @@ dependencies {
   // Recycler View
   compile deps.recyclerviewV7
   compile deps.easyrecycleradapters
-  compile 'com.github.markomilos:paginate:0.5.1'
+  compile deps.paginate
   compile deps.smoothprogressbar
+  compile deps.recyclerviewanimators
 
   // Square
   compile deps.retrofit

@@ -52,5 +52,7 @@ ext {
           timber                  : ('com.jakewharton.timber:timber:' + timberVersion),
           easyrecycleradapters    : 'com.smartydroid:easyrecycleradapters:1.0.10',
           prefs                   : 'me.alexrs:prefs:1.1.0',
-          smoothprogressbar       : 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0']
+          smoothprogressbar       : 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0',
+          recyclerviewanimators   : 'jp.wasabeef:recyclerview-animators:1.3.0',
+          paginate                : 'com.github.markomilos:paginate:0.5.1']
 }
