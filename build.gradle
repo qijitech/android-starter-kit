@@ -52,5 +52,5 @@ ext {
           timber                  : ('com.jakewharton.timber:timber:' + timberVersion),
           easyrecycleradapters    : 'com.smartydroid:easyrecycleradapters:1.0.10',
           prefs                   : 'me.alexrs:prefs:1.1.0',
-  ]
+          smoothprogressbar       : 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0']
 }

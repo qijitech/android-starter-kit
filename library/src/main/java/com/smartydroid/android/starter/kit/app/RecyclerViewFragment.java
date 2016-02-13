@@ -271,6 +271,6 @@ public abstract class RecyclerViewFragment<E extends Entity>
   }
 
   @Override public boolean hasLoadedAllItems() {
-    return mPagePaginator != null && !mPagePaginator.hasMorePages();
+    return mPagePaginator != null && !mPagePaginator.canLoadMore() && !mPagePaginator.hasError();
   }
 }

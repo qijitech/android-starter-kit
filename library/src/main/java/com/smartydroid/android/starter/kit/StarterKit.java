@@ -6,7 +6,7 @@ package com.smartydroid.android.starter.kit;
  */
 public final class StarterKit {
 
-  private static int sLoadingTriggerThreshold = 4;
+  private static int sLoadingTriggerThreshold = 1;
   private static int sItemsPerPage = 20;
   private static int sItemsFirstPage = 1;
 
