@@ -24,6 +24,7 @@ import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 import java.util.ArrayList;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public abstract class RecyclerViewFragment<E extends Entity>
     extends CallbackFragment<ArrayList<E>>
@@ -69,6 +70,10 @@ public abstract class RecyclerViewFragment<E extends Entity>
 
   public PaginatorContract<E> getPagePaginator() {
     return mPagePaginator;
+  }
+
+  public Paginate getPaginate() {
+    return mPaginate;
   }
 
   @Override protected int getFragmentLayout() {
@@ -117,6 +122,8 @@ public abstract class RecyclerViewFragment<E extends Entity>
     mRecyclerView.setLayoutManager(buildLayoutManager());
     // add item decoration
     mRecyclerView.addItemDecoration(buildItemDecoration());
+
+    mRecyclerView.setItemAnimator(new SlideInUpAnimator());
 
     // set adapter
     mRecyclerView.setAdapter(mAdapter);

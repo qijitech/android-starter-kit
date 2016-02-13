@@ -17,11 +17,9 @@ import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
-import com.smartydroid.android.starter.kit.widget.ILoadMoreView;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 
-public abstract class RecyclerViewPagedFragment<E extends Entity> extends RecyclerViewFragment<E>
-    implements ILoadMoreView.OnLoadMoreClickListener {
+public abstract class RecyclerViewPagedFragment<E extends Entity> extends RecyclerViewFragment<E> {
 
   @Override public Paginate buildPaginate() {
     return Paginate.with(getRecyclerView(), this)
@@ -47,7 +45,7 @@ public abstract class RecyclerViewPagedFragment<E extends Entity> extends Recycl
    *
    * @param view View
    */
-  @Override public void onLoadMoreClick(View view) {
+  private void onLoadMoreClick(View view) {
     if (checkPaginator()) {
       getPagePaginator().loadMore();
     }
@@ -55,13 +53,7 @@ public abstract class RecyclerViewPagedFragment<E extends Entity> extends Recycl
 
   @Override public void endRequest() {
     super.endRequest();
-
-    if (checkPaginator() && !getPagePaginator().hasMorePages()) {
-      //mViewHandler.getLoadMoreView().showNoMore();
-      // set no more
-      // TODO
-      getAdapter().notifyDataSetChanged();
-    }
+    getPaginate().setHasMoreDataToLoad(getPagePaginator().hasMorePages());
   }
 
   @Override public void startRequest() {
@@ -77,7 +69,8 @@ public abstract class RecyclerViewPagedFragment<E extends Entity> extends Recycl
     return getPagePaginator() != null;
   }
 
-  private class CustomLoadingListItemCreator implements LoadingListItemCreator, View.OnClickListener {
+  private class CustomLoadingListItemCreator
+      implements LoadingListItemCreator, View.OnClickListener {
     @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
       LayoutInflater inflater = LayoutInflater.from(parent.getContext());
       View view = inflater.inflate(R.layout.list_item_loading, parent, false);
@@ -113,6 +106,7 @@ public abstract class RecyclerViewPagedFragment<E extends Entity> extends Recycl
   static class VH extends RecyclerView.ViewHolder {
     TextView textLoading;
     CircularProgressBar progressBar;
+
     public VH(View itemView) {
       super(itemView);
       textLoading = ViewUtils.getView(itemView, R.id.text_loading);
