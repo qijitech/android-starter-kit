@@ -7,15 +7,15 @@ package com.smartydroid.android.starter.kit.retrofit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.network.callback.GenericCallback;
-import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
 
@@ -42,7 +42,7 @@ public class NetworkQueue<T> implements Callback<T> {
     }
   }
 
-  @Override public void onResponse(Response<T> response, Retrofit retrofit) {
+  @Override public void onResponse(Call<T> call, Response<T> response) {
     if (response.isSuccess()) {
       callback.respondSuccess(response.body());
     } else {
@@ -64,14 +64,17 @@ public class NetworkQueue<T> implements Callback<T> {
     callback.endRequest();
   }
 
-  @Override public void onFailure(Throwable t) {
+  @Override public void onFailure(Call<T> call, Throwable t) {
     if (t instanceof ConnectException) { // 无网络
-      callback.eNetUnreach(t);
+      ConnectException e = (ConnectException) t;
+      callback.eNetUnReach(t, new ErrorModel(500, e.getLocalizedMessage()));
     } else if (t instanceof SocketTimeoutException) { // 链接超时
-      callback.errorSocketTimeout(t);
+      final SocketTimeoutException e = (SocketTimeoutException) t;
+      callback.errorSocketTimeout(t, new ErrorModel(500, e.getLocalizedMessage()));
     } else if (t instanceof UnknownHostException) {
       final UnknownHostException e = (UnknownHostException) t;
-      callback.EAI_NODATA(e);
+      ErrorModel errorModel = new ErrorModel(500, e.getLocalizedMessage());
+      callback.errorUnknownHost(e, errorModel);
     } else {
       callback.respondWithError(t);
     }
@@ -90,7 +93,7 @@ public class NetworkQueue<T> implements Callback<T> {
         callback.errorNotFound(errorModel);
         break;
       case 422:
-        callback.errorUnprocessable(errorModel);
+        callback.errorUnProcessable(errorModel);
         break;
       default:
         callback.error(errorModel);

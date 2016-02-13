@@ -4,14 +4,14 @@
  */
 package com.smartydroid.android.kit.demo.api;
 
-import com.smartydroid.android.kit.demo.api.service.NewsService;
+import com.smartydroid.android.kit.demo.api.service.FeedService;
 import com.smartydroid.android.starter.kit.retrofit.RetrofitBuilder;
-import retrofit.Retrofit;
+import retrofit2.Retrofit;
 
 public class ApiService {
 
-  public static NewsService createNewsService() {
-    return retrofit().create(NewsService.class);
+  public static FeedService createFeedService() {
+    return retrofit().create(FeedService.class);
   }
 
   private static Retrofit retrofit() {

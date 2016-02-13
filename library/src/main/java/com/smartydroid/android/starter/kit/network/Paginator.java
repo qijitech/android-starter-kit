@@ -4,7 +4,9 @@
  */
 package com.smartydroid.android.starter.kit.network;
 
+import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
+import com.smartydroid.android.starter.kit.contracts.Pagination.PaginatorContract;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.GenericCallback;
@@ -14,16 +16,16 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import retrofit.Call;
+import retrofit2.Call;
 
 import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
 
 public abstract class Paginator<T extends Entity>
-    implements com.smartydroid.android.starter.kit.contracts.Pagination.Paginator<T>,
+    implements PaginatorContract<T>,
     GenericCallback<ArrayList<T>> {
 
-  static final int DEFAULT_PER_PAGE = 20;
-  static final int DEFAULT_FIRST_PAGE = 1;
+  static final int DEFAULT_PER_PAGE = StarterKit.getItemsPerPage();
+  static final int DEFAULT_FIRST_PAGE = StarterKit.getItemsFirstPage();
 
   int mPerPage;
 
@@ -143,9 +145,9 @@ public abstract class Paginator<T extends Entity>
     delegate.errorNotFound(errorModel);
   }
 
-  @Override public void errorUnprocessable(ErrorModel errorModel) {
+  @Override public void errorUnProcessable(ErrorModel errorModel) {
     setupError();
-    delegate.errorUnprocessable(errorModel);
+    delegate.errorUnProcessable(errorModel);
   }
 
   @Override public void errorUnauthorized(ErrorModel errorModel) {
@@ -158,19 +160,19 @@ public abstract class Paginator<T extends Entity>
     delegate.errorForbidden(errorModel);
   }
 
-  @Override public void eNetUnreach(Throwable t) {
+  @Override public void eNetUnReach(Throwable t, ErrorModel errorModel) {
     setupError();
-    delegate.eNetUnreach(t);
+    delegate.eNetUnReach(t, errorModel);
   }
 
-  @Override public void errorSocketTimeout(Throwable t) {
+  @Override public void errorSocketTimeout(Throwable t, ErrorModel errorModel) {
     setupError();
-    delegate.errorSocketTimeout(t);
+    delegate.errorSocketTimeout(t, errorModel);
   }
 
-  @Override public void EAI_NODATA(UnknownHostException e) {
+  @Override public void errorUnknownHost(UnknownHostException e, ErrorModel errorModel) {
     setupError();
-    delegate.EAI_NODATA(e);
+    delegate.errorUnknownHost(e, errorModel);
   }
 
   @Override public void error(ErrorModel errorModel) {

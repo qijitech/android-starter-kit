@@ -7,13 +7,13 @@ package com.smartydroid.android.starter.kit.retrofit;
 import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.smartydroid.android.starter.kit.utilities.Utils;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import java.util.ArrayList;
 import java.util.List;
-import retrofit.JacksonConverterFactory;
-import retrofit.Retrofit;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import timber.log.Timber;
 
 public class RetrofitBuilder {
@@ -85,13 +85,6 @@ public class RetrofitBuilder {
 
       RetrofitBuilder retrofitBuilder = get();
       retrofitBuilder.baseUrl = baseUrl;
-
-      // custom interceptors
-      interceptors.add(mHeaderInterceptor);
-      interceptors.add(mLoggingInterceptor);
-      mClient.interceptors().addAll(interceptors);
-      mClient.networkInterceptors().addAll(networkInterceptors);
-
       retrofitBuilder.client = mClient;
 
       return retrofitBuilder;
@@ -116,7 +109,13 @@ public class RetrofitBuilder {
       }
 
       if (mClient == null) {
-        mClient = new OkHttpClient();
+        // custom interceptors
+        interceptors.add(mHeaderInterceptor);
+        interceptors.add(mLoggingInterceptor);
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.interceptors().addAll(interceptors);
+        builder.networkInterceptors().addAll(networkInterceptors);
+        mClient = builder.build();
       }
     }
 

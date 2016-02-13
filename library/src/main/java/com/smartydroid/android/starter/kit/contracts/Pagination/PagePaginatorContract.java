@@ -6,7 +6,7 @@ package com.smartydroid.android.starter.kit.contracts.Pagination;
 
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 
-public interface PagePaginator<T extends Entity> extends Paginator<T> {
+public interface PagePaginatorContract<T extends Entity> extends PaginatorContract<T> {
 
   /**
    * Determine the current page being paginated.

@@ -21,7 +21,7 @@ public interface ErrorCallback {
    *
    * @param errorModel ErrorModel
    */
-  void errorUnprocessable(ErrorModel errorModel);
+  void errorUnProcessable(ErrorModel errorModel);
 
   /**
    * 当前请求需要用户验证
@@ -41,21 +41,26 @@ public interface ErrorCallback {
    * 无网络错误
    *
    * @param t Throwable
+   * @param errorModel ErrorModel
    */
-  void eNetUnreach(Throwable t);
+  void eNetUnReach(Throwable t, ErrorModel errorModel);
 
   /**
    * 链接超时错误
    *
-   * @param t Throwable
+   * @param e Throwable
+   * @param errorModel ErrorModel
    */
-  void errorSocketTimeout(Throwable t);
+  void errorSocketTimeout(Throwable e, ErrorModel errorModel);
 
   /**
-   * java.net.UnknownHostException: Unable to resolve host "xxx": No address associated with hostname
+   * java.net.UnknownHostException: Unable to resolve host "xxx": No address associated with
+   * hostname
+   *
    * @param e UnknownHostException
+   * @param errorModel ErrorModel
    */
-  void EAI_NODATA(UnknownHostException e);
+  void errorUnknownHost(UnknownHostException e, ErrorModel errorModel);
 
   /**
    * 未处理的 error 信息

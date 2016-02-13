@@ -16,20 +16,20 @@ import android.view.View;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.carlosdelachica.easyrecycleradapters.decorations.DividerItemDecoration;
+import com.paginate.Paginate;
 import com.smartydroid.android.starter.kit.R;
-import com.smartydroid.android.starter.kit.contracts.Pagination.Paginator;
-import com.smartydroid.android.starter.kit.model.ErrorModel;
+import com.smartydroid.android.starter.kit.contracts.Pagination.PaginatorContract;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
-import com.smartydroid.android.starter.kit.recyclerview.RecyclerViewHandler;
-import com.smartydroid.android.starter.kit.recyclerview.ViewHandler;
 import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 import com.smartydroid.android.starter.kit.widget.LoadingLayout;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
-public abstract class RecyclerViewFragment<E extends Entity> extends StarterFragment
+public abstract class RecyclerViewFragment<E extends Entity>
+    extends CallbackFragment<ArrayList<E>>
     implements LoadingLayout.OnButtonClickListener,
+    Paginate.Callbacks,
     EasyViewHolder.OnItemClickListener,
     EasyViewHolder.OnItemLongClickListener,
     SwipeRefreshLayout.OnRefreshListener,
@@ -39,12 +39,16 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
   SwipeRefreshLayout mSwipeRefreshLayout;
   RecyclerView mRecyclerView;
 
-  Paginator<E> mPagePaginator;
-  ViewHandler mViewHandler;
+  // network
+  PaginatorContract<E> mPagePaginator;
+
+  // new
+  private EasyRecyclerAdapter mAdapter;
+  private Paginate mPaginate;
 
   public abstract void bindViewHolders(EasyRecyclerAdapter adapter);
 
-  public abstract Paginator<E> buildPaginator();
+  public abstract PaginatorContract<E> buildPaginator();
 
   public void viewHolderFactory(EasyRecyclerAdapter adapter) {
     // Left blank
@@ -57,21 +61,19 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mPagePaginator = buildPaginator();
-    mViewHandler = buildViewHandler();
-    mViewHandler.onCreate();
-    final EasyRecyclerAdapter adapter = mViewHandler.getAdapter();
-    viewHolderFactory(adapter);
-    adapter.setOnClickListener(this);
-    adapter.setOnLongClickListener(this);
-    bindViewHolders(adapter);
+    mAdapter = new EasyRecyclerAdapter(getContext());
+    viewHolderFactory(mAdapter);
+    mAdapter.setOnClickListener(this);
+    mAdapter.setOnLongClickListener(this);
+    bindViewHolders(mAdapter);
   }
 
-  public Paginator<E> getPagePaginator() {
+  public PaginatorContract<E> getPagePaginator() {
     return mPagePaginator;
   }
 
-  public ViewHandler buildViewHandler() {
-    return new RecyclerViewHandler(getContext());
+  public Paginate getPaginate() {
+    return mPaginate;
   }
 
   @Override protected int getFragmentLayout() {
@@ -87,14 +89,12 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
 
     buildRecyclerView();
     setupEmptyView();
-    setupRecyclerView();
     setupLoadingLayout(mLoadingLayout);
   }
 
   @Override public void onResume() {
     super.onResume();
     updateView();
-
     refresh();
   }
 
@@ -107,7 +107,6 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    mViewHandler.onDestroyView(mRecyclerView);
     mLoadingLayout = null;
     mSwipeRefreshLayout = null;
     mRecyclerView = null;
@@ -115,16 +114,7 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
 
   @Override public void onDestroy() {
     super.onDestroy();
-    mViewHandler.onDestroy();
     mPagePaginator = null;
-    mViewHandler = null;
-  }
-
-  /**
-   * setup
-   */
-  private void setupRecyclerView() {
-    mViewHandler.setupAdapter(mRecyclerView);
   }
 
   public void buildRecyclerView() {
@@ -132,6 +122,18 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
     mRecyclerView.setLayoutManager(buildLayoutManager());
     // add item decoration
     mRecyclerView.addItemDecoration(buildItemDecoration());
+
+    mRecyclerView.setItemAnimator(new SlideInUpAnimator());
+
+    // set adapter
+    mRecyclerView.setAdapter(mAdapter);
+
+    // build paginate
+    mPaginate = buildPaginate();
+  }
+
+  public Paginate buildPaginate() {
+    return Paginate.with(mRecyclerView, this).addLoadingListItem(false).build();
   }
 
   public RecyclerView.LayoutManager buildLayoutManager() {
@@ -154,6 +156,14 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
 
   public @DimenRes int buildInsets() {
     return R.dimen.starter_divider_insets;
+  }
+
+  public RecyclerView getRecyclerView() {
+    return mRecyclerView;
+  }
+
+  public EasyRecyclerAdapter getAdapter() {
+    return mAdapter;
   }
 
   private void updateView() {
@@ -225,68 +235,15 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
   }
 
   @Override public void respondSuccess(ArrayList<E> data) {
-    if (mViewHandler != null) {
-      mViewHandler.notifyDataSetChanged(mPagePaginator.items());
+    if (mAdapter != null) {
+      mAdapter.addAll(mPagePaginator.items());
     }
-  }
-
-  @Override public void respondWithError(Throwable error) {
-    setupException(error);
-  }
-
-  @Override public void errorNotFound(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
-  }
-
-  @Override public void errorUnprocessable(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
-  }
-
-  @Override public void errorUnauthorized(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
-  }
-
-  @Override public void errorForbidden(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
-  }
-
-  @Override public void eNetUnreach(Throwable t) {
-    setupException(t);
-  }
-
-  @Override public void errorSocketTimeout(Throwable t) {
-    setupException(t);
-  }
-
-  @Override public void EAI_NODATA(UnknownHostException e) {
-    setupException(e);
-  }
-
-  @Override public void error(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
   }
 
   public void refresh() {
     if (mPagePaginator != null && !mPagePaginator.isLoading()) {
       mPagePaginator.refresh();
     }
-  }
-
-  private void setupException(Throwable t) {
-    if (viewValid(mLoadingLayout)) {
-      mLoadingLayout.setErrorTitle(t.getMessage());
-      mLoadingLayout.setErrorSubtitle("");
-    }
-  }
-
-  private void setupErrorModel(ErrorModel errorModel) {
-    if (errorModel != null) {
-      setupError(errorModel.getMessage(), null);
-    }
-  }
-
-  public void setupError(String title, String subtitle) {
-    setupError(null, title, subtitle);
   }
 
   public void setupError(Drawable drawable, String title, String subtitle) {
@@ -297,10 +254,6 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
       mLoadingLayout.setErrorTitle(title);
       mLoadingLayout.setErrorSubtitle(subtitle);
     }
-  }
-
-  public void setupEmpty(String title, String subtitle) {
-    setupEmpty(null, title, subtitle);
   }
 
   public void setupEmpty(Drawable drawable, String title, String subtitle) {
@@ -317,26 +270,14 @@ public abstract class RecyclerViewFragment<E extends Entity> extends StarterFrag
     return mLoadingLayout;
   }
 
-  public ViewHandler getViewHandler() {
-    return mViewHandler;
+  @Override public void onLoadMore() {
   }
 
-  public void notifyDataSetChanged() {
-    if (mViewHandler != null && mViewHandler.getAdapter() != null) {
-      mViewHandler.getAdapter().notifyDataSetChanged();
-    }
+  @Override public boolean isLoading() {
+    return mPagePaginator != null && mPagePaginator.isLoading();
   }
 
-  public void notifyItemChanged(int position) {
-    if (mViewHandler != null && mViewHandler.getAdapter() != null) {
-      mViewHandler.getAdapter().notifyItemChanged(position);
-    }
+  @Override public boolean hasLoadedAllItems() {
+    return mPagePaginator != null && !mPagePaginator.canLoadMore() && !mPagePaginator.hasError();
   }
-
-  public void notifyItemInserted(int position) {
-    if (mViewHandler != null && mViewHandler.getAdapter() != null) {
-      mViewHandler.getAdapter().notifyItemInserted(position);
-    }
-  }
-
 }

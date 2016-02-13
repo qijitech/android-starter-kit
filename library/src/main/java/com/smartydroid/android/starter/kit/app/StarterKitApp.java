@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
-import com.smartydroid.android.starter.kit.BuildConfig;
+import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.account.Account;
 import com.smartydroid.android.starter.kit.retrofit.ApiVersion;
 import com.smartydroid.android.starter.kit.utilities.AppInfo;
@@ -34,7 +34,7 @@ public abstract class StarterKitApp extends Application implements ApiVersion {
   @Override public void onCreate() {
     super.onCreate();
 
-    if (BuildConfig.DEBUG) {
+    if (StarterKit.isDebug()) {
       Timber.plant(new Timber.DebugTree());
     } else {
       Timber.plant(new CrashReportingTree());

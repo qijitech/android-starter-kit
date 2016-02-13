@@ -6,7 +6,7 @@ package com.smartydroid.android.starter.kit.contracts.Pagination;
 
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import java.util.ArrayList;
-import retrofit.Call;
+import retrofit2.Call;
 
 public interface PageEmitter<T extends Entity> extends Emitter<T> {
 

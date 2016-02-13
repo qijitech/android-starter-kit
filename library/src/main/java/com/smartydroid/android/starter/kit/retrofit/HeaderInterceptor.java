@@ -4,7 +4,7 @@
  */
 package com.smartydroid.android.starter.kit.retrofit;
 
-import com.squareup.okhttp.Interceptor;
+import okhttp3.Interceptor;
 
 public interface HeaderInterceptor extends Interceptor {
 }
