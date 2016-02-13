@@ -4,33 +4,34 @@
  */
 package com.smartydroid.android.starter.kit.app;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+import com.paginate.Paginate;
+import com.paginate.recycler.LoadingListItemSpanLookup;
+import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
-import com.smartydroid.android.starter.kit.recyclerview.PagedRecyclerViewHandler;
-import com.smartydroid.android.starter.kit.recyclerview.ViewHandler;
 import com.smartydroid.android.starter.kit.widget.ILoadMoreView;
 
 public abstract class RecyclerViewPagedFragment<E extends Entity>
     extends RecyclerViewFragment<E>
-    implements ViewHandler.OnScrollBottomListener,
+    implements
     ILoadMoreView.OnLoadMoreClickListener {
 
-  @Override public ViewHandler buildViewHandler() {
-    return new PagedRecyclerViewHandler(getContext());
+  @Override public Paginate buildPaginate() {
+    return Paginate.with(getRecyclerView(), this)
+        .setLoadingTriggerThreshold(StarterKit.getLoadingTriggerThreshold())
+        .addLoadingListItem(true)
+        .setLoadingListItemCreator(null)
+        .setLoadingListItemSpanSizeLookup(new LoadingListItemSpanLookup() {
+          @Override
+          public int getSpanSize() {
+            return 3;
+          }
+        })
+        .build();
   }
 
-  @Override public void OnScrollBottom() {
-    if (getPagePaginator().canLoadMore()) {
-      getPagePaginator().loadMore();
-    }
-  }
-
-  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    mViewHandler.setOnScrollBottomListener(mRecyclerView, this);
-    mViewHandler.setOnLoadMoreClickListener(this);
+  @Override public void onLoadMore() {
+    getPagePaginator().loadMore();
   }
 
   /**
@@ -46,15 +47,20 @@ public abstract class RecyclerViewPagedFragment<E extends Entity>
   @Override public void endRequest() {
     super.endRequest();
 
-    if (checkPaginator() && !getPagePaginator().hasMorePages() && checkViewHandler()) {
-      mViewHandler.getLoadMoreView().showNoMore();
+    if (checkPaginator() && !getPagePaginator().hasMorePages()) {
+      //mViewHandler.getLoadMoreView().showNoMore();
+      // set no more
+      // TODO
+      getAdapter().notifyDataSetChanged();
     }
   }
 
   @Override public void startRequest() {
     super.startRequest();
-    if (checkPaginator() && !getPagePaginator().isRefresh() && checkViewHandler()) {
-      mViewHandler.getLoadMoreView().showLoading();
+    if (checkPaginator() && !getPagePaginator().isRefresh()) {
+      //mViewHandler.getLoadMoreView().showLoading();
+      // set show loading
+      // TODO
     }
   }
 
@@ -62,7 +68,4 @@ public abstract class RecyclerViewPagedFragment<E extends Entity>
     return getPagePaginator() != null;
   }
 
-  private boolean checkViewHandler() {
-    return mViewHandler != null && mViewHandler.getLoadMoreView() != null;
-  }
 }

@@ -62,6 +62,7 @@ dependencies {
   // Recycler View
   compile deps.recyclerviewV7
   compile deps.easyrecycleradapters
+  compile 'com.github.markomilos:paginate:0.5.1'
 
   // Square
   compile deps.retrofit

@@ -4,6 +4,7 @@
  */
 package com.smartydroid.android.starter.kit.network;
 
+import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.contracts.Pagination.Emitter;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PaginatorContract;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
@@ -23,8 +24,8 @@ public abstract class Paginator<T extends Entity>
     implements PaginatorContract<T>,
     GenericCallback<ArrayList<T>> {
 
-  static final int DEFAULT_PER_PAGE = 20;
-  static final int DEFAULT_FIRST_PAGE = 1;
+  static final int DEFAULT_PER_PAGE = StarterKit.getItemsPerPage();
+  static final int DEFAULT_FIRST_PAGE = StarterKit.getItemsFirstPage();
 
   int mPerPage;
 
