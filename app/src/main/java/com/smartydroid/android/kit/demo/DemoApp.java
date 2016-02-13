@@ -5,6 +5,7 @@
 package com.smartydroid.android.kit.demo;
 
 import android.os.StrictMode;
+import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.account.Account;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.smartydroid.android.starter.kit.retrofit.RetrofitBuilder;
@@ -15,6 +16,12 @@ import static android.os.Build.VERSION_CODES.GINGERBREAD;
 public class DemoApp extends StarterKitApp {
 
   @Override public void onCreate() {
+
+    // common config
+    new StarterKit.Builder()
+        .setDebug(BuildConfig.DEBUG)
+        .build();
+
     super.onCreate();
     //enabledStrictMode();
     //LeakCanary.install(this);

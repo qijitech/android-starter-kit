@@ -27,7 +27,7 @@ public class KeyFeedsFragment extends StarterKeysFragment<Feed> {
   @Override public Call<ArrayList<Feed>> paginate(Feed sinceItem, Feed maxItem, int perPage) {
     return mFeedService.getFeedsWith(
         maxItem == null ? null : maxItem.id + "",
-        sinceItem == null ? null : sinceItem.id + "",
+        null,
         perPage);
   }
 

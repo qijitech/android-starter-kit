@@ -74,7 +74,7 @@ public class KeyPaginator<T extends Entity> extends Paginator<T> implements
   }
 
   @Override protected void processPage(ArrayList<T> dataArray) {
-    mHasMore = dataArray.size() >= mPerPage || isRefresh();
+    mHasMore = dataArray.size() >= mPerPage;
   }
 
   @Override public T previousPageItem() {
