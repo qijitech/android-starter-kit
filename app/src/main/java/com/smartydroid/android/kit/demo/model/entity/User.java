@@ -1,7 +1,9 @@
 package com.smartydroid.android.kit.demo.model.entity;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +18,8 @@ import com.smartydroid.android.starter.kit.model.entity.Entity;
 
   public Integer id;
   public String phone;
+  public String nickname;
+  public String avatar;
   public String token;
 
   public User() {
@@ -25,6 +29,8 @@ import com.smartydroid.android.starter.kit.model.entity.Entity;
   public User(Parcel source) {
     this.id = source.readInt();
     this.phone = source.readString();
+    this.nickname = source.readString();
+    this.avatar = source.readString();
     this.token = source.readString();
   }
 
@@ -45,7 +51,19 @@ import com.smartydroid.android.starter.kit.model.entity.Entity;
   @Override public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(id);
     dest.writeString(phone);
+    dest.writeString(nickname);
+    dest.writeString(avatar);
     dest.writeString(token);
+  }
+
+  public Uri uri() {
+    if (TextUtils.isEmpty(avatar)) return null;
+
+    if (avatar.startsWith("http://")) {
+      return Uri.parse(avatar);
+    }
+
+    return null;
   }
 
   @Override public String token() {

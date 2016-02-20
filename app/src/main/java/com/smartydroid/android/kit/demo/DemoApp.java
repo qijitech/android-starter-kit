@@ -5,6 +5,7 @@
 package com.smartydroid.android.kit.demo;
 
 import android.os.StrictMode;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smartydroid.android.kit.demo.model.entity.User;
 import com.smartydroid.android.starter.kit.StarterKit;
@@ -34,6 +35,8 @@ public class DemoApp extends StarterKitApp {
         .debug(BuildConfig.DEBUG)
         .baseUrl(Profile.API_ENDPOINT)
         .build();
+
+    Fresco.initialize(appContext());
   }
 
   private void enabledStrictMode() {

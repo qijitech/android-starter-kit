@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.smartydroid.android.starter.kit.widget.ForegroundLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:foreground="?attr/selectableItemBackground"
+    >
+
+  <include layout="@layout/include_feed_header"/>
+
+  <com.smartydroid.android.kit.demo.ui.view.PhotoCollectionView
+      android:id="@+id/feed_photo_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/feed_activity_horizontal_margin_left"
+      android:layout_marginStart="@dimen/feed_activity_horizontal_margin_left"
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:layout_marginEnd="@dimen/activity_horizontal_margin"
+      android:layout_marginBottom="@dimen/activity_vertical_margin"
+      />
+
+</com.smartydroid.android.starter.kit.widget.ForegroundLinearLayout>

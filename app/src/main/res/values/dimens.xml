@@ -17,6 +17,14 @@
   <dimen name="text_size_display_1_material">34sp</dimen>
   <dimen name="text_size_headline_material">24sp</dimen>
 
+  <dimen name="inline_padding">4dp</dimen>
+  <dimen name="default_padding">8dp</dimen>
+  <dimen name="default_padding_tip">10dp</dimen>
+  <dimen name="large_padding">16dp</dimen>
+  <dimen name="xlarge_padding">20dp</dimen>
+  <dimen name="item_padding">2dp</dimen>
+  <dimen name="huge_padding">40dp</dimen>
+
   <dimen name="listPreferredItemHeight">64dp</dimen>
   <dimen name="listPreferredItemHeightSmall">48dp</dimen>
   <dimen name="listPreferredItemHeightLarge">80dp</dimen>
@@ -24,5 +32,9 @@
   <dimen name="listPreferredItemPaddingRight">40dp</dimen>
 
   <dimen name="divider_height">1dp</dimen>
+
+  <dimen name="feed_user_avatar_size">56dp</dimen>
+  <dimen name="feed_thumbnail_size">80dp</dimen>
+  <dimen name="feed_activity_horizontal_margin_left">88dp</dimen>
 
 </resources>

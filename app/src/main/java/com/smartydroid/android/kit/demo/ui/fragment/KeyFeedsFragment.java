@@ -7,6 +7,7 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.kit.demo.api.ApiService;
 import com.smartydroid.android.kit.demo.api.service.FeedService;
 import com.smartydroid.android.kit.demo.model.entity.Feed;
+import com.smartydroid.android.kit.demo.ui.viewholder.FeedViewHolderFactory;
 import com.smartydroid.android.kit.demo.ui.viewholder.FeedsViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterKeysFragment;
 import java.util.ArrayList;
@@ -22,6 +23,10 @@ public class KeyFeedsFragment extends StarterKeysFragment<Feed> {
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mFeedService = ApiService.createFeedService();
+  }
+
+  @Override public void viewHolderFactory(EasyRecyclerAdapter adapter) {
+    adapter.viewHolderFactory(new FeedViewHolderFactory(getContext()));
   }
 
   @Override public Call<ArrayList<Feed>> paginate(Feed sinceItem, Feed maxItem, int perPage) {

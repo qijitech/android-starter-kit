@@ -9,12 +9,16 @@ import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
+import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true) public class Feed extends Entity {
 
   public int id;
   public String content;
   @JsonProperty("created_at") public int createdAt;
+
+  public User user;
+  public ArrayList<Image> images;
 
   public Feed() {
   }
@@ -23,6 +27,10 @@ import com.smartydroid.android.starter.kit.model.entity.Entity;
     this.id = source.readInt();
     this.content = source.readString();
     this.createdAt = source.readInt();
+
+    this.user = source.readParcelable(getClass().getClassLoader());
+    this.images = new ArrayList<>();
+    source.readTypedList(images, Image.CREATOR);
   }
 
   public static final Parcelable.Creator<Feed> CREATOR = new Parcelable.Creator<Feed>() {
@@ -43,5 +51,7 @@ import com.smartydroid.android.starter.kit.model.entity.Entity;
     dest.writeInt(id);
     dest.writeString(content);
     dest.writeInt(createdAt);
+    dest.writeParcelable(user, flags);
+    dest.writeTypedList(images);
   }
 }

@@ -9,4 +9,7 @@
   <string name="btn_login">登录</string>
   <string name="login_or">或</string>
 
+  <string name="placehold_short">Placehold</string>
+  <string name="placehold_long">Fugit assumenda est incidunt. Odio doloribus non consequatur itaque. Reiciendis et laborum non enim. </string>
+
 </resources>
