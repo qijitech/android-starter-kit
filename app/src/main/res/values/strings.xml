@@ -7,6 +7,8 @@
   <string name="feed_with_page">Page分页</string>
   <string name="feed_with_id">ID分页</string>
 
+  <string name="account_settings">设置</string>
+
   <string name="login_username_hint">手机号</string>
   <string name="login_passowrd_hint">密码</string>
   <string name="login_passowrd_error">密码长度不能低于6位</string>
@@ -15,6 +17,7 @@
   <string name="btn_login">登录</string>
   <string name="login_or">或</string>
 
+  <string name="content_description">Content Description</string>
   <string name="placehold_short">Placehold</string>
   <string name="placehold_long">Fugit assumenda est incidunt. Odio doloribus non consequatur itaque. Reiciendis et laborum non enim. </string>
 
