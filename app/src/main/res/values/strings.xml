@@ -1,3 +1,12 @@
 <resources>
   <string name="app_name">android-starter-kit</string>
+
+  <string name="login_username_hint">手机号</string>
+  <string name="login_passowrd_hint">密码</string>
+  <string name="login_passowrd_error">密码长度不能低于6位</string>
+  <string name="login_username_error">手机号码格式不对</string>
+  <string name="login_bottom_register">没有账号?去注册</string>
+  <string name="btn_login">登录</string>
+  <string name="login_or">或</string>
+
 </resources>
