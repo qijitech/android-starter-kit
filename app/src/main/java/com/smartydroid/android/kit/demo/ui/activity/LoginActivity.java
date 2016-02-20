@@ -1,9 +1,11 @@
 package com.smartydroid.android.kit.demo.ui.activity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.EditText;
@@ -96,6 +98,8 @@ public class LoginActivity extends StarterNetworkActivity<User> {
     super.respondSuccess(data);
     AccountManager.store(data);
     Snackbar.make(getWindow().getDecorView(), "登录成功", Snackbar.LENGTH_SHORT).show();
+    Intent upIntent = NavUtils.getParentActivityIntent(this);
+    NavUtils.navigateUpTo(this, upIntent);
   }
 
   @Override public void endRequest() {
