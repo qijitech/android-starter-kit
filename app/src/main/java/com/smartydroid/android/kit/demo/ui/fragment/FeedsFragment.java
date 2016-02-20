@@ -11,7 +11,7 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.kit.demo.api.ApiService;
 import com.smartydroid.android.kit.demo.api.service.FeedService;
 import com.smartydroid.android.kit.demo.model.entity.Feed;
-import com.smartydroid.android.kit.demo.ui.viewholder.FeedsViewHolder;
+import com.smartydroid.android.kit.demo.ui.viewholder.FeedsTextViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterPagedFragment;
 import java.util.ArrayList;
 import retrofit2.Call;
@@ -34,7 +34,7 @@ public class FeedsFragment extends StarterPagedFragment<Feed> {
   }
 
   @Override public void bindViewHolders(EasyRecyclerAdapter adapter) {
-    adapter.bind(Feed.class, FeedsViewHolder.class);
+    adapter.bind(Feed.class, FeedsTextViewHolder.class);
   }
 
   @Override public void onItemClick(int position, View view) {

@@ -13,21 +13,26 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.smartydroid.android.kit.demo.R;
 import com.smartydroid.android.kit.demo.model.entity.Feed;
+import com.smartydroid.android.kit.demo.ui.view.CustomLinearLayoutManager;
+import com.smartydroid.android.kit.demo.ui.view.PhotoCollectionView;
 
-public class FeedsViewHolder extends EasyViewHolder<Feed> {
+public class FeedsSingleImageViewHolder extends EasyViewHolder<Feed> {
 
   @Bind(R.id.image_feed_user_avatar) SimpleDraweeView mAvatarView;
   @Bind(R.id.text_feed_username) TextView mUsernameTextView;
   @Bind(R.id.text_feed_content) TextView mContentTextView;
+  @Bind(R.id.feed_photo_view) PhotoCollectionView mPhotoView;
 
-  public FeedsViewHolder(Context context, ViewGroup parent) {
-    super(context, parent, R.layout.list_item_feed);
+  public FeedsSingleImageViewHolder(Context context, ViewGroup parent) {
+    super(context, parent, R.layout.list_item_feed_image);
     ButterKnife.bind(this, itemView);
+    mPhotoView.setLayoutManager(new CustomLinearLayoutManager(context));
   }
 
   @Override public void bindTo(Feed feed) {
     mAvatarView.setImageURI(feed.user.uri());
     mUsernameTextView.setText(feed.user.nickname);
     mContentTextView.setText(feed.content);
+    mPhotoView.setData(feed.images);
   }
 }

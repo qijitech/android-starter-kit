@@ -8,8 +8,8 @@
 
   <com.facebook.drawee.view.SimpleDraweeView
       android:id="@+id/image_feed_thumbnail"
-      android:layout_width="@dimen/feed_thumbnail_size"
-      android:layout_height="@dimen/feed_thumbnail_size"
+      android:layout_width="150dp"
+      android:layout_height="200dp"
       fresco:placeholderImage="@drawable/placeholder"
       />
 </FrameLayout>

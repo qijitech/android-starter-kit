@@ -36,17 +36,11 @@ public class PhotoCollectionView extends RecyclerView {
 
   private void initialize() {
     setNestedScrollingEnabled(false);
-    setLayoutManager(new CustomGridLayoutManager(getContext(), 3));
     mAdapter = new SimpleAdapter();
     setAdapter(mAdapter);
   }
 
   public void setData(ArrayList<Image> data) {
-    if (data.size() > 1) {
-      setLayoutManager(new CustomGridLayoutManager(getContext(), 3));
-    } else {
-      setLayoutManager(new CustomLinearLayoutManager(getContext()));
-    }
     mAdapter.setData(data);
   }
 
