@@ -15,8 +15,11 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       >
-    <activity android:name=".ui.activity.KeysActivity"
-        android:launchMode="singleTask">
+
+    <activity
+        android:name=".ui.activity.MainActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -30,7 +33,7 @@
         android:theme="@style/AppTheme.Close">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value="com.smartydroid.android.kit.demo.ui.activity.KeysActivity"/>
+          android:value="com.smartydroid.android.kit.demo.ui.activity.MainActivity"/>
     </activity>
   </application>
 

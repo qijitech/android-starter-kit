@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#25c099</color>
-    <color name="colorPrimaryDark">#0a9d78</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#25C099</color>
+    <color name="colorPrimaryDark">#0A9D78</color>
+    <color name="colorAccent">#C1E4DA</color>
 
     <color name="primary_btn_normal">@color/colorPrimary</color>
     <color name="primary_btn_pressed">@color/colorPrimaryDark</color>
     <color name="btn_disable">#CCCCCC</color>
+
+    <color name="tab_text_color_normal">#858585</color>
+    <color name="tab_text_color_selected">@color/colorPrimary</color>
 
 </resources>

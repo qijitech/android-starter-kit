@@ -1,6 +1,11 @@
+/**
+ * Created by YuGang Yang on October 28, 2015.
+ * Copyright 2007-2015 Laputapp.com. All rights reserved.
+ */
 package com.smartydroid.android.kit.demo.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
@@ -9,16 +14,17 @@ import com.smartydroid.android.kit.demo.api.service.FeedService;
 import com.smartydroid.android.kit.demo.model.entity.Feed;
 import com.smartydroid.android.kit.demo.ui.viewholder.FeedViewHolderFactory;
 import com.smartydroid.android.kit.demo.ui.viewholder.FeedsTextViewHolder;
-import com.smartydroid.android.starter.kit.app.StarterKeysFragment;
+import com.smartydroid.android.starter.kit.app.StarterPagedFragment;
 import java.util.ArrayList;
 import retrofit2.Call;
 
-/**
- * Created by YuGang Yang on February 13, 2016.
- * Copyright 20015-2016 qiji.tech. All rights reserved.
- */
-public class KeyFeedsFragment extends StarterKeysFragment<Feed> {
+public class FeedsPagedFragment extends StarterPagedFragment<Feed> {
+
   private FeedService mFeedService;
+
+  public static Fragment create() {
+    return new FeedsPagedFragment();
+  }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -29,11 +35,8 @@ public class KeyFeedsFragment extends StarterKeysFragment<Feed> {
     adapter.viewHolderFactory(new FeedViewHolderFactory(getContext()));
   }
 
-  @Override public Call<ArrayList<Feed>> paginate(Feed sinceItem, Feed maxItem, int perPage) {
-    return mFeedService.getFeedsWith(
-        maxItem == null ? null : maxItem.id + "",
-        null,
-        perPage);
+  @Override public Call<ArrayList<Feed>> paginate(int page, int perPage) {
+    return mFeedService.getFeedList(page, perPage);
   }
 
   @Override public Object getKeyForData(Feed item) {
@@ -49,4 +52,5 @@ public class KeyFeedsFragment extends StarterKeysFragment<Feed> {
     final Feed feed = getItem(position);
     Toast.makeText(getContext(), feed.content, Toast.LENGTH_SHORT).show();
   }
+
 }

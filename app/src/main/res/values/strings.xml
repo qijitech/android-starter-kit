@@ -1,5 +1,11 @@
 <resources>
-  <string name="app_name">android-starter-kit</string>
+  <string name="app_name">奇迹空间</string>
+  <string name="toolbar_title_account">个人中心</string>
+
+  <string name="tab_home">首页</string>
+  <string name="tab_account">我的</string>
+  <string name="feed_with_page">Page分页</string>
+  <string name="feed_with_id">ID分页</string>
 
   <string name="login_username_hint">手机号</string>
   <string name="login_passowrd_hint">密码</string>
