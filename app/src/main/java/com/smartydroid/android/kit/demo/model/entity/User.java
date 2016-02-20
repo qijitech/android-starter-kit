@@ -18,6 +18,10 @@ import com.smartydroid.android.starter.kit.model.entity.Entity;
   public String phone;
   public String token;
 
+  public User() {
+
+  }
+
   public User(Parcel source) {
     this.id = source.readInt();
     this.phone = source.readString();

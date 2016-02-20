@@ -6,7 +6,6 @@ package com.smartydroid.android.starter.kit.app;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.network.callback.GenericCallback;
 import com.smartydroid.android.starter.kit.retrofit.NetworkQueue;
@@ -15,7 +14,6 @@ import java.net.UnknownHostException;
 public abstract class StarterNetworkActivity<T> extends StarterActivity implements GenericCallback<T> {
 
   private NetworkQueue<T> networkQueue;
-  public abstract View provideSnackbarView();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -69,15 +67,15 @@ public abstract class StarterNetworkActivity<T> extends StarterActivity implemen
   }
 
   private void showErrorModel(ErrorModel errorModel) {
-    if (showMessage() && errorModel != null && provideSnackbarView() != null) {
-      Snackbar.make(provideSnackbarView(),
+    if (showMessage() && errorModel != null) {
+      Snackbar.make(getWindow().getDecorView(),
           errorModel.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
   }
 
   private void showException(Throwable e) {
-    if (showMessage() && e != null && provideSnackbarView() != null) {
-      Snackbar.make(provideSnackbarView(),
+    if (showMessage() && e != null) {
+      Snackbar.make(getWindow().getDecorView(),
           e.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
   }
