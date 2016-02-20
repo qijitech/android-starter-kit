@@ -11,7 +11,7 @@
   </style>
 
   <style name="AppTheme.Close">
-    <item name="homeAsUpIndicator">@drawable/ic_close_white_18dp</item>
+    <item name="homeAsUpIndicator">@drawable/ic_close_white_24dp</item>
   </style>
 
 
