@@ -18,6 +18,7 @@
 
     <activity
         android:name=".ui.activity.MainActivity"
+        android:launchMode="singleTask"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar">
       <intent-filter>
@@ -28,7 +29,18 @@
     </activity>
 
     <activity
+        android:name=".ui.activity.TabActivity"
+        android:launchMode="singleTask"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="com.smartydroid.android.kit.demo.ui.activity.MainActivity"/>
+    </activity>
+
+    <activity
         android:name=".ui.activity.LoginActivity"
+        android:launchMode="singleTask"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.Close">
       <meta-data

@@ -81,6 +81,15 @@ public class LoginActivity extends StarterNetworkActivity<User> {
   }
 
   @OnClick({ R.id.btn_login, R.id.container_register }) public void onClick(View view) {
+    switch (view.getId()) {
+      case R.id.btn_login: {
+        doLogin();
+        break;
+      }
+    }
+  }
+
+  private void doLogin() {
     hideSoftInputMethod();
     final String username = mUsernameEdit.getText().toString();
     final String password = mPasswordEdit.getText().toString();
@@ -106,5 +115,4 @@ public class LoginActivity extends StarterNetworkActivity<User> {
     super.endRequest();
     dismissProgressLoading();
   }
-
 }

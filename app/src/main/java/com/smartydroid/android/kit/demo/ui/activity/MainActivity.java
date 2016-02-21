@@ -1,73 +1,106 @@
 package com.smartydroid.android.kit.demo.ui.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 import butterknife.Bind;
-import butterknife.ButterKnife;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.smartydroid.android.kit.demo.NavUtils;
 import com.smartydroid.android.kit.demo.R;
-import com.smartydroid.android.kit.demo.ui.fragment.AccountFragment;
-import com.smartydroid.android.kit.demo.ui.fragment.FeedsFragment;
+import com.smartydroid.android.kit.demo.model.entity.User;
+import com.smartydroid.android.starter.kit.account.AccountManager;
 import com.smartydroid.android.starter.kit.app.StarterActivity;
+import com.smartydroid.android.starter.kit.utilities.ViewUtils;
 
+/**
+ * Created by YuGang Yang on February 21, 2016.
+ * Copyright 20015-2016 qiji.tech. All rights reserved.
+ */
 public class MainActivity extends StarterActivity {
 
-  // Tab identifier
-  public static final String TAB_FEEDS = "tab_feed_identifier";
-  public static final String TAB_ACCOUNT = "tab_account_identifier";
+  @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+  @Bind(R.id.toolbar) Toolbar mToolbar;
+  @Bind(R.id.nav_view) NavigationView navigationView;
 
-  @Bind(android.R.id.tabhost) FragmentTabHost mTabHost;
+  View mAccountContainer;
+  View mLoginContainer;
+
+  SimpleDraweeView mAvatarView;
+  TextView mUsernameTextView;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    setupTab();
-  }
+    setSupportActionBar(mToolbar);
 
-  private void setupTab() {
-    mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+    final ActionBar ab = getSupportActionBar();
+    if (ab != null) {
+      ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+      ab.setDisplayHomeAsUpEnabled(true);
+    }
+    if (navigationView != null) {
+      setupDrawerContent(navigationView);
+    }
 
-    mTabHost.addTab(createTabSpec(TAB_FEEDS, R.string.tab_home,
-        R.drawable.selector_tab_feeds), FeedsFragment.class, null);
-    mTabHost.addTab(createTabSpec(TAB_ACCOUNT, R.string.tab_account,
-        R.drawable.selector_tab_account), AccountFragment.class, null);
-  }
+    if (navigationView != null) {
+      final View headerView = navigationView.getHeaderView(0);
+      if (headerView != null) {
+        mAccountContainer = ViewUtils.getView(headerView, R.id.container_account);
+        mLoginContainer = ViewUtils.getView(headerView, R.id.container_login);
+        mAvatarView = ViewUtils.getView(headerView, R.id.image_avatar);
+        mUsernameTextView = ViewUtils.getView(headerView, R.id.text_nav);
 
-  private TabHost.TabSpec createTabSpec(String tag, int stringRes, int drawableResId) {
-    TabHost.TabSpec spec = mTabHost.newTabSpec(tag);
-    spec.setIndicator(createTabIndicator(stringRes, drawableResId));
-    spec.setContent(new TabHost.TabContentFactory() {
-      public View createTabContent(String tag) {
-        return findViewById(android.R.id.tabcontent);
+        mLoginContainer.setOnClickListener(new View.OnClickListener() {
+          @Override public void onClick(View v) {
+            NavUtils.startLogin(MainActivity.this);
+          }
+        });
       }
-    });
-    return spec;
+    }
   }
 
-  private View createTabIndicator(int res, int drawableResId) {
-    LinearLayout tabIndicator = (LinearLayout) LayoutInflater.from(this)
-        .inflate(R.layout.tab_indicator, mTabHost.getTabWidget(), false);
-
-    ImageView icon = (ImageView) tabIndicator.findViewById(android.R.id.icon1);
-    icon.setImageResource(drawableResId);
-
-    TextView text = ButterKnife.findById(tabIndicator, android.R.id.text1);
-    text.setText(res);
-
-    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tabIndicator.getLayoutParams();
-
-    tabIndicator.setEnabled(true);
-    params.weight = 1.0F;
-    tabIndicator.setGravity(Gravity.CENTER);
-
-    return tabIndicator;
+  @Override protected void onResume() {
+    super.onResume();
+    if (AccountManager.isLogin()) {
+      ViewUtils.setGone(mLoginContainer, true);
+      ViewUtils.setGone(mAccountContainer, false);
+      User user = AccountManager.getCurrentAccount();
+      mUsernameTextView.setText(user.phone);
+      mAvatarView.setImageURI(user.uri());
+    } else {
+      ViewUtils.setGone(mLoginContainer, false);
+      ViewUtils.setGone(mAccountContainer, true);
+    }
   }
 
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        mDrawerLayout.openDrawer(GravityCompat.START);
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void setupDrawerContent(NavigationView navigationView) {
+    navigationView.setNavigationItemSelectedListener(
+        new NavigationView.OnNavigationItemSelectedListener() {
+          @Override public boolean onNavigationItemSelected(MenuItem menuItem) {
+            menuItem.setChecked(true);
+            mDrawerLayout.closeDrawers();
+            switch (menuItem.getItemId()) {
+              case R.id.nav_tab_bar:
+                NavUtils.startTab(MainActivity.this);
+                break;
+            }
+            return true;
+          }
+        });
+  }
 }
-
