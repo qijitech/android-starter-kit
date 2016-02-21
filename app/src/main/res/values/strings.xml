@@ -6,6 +6,7 @@
   <string name="tab_account">我的</string>
   <string name="feed_with_page">Page分页</string>
   <string name="feed_with_id">ID分页</string>
+  <string name="feed_without">普通</string>
 
   <string name="account_settings">设置</string>
 

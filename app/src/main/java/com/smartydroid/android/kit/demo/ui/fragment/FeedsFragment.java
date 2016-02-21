@@ -36,6 +36,7 @@ public class FeedsFragment extends BaseFragment {
     Resources r = StarterKitApp.appResources();
     mAdapter.addFragment(FeedsPagedFragment.create(), r.getString(R.string.feed_with_page));
     mAdapter.addFragment(FeedsKeyFragment.create(), r.getString(R.string.feed_with_id));
+    mAdapter.addFragment(FeedsWithoutFragment.create(), r.getString(R.string.feed_without));
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
