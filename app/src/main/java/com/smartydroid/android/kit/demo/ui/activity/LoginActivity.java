@@ -3,6 +3,7 @@ package com.smartydroid.android.kit.demo.ui.activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
@@ -114,5 +115,10 @@ public class LoginActivity extends StarterNetworkActivity<User> {
   @Override public void endRequest() {
     super.endRequest();
     dismissProgressLoading();
+  }
+
+  @Nullable @Override public Intent getParentActivityIntent() {
+    // 可以根据action来手动指定你想返回的Parent Activity
+    return super.getParentActivityIntent();
   }
 }
