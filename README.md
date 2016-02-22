@@ -1,3 +1,7 @@
+
+![](https://raw.githubusercontent.com/qijitech/android-starter-kit/master/Screenshots/Screenshots.gif)
+
+
 # 引入权限
 
 ```java
