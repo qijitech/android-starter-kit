@@ -1,6 +1,5 @@
 
 ![](https://raw.githubusercontent.com/qijitech/android-starter-kit/master/Screenshots/Screenshots.gif)
-![](https://raw.githubusercontent.com/qijitech/android-starter-kit/master/Screenshots/Screenshots.mp4)
 
 
 # 引入权限
