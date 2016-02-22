@@ -1,5 +1,5 @@
 
-![](https://raw.githubusercontent.com/qijitech/android-starter-kit/master/Screenshots/Screenshots.gif)
+<iframe height=498 width=510 src="http://player.youku.com/embed/XMTQ3ODc4NzM5Ng==" frameborder=0 allowfullscreen></iframe>
 
 
 # 引入权限
