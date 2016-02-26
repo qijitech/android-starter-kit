@@ -47,6 +47,16 @@
           android:name="android.support.PARENT_ACTIVITY"
           android:value="com.smartydroid.android.kit.demo.ui.activity.MainActivity"/>
     </activity>
+
+    <activity
+        android:name=".ui.activity.AccountProfileActivity"
+        android:launchMode="singleTask"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.Close">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="com.smartydroid.android.kit.demo.ui.activity.TabActivity"/>
+    </activity>
   </application>
 
 </manifest>

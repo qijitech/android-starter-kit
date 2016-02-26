@@ -4,6 +4,7 @@ import com.smartydroid.android.kit.demo.model.entity.User;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -22,4 +23,6 @@ public interface AuthService {
   @FormUrlEncoded @POST("/auth/login") Call<User> login(
       @Field("phone") String phone,
       @Field("password") String password);
+
+  @GET("/user/profile") Call<User> profile();
 }

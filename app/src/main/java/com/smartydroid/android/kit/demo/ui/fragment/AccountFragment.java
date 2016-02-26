@@ -8,6 +8,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.OnClick;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.smartydroid.android.kit.demo.NavUtils;
 import com.smartydroid.android.kit.demo.R;
 import com.smartydroid.android.kit.demo.model.entity.User;
 import com.smartydroid.android.starter.kit.account.AccountManager;
@@ -51,6 +52,6 @@ public class AccountFragment extends BaseFragment {
   @OnClick({
       R.id.container_account_settings,
   }) public void onClick(View view) {
-
+    NavUtils.startAccountProfile(getActivity());
   }
 }
