@@ -54,6 +54,7 @@ dependencies {
 
   compile deps.appcompatV7
   compile deps.supportDesign
+  compile deps.supportAnnotations
 
   // Jake Wharton
   compile deps.butterknife
@@ -74,7 +75,6 @@ dependencies {
 
   // prefs
   compile deps.prefs
-
 }
 
 apply from: '../.buildscript/deploy.gradle'

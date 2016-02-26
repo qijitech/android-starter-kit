@@ -5,7 +5,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.0.0-beta5'
+    classpath 'com.android.tools.build:gradle:2.0.0-beta6'
 
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
@@ -32,13 +32,14 @@ ext {
   minSdkVersion = 14
   targetSdkVersion = 23
 
-  supportVersion = '23.1.1'
+  supportVersion = '23.2.0'
   okhttpVersion = '3.1.1'
   retrofitVersion = '2.0.0-beta4'
   butterknifeVersion = '7.0.1'
   timberVersion = '4.1.0'
 
   deps = [supportV4               : ('com.android.support:support-v4:' + supportVersion),
+          supportAnnotations      : ('com.android.support:support-annotations:' + supportVersion),
           appcompatV7             : ('com.android.support:appcompat-v7:' + supportVersion),
           supportDesign           : ('com.android.support:design:' + supportVersion),
           gridlayoutV7            : ('com.android.support:gridlayout-v7:' + supportVersion),
