@@ -270,9 +270,9 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
 
   /**
    * get content view
-   * @return T
+   * @return T ContentView
    */
-  public <T> T getContentView() {
+  @SuppressWarnings("unchecked") public <T> T getContentView() {
     return (T) mContentView;
   }
 
