@@ -9,7 +9,7 @@ import retrofit2.http.POST;
 
 /**
  * Created by YuGang Yang on February 20, 2016.
- * Copyright 20015-2016 qiji.tech. All rights reserved.
+ * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 public interface AuthService {
 

@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 
 /**
  * Created by YuGang Yang on February 07, 2016.
- * Copyright 20015-2016 qiji.tech. All rights reserved.
+ * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 public abstract class CallbackFragment<E> extends StarterFragment
     implements

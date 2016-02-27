@@ -9,7 +9,7 @@ import com.smartydroid.android.kit.demo.ui.activity.TabActivity;
 
 /**
  * Created by YuGang Yang on February 20, 2016.
- * Copyright 20015-2016 qiji.tech. All rights reserved.
+ * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 public final class NavUtils {
 

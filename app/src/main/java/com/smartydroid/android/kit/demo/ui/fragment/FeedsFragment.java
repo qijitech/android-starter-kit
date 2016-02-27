@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Created by YuGang Yang on February 21, 2016.
- * Copyright 20015-2016 qiji.tech. All rights reserved.
+ * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 public class FeedsFragment extends BaseFragment {
 
