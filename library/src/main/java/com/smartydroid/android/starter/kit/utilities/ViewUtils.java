@@ -21,9 +21,9 @@ public class ViewUtils {
    * <p>
    * This method has no effect if the view visibility is currently invisible
    *
-   * @param view
-   * @param gone
-   * @return view
+   * @param view View
+   * @param gone boolean
+   * @return view View
    */
   public static <V extends View> V setGone(final V view, final boolean gone) {
     if (view != null)
@@ -42,9 +42,9 @@ public class ViewUtils {
    * <p>
    * This method has no effect if the view visibility is currently gone
    *
-   * @param view
-   * @param invisible
-   * @return view
+   * @param view View
+   * @param invisible boolean
+   * @return view View
    */
   public static <V extends View> V setInvisible(final V view,
       final boolean invisible) {
@@ -61,10 +61,10 @@ public class ViewUtils {
 
   /**
    * Generics version of {@link android.app.Activity#findViewById}
-   * @param parent
-   * @param viewId
-   * @param <T>
-   * @return
+   * @param parent Activity
+   * @param viewId viewId
+   * @param <T> extends View
+   * @return View
    */
   @SuppressWarnings("unchecked") public static <T extends View> T getViewOrNull(Activity parent,
       int viewId) {
@@ -79,10 +79,10 @@ public class ViewUtils {
 
   /**
    * Same as {@link android.app.Activity#findViewById}, but crashes if there's no view.
-   * @param parent
-   * @param viewId
-   * @param <T>
-   * @return
+   * @param parent Activity
+   * @param viewId viewId
+   * @param <T> View
+   * @return View
    */
   @SuppressWarnings("unchecked") public static <T extends View> T getView(Activity parent,
       int viewId) {
@@ -91,10 +91,10 @@ public class ViewUtils {
 
   /**
    * Same as {@link android.view.View#findViewById}, but crashes if there's no view.
-   * @param parent
-   * @param viewId
-   * @param <T>
-   * @return
+   * @param parent View
+   * @param viewId viewId
+   * @param <T> View
+   * @return View
    */
   @SuppressWarnings("unchecked") public static <T extends View> T getView(View parent, int viewId) {
     return (T) checkView(parent.findViewById(viewId));

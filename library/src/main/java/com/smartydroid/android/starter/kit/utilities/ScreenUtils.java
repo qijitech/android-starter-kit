@@ -95,8 +95,8 @@ public final class ScreenUtils {
   /**
    * 获取实际屏幕高度
    * 如 1920 * 1080
-   * @param activity
-   * @return
+   * @param activity Activity
+   * @return int[]
    */
   public static int[] getRealMetrics(Activity activity) {
     int[] dpi = new int[2];
@@ -118,8 +118,8 @@ public final class ScreenUtils {
 
   /**
    *
-   * @param activity
-   * @return
+   * @param activity Activity
+   * @return int
    */
   public static int getStatusHeight(Activity activity) {
     Rect rect = new Rect();

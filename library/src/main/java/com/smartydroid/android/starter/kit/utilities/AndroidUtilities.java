@@ -38,9 +38,9 @@ public class AndroidUtilities {
 
   /**
    * 获取AndroidManifest中配置的meta-data
-   * @param context
-   * @param key
-   * @return
+   * @param context Context
+   * @param key String
+   * @return String
    */
   public static String getMetaData(Context context, String key) {
     Bundle metaData = null;

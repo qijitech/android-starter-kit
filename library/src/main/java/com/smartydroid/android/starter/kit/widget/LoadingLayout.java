@@ -270,7 +270,7 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
 
   /**
    * get content view
-   * @return
+   * @return T
    */
   public <T> T getContentView() {
     return (T) mContentView;
@@ -476,7 +476,6 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
     if (currentViewId != R.id.container_starter_loading_empty_error
         || currentViewId == R.id.container_content) {
       showNext();
-      return;
     }
   }
 
@@ -488,7 +487,6 @@ public class LoadingLayout extends ViewSwitcher implements View.OnClickListener 
     if (currentViewId == R.id.container_starter_loading_empty_error
         || currentViewId != R.id.container_content) {
       showPrevious();
-      return;
     }
   }
 
