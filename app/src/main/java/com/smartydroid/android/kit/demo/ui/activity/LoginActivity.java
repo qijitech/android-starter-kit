@@ -116,6 +116,10 @@ public class LoginActivity extends StarterNetworkActivity<User> {
 
   @Nullable @Override public Intent getParentActivityIntent() {
     // 可以根据action来手动指定你想返回的Parent Activity
+    String action = getIntent().getAction();
+    if (com.smartydroid.android.kit.demo.NavUtils.ACCOUNT_PROFILE_ACTION.equals(action)) {
+      return new Intent(this, AccountProfileActivity.class);
+    }
     return super.getParentActivityIntent();
   }
 }

@@ -43,10 +43,12 @@ android {
   }
 }
 
-//repositories {
-//  maven { url "${System.env.HOME}/.m2/repository" }
-//  mavenCentral()
-//}
+repositories {
+  jcenter()
+  mavenCentral()
+  maven { url "${System.env.HOME}/.m2/repository" }
+  maven { url "https://jitpack.io" }
+}
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -76,6 +78,10 @@ dependencies {
   // prefs
   compile deps.prefs
   compile deps.kprogresshud
+
+  compile(deps.materialDialogs) {
+    transitive = true
+  }
 }
 
 apply from: '../.buildscript/deploy.gradle'

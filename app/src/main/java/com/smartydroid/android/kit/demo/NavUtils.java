@@ -13,6 +13,8 @@ import com.smartydroid.android.kit.demo.ui.activity.TabActivity;
  */
 public final class NavUtils {
 
+  public static final String ACCOUNT_PROFILE_ACTION = "com.smartydroid.android.kit.demo.AccountProfileActivity";
+
   public static void startTab(Activity activity) {
     Intent intent = new Intent(activity, TabActivity.class);
     ActivityCompat.startActivity(activity, intent, null);
@@ -20,6 +22,12 @@ public final class NavUtils {
 
   public static void startLogin(Activity activity) {
     Intent intent = new Intent(activity, LoginActivity.class);
+    ActivityCompat.startActivity(activity, intent, null);
+  }
+
+  public static void startLogin(Activity activity, String action) {
+    Intent intent = new Intent(activity, LoginActivity.class);
+    intent.setAction(action);
     ActivityCompat.startActivity(activity, intent, null);
   }
 

@@ -4,6 +4,7 @@
  */
 package com.smartydroid.android.starter.kit.network.callback;
 
+import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
@@ -13,11 +14,16 @@ import static com.smartydroid.android.starter.kit.utilities.Preconditions.checkN
 
 public class MessageCallback<T> extends SimpleCallback<T> {
 
+  private final Activity activity;
   private final View view;
+  public MessageCallback(Activity activity) {
+    checkNotNull(activity, "activity == null");
+    this.activity = activity;
+    this.view = activity.getWindow().getDecorView();
+  }
 
-  public MessageCallback(View view) {
-    checkNotNull(view, "view == null");
-    this.view = view;
+  public Activity getActivity() {
+    return activity;
   }
 
   @Override public void errorNotFound(ErrorModel errorModel) {

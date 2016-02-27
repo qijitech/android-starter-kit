@@ -11,4 +11,9 @@
   <string name="starter_loadingmore_nomore">没有更多数据</string>
   <string name="starter_loadingmore_failure">出问题了</string>
 
+  <string name="starter_dialog_login_title">提示</string>
+  <string name="starter_dialog_login_content">你还没有登录?</string>
+  <string name="starter_dialog_login_positive">去登录</string>
+  <string name="starter_dialog_login_negative">以后再说</string>
+
 </resources>

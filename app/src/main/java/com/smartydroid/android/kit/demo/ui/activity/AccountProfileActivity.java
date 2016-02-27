@@ -7,8 +7,8 @@ import com.smartydroid.android.kit.demo.R;
 import com.smartydroid.android.kit.demo.api.ApiService;
 import com.smartydroid.android.kit.demo.api.service.AuthService;
 import com.smartydroid.android.kit.demo.model.entity.User;
+import com.smartydroid.android.kit.demo.util.MessageCallback;
 import com.smartydroid.android.starter.kit.app.StarterActivity;
-import com.smartydroid.android.starter.kit.network.callback.MessageCallback;
 import com.smartydroid.android.starter.kit.utilities.NetworkUtils;
 import retrofit2.Call;
 
@@ -28,7 +28,7 @@ public class AccountProfileActivity extends StarterActivity {
     AuthService authService = ApiService.createAuthService();
     Call<User> userCall = authService.profile();
 
-    mNetworkUtils = NetworkUtils.create(new MessageCallback<User>(getWindow().getDecorView()) {
+    mNetworkUtils = NetworkUtils.create(new MessageCallback<User>(this) {
       @Override public void respondSuccess(User data) {
         super.respondSuccess(data);
         mUsernameTextView.setText(data.phone);
