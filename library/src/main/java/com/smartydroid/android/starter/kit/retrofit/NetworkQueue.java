@@ -17,7 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
+import static com.smartydroid.android.starter.kit.utilities.Preconditions.checkNotNull;
 
 public class NetworkQueue<T> implements Callback<T> {
 

@@ -32,7 +32,7 @@ public class DemoApp extends StarterKitApp {
 
     // init api service
     new RetrofitBuilder.Builder()
-        .debug(BuildConfig.DEBUG)
+        .accept(Profile.API_ACCEPT)
         .baseUrl(Profile.API_ENDPOINT)
         .build();
 
@@ -57,9 +57,5 @@ public class DemoApp extends StarterKitApp {
       // Nothing to do
     }
     return null;
-  }
-
-  @Override public String accept() {
-    return Profile.API_ACCEPT;
   }
 }

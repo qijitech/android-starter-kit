@@ -11,12 +11,11 @@ import android.os.Handler;
 import android.util.Log;
 import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.account.Account;
-import com.smartydroid.android.starter.kit.retrofit.ApiVersion;
 import com.smartydroid.android.starter.kit.utilities.AppInfo;
 import com.smartydroid.android.starter.kit.utilities.FakeCrashLibrary;
 import timber.log.Timber;
 
-public abstract class StarterKitApp extends Application implements ApiVersion {
+public abstract class StarterKitApp extends Application {
 
   private static volatile Context sAppContext;
   private static volatile StarterKitApp mInstance;

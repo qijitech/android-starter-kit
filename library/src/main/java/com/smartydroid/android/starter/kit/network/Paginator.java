@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import retrofit2.Call;
 
-import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
+import static com.smartydroid.android.starter.kit.utilities.Preconditions.checkNotNull;
 
 public abstract class Paginator<T extends Entity>
     implements PaginatorContract<T>,

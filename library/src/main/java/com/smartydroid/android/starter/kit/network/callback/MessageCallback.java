@@ -9,7 +9,7 @@ import android.view.View;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
 import java.net.UnknownHostException;
 
-import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
+import static com.smartydroid.android.starter.kit.utilities.Preconditions.checkNotNull;
 
 public class MessageCallback<T> extends SimpleCallback<T> {
 

@@ -7,7 +7,7 @@ package com.smartydroid.android.starter.kit.utilities;
 import android.app.Activity;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
-import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
+import static com.smartydroid.android.starter.kit.utilities.Preconditions.checkNotNull;
 
 public class StarterCommon {
 

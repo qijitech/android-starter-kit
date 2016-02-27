@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import com.smartydroid.android.starter.kit.account.AccountProvider;
 import com.smartydroid.android.starter.kit.app.StarterKitApp;
 import com.smartydroid.android.starter.kit.utilities.AppInfo;
+import com.smartydroid.android.starter.kit.utilities.Strings;
 import java.io.IOException;
 import okhttp3.Headers;
 import okhttp3.Request;
@@ -16,14 +17,15 @@ import okhttp3.Response;
 public class DefaultHeaderInterceptor implements HeaderInterceptor {
 
   AccountProvider mAccountProvider;
-  ApiVersion mApiVersion;
+  /**
+   * example: application/vnd.xxx.v1+json
+   */
+  String mApiVersionAccept;
 
-  public DefaultHeaderInterceptor(AccountProvider accountProvider, ApiVersion apiVersion) {
+  public DefaultHeaderInterceptor(AccountProvider accountProvider, String apiAccept) {
     mAccountProvider = accountProvider;
-    mApiVersion = apiVersion;
+    mApiVersionAccept = apiAccept;
   }
-
-
 
   @Override public Response intercept(Chain chain) throws IOException {
     Request originalRequest = chain.request();
@@ -42,12 +44,12 @@ public class DefaultHeaderInterceptor implements HeaderInterceptor {
       builder.add("channel", channel);
     }
 
-    if (mAccountProvider != null && mAccountProvider.provideToken() != null) {
+    if (mAccountProvider != null && !Strings.isBlank(mAccountProvider.provideToken())) {
       builder.add("Authorization", "Bearer " + mAccountProvider.provideToken());
     }
 
-    if (mApiVersion != null && mApiVersion.accept() != null) {
-      builder.add("Accept", mApiVersion.accept());
+    if (!Strings.isBlank(mApiVersionAccept)) {
+      builder.add("Accept", mApiVersionAccept);
     }
 
     Request compressedRequest = originalRequest

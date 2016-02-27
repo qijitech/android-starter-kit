@@ -5,11 +5,7 @@
 package com.smartydroid.android.starter.kit.retrofit;
 
 import com.smartydroid.android.starter.kit.account.AccountManager;
-import com.smartydroid.android.starter.kit.app.StarterKitApp;
-import com.smartydroid.android.starter.kit.utilities.Utils;
-import java.util.ArrayList;
-import java.util.List;
-import okhttp3.Interceptor;
+import com.smartydroid.android.starter.kit.utilities.Preconditions;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -40,9 +36,7 @@ public class RetrofitBuilder {
   }
 
   public Retrofit retrofit() {
-    if (baseUrl == null) {
-      Utils.checkNotNull(baseUrl, "Base URL required.");
-    }
+    Preconditions.checkNotNull(baseUrl, "Base URL required.");
 
     if (mRetrofit == null) {
       Retrofit.Builder builder = newRetrofitBuilder();
@@ -65,21 +59,12 @@ public class RetrofitBuilder {
 
   public static class Builder {
     private String baseUrl;
-
-    private HeaderInterceptor mHeaderInterceptor;
-
-    private HttpLoggingInterceptor.Level level;
-    private HttpLoggingInterceptor mLoggingInterceptor;
-
-    private final List<Interceptor> interceptors = new ArrayList<>();
-    private final List<Interceptor> networkInterceptors = new ArrayList<>();
-
+    private String accept;
     private OkHttpClient mClient;
 
     public RetrofitBuilder build() {
-      if (baseUrl == null) {
-        Utils.checkNotNull(baseUrl, "Base URL required.");
-      }
+      Preconditions.checkNotNull(baseUrl, "Base URL required.");
+      Preconditions.checkNotNull(accept, "Api Version required");
 
       ensureSaneDefaults();
 
@@ -91,32 +76,24 @@ public class RetrofitBuilder {
     }
 
     private void ensureSaneDefaults() {
-      if (level == null) {
-        level = HttpLoggingInterceptor.Level.NONE;
-      }
-
-      if (mHeaderInterceptor == null) {
-        mHeaderInterceptor = new DefaultHeaderInterceptor(AccountManager.getInstance(), StarterKitApp.getInstance());
-      }
-
-      if (mLoggingInterceptor == null) {
-        mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-          @Override public void log(String message) {
-            Timber.d(message);
-          }
-        });
-        mLoggingInterceptor.setLevel(level);
-      }
-
       if (mClient == null) {
-        // custom interceptors
-        interceptors.add(mHeaderInterceptor);
-        interceptors.add(mLoggingInterceptor);
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.interceptors().addAll(interceptors);
-        builder.networkInterceptors().addAll(networkInterceptors);
-        mClient = builder.build();
+        mClient = defaultClient();
       }
+    }
+
+    private OkHttpClient defaultClient() {
+      // default interceptors
+      OkHttpClient.Builder builder = new OkHttpClient.Builder();
+      HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(
+          new HttpLoggingInterceptor.Logger() {
+            @Override public void log(String message) {
+              Timber.d(message);
+            }
+          });
+      loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+      builder.addInterceptor(loggingInterceptor);
+      builder.addInterceptor(new DefaultHeaderInterceptor(AccountManager.getInstance(), accept));
+      return builder.build();
     }
 
     public Builder client(OkHttpClient client) {
@@ -124,34 +101,15 @@ public class RetrofitBuilder {
       return this;
     }
 
-    public Builder headerInterceptor(HeaderInterceptor headerInterceptor) {
-      mHeaderInterceptor = headerInterceptor;
-      return this;
-    }
-
-    public Builder loggingInterceptor(HttpLoggingInterceptor loggingInterceptor) {
-      mLoggingInterceptor = loggingInterceptor;
-      return this;
-    }
-
-    public Builder addInterceptors(Interceptor interceptor) {
-      interceptors.add(interceptor);
-      return this;
-    }
-
-    public Builder addNetworkInterceptors(Interceptor interceptor) {
-      networkInterceptors.add(interceptor);
-      return this;
-    }
-
     public Builder baseUrl(String baseUrl) {
-      Utils.checkNotNull(baseUrl, "baseUrl == null");
+      Preconditions.checkNotNull(baseUrl, "baseUrl == null");
       this.baseUrl = baseUrl;
       return this;
     }
 
-    public Builder debug(boolean debug) {
-      level = debug ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE;
+    public Builder accept(String accept) {
+      Preconditions.checkNotNull(accept, "accept == null");
+      this.accept = accept;
       return this;
     }
   }
