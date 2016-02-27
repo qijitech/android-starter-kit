@@ -81,6 +81,7 @@ public abstract class StarterNetworkActivity<T> extends StarterActivity implemen
   }
 
   @Override public void startRequest() {
+    showHud();
   }
 
   @Override public void respondSuccess(T data) {
@@ -91,6 +92,7 @@ public abstract class StarterNetworkActivity<T> extends StarterActivity implemen
   }
 
   @Override public void endRequest() {
+    dismissHud();
   }
 
 }

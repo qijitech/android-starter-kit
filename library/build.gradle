@@ -75,6 +75,7 @@ dependencies {
 
   // prefs
   compile deps.prefs
+  compile deps.kprogresshud
 }
 
 apply from: '../.buildscript/deploy.gradle'

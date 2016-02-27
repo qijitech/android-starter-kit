@@ -18,13 +18,11 @@ public class AccountProfileActivity extends StarterNetworkActivity<User> {
 
   @Bind(R.id.text_account_username) TextView mUsernameTextView;
 
-  private AuthService mAuthService;
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_profile);
-    mAuthService = ApiService.createAuthService();
-    Call<User> userCall = mAuthService.profile();
+    AuthService authService = ApiService.createAuthService();
+    Call<User> userCall = authService.profile();
 
     networkQueue().enqueue(userCall);
   }
@@ -32,15 +30,5 @@ public class AccountProfileActivity extends StarterNetworkActivity<User> {
   @Override public void respondSuccess(User data) {
     super.respondSuccess(data);
     mUsernameTextView.setText(data.phone);
-  }
-
-  @Override public void startRequest() {
-    super.startRequest();
-    showProgressLoading(null);
-  }
-
-  @Override public void endRequest() {
-    super.endRequest();
-    dismissProgressLoading();
   }
 }

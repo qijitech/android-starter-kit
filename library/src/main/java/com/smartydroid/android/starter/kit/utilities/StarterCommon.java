@@ -5,98 +5,55 @@
 package com.smartydroid.android.starter.kit.utilities;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.text.TextUtils;
-import com.smartydroid.android.starter.kit.R;
-import com.smartydroid.android.starter.kit.widget.ProgressLoading;
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 import static com.smartydroid.android.starter.kit.utilities.Utils.checkNotNull;
 
 public class StarterCommon {
 
-  private ProgressLoading mProgressLoading;
-  private ProgressLoading mUnBackProgressLoading;
-  private boolean progressShow;
-
+  private KProgressHUD mHud;
   private Activity activity;
 
-  public StarterCommon(Activity activity) {
+  public static StarterCommon create(Activity activity) {
+    return new StarterCommon(activity);
+  }
+
+  private StarterCommon(Activity activity) {
     checkNotNull(activity, "activity == null");
     this.activity = activity;
   }
 
   public void onDestroy() {
-    mProgressLoading = null;
-    mUnBackProgressLoading = null;
+    mHud = null;
     activity = null;
   }
 
-  public void showProgressLoading(int resId) {
+  // hud
+  public void showHud(int resId) {
     if (!isFinishing()) {
-      showProgressLoading(activity.getString(resId));
+      showHud(activity.getString(resId));
     }
   }
 
-  private boolean isFinishing() {
-    return activity == null || activity.isFinishing();
-  }
-
-  public void showProgressLoading(String text) {
-    if (mProgressLoading == null) {
-      mProgressLoading = new ProgressLoading(activity, R.style.ProgressLoadingTheme);
-      mProgressLoading.setCanceledOnTouchOutside(true);
-      mProgressLoading.setOnCancelListener(new DialogInterface.OnCancelListener() {
-        @Override public void onCancel(DialogInterface dialog) {
-          progressShow = false;
-        }
-      });
-    }
-    if (!TextUtils.isEmpty(text)) {
-      mProgressLoading.text(text);
-    } else {
-      mProgressLoading.text(null);
-    }
-    progressShow = true;
-    mProgressLoading.show();
-  }
-
-  public boolean isProgressShow() {
-    return progressShow;
-  }
-
-  public void dismissProgressLoading() {
-    if (mProgressLoading != null && ! isFinishing()) {
-      progressShow = false;
-      mProgressLoading.dismiss();
+  public void showHud(String text) {
+    if (!isFinishing()) {
+      showHud(text, false);
     }
   }
 
-  public void showUnBackProgressLoading(int resId) {
-    showUnBackProgressLoading(activity.getString(resId));
-  }
-
-  // 按返回键不可撤销的
-  public void showUnBackProgressLoading(String text) {
-    if (mUnBackProgressLoading == null) {
-      mUnBackProgressLoading = new ProgressLoading(activity, R.style.ProgressLoadingTheme) {
-        @Override public void onBackPressed() {
-        }
-      };
-    }
-    if (!TextUtils.isEmpty(text)) {
-      mUnBackProgressLoading.text(text);
-    } else {
-      mUnBackProgressLoading.text(null);
-    }
-    mUnBackProgressLoading.show();
-  }
-
-  public void dismissUnBackProgressLoading() {
-    if (mUnBackProgressLoading != null && !isFinishing()) {
-      mUnBackProgressLoading.dismiss();
+  public void showHud(String text, boolean isCancellable) {
+    if (!isFinishing()) {
+      mHud = HudUtils.showHud(activity, text, isCancellable);
     }
   }
 
+  public void dismissHud() {
+    if (mHud != null && !isFinishing()) {
+      mHud.dismiss();
+    }
+  }
+
+  // keyboard
   public void hideSoftInputMethod() {
     try {
       if (activity.getCurrentFocus() != null) {
@@ -117,5 +74,9 @@ public class StarterCommon {
 
   public boolean isImmActive() {
     return KeyboardUtils.isActive(activity);
+  }
+
+  private boolean isFinishing() {
+    return activity == null || activity.isFinishing();
   }
 }

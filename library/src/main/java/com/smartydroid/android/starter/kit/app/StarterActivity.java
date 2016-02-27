@@ -20,7 +20,7 @@ public abstract class StarterActivity extends AppCompatActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    starterCommon = new StarterCommon(this);
+    starterCommon = StarterCommon.create(this);
   }
 
   @Override public void setContentView(int layoutResID) {
@@ -40,64 +40,40 @@ public abstract class StarterActivity extends AppCompatActivity {
     starterCommon = null;
   }
 
-  public boolean isProgressShow() {
-    return starterCommon != null && starterCommon.isProgressShow();
+  public void showHud() {
+    showHud(null);
   }
 
-  public void showProgressLoading(int resId) {
-    if (starterCommon == null) {
-      return;
-    }
-    showProgressLoading(getString(resId));
+  public void showHud(int resId) {
+    showHud(getString(resId));
   }
 
-  public void showProgressLoading(String text) {
-    if (starterCommon == null) {
-      return;
-    }
-    starterCommon.showProgressLoading(text);
+  public void showHud(String text) {
+    showHud(text, true);
   }
 
-  public void dismissProgressLoading() {
-    if (starterCommon == null) {
-      return;
+  public void showHud(String text, boolean isCancellable) {
+    if (starterCommon != null) {
+      starterCommon.showHud(text, isCancellable);
     }
-    starterCommon.dismissProgressLoading();
   }
 
-  public void showUnBackProgressLoading(int resId) {
-    if (starterCommon == null) {
-      return;
+  public void dismissHud() {
+    if (starterCommon != null) {
+      starterCommon.dismissHud();
     }
-    showUnBackProgressLoading(getString(resId));
-  }
-
-  public void showUnBackProgressLoading(String text) {
-    if (starterCommon == null) {
-      return;
-    }
-    starterCommon.showUnBackProgressLoading(text);
-  }
-
-  public void dismissUnBackProgressLoading() {
-    if (starterCommon == null) {
-      return;
-    }
-    starterCommon.dismissUnBackProgressLoading();
   }
 
   public void hideSoftInputMethod() {
-    if (starterCommon == null) {
-      return;
+    if (starterCommon != null) {
+      starterCommon.hideSoftInputMethod();
     }
-    starterCommon.hideSoftInputMethod();
   }
 
   public void showSoftInputMethod() {
-    if (starterCommon == null) {
-      return;
+    if (starterCommon != null) {
+      starterCommon.showSoftInputMethod();
     }
-    starterCommon.showSoftInputMethod();
   }
 
   public boolean isImmActive() {
@@ -144,5 +120,4 @@ public abstract class StarterActivity extends AppCompatActivity {
     intent.removeExtra("_uri");
     return intent;
   }
-
 }

@@ -100,12 +100,10 @@ public class LoginActivity extends StarterNetworkActivity<User> {
   }
 
   @Override public void startRequest() {
-    super.startRequest();
-    showProgressLoading("正在登录...");
+    showHud("正在登录...");
   }
 
   @Override public void respondSuccess(User data) {
-    super.respondSuccess(data);
     AccountManager.store(data);
     Snackbar.make(getWindow().getDecorView(), "登录成功", Snackbar.LENGTH_SHORT).show();
     Intent upIntent = NavUtils.getParentActivityIntent(this);
@@ -113,8 +111,7 @@ public class LoginActivity extends StarterNetworkActivity<User> {
   }
 
   @Override public void endRequest() {
-    super.endRequest();
-    dismissProgressLoading();
+    dismissHud();
   }
 
   @Nullable @Override public Intent getParentActivityIntent() {
