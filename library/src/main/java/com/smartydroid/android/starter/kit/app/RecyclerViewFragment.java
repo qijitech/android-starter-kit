@@ -110,11 +110,13 @@ public abstract class RecyclerViewFragment<E extends Entity>
     mLoadingLayout = null;
     mSwipeRefreshLayout = null;
     mRecyclerView = null;
+    mPaginate = null;
   }
 
   @Override public void onDestroy() {
     super.onDestroy();
     mPagePaginator = null;
+    mAdapter = null;
   }
 
   public void buildRecyclerView() {
