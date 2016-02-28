@@ -60,7 +60,7 @@ public final class AppInfo {
   }
 
   public AppInfo(Context context) {
-    initDeviceId(context);
+    // initDeviceId(context);
     initVersion(context);
     initChannel(context);
     initOs();
