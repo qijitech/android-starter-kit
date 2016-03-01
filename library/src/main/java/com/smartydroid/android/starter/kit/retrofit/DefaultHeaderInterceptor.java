@@ -36,7 +36,7 @@ public class DefaultHeaderInterceptor implements HeaderInterceptor {
     builder.add("Content-Encoding", "gzip")
         .add("version-code", appInfo.versionCode)
         .add("version-name", appInfo.version)
-        //.add("device", appInfo.deviceId)
+        .add("device", appInfo.deviceId)
         .add("platform", "android");
 
     final String channel = appInfo.channel;

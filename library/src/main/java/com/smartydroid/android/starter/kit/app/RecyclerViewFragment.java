@@ -100,9 +100,9 @@ public abstract class RecyclerViewFragment<E extends Entity>
 
   @Override public void onPause() {
     super.onPause();
-    if (mPagePaginator.isLoading()) {
+    //if (mPagePaginator.isLoading()) {
       mPagePaginator.cancel();
-    }
+    //}
   }
 
   @Override public void onDestroyView() {

@@ -53,7 +53,9 @@ public abstract class RecyclerViewPagedFragment<E extends Entity> extends Recycl
 
   @Override public void endRequest() {
     super.endRequest();
-    getPaginate().setHasMoreDataToLoad(getPagePaginator().hasMorePages());
+    if (getPaginate() != null) {
+      getPaginate().setHasMoreDataToLoad(getPagePaginator().hasMorePages());
+    }
   }
 
   @Override public void startRequest() {
