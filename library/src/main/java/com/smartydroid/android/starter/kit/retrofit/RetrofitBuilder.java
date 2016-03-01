@@ -64,8 +64,6 @@ public class RetrofitBuilder {
 
     public RetrofitBuilder build() {
       Preconditions.checkNotNull(baseUrl, "Base URL required.");
-      Preconditions.checkNotNull(accept, "Api Version required");
-
       ensureSaneDefaults();
 
       RetrofitBuilder retrofitBuilder = get();
