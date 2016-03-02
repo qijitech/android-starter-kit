@@ -37,6 +37,8 @@ ext {
   retrofitVersion = '2.0.0'
   butterknifeVersion = '7.0.1'
   timberVersion = '4.1.1'
+  rxJavaVersion = '1.1.1'
+  rxAndroidVersion = '1.1.0'
 
   deps = [supportV4               : ('com.android.support:support-v4:' + supportVersion),
           supportAnnotations      : ('com.android.support:support-annotations:' + supportVersion),
@@ -47,6 +49,8 @@ ext {
           okhttp                  : ('com.squareup.okhttp3:okhttp:' + okhttpVersion),
           okhttpurlconnection     : ('com.squareup.okhttp3:okhttp-urlconnection:' + okhttpVersion),
           okhttpLoggingInterceptor: ('com.squareup.okhttp3:logging-interceptor:' + okhttpVersion),
+          rxJava                  : ('io.reactivex:rxjava:' + rxJavaVersion),
+          rxAndroid               : ('io.reactivex:rxandroid:' + rxAndroidVersion),
           retrofit                : ('com.squareup.retrofit2:retrofit:' + retrofitVersion),
           retrofitConverterJackson: ('com.squareup.retrofit2:converter-jackson:' + retrofitVersion),
           butterknife             : ('com.jakewharton:butterknife:' + butterknifeVersion),
