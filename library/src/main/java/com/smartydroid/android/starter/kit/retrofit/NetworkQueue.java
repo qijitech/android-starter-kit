@@ -43,7 +43,7 @@ public class NetworkQueue<T> implements Callback<T> {
   }
 
   @Override public void onResponse(Call<T> call, Response<T> response) {
-    if (response.isSuccess()) {
+    if (response.isSuccessful()) {
       callback.respondSuccess(response.body());
     } else {
       final int statusCode = response.code();
