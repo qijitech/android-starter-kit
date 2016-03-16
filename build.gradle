@@ -32,7 +32,7 @@ ext {
   minSdkVersion = 14
   targetSdkVersion = 23
 
-  supportVersion = '24.0.0-alpha1'
+  supportVersion = '23.2.1'
   okhttpVersion = '3.2.0'
   retrofitVersion = '2.0.0'
   butterknifeVersion = '7.0.1'
