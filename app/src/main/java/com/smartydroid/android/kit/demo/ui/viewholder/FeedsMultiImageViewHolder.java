@@ -5,6 +5,7 @@
 package com.smartydroid.android.kit.demo.ui.viewholder;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -13,7 +14,6 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.smartydroid.android.kit.demo.R;
 import com.smartydroid.android.kit.demo.model.entity.Feed;
-import com.smartydroid.android.kit.demo.ui.view.CustomGridLayoutManager;
 import com.smartydroid.android.kit.demo.ui.view.PhotoCollectionView;
 
 public class FeedsMultiImageViewHolder extends EasyViewHolder<Feed> {
@@ -26,7 +26,7 @@ public class FeedsMultiImageViewHolder extends EasyViewHolder<Feed> {
   public FeedsMultiImageViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_feed_image);
     ButterKnife.bind(this, itemView);
-    mPhotoView.setLayoutManager(new CustomGridLayoutManager(context, 3));
+    mPhotoView.setLayoutManager(new GridLayoutManager(context, 3));
   }
 
   @Override public void bindTo(Feed feed) {

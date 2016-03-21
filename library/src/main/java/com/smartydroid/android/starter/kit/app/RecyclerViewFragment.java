@@ -85,7 +85,9 @@ import support.ui.content.RequiresContent;
   @Override public void onResume() {
     super.onResume();
     mPaginate.setHasMoreDataToLoad(false);
-    refresh();
+    if (!mPagePaginator.dataHasLoaded()) {
+      refresh();
+    }
     updateView();
   }
 
@@ -212,7 +214,8 @@ import support.ui.content.RequiresContent;
   }
 
   public void refresh() {
-    if (isNotNull(mPagePaginator) && !mPagePaginator.isLoading()) {
+    if (isNotNull(mPagePaginator) &&
+        !mPagePaginator.isLoading()) {
       mPagePaginator.refresh();
     }
   }
