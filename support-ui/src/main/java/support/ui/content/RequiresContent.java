@@ -10,6 +10,4 @@ import java.lang.annotation.RetentionPolicy;
   Class<? extends View> loadView() default DefaultLoadView.class;
 
   Class<? extends View> emptyView() default DefaultEmptyView.class;
-
-  Class<? extends View> contentView() default DefaultContentView.class;
 }

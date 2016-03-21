@@ -24,13 +24,13 @@ public final class ContentPresenter {
   private SparseArrayCompat<View> mViewArray = new SparseArrayCompat<>(3);
   int mCurrentId = ID_NONE;
   ViewGroup mContainer;
+  View mContentView;
   Context mContext;
 
   private EasyRecyclerAdapter mAdapter;
 
-  public ContentPresenter(Class<View> loadViewClass, Class<View> emptyViewClass,
-      Class<View> contentViewClass) {
-    buildViewClassArray(loadViewClass, emptyViewClass, contentViewClass);
+  public ContentPresenter(Class<View> loadViewClass, Class<View> emptyViewClass) {
+    buildViewClassArray(loadViewClass, emptyViewClass);
   }
 
   public ContentPresenter onCreate(Context context) {
@@ -39,8 +39,13 @@ public final class ContentPresenter {
     return this;
   }
 
-  public ContentPresenter onAttachView(ViewGroup container) {
+  public ContentPresenter attachContainer(ViewGroup container) {
     mContainer = container;
+    return this;
+  }
+
+  public ContentPresenter attachContentView(View contentView) {
+    mContentView = contentView;
     return this;
   }
 
@@ -50,6 +55,7 @@ public final class ContentPresenter {
   }
 
   public void onDestroy() {
+    mContentView = null;
     mContext = null;
     mContainer = null;
     mViewClassArray = null;
@@ -84,7 +90,11 @@ public final class ContentPresenter {
   public ContentPresenter displayContentView() {
     final int contentViewId = ContentViewId;
     if (mCurrentId != contentViewId) {
-      displayView(contentViewId);
+      final ViewGroup container = mContainer;
+      container.removeAllViews();
+      final ViewGroup.LayoutParams layoutParams = LayoutHelper.createViewGroupLayoutParams();
+      container.addView(mContentView, layoutParams);
+      mCurrentId = contentViewId;
     }
     return this;
   }
@@ -145,11 +155,10 @@ public final class ContentPresenter {
   }
 
   private ContentPresenter buildViewClassArray(Class<View> loadViewClass,
-      Class<View> emptyViewClass, Class<View> contentViewClass) {
+      Class<View> emptyViewClass) {
     final SparseArrayCompat<Class<View>> viewClassArray = mViewClassArray;
     viewClassArray.put(LoadViewId, loadViewClass);
     viewClassArray.put(EmptyViewId, emptyViewClass);
-    viewClassArray.put(ContentViewId, contentViewClass);
     return this;
   }
 

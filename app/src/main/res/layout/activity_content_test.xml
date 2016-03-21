@@ -17,7 +17,15 @@
       android:animateLayoutChanges="true"
       >
 
-    ø
+    <TextView
+        android:id="@id/support_ui_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/support_ui_empty_title_placeholder"
+        android:textSize="30sp"
+        />
   </LinearLayout>
 
   <LinearLayout

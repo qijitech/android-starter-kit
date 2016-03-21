@@ -27,6 +27,10 @@ public class DefaultEmptyView extends FrameLayout implements EmptyView, View.OnC
     View view = LayoutInflater.from(context).inflate(R.layout.support_ui_view_empty, this, false);
     addView(view);
     setOnClickListener(this);
+  }
+
+  @Override protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
     imageView = ButterKnife.findById(this, R.id.support_ui_empty_image_view);
     titleTextView = ButterKnife.findById(this, R.id.support_ui_empty_title);
     subtitleTextView = ButterKnife.findById(this, R.id.support_ui_empty_subtitle);
