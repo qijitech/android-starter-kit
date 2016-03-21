@@ -1,4 +1,4 @@
-package com.smartydroid.android.starter.kit.utilities;
+package com.smartydroid.android.kit.demo.util;
 
 import android.app.Activity;
 import com.afollestad.materialdialogs.MaterialDialog;

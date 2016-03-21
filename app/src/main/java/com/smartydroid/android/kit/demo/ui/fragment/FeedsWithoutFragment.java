@@ -8,16 +8,19 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.kit.demo.api.ApiService;
 import com.smartydroid.android.kit.demo.api.service.FeedService;
 import com.smartydroid.android.kit.demo.model.entity.Feed;
+import com.smartydroid.android.kit.demo.ui.view.AppEmptyView;
 import com.smartydroid.android.kit.demo.ui.viewholder.FeedViewHolderFactory;
 import com.smartydroid.android.kit.demo.ui.viewholder.FeedsTextViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterRecyclerFragment;
 import java.util.ArrayList;
 import retrofit2.Call;
+import support.ui.content.RequiresContent;
 
 /**
  * Created by YuGang Yang on February 13, 2016.
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
+@RequiresContent(emptyView = AppEmptyView.class)
 public class FeedsWithoutFragment extends StarterRecyclerFragment<Feed> {
   private FeedService mFeedService;
 
@@ -35,7 +38,7 @@ public class FeedsWithoutFragment extends StarterRecyclerFragment<Feed> {
   }
 
   @Override public Call<ArrayList<Feed>> paginate(int page, int perPage) {
-    return mFeedService.getFeedList(1, 1);
+    return mFeedService.getFeedList(1, 2);
   }
 
   @Override public Object getKeyForData(Feed item) {
@@ -51,4 +54,5 @@ public class FeedsWithoutFragment extends StarterRecyclerFragment<Feed> {
     final Feed feed = getItem(position);
     Toast.makeText(getContext(), feed.content, Toast.LENGTH_SHORT).show();
   }
+
 }

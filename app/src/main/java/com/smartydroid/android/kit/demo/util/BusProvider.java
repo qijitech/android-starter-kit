@@ -1,4 +1,4 @@
-package support.ui.utilities;
+package com.smartydroid.android.kit.demo.util;
 
 import android.os.Handler;
 import android.os.Looper;

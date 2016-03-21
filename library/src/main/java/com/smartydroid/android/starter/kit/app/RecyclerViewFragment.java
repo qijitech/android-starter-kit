@@ -4,38 +4,31 @@
  */
 package com.smartydroid.android.starter.kit.app;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.DimenRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import butterknife.ButterKnife;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
-import com.carlosdelachica.easyrecycleradapters.decorations.DividerItemDecoration;
 import com.paginate.Paginate;
 import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PaginatorContract;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
-import com.smartydroid.android.starter.kit.utilities.ViewUtils;
-import com.smartydroid.android.starter.kit.widget.LoadingLayout;
 import java.util.ArrayList;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+import support.ui.content.RequiresContent;
 
-public abstract class RecyclerViewFragment<E extends Entity>
+@RequiresContent public abstract class RecyclerViewFragment<E extends Entity>
     extends CallbackFragment<ArrayList<E>>
-    implements LoadingLayout.OnButtonClickListener,
-    Paginate.Callbacks,
-    EasyViewHolder.OnItemClickListener,
-    EasyViewHolder.OnItemLongClickListener,
-    SwipeRefreshLayout.OnRefreshListener,
+    implements Paginate.Callbacks, EasyViewHolder.OnItemClickListener,
+    EasyViewHolder.OnItemLongClickListener, SwipeRefreshLayout.OnRefreshListener,
     PaginatorCallback<E> {
 
-  LoadingLayout mLoadingLayout;
+  ViewGroup mContainer;
   SwipeRefreshLayout mSwipeRefreshLayout;
   RecyclerView mRecyclerView;
 
@@ -51,10 +44,6 @@ public abstract class RecyclerViewFragment<E extends Entity>
   public abstract PaginatorContract<E> buildPaginator();
 
   public void viewHolderFactory(EasyRecyclerAdapter adapter) {
-    // Left blank
-  }
-
-  public void setupLoadingLayout(LoadingLayout layout) {
     // Left blank
   }
 
@@ -82,32 +71,33 @@ public abstract class RecyclerViewFragment<E extends Entity>
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mLoadingLayout = ViewUtils.getView(view, R.id.container_loading_layout);
-    mSwipeRefreshLayout = mLoadingLayout.getContentView();
-    mRecyclerView = ViewUtils.getView(mSwipeRefreshLayout, android.R.id.list);
+    mContainer = ButterKnife.findById(view, R.id.support_ui_content_container);
+    mSwipeRefreshLayout = ButterKnife.findById(view, R.id.swipe_refresh_layout);
+    mRecyclerView = ButterKnife.findById(view, R.id.support_ui_content_recycler_view);
     mSwipeRefreshLayout.setOnRefreshListener(this);
 
+    contentPresenter.attachContainer(mContainer);
+    contentPresenter.attachContentView(mSwipeRefreshLayout);
+
     buildRecyclerView();
-    setupEmptyView();
-    setupLoadingLayout(mLoadingLayout);
   }
 
   @Override public void onResume() {
     super.onResume();
-    updateView();
+    mPaginate.setHasMoreDataToLoad(false);
     refresh();
+    updateView();
   }
 
   @Override public void onPause() {
     super.onPause();
-    //if (mPagePaginator.isLoading()) {
+    if (isNotNull(mPagePaginator)) {
       mPagePaginator.cancel();
-    //}
+    }
   }
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    mLoadingLayout = null;
     mSwipeRefreshLayout = null;
     mRecyclerView = null;
     mPaginate = null;
@@ -122,10 +112,10 @@ public abstract class RecyclerViewFragment<E extends Entity>
   public void buildRecyclerView() {
     // set layout manager
     mRecyclerView.setLayoutManager(buildLayoutManager());
-    // add item decoration
-    mRecyclerView.addItemDecoration(buildItemDecoration());
 
-    mRecyclerView.setItemAnimator(new SlideInUpAnimator());
+    // add item decoration
+    //mRecyclerView.addItemDecoration(RecyclerViewUtils.buildItemDecoration());
+    //mRecyclerView.setItemAnimator(new SlideInUpAnimator());
 
     // set adapter
     mRecyclerView.setAdapter(mAdapter);
@@ -142,22 +132,8 @@ public abstract class RecyclerViewFragment<E extends Entity>
     return new LinearLayoutManager(getContext());
   }
 
-  public RecyclerView.ItemDecoration buildItemDecoration() {
-    DividerItemDecoration decoration = new DividerItemDecoration(getContext());
-    decoration.setInsets(buildInsets());
-    final int dividerRes = buildDivider();
-    if (dividerRes > 0) {
-      decoration.setDivider(dividerRes);
-    }
-    return decoration;
-  }
-
-  public @DrawableRes int buildDivider() {
-    return 0;
-  }
-
-  public @DimenRes int buildInsets() {
-    return R.dimen.starter_divider_insets;
+  public SwipeRefreshLayout getSwipeRefreshLayout() {
+    return mSwipeRefreshLayout;
   }
 
   public RecyclerView getRecyclerView() {
@@ -169,53 +145,46 @@ public abstract class RecyclerViewFragment<E extends Entity>
   }
 
   private void updateView() {
-    if (! viewValid(mLoadingLayout)) {
+    if (!isNotNull(contentPresenter) || isDetached()) {
       return;
     }
     if (!isEmpty()) {
-      mLoadingLayout.showContentView();
-    } else if (!mPagePaginator.dataHasLoaded()) {
-      mLoadingLayout.showLoadingView();
-    } else if (mPagePaginator.hasError()) {
-      mLoadingLayout.showErrorView();
-    } else {
-      mLoadingLayout.showEmptyView();
+      contentPresenter.displayContentView();
+      return;
     }
-}
+    if (isNotNull(mPagePaginator) && !mPagePaginator.dataHasLoaded()) {
+      contentPresenter.displayLoadView();
+      return;
+    }
+    contentPresenter.displayEmptyView();
+  }
 
   public boolean isEmpty() {
-    return mPagePaginator.isEmpty();
+    return isNotNull(mPagePaginator) && mPagePaginator.isEmpty();
   }
 
   @Override public void onRefresh() {
-    if (!mPagePaginator.isLoading()) {
+    if (isNotNull(mPagePaginator) && !mPagePaginator.isLoading()) {
       mPagePaginator.refresh();
-    } else {
+    } else if (isNotNull(mSwipeRefreshLayout)) {
       mSwipeRefreshLayout.setRefreshing(false);
     }
   }
 
-  public void setupEmptyView() {
-    mLoadingLayout.setOnButtonClickListener(this);
-  }
-
-  @Override public void onEmptyButtonClick(View view) {
-    mPagePaginator.refresh();
-  }
-
-  @Override public void onErrorButtonClick(View view) {
-    mPagePaginator.refresh();
+  @Override public void onEmptyClick(View view) {
+    onRefresh();
   }
 
   public E getItem(int position) {
-    if (mPagePaginator == null || mPagePaginator.isEmpty()) {
-      return null;
+    if (isNotNull(mPagePaginator) && !mPagePaginator.isEmpty()) {
+      return mPagePaginator.items().get(position);
     }
-    return mPagePaginator.items().get(position);
+    return null;
   }
 
   @Override public void onItemClick(int position, View view) {
   }
+
   @Override public boolean onLongItemClicked(int position, View view) {
     return false;
   }
@@ -223,13 +192,13 @@ public abstract class RecyclerViewFragment<E extends Entity>
   ///////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////
   @Override public void startRequest() {
-    if (isEmpty() && viewValid(mLoadingLayout)) {
-      mLoadingLayout.showLoadingView();
+    if (isEmpty() && isNotNull(contentPresenter)) {
+      contentPresenter.displayLoadView();
     }
   }
 
   @Override public void endRequest() {
-    if (mSwipeRefreshLayout != null && mPagePaginator.isRefresh()) {
+    if (isNotNull(mSwipeRefreshLayout) && isNotNull(mPagePaginator) && mPagePaginator.isRefresh()) {
       mSwipeRefreshLayout.setRefreshing(false);
     }
 
@@ -237,49 +206,29 @@ public abstract class RecyclerViewFragment<E extends Entity>
   }
 
   @Override public void respondSuccess(ArrayList<E> data) {
-    if (mAdapter != null) {
+    if (isNotNull(mAdapter) && isNotNull(mPagePaginator)) {
       mAdapter.addAll(mPagePaginator.items());
     }
   }
 
   public void refresh() {
-    if (mPagePaginator != null && !mPagePaginator.isLoading()) {
+    if (isNotNull(mPagePaginator) && !mPagePaginator.isLoading()) {
       mPagePaginator.refresh();
     }
-  }
-
-  public void setupError(Drawable drawable, String title, String subtitle) {
-    if (viewValid(mLoadingLayout)) {
-      if (drawable != null) {
-        mLoadingLayout.setErrorDrawable(drawable);
-      }
-      mLoadingLayout.setErrorTitle(title);
-      mLoadingLayout.setErrorSubtitle(subtitle);
-    }
-  }
-
-  public void setupEmpty(Drawable drawable, String title, String subtitle) {
-    if (viewValid(mLoadingLayout)) {
-      if (drawable != null) {
-        mLoadingLayout.setEmptyDrawable(drawable);
-      }
-      mLoadingLayout.setEmptyTitle(title);
-      mLoadingLayout.setEmptySubtitle(subtitle);
-    }
-  }
-
-  public LoadingLayout loadingLayout() {
-    return mLoadingLayout;
   }
 
   @Override public void onLoadMore() {
   }
 
   @Override public boolean isLoading() {
-    return mPagePaginator != null && mPagePaginator.isLoading();
+    return isNotNull(mPagePaginator) && mPagePaginator.isLoading();
   }
 
   @Override public boolean hasLoadedAllItems() {
-    return mPagePaginator != null && !mPagePaginator.canLoadMore() && !mPagePaginator.hasError();
+    return isNotNull(mPagePaginator) && !mPagePaginator.canLoadMore() && !mPagePaginator.hasError();
+  }
+
+  public boolean isNotNull(Object object) {
+    return object != null;
   }
 }

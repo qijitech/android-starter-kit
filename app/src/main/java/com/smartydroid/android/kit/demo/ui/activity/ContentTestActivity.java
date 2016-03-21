@@ -9,14 +9,13 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import com.smartydroid.android.kit.demo.R;
 import com.smartydroid.android.starter.kit.app.StarterActivity;
-import com.squareup.otto.Subscribe;
 import support.ui.content.ContentPresenter;
+import support.ui.content.EmptyView;
 import support.ui.content.ReflectionContentPresenterFactory;
-import support.ui.content.RefreshEvent;
 import support.ui.content.RequiresContent;
-import support.ui.utilities.BusProvider;
 
-@RequiresContent public class ContentTestActivity extends StarterActivity {
+@RequiresContent public class ContentTestActivity extends StarterActivity
+    implements EmptyView.OnEmptyClickListener {
 
   ReflectionContentPresenterFactory factory =
       ReflectionContentPresenterFactory.fromViewClass(getClass());
@@ -32,16 +31,7 @@ import support.ui.utilities.BusProvider;
     contentPresenter.onCreate(this);
     contentPresenter.attachContainer(container);
     contentPresenter.attachContentView(textView);
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
-    BusProvider.getInstance().register(this);
-  }
-
-  @Override protected void onPause() {
-    super.onPause();
-    BusProvider.getInstance().unregister(this);
+    contentPresenter.setOnEmptyClickListener(this);
   }
 
   @Override protected void onDestroy() {
@@ -74,7 +64,7 @@ import support.ui.utilities.BusProvider;
     }
   }
 
-  @Subscribe public void onRefresh(RefreshEvent event) {
+  @Override public void onEmptyClick(View view) {
     contentPresenter.displayLoadView();
   }
 }

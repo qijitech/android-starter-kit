@@ -1,50 +1,94 @@
 package com.smartydroid.android.starter.kit.app;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.network.callback.GenericCallback;
 import java.net.UnknownHostException;
+import support.ui.content.ContentPresenter;
+import support.ui.content.EmptyView;
+import support.ui.content.ReflectionContentPresenterFactory;
 
 /**
  * Created by YuGang Yang on February 07, 2016.
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 public abstract class CallbackFragment<E> extends StarterFragment
-    implements
-    GenericCallback<E>,
-    EmptyAndErrorCallback {
+    implements GenericCallback<E>, EmptyView.OnEmptyClickListener {
+
+  ReflectionContentPresenterFactory factory =
+      ReflectionContentPresenterFactory.fromViewClass(getClass());
+  ContentPresenter contentPresenter;
+
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    contentPresenter = factory.createContentPresenter();
+    contentPresenter.setOnEmptyClickListener(this);
+    contentPresenter.onCreate(getContext());
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    contentPresenter.onDestroyView();
+  }
+
+  @Override public void onDestroy() {
+    super.onDestroy();
+    contentPresenter.onDestroy();
+  }
+
+  public ContentPresenter getContentPresenter() {
+    return contentPresenter;
+  }
 
   @Override public void errorNotFound(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
+    buildEmpty(errorModel);
   }
 
   @Override public void errorUnProcessable(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
+    buildEmpty(errorModel);
   }
 
   @Override public void errorUnauthorized(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
+    buildErrorEmpty(errorModel);
   }
 
   @Override public void errorForbidden(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
+    buildErrorEmpty(errorModel);
   }
 
   @Override public void eNetUnReach(Throwable t, ErrorModel errorModel) {
-    setupErrorModel(errorModel);
+    buildErrorEmpty(errorModel);
   }
 
   @Override public void errorSocketTimeout(Throwable t, ErrorModel errorModel) {
-    setupErrorModel(errorModel);
+    buildErrorEmpty(errorModel);
   }
 
   @Override public void errorUnknownHost(UnknownHostException e, ErrorModel errorModel) {
-    setupErrorModel(errorModel);
+    buildErrorEmpty(errorModel);
   }
 
   @Override public void error(ErrorModel errorModel) {
-    setupErrorModel(errorModel);
+    buildErrorEmpty(errorModel);
   }
 
+  private void buildEmpty(ErrorModel errorModel) {
+    if (contentPresenter != null) {
+      contentPresenter.buildImageView(R.drawable.support_ui_empty)
+          .buildEmptyTitle(errorModel.getMessage())
+          .shouldDisplayEmptySubtitle(false);
+    }
+  }
+
+  private void buildErrorEmpty(ErrorModel errorModel) {
+    if (contentPresenter != null) {
+      contentPresenter.buildImageView(R.drawable.support_ui_empty_network_error)
+          .buildEmptyTitle(errorModel.getMessage())
+          .shouldDisplayEmptySubtitle(false);
+    }
+  }
 
   ////////////////////////////////////
   ////////////////////////////////////
@@ -58,29 +102,8 @@ public abstract class CallbackFragment<E> extends StarterFragment
   }
 
   @Override public void respondWithError(Throwable t) {
-    setupErrorModel(new ErrorModel(500, t.getLocalizedMessage()));
   }
 
   @Override public void endRequest() {
   }
-  ////////////////////////////////////
-  ////////////////////////////////////
-  ////////////NetworkCallback/////////
-  ////////////////////////////////////
-  ////////////////////////////////////
-
-  @Override public void setupErrorModel(ErrorModel errorModel) {
-    if (errorModel != null) {
-      setupError(errorModel.getMessage(), null);
-    }
-  }
-
-  @Override public void setupError(String title, String subtitle) {
-    setupError(null, title, subtitle);
-  }
-
-  @Override public void setupEmpty(String title, String subtitle) {
-    setupEmpty(null, title, subtitle);
-  }
-
 }

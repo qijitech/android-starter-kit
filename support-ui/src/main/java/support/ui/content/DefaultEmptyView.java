@@ -10,13 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import support.ui.R;
-import support.ui.utilities.BusProvider;
+import support.ui.utilities.ViewUtils;
 
 public class DefaultEmptyView extends FrameLayout implements EmptyView, View.OnClickListener {
 
   private ImageView imageView;
   private TextView titleTextView;
   private TextView subtitleTextView;
+
+  private OnEmptyClickListener listener;
 
   public DefaultEmptyView(Context context) {
     super(context);
@@ -26,26 +28,22 @@ public class DefaultEmptyView extends FrameLayout implements EmptyView, View.OnC
   private void initialize(Context context) {
     View view = LayoutInflater.from(context).inflate(R.layout.support_ui_view_empty, this, false);
     addView(view);
-    setOnClickListener(this);
   }
 
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow();
-    imageView = ButterKnife.findById(this, R.id.support_ui_empty_image_view);
-    titleTextView = ButterKnife.findById(this, R.id.support_ui_empty_title);
-    subtitleTextView = ButterKnife.findById(this, R.id.support_ui_empty_subtitle);
+    setOnClickListener(this);
   }
 
   @Override protected void onDetachedFromWindow() {
     super.onDetachedFromWindow();
-    imageView = null;
-    titleTextView = null;
-    subtitleTextView = null;
+    setOnClickListener(null);
+    listener = null;
   }
 
   public DefaultEmptyView buildImageView(@DrawableRes int drawableRes) {
-    if (imageView != null) {
-      imageView.setImageResource(drawableRes);
+    if (imageView() != null) {
+      imageView().setImageResource(drawableRes);
     }
     return this;
   }
@@ -55,8 +53,8 @@ public class DefaultEmptyView extends FrameLayout implements EmptyView, View.OnC
   }
 
   public DefaultEmptyView buildTitle(String title) {
-    if (titleTextView != null) {
-      titleTextView.setText(title);
+    if (titleTextView() != null) {
+      titleTextView().setText(title);
     }
     return this;
   }
@@ -66,17 +64,55 @@ public class DefaultEmptyView extends FrameLayout implements EmptyView, View.OnC
   }
 
   public DefaultEmptyView buildSubtitle(String subtitle) {
-    if (subtitleTextView != null) {
-      subtitleTextView.setText(subtitle);
+    if (subtitleTextView() != null) {
+      subtitleTextView().setText(subtitle);
     }
     return this;
   }
 
-  @Override public void onClick(View v) {
-    BusProvider.getInstance().post(produceRefresh());
+  @Override public EmptyView shouldDisplayEmptySubtitle(boolean display) {
+    ViewUtils.setGone(subtitleTextView(), !display);
+    return this;
   }
 
-  public RefreshEvent produceRefresh() {
-    return new RefreshEvent();
+  @Override public EmptyView shouldDisplayEmptyTitle(boolean display) {
+    ViewUtils.setGone(titleTextView(), !display);
+    return this;
+  }
+
+  @Override public EmptyView shouldDisplayImageView(boolean display) {
+    ViewUtils.setGone(imageView(), !display);
+    return this;
+  }
+
+  public TextView titleTextView() {
+    if (titleTextView == null) {
+      titleTextView = ButterKnife.findById(this, R.id.support_ui_empty_title);
+    }
+    return titleTextView;
+  }
+
+  public TextView subtitleTextView() {
+    if (subtitleTextView == null) {
+      subtitleTextView = ButterKnife.findById(this, R.id.support_ui_empty_subtitle);
+    }
+    return subtitleTextView;
+  }
+
+  public ImageView imageView() {
+    if (imageView == null) {
+      imageView = ButterKnife.findById(this, R.id.support_ui_empty_image_view);
+    }
+    return imageView;
+  }
+
+  @Override public void onClick(View v) {
+    if (listener != null) {
+      listener.onEmptyClick(v);
+    }
+  }
+
+  @Override public void setOnEmptyClickListener(OnEmptyClickListener listener) {
+    this.listener = listener;
   }
 }

@@ -54,9 +54,7 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
 
-  compile deps.appcompatV7
   compile deps.supportDesign
-  compile deps.supportAnnotations
 
   // Jake Wharton
   compile deps.butterknife
@@ -64,10 +62,9 @@ dependencies {
 
   // Recycler View
   compile deps.recyclerviewV7
+  compile deps.recyclerviewanimators
   compile deps.easyrecycleradapters
   compile deps.paginate
-  compile deps.smoothprogressbar
-  compile deps.recyclerviewanimators
 
   // Square
   compile deps.retrofit
@@ -84,10 +81,6 @@ dependencies {
   // prefs
   compile deps.prefs
   compile deps.kprogresshud
-
-  compile(deps.materialDialogs) {
-    transitive = true
-  }
 
   compile project(':support-ui')
 }

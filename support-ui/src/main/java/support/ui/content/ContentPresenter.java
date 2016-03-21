@@ -8,7 +8,6 @@ import android.support.annotation.StringRes;
 import android.support.v4.util.SparseArrayCompat;
 import android.view.View;
 import android.view.ViewGroup;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import java.lang.reflect.Constructor;
 import support.ui.R;
 import support.ui.utilities.LayoutHelper;
@@ -27,7 +26,7 @@ public final class ContentPresenter {
   View mContentView;
   Context mContext;
 
-  private EasyRecyclerAdapter mAdapter;
+  private EmptyView.OnEmptyClickListener onEmptyClickListener;
 
   public ContentPresenter(Class<View> loadViewClass, Class<View> emptyViewClass) {
     buildViewClassArray(loadViewClass, emptyViewClass);
@@ -35,7 +34,6 @@ public final class ContentPresenter {
 
   public ContentPresenter onCreate(Context context) {
     mContext = context;
-    mAdapter = new EasyRecyclerAdapter(context);
     return this;
   }
 
@@ -49,13 +47,18 @@ public final class ContentPresenter {
     return this;
   }
 
+  public void setOnEmptyClickListener(EmptyView.OnEmptyClickListener listener) {
+    this.onEmptyClickListener = listener;
+  }
+
   public void onDestroyView() {
     mCurrentId = ID_NONE;
+    mContentView = null;
     mViewArray.clear();
   }
 
   public void onDestroy() {
-    mContentView = null;
+    onEmptyClickListener = null;
     mContext = null;
     mContainer = null;
     mViewClassArray = null;
@@ -79,7 +82,11 @@ public final class ContentPresenter {
   public ContentPresenter displayEmptyView() {
     final int emptyViewId = EmptyViewId;
     if (mCurrentId != emptyViewId) {
-      displayView(emptyViewId);
+      View view = displayView(emptyViewId);
+      if (view instanceof EmptyView) {
+        EmptyView emptyView = (EmptyView) view;
+        emptyView.setOnEmptyClickListener(onEmptyClickListener);
+      }
     }
     return this;
   }
@@ -89,7 +96,7 @@ public final class ContentPresenter {
    */
   public ContentPresenter displayContentView() {
     final int contentViewId = ContentViewId;
-    if (mCurrentId != contentViewId) {
+    if (mCurrentId != contentViewId && mContentView != null) {
       final ViewGroup container = mContainer;
       container.removeAllViews();
       final ViewGroup.LayoutParams layoutParams = LayoutHelper.createViewGroupLayoutParams();
@@ -130,6 +137,33 @@ public final class ContentPresenter {
     if (view instanceof EmptyView) {
       EmptyView emptyView = (EmptyView) view;
       emptyView.buildSubtitle(subtitle);
+    }
+    return this;
+  }
+
+  public ContentPresenter shouldDisplayEmptySubtitle(boolean display) {
+    View view = checkView(EmptyViewId);
+    if (view instanceof EmptyView) {
+      EmptyView emptyView = (EmptyView) view;
+      emptyView.shouldDisplayEmptySubtitle(display);
+    }
+    return this;
+  }
+
+  public ContentPresenter shouldDisplayEmptyTitle(boolean display) {
+    View view = checkView(EmptyViewId);
+    if (view instanceof EmptyView) {
+      EmptyView emptyView = (EmptyView) view;
+      emptyView.shouldDisplayEmptyTitle(display);
+    }
+    return this;
+  }
+
+  public ContentPresenter shouldDisplayImageView(boolean display) {
+    View view = checkView(EmptyViewId);
+    if (view instanceof EmptyView) {
+      EmptyView emptyView = (EmptyView) view;
+      emptyView.shouldDisplayImageView(display);
     }
     return this;
   }

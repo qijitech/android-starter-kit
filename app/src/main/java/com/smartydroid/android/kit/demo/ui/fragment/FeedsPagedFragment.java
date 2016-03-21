@@ -5,6 +5,7 @@
 package com.smartydroid.android.kit.demo.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.smartydroid.android.kit.demo.model.entity.Feed;
 import com.smartydroid.android.kit.demo.ui.viewholder.FeedViewHolderFactory;
 import com.smartydroid.android.kit.demo.ui.viewholder.FeedsTextViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterPagedFragment;
+import com.smartydroid.android.starter.kit.utilities.RecyclerViewUtils;
 import java.util.ArrayList;
 import retrofit2.Call;
 
@@ -29,6 +31,11 @@ public class FeedsPagedFragment extends StarterPagedFragment<Feed> {
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mFeedService = ApiService.createFeedService();
+  }
+
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    getRecyclerView().addItemDecoration(RecyclerViewUtils.buildItemDecoration(getContext()));
   }
 
   @Override public void viewHolderFactory(EasyRecyclerAdapter adapter) {

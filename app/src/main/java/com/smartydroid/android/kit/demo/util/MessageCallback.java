@@ -6,7 +6,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.smartydroid.android.kit.demo.NavUtils;
 import com.smartydroid.android.starter.kit.model.ErrorModel;
-import com.smartydroid.android.starter.kit.utilities.DialogUtils;
 
 /**
  * Created by YuGang Yang on February 27, 2016.
