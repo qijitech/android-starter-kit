@@ -73,16 +73,17 @@ dependencies {
   compile deps.okhttpLoggingInterceptor
 
   // rx
-  compile deps.rxAndroid
+  // compile deps.rxAndroid
   // Because RxAndroid releases are few and far between, it is recommended you also
   // explicitly depend on RxJava's latest version for bug fixes and new features.
-  compile deps.rxJava
+  // compile deps.rxJava
 
   // prefs
   compile deps.prefs
   compile deps.kprogresshud
 
-  compile project(':support-ui')
+  compile 'com.smartydroid:support-ui:0.0.1'
+  // compile project(':support-ui')
 }
 
 apply from: '../.buildscript/deploy.gradle'
