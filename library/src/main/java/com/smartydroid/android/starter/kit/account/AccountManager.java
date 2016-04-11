@@ -95,7 +95,7 @@ public class AccountManager implements AccountProvider {
   private void loadAccountDataFromPrefs() {
     String accountJson = prefs().getString(PREFS_KEY_ACCOUNT_JSON, null);
     if (!TextUtils.isEmpty(accountJson)) {
-      mCurrentAccount = StarterKitApp.getInstance().accountFromJson(accountJson);
+      mCurrentAccount = ((StarterKitApp)StarterKitApp.getInstance()).accountFromJson(accountJson);
     }
   }
 
