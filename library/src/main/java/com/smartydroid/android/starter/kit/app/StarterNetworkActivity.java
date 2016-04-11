@@ -68,14 +68,14 @@ public abstract class StarterNetworkActivity<T> extends StarterActivity implemen
 
   private void showErrorModel(ErrorModel errorModel) {
     if (showMessage() && errorModel != null) {
-      Snackbar.make(getWindow().getDecorView(),
+      Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content),
           errorModel.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
   }
 
   private void showException(Throwable e) {
     if (showMessage() && e != null) {
-      Snackbar.make(getWindow().getDecorView(),
+      Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content),
           e.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
   }

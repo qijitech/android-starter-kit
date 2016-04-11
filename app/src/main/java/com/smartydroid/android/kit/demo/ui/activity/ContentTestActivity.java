@@ -11,11 +11,12 @@ import com.smartydroid.android.kit.demo.R;
 import com.smartydroid.android.starter.kit.app.StarterActivity;
 import support.ui.content.ContentPresenter;
 import support.ui.content.EmptyView;
+import support.ui.content.ErrorView;
 import support.ui.content.ReflectionContentPresenterFactory;
 import support.ui.content.RequiresContent;
 
 @RequiresContent public class ContentTestActivity extends StarterActivity
-    implements EmptyView.OnEmptyClickListener {
+    implements EmptyView.OnEmptyViewClickListener, ErrorView.OnErrorViewClickListener {
 
   ReflectionContentPresenterFactory factory =
       ReflectionContentPresenterFactory.fromViewClass(getClass());
@@ -31,7 +32,8 @@ import support.ui.content.RequiresContent;
     contentPresenter.onCreate(this);
     contentPresenter.attachContainer(container);
     contentPresenter.attachContentView(textView);
-    contentPresenter.setOnEmptyClickListener(this);
+    contentPresenter.setOnEmptyViewClickListener(this);
+    contentPresenter.setOnErrorViewClickListener(this);
   }
 
   @Override protected void onDestroy() {
@@ -47,7 +49,7 @@ import support.ui.content.RequiresContent;
         contentPresenter.displayLoadView();
         break;
       case R.id.btn_empty:
-        contentPresenter.buildImageView(R.drawable.support_ui_empty)
+        contentPresenter.buildEmptyImageView(R.drawable.support_ui_empty)
             .buildEmptyTitle(R.string.support_ui_empty_title_placeholder)
             .buildEmptySubtitle(R.string.support_ui_empty_subtitle_placeholder)
             .displayEmptyView();
@@ -56,7 +58,7 @@ import support.ui.content.RequiresContent;
         contentPresenter.displayContentView();
         break;
       case R.id.btn_error:
-        contentPresenter.buildImageView(R.drawable.support_ui_empty_network_error)
+        contentPresenter.buildErrorImageView(R.drawable.support_ui_error_network)
             .buildEmptyTitle(R.string.support_ui_error_title_placeholder)
             .buildEmptySubtitle(R.string.support_ui_error_subtitle_placeholder)
             .displayEmptyView();
@@ -64,7 +66,12 @@ import support.ui.content.RequiresContent;
     }
   }
 
-  @Override public void onEmptyClick(View view) {
+  @Override public void onEmptyViewClick(View view) {
     contentPresenter.displayLoadView();
   }
+
+  @Override public void onErrorViewClick(View view) {
+    contentPresenter.displayLoadView();
+  }
+
 }

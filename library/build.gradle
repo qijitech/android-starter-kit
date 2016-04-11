@@ -54,6 +54,8 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
 
+  compile deps.supportDesign
+
   // Jake Wharton
   compile deps.timber
 
@@ -78,7 +80,7 @@ dependencies {
   compile deps.prefs
   compile deps.kprogresshud
 
-  compile 'com.smartydroid:support-ui:0.1'
+  compile 'com.smartydroid:support-ui:0.1.1'
 }
 
 apply from: '../.buildscript/deploy.gradle'

@@ -8,6 +8,7 @@ import com.smartydroid.android.starter.kit.network.callback.GenericCallback;
 import java.net.UnknownHostException;
 import support.ui.content.ContentPresenter;
 import support.ui.content.EmptyView;
+import support.ui.content.ErrorView;
 import support.ui.content.ReflectionContentPresenterFactory;
 
 /**
@@ -15,7 +16,9 @@ import support.ui.content.ReflectionContentPresenterFactory;
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 public abstract class CallbackFragment<E> extends StarterFragment
-    implements GenericCallback<E>, EmptyView.OnEmptyClickListener {
+    implements GenericCallback<E>,
+    EmptyView.OnEmptyViewClickListener,
+    ErrorView.OnErrorViewClickListener {
 
   ReflectionContentPresenterFactory factory =
       ReflectionContentPresenterFactory.fromViewClass(getClass());
@@ -24,7 +27,8 @@ public abstract class CallbackFragment<E> extends StarterFragment
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     contentPresenter = factory.createContentPresenter();
-    contentPresenter.setOnEmptyClickListener(this);
+    contentPresenter.setOnEmptyViewClickListener(this);
+    contentPresenter.setOnErrorViewClickListener(this);
     contentPresenter.onCreate(getContext());
   }
 
@@ -47,45 +51,46 @@ public abstract class CallbackFragment<E> extends StarterFragment
   }
 
   @Override public void errorUnProcessable(ErrorModel errorModel) {
-    buildEmpty(errorModel);
+    buildError(errorModel);
   }
 
   @Override public void errorUnauthorized(ErrorModel errorModel) {
-    buildErrorEmpty(errorModel);
+    buildError(errorModel);
   }
 
   @Override public void errorForbidden(ErrorModel errorModel) {
-    buildErrorEmpty(errorModel);
+    buildError(errorModel);
   }
 
   @Override public void eNetUnReach(Throwable t, ErrorModel errorModel) {
-    buildErrorEmpty(errorModel);
+    buildError(errorModel);
   }
 
   @Override public void errorSocketTimeout(Throwable t, ErrorModel errorModel) {
-    buildErrorEmpty(errorModel);
+    buildError(errorModel);
   }
 
   @Override public void errorUnknownHost(UnknownHostException e, ErrorModel errorModel) {
-    buildErrorEmpty(errorModel);
+    buildError(errorModel);
   }
 
   @Override public void error(ErrorModel errorModel) {
-    buildErrorEmpty(errorModel);
+    buildError(errorModel);
   }
 
   private void buildEmpty(ErrorModel errorModel) {
     if (contentPresenter != null) {
-      contentPresenter.buildImageView(R.drawable.support_ui_empty)
-          .buildEmptyTitle(errorModel.getMessage())
-          .shouldDisplayEmptySubtitle(false);
+      contentPresenter.buildEmptyImageView(R.drawable.support_ui_empty)
+          .buildEmptyTitle(errorModel.mTitle)
+          .buildEmptySubtitle(errorModel.getMessage());
     }
   }
 
-  private void buildErrorEmpty(ErrorModel errorModel) {
+  private void buildError(ErrorModel errorModel) {
     if (contentPresenter != null) {
-      contentPresenter.buildImageView(R.drawable.support_ui_empty_network_error)
-          .buildEmptyTitle(errorModel.getMessage())
+      contentPresenter.buildErrorImageView(R.drawable.support_ui_error_network)
+          .buildErrorTitle(errorModel.mTitle)
+          .buildErrorSubtitle(errorModel.getMessage())
           .shouldDisplayEmptySubtitle(false);
     }
   }

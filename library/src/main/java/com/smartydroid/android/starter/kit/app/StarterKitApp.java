@@ -4,22 +4,16 @@
  */
 package com.smartydroid.android.starter.kit.app;
 
-import android.app.Application;
-import android.content.Context;
-import android.content.res.Resources;
-import android.os.Handler;
 import android.util.Log;
 import com.smartydroid.android.starter.kit.StarterKit;
 import com.smartydroid.android.starter.kit.account.Account;
 import com.smartydroid.android.starter.kit.utilities.AppInfo;
 import com.smartydroid.android.starter.kit.utilities.FakeCrashLibrary;
+import support.ui.app.SupportApp;
 import timber.log.Timber;
 
-public abstract class StarterKitApp extends Application {
+public abstract class StarterKitApp extends SupportApp {
 
-  private static volatile Context sAppContext;
-  private static volatile StarterKitApp mInstance;
-  private static volatile Handler sAppHandler;
   private static volatile AppInfo mAppInfo;
 
   /**
@@ -38,14 +32,6 @@ public abstract class StarterKitApp extends Application {
     } else {
       Timber.plant(new CrashReportingTree());
     }
-
-    initialize();
-  }
-
-  private void initialize() {
-    mInstance = this;
-    sAppContext = getApplicationContext();
-    sAppHandler = new Handler(sAppContext.getMainLooper());
   }
 
   /**
@@ -58,39 +44,8 @@ public abstract class StarterKitApp extends Application {
     return mAppInfo;
   }
 
-  /**
-   * @return application context
-   */
-  public static Context appContext() {
-    return sAppContext;
-  }
-
-  /**
-   * @return application resource
-   */
-  public static Resources appResources() {
-    return appContext().getResources();
-  }
-
-  /**
-   * @return application handler
-   */
-  public static Handler appHandler() {
-    return sAppHandler;
-  }
-
-  /**
-   * @return current application instance
-   */
-  public static StarterKitApp getInstance() {
-    return mInstance;
-  }
-
   @Override public void onTerminate() {
     super.onTerminate();
-    sAppContext = null;
-    mInstance = null;
-    sAppHandler = null;
     mAppInfo = null;
   }
 

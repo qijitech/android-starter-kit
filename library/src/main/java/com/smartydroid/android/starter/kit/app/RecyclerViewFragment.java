@@ -158,7 +158,11 @@ import support.ui.content.RequiresContent;
       contentPresenter.displayLoadView();
       return;
     }
-    contentPresenter.displayEmptyView();
+    if (mPagePaginator.hasError()) {
+      contentPresenter.displayErrorView();
+    } else {
+      contentPresenter.displayEmptyView();
+    }
   }
 
   public boolean isEmpty() {
@@ -173,7 +177,11 @@ import support.ui.content.RequiresContent;
     }
   }
 
-  @Override public void onEmptyClick(View view) {
+  @Override public void onEmptyViewClick(View view) {
+    onRefresh();
+  }
+
+  @Override public void onErrorViewClick(View view) {
     onRefresh();
   }
 

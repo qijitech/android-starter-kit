@@ -66,13 +66,13 @@ public class NetworkQueue<T> implements Callback<T> {
   @Override public void onFailure(Call<T> call, Throwable t) {
     if (t instanceof ConnectException) { // 无网络
       ConnectException e = (ConnectException) t;
-      callback.eNetUnReach(t, new ErrorModel(500, e.getLocalizedMessage()));
+      callback.eNetUnReach(t, new ErrorModel(500, "无网络连接", "请连接到无线网络或者蜂窝数据网络"));
     } else if (t instanceof SocketTimeoutException) { // 链接超时
       final SocketTimeoutException e = (SocketTimeoutException) t;
-      callback.errorSocketTimeout(t, new ErrorModel(500, e.getLocalizedMessage()));
+      callback.errorSocketTimeout(t, new ErrorModel(500, "连接超时"));
     } else if (t instanceof UnknownHostException) {
       final UnknownHostException e = (UnknownHostException) t;
-      ErrorModel errorModel = new ErrorModel(500, e.getLocalizedMessage());
+      ErrorModel errorModel = new ErrorModel(500, "无网络连接", "请连接到无线网络或者蜂窝数据网络");
       callback.errorUnknownHost(e, errorModel);
     } else {
       callback.respondWithError(t);

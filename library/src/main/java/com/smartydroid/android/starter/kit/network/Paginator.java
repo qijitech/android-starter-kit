@@ -125,8 +125,8 @@ public abstract class Paginator<T extends Entity>
       delegate.respondSuccess(data);
     } else {
       mHasMore = false;
-      mHasError = true;
-      delegate.errorNotFound(new ErrorModel(404, "no more"));
+      mHasError = false;
+      delegate.errorNotFound(new ErrorModel(404, "暂时没有数据", "点进屏幕刷新数据"));
     }
   }
 

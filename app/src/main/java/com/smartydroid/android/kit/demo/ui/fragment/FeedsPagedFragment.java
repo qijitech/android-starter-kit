@@ -43,7 +43,7 @@ public class FeedsPagedFragment extends StarterPagedFragment<Feed> {
   }
 
   @Override public Call<ArrayList<Feed>> paginate(int page, int perPage) {
-    return mFeedService.getFeedList(page, perPage);
+    return mFeedService.getFeedList(1000, perPage);
   }
 
   @Override public Object getKeyForData(Feed item) {
