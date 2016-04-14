@@ -6,13 +6,13 @@ package com.smartydroid.android.starter.kit.retrofit;
 
 import android.text.TextUtils;
 import com.smartydroid.android.starter.kit.account.AccountProvider;
-import com.smartydroid.android.starter.kit.app.StarterKitApp;
-import com.smartydroid.android.starter.kit.utilities.AppInfo;
 import com.smartydroid.android.starter.kit.utilities.Strings;
 import java.io.IOException;
 import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.Response;
+import support.ui.app.SupportApp;
+import support.ui.utilities.AppInfo;
 
 public class DefaultHeaderInterceptor implements HeaderInterceptor {
 
@@ -30,8 +30,7 @@ public class DefaultHeaderInterceptor implements HeaderInterceptor {
   @Override public Response intercept(Chain chain) throws IOException {
     Request originalRequest = chain.request();
     Headers.Builder builder = new Headers.Builder();
-
-    final AppInfo appInfo = StarterKitApp.appInfo();
+    final AppInfo appInfo = SupportApp.appInfo();
 
     builder.add("Content-Encoding", "gzip")
         .add("version-code", appInfo.versionCode)
