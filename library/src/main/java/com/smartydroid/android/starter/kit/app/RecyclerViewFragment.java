@@ -17,6 +17,7 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.paginate.Paginate;
 import com.smartydroid.android.starter.kit.R;
 import com.smartydroid.android.starter.kit.contracts.Pagination.PaginatorContract;
+import com.smartydroid.android.starter.kit.model.ErrorModel;
 import com.smartydroid.android.starter.kit.model.entity.Entity;
 import com.smartydroid.android.starter.kit.network.callback.PaginatorCallback;
 import java.util.ArrayList;
@@ -201,6 +202,14 @@ import support.ui.content.RequiresContent;
 
   ///////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////
+
+  @Override public void errorNotFound(ErrorModel errorModel) {
+    super.errorNotFound(errorModel);
+    if (getPagePaginator() != null && getPagePaginator().isRefresh()) {
+      getPagePaginator().clearAll();
+    }
+  }
+
   @Override public void startRequest() {
     if (isEmpty() && isNotNull(contentPresenter)) {
       contentPresenter.displayLoadView();

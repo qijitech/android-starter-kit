@@ -92,6 +92,10 @@ public abstract class Paginator<T extends Entity>
     return mIsLoading;
   }
 
+  @Override public void clearAll() {
+    mResources.clear();
+  }
+
   @Override public void cancel() {
     mIsLoading = false;
     networkQueue.cancel();

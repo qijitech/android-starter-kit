@@ -78,7 +78,7 @@ public abstract class CallbackFragment<E> extends StarterFragment
     buildError(errorModel);
   }
 
-  private void buildEmpty(ErrorModel errorModel) {
+  protected void buildEmpty(ErrorModel errorModel) {
     if (contentPresenter != null) {
       contentPresenter.buildEmptyImageView(R.drawable.support_ui_empty)
           .buildEmptyTitle(errorModel.mTitle)
@@ -86,7 +86,7 @@ public abstract class CallbackFragment<E> extends StarterFragment
     }
   }
 
-  private void buildError(ErrorModel errorModel) {
+  protected void buildError(ErrorModel errorModel) {
     if (contentPresenter != null) {
       contentPresenter.buildErrorImageView(R.drawable.support_ui_error_network)
           .buildErrorTitle(errorModel.mTitle)

@@ -49,6 +49,8 @@ public interface PaginatorContract<T extends Entity> {
 
   void cancel();
 
+  void clearAll();
+
   enum LoadStyle {
     REFRESH,
     LOAD_MORE,
