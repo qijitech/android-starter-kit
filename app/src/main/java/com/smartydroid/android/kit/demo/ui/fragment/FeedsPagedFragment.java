@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.smartydroid.android.kit.demo.api.ApiService;
 import com.smartydroid.android.kit.demo.api.service.FeedService;
 import com.smartydroid.android.kit.demo.model.entity.Feed;
@@ -19,6 +18,7 @@ import com.smartydroid.android.starter.kit.app.StarterPagedFragment;
 import com.smartydroid.android.starter.kit.utilities.RecyclerViewUtils;
 import java.util.ArrayList;
 import retrofit2.Call;
+import support.ui.adapters.EasyRecyclerAdapter;
 
 public class FeedsPagedFragment extends StarterPagedFragment<Feed> {
 

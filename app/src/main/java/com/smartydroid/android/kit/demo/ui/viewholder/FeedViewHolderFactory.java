@@ -2,9 +2,9 @@ package com.smartydroid.android.kit.demo.ui.viewholder;
 
 import android.content.Context;
 import android.view.ViewGroup;
-import com.carlosdelachica.easyrecycleradapters.adapter.BaseEasyViewHolderFactory;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.smartydroid.android.kit.demo.model.entity.Feed;
+import support.ui.adapters.BaseEasyViewHolderFactory;
+import support.ui.adapters.EasyViewHolder;
 
 /**
  * Created by YuGang Yang on February 20, 2016.
