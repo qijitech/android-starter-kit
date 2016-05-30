@@ -80,7 +80,7 @@ dependencies {
   compile deps.prefs
   compile deps.kprogresshud
   compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
-  compile 'com.smartydroid:support-ui:0.1.5'
+  compile 'com.smartydroid:support-ui:0.1.6'
 }
 
 apply from: '../.buildscript/deploy.gradle'
