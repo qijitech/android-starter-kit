@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
+  compileSdkVersion rootProject.ext.android.compileSdkVersion
+  buildToolsVersion rootProject.ext.android.buildToolsVersion
 
   defaultConfig {
     applicationId "com.smartydroid.android.kit.demo"
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
+    minSdkVersion rootProject.ext.android.minSdkVersion
+    targetSdkVersion rootProject.ext.android.targetSdkVersion
     versionCode 1
     versionName "1.0"
   }
@@ -47,11 +47,11 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
 
-  debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-  releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
+  debugCompile deps.leakcanaryAndroid
+  releaseCompile deps.leakcanaryAndroidNoOp
 
-  compile 'com.facebook.fresco:fresco:0.9.0'
-  compile 'com.squareup:otto:1.3.8'
+  compile deps.fresco
+  compile deps.otto
 
   compile(deps.materialDialogs) {
     transitive = true
