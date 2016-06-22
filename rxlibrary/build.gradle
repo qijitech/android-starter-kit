@@ -42,11 +42,6 @@ dependencies {
 
   compile deps.design
 
-  // Recycler View
-  compile deps.recyclerviewV7
-  compile deps.recyclerviewAnimators
-  compile deps.paginate
-
   // Square
   compile deps.retrofit
   compile deps.converterJackson
@@ -76,4 +71,6 @@ dependencies {
   apt 'frankiesardo:icepick-processor:3.2.0'
 
   compile 'com.jakewharton:butterknife:7.0.1'
+
+  compile project(':common')
 }

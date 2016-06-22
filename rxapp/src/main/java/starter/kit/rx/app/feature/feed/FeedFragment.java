@@ -1,14 +1,17 @@
 package starter.kit.rx.app.feature.feed;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import nucleus.factory.RequiresPresenter;
+import starter.kit.rx.StarterFragConfig;
+import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxStarterRecyclerFragment;
 import starter.kit.rx.app.model.entity.Feed;
-import starter.kit.util.RxPager;
-import support.ui.adapters.EasyRecyclerAdapter;
+import starter.kit.rx.util.RxPager;
 
 @RequiresPresenter(FeedPresenter.class) public class FeedFragment
     extends RxStarterRecyclerFragment<FeedPresenter> {
@@ -17,8 +20,16 @@ import support.ui.adapters.EasyRecyclerAdapter;
 
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
-    if (bundle == null)
-      getPresenter().request();
+
+    buildFragConfig(new StarterFragConfig.Builder<>().viewHolderFactory(new FeedViewHolderFactory(getContext()))
+        .bind(Feed.class, FeedsTextViewHolder.class)
+        .recyclerViewDecor(new HorizontalDividerItemDecoration.Builder(getContext()).size(30)
+            .colorResId(R.color.dividerColor)
+            .build())
+        .swipeRefreshLayoutColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW)
+        .build());
+
+    if (bundle == null) getPresenter().request();
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -28,17 +39,5 @@ import support.ui.adapters.EasyRecyclerAdapter;
       //adapter.showProgress();
       getPresenter().requestNext(page);
     });
-  }
-
-  @Override public void bindViewHolders(EasyRecyclerAdapter adapter) {
-    adapter.bind(Feed.class, FeedsTextViewHolder.class);
-  }
-
-  @Override public void viewHolderFactory(EasyRecyclerAdapter adapter) {
-    adapter.viewHolderFactory(new FeedViewHolderFactory(getContext()));
-  }
-
-  void onNetworkError(Throwable throwable) {
-    Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show();
   }
 }

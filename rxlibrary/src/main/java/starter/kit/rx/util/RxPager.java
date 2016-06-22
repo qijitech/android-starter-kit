@@ -1,4 +1,4 @@
-package starter.kit.util;
+package starter.kit.rx.util;
 
 import rx.functions.Action1;
 

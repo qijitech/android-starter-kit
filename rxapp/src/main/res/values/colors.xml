@@ -12,5 +12,5 @@
     <color name="tab_text_color_normal">#858585</color>
     <color name="tab_text_color_selected">@color/colorPrimary</color>
 
-    <color name="divider_color">#EEEEEE</color>
+    <color name="dividerColor">#EEEEEE</color>
 </resources>
