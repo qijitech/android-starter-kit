@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+  compileSdkVersion 23
+  buildToolsVersion "24.0.0"
+
+  defaultConfig {
+    applicationId "starter.kit.rx.app"
+    minSdkVersion 15
+    targetSdkVersion 23
+    versionCode 1
+    versionName "1.0"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+
+  compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+  }
+}
+
+repositories {
+  jcenter()
+  maven { url "https://clojars.org/repo/" }
+}
+
+dependencies {
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  testCompile 'junit:junit:4.12'
+
+  compile 'org.parceler:parceler-api:1.1.5'
+  apt 'org.parceler:parceler:1.1.5'
+
+  compile deps.fresco
+
+  compile project(':rxlibrary')
+  compile project(':common')
+
+}
