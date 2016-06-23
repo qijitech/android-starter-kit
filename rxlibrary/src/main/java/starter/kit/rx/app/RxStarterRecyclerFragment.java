@@ -15,11 +15,13 @@ import java.util.List;
 import java.util.Map;
 import nucleus.factory.RequiresPresenter;
 import rx.Observable;
-import starter.kit.model.Entity;
+import starter.kit.model.EmptyEntity;
+import starter.kit.model.entity.Entity;
 import starter.kit.rx.R;
 import starter.kit.rx.ResourcePresenter;
 import starter.kit.rx.StarterFragConfig;
 import starter.kit.rx.util.RxPager;
+import starter.kit.viewholder.StarterEmptyViewHolder;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
@@ -38,6 +40,8 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
   private StarterFragConfig mFragConfig;
 
   private RxPager pager;
+
+  private EmptyEntity mEmptyEntity;
 
   public abstract Observable<ArrayList<E>> request(int page, int pageSize);
 
@@ -62,6 +66,8 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
         mAdapter.bind(entry.getKey(), entry.getValue());
       }
     }
+    // bind empty value
+    mAdapter.bind(EmptyEntity.class, StarterEmptyViewHolder.class);
   }
 
   @Override public void onCreate(Bundle bundle) {
@@ -151,11 +157,17 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
   }
 
   public void notifyDataSetChanged(List<?> items) {
+    if (mEmptyEntity != null) {
+      mEmptyEntity = null;
+      mAdapter.clear();
+    }
+
     if (pager.isFirstPage()) {
       mAdapter.clear();
     }
     mAdapter.appendAll(items);
     pager.received(items.size());
+    mPaginate.setHasMoreDataToLoad(false);
     hideProgress();
   }
 
@@ -168,6 +180,12 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
   }
 
   public void onNetworkError(Throwable throwable) {
+    if (pager.isFirstPage() && mAdapter.isEmpty()) {
+      mAdapter.clear();
+      mEmptyEntity = new EmptyEntity();
+      mAdapter.add(mEmptyEntity);
+    }
+    mPaginate.setHasMoreDataToLoad(false);
     hideProgress();
     Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show();
   }
@@ -193,6 +211,7 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
   // Paginate delegate
   @Override public void onLoadMore() {
     if (pager != null) {
+      mPaginate.setHasMoreDataToLoad(false);
       pager.next();
     }
   }

@@ -1,4 +1,4 @@
-package starter.kit.model;
+package starter.kit.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

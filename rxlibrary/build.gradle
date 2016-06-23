@@ -44,7 +44,6 @@ dependencies {
 
   // Square
   compile deps.retrofit
-  compile deps.converterJackson
   compile deps.okhttp
   compile deps.loggingInterceptor
 
@@ -52,7 +51,6 @@ dependencies {
   compile deps.prefs
   compile deps.kprogresshud
   compile deps.recyclerviewFlexibleDivider
-  compile deps.supportUi
 
   // rx
   compile deps.rxandroid

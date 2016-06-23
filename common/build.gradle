@@ -21,12 +21,12 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
-  compile 'com.android.support:appcompat-v7:24.0.0'
-
+  compile deps.appcompatV7
+  compile deps.supportUi
   // Recycler View
   compile deps.recyclerviewV7
   compile deps.recyclerviewAnimators
   compile deps.paginate
   compile deps.smoothprogressbar
-  compile project(path: ':library')
+  compile deps.converterJackson
 }

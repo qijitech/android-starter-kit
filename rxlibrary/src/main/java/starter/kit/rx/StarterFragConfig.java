@@ -6,14 +6,12 @@ import com.paginate.recycler.LoadingListItemCreator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import rx.Observable;
-import starter.kit.model.Entity;
+import starter.kit.model.entity.Entity;
 import starter.kit.util.Maps;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyViewHolder;
 
 public class StarterFragConfig<E extends Entity> {
-
-  private Observable<ArrayList<E>> resourceObservable;
 
   // adapter config
   private BaseEasyViewHolderFactory viewHolderFactory;
@@ -37,10 +35,6 @@ public class StarterFragConfig<E extends Entity> {
   // page config
   private int pageSize;
   private int startPage;
-
-  public Observable<ArrayList<E>> getResourceObservable() {
-    return resourceObservable;
-  }
 
   public BaseEasyViewHolderFactory getViewHolderFactory() {
     return viewHolderFactory;
@@ -116,7 +110,6 @@ public class StarterFragConfig<E extends Entity> {
 
     public StarterFragConfig build() {
       StarterFragConfig config = new StarterFragConfig();
-      config.resourceObservable = resourceObservable;
       config.viewHolderFactory = viewHolderFactory;
       config.boundViewHolders = boundViewHolders;
       config.layoutManager = layoutManager;

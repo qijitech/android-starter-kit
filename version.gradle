@@ -51,7 +51,7 @@ ext {
       timber                     : 'com.jakewharton.timber:timber:' + depsVersion.timberVersion,
       easyrecycleradapters       : 'com.smartydroid:easyrecycleradapters:' + depsVersion.easyrecycleradaptersVersion,
       prefs                      : 'me.alexrs:prefs:' + depsVersion.prefsVersion,
-      smoothprogressbar          : 'com.github.castorflex.smoothprogressbar:library-circular:' + depsVersion.smoothprogressbar,
+      smoothprogressbar          : 'com.github.castorflex.smoothprogressbar:library-circular:' + depsVersion.smoothprogressbarVersion,
       recyclerviewAnimators      : 'jp.wasabeef:recyclerview-animators:' + depsVersion.recyclerviewAnimatorsbarVersion,
       kprogresshud               : 'com.kaopiz:kprogresshud:' + depsVersion.kprogresshudVersion,
       materialDialogs            : 'com.github.afollestad.material-dialogs:core:' + depsVersion.materialDialogsVersion,

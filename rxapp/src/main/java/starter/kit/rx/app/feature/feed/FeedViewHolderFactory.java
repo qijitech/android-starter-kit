@@ -8,9 +8,9 @@ import support.ui.adapters.EasyViewHolder;
 
 public class FeedViewHolderFactory extends BaseEasyViewHolderFactory {
 
-  private static final int VIEW_TYPE_TEXT = 0;
-  private static final int VIEW_TYPE_IMAGE_SINGLE = 1;
-  private static final int VIEW_TYPE_IMAGE_MULTI = 2;
+  private static final int VIEW_TYPE_TEXT = -100;
+  private static final int VIEW_TYPE_IMAGE_SINGLE = -101;
+  private static final int VIEW_TYPE_IMAGE_MULTI = -102;
 
   public FeedViewHolderFactory(Context context) {
     super(context);
@@ -25,7 +25,7 @@ public class FeedViewHolderFactory extends BaseEasyViewHolderFactory {
       case VIEW_TYPE_IMAGE_MULTI:
         return new FeedsMultiImageViewHolder(parent.getContext(), parent);
     }
-    return null;
+    return super.create(viewType, parent);
   }
 
   @Override public int itemViewType(Object object) {
@@ -39,6 +39,6 @@ public class FeedViewHolderFactory extends BaseEasyViewHolderFactory {
       }
       return VIEW_TYPE_IMAGE_MULTI;
     }
-    return -1;
+    return super.itemViewType(object);
   }
 }

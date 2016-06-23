@@ -17,6 +17,7 @@ public class RxPager {
     this.startPage = startPage;
     this.pageSize = pageSize;
     this.onRequest = onRequest;
+    this.nextPage = startPage;
   }
 
   public void next() {
