@@ -126,10 +126,8 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
             .build();
 
         mPaginate.setHasMoreDataToLoad(false);
-        pager = new RxPager(mFragConfig.getStartPage(), mFragConfig.getPageSize(), page -> {
-          mPaginate.setHasMoreDataToLoad(true);
-          getPresenter().requestNext(page);
-        });
+        pager = new RxPager(mFragConfig.getStartPage(),
+            mFragConfig.getPageSize(), page -> getPresenter().requestNext(page));
 
       } else {
         pager = new RxPager(mFragConfig.getStartPage(), mFragConfig.getPageSize(), null);
@@ -180,7 +178,11 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
   }
 
   public void showProgress() {
-    mSwipeRefreshLayout.setRefreshing(true);
+    if (pager.isFirstPage()) {
+      mSwipeRefreshLayout.setRefreshing(true);
+    } else {
+      mPaginate.setHasMoreDataToLoad(true);
+    }
   }
 
   public void hideProgress() {
