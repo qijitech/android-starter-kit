@@ -19,7 +19,7 @@ public class RxPager {
   public void next() {
     if (size % pageSize == 0 && requested != size) {
       requested = size;
-      onRequest.call(size / pageSize);
+      onRequest.call(size / pageSize + 1);
     }
   }
 

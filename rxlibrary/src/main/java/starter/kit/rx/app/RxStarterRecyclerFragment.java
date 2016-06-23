@@ -8,24 +8,36 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 import butterknife.ButterKnife;
+import com.paginate.Paginate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import nucleus.presenter.Presenter;
+import nucleus.factory.RequiresPresenter;
+import rx.Observable;
+import starter.kit.model.Entity;
 import starter.kit.rx.R;
+import starter.kit.rx.ResourcePresenter;
 import starter.kit.rx.StarterFragConfig;
+import starter.kit.rx.util.RxPager;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
 
-public abstract class RxStarterRecyclerFragment<P extends Presenter> extends RxStarterFragment<P> {
+@RequiresPresenter(ResourcePresenter.class)
+public abstract class RxStarterRecyclerFragment<E extends Entity> extends RxStarterFragment<ResourcePresenter>
+    implements com.paginate.Paginate.Callbacks, SwipeRefreshLayout.OnRefreshListener {
 
   SwipeRefreshLayout mSwipeRefreshLayout;
   RecyclerView mRecyclerView;
 
   private EasyRecyclerAdapter mAdapter;
-
+  private Paginate mPaginate;
   private StarterFragConfig mFragConfig;
+
+  private RxPager pager;
+
+  public abstract Observable<ArrayList<E>> request(int page);
 
   protected void buildFragConfig(StarterFragConfig fragConfig) {
     if (fragConfig == null) return;
@@ -49,6 +61,8 @@ public abstract class RxStarterRecyclerFragment<P extends Presenter> extends RxS
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
     mAdapter = new EasyRecyclerAdapter(getContext());
+
+    if (bundle == null) getPresenter().request();
   }
 
   @Override protected int getFragmentLayout() {
@@ -61,6 +75,7 @@ public abstract class RxStarterRecyclerFragment<P extends Presenter> extends RxS
     mRecyclerView = ButterKnife.findById(view, R.id.recyclerView);
 
     setupRecyclerView();
+    setupPaginate();
     setupSwipeRefreshLayout();
   }
 
@@ -70,7 +85,30 @@ public abstract class RxStarterRecyclerFragment<P extends Presenter> extends RxS
       if (colors != null) {
         mSwipeRefreshLayout.setColorSchemeColors(colors);
       }
-      mSwipeRefreshLayout.setEnabled(mFragConfig.isEnabled());
+      boolean enabled = mFragConfig.isEnabled();
+      mSwipeRefreshLayout.setEnabled(enabled);
+      if (enabled) {
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+      }
+    }
+  }
+
+  private void setupPaginate() {
+    if (mFragConfig != null) {
+      if (mFragConfig.canAddLoadingListItem()) {
+        pager = new RxPager(20, page -> {
+          //adapter.showProgress();
+          getPresenter().requestNext(page);
+        });
+
+        mPaginate = Paginate.with(mRecyclerView, this)
+            .setLoadingTriggerThreshold(mFragConfig.getLoadingTriggerThreshold())
+            .addLoadingListItem(true)
+            .setLoadingListItemSpanSizeLookup(() -> mFragConfig.getSpanSizeLookup())
+            .build();
+
+        mPaginate.setHasMoreDataToLoad(false);
+      }
     }
   }
 
@@ -102,6 +140,8 @@ public abstract class RxStarterRecyclerFragment<P extends Presenter> extends RxS
   }
 
   public void appendAll(List<?> items) {
+    pager.received(items.size());
+    mPaginate.setHasMoreDataToLoad(true);
     mAdapter.appendAll(items);
     hideProgress();
   }
@@ -129,5 +169,24 @@ public abstract class RxStarterRecyclerFragment<P extends Presenter> extends RxS
     super.onDestroy();
     mAdapter = null;
     mFragConfig = null;
+    mPaginate = null;
+  }
+
+  @Override public void onRefresh() {
+    pager.reset();
+    getPresenter().request();
+  }
+
+  // Paginate delegate
+  @Override public void onLoadMore() {
+    pager.next();
+  }
+
+  @Override public boolean isLoading() {
+    return mSwipeRefreshLayout.isRefreshing();
+  }
+
+  @Override public boolean hasLoadedAllItems() {
+    return false;
   }
 }

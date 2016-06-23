@@ -26,28 +26,6 @@ public class FeedPresenter extends RxStarterPresenter<FeedFragment> {
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
     mFeedService = ApiService.createFeedService();
-
-    restartableReplay(RESTARTABLE_ID, new Func0<Observable<ArrayList<Feed>>>() {
-      @Override public Observable<ArrayList<Feed>> call() {
-        return pageRequests.startWith(1)
-            .concatMap(new Func1<Integer, Observable<ArrayList<Feed>>>() {
-              @Override public Observable<ArrayList<Feed>> call(Integer page) {
-                return mFeedService.fetchFeeds(page, 30)
-                    .subscribeOn(Schedulers.io())
-                    .delay(5, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread());
-              }
-            });
-      }
-    }, new Action2<FeedFragment, ArrayList<Feed>>() {
-      @Override public void call(FeedFragment feedFragment, ArrayList<Feed> feeds) {
-        feedFragment.appendAll(feeds);
-      }
-    }, new Action2<FeedFragment, Throwable>() {
-      @Override public void call(FeedFragment feedFragment, Throwable throwable) {
-        feedFragment.onNetworkError(throwable);
-      }
-    });
   }
 
   void request() {

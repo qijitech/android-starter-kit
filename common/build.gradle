@@ -27,5 +27,6 @@ dependencies {
   compile deps.recyclerviewV7
   compile deps.recyclerviewAnimators
   compile deps.paginate
+  compile deps.smoothprogressbar
   compile project(path: ':library')
 }

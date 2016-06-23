@@ -2,6 +2,7 @@ package starter.kit.rx;
 
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
+import com.paginate.recycler.LoadingListItemCreator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import rx.Observable;
@@ -13,15 +14,25 @@ import support.ui.adapters.EasyViewHolder;
 public class StarterFragConfig<E extends Entity> {
 
   private Observable<ArrayList<E>> resourceObservable;
+
+  // adapter config
   private BaseEasyViewHolderFactory viewHolderFactory;
   private HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders;
 
+  // RecyclerView config
   private RecyclerView.LayoutManager layoutManager;
   private RecyclerView.ItemDecoration decor;
   private RecyclerView.ItemAnimator animator;
 
+  // SwipeRefreshLayout config
   private int[] colorSchemeColors;
   private boolean enabled;
+
+  // load more config
+  private boolean addLoadingListItem;
+  private int spanSizeLookup;
+  private LoadingListItemCreator loadingListItemCreator;
+  private int loadingTriggerThreshold;
 
   public Observable<ArrayList<E>> getResourceObservable() {
     return resourceObservable;
@@ -55,6 +66,22 @@ public class StarterFragConfig<E extends Entity> {
     return enabled;
   }
 
+  public boolean canAddLoadingListItem() {
+    return addLoadingListItem;
+  }
+
+  public int getSpanSizeLookup() {
+    return spanSizeLookup;
+  }
+
+  public LoadingListItemCreator getLoadingListItemCreator() {
+    return loadingListItemCreator;
+  }
+
+  public int getLoadingTriggerThreshold() {
+    return loadingTriggerThreshold;
+  }
+
   public static class Builder<E extends Entity> {
     private Observable<ArrayList<E>> resourceObservable;
     private BaseEasyViewHolderFactory viewHolderFactory;
@@ -65,7 +92,12 @@ public class StarterFragConfig<E extends Entity> {
     private RecyclerView.ItemAnimator animator;
 
     private int[] colorSchemeColors;
-    private boolean enabled = true;
+    private boolean enabled = true; // default true
+
+    private boolean addLoadingListItem = true; // default can load more
+    private int spanSizeLookup;
+    private LoadingListItemCreator loadingListItemCreator;
+    private int loadingTriggerThreshold = 2; // default 2
 
     public StarterFragConfig build() {
       StarterFragConfig config = new StarterFragConfig();
@@ -77,6 +109,10 @@ public class StarterFragConfig<E extends Entity> {
       config.animator = animator;
       config.colorSchemeColors = colorSchemeColors;
       config.enabled = enabled;
+      config.addLoadingListItem = addLoadingListItem;
+      config.spanSizeLookup = spanSizeLookup;
+      config.loadingListItemCreator = loadingListItemCreator;
+      config.loadingTriggerThreshold = loadingTriggerThreshold;
       return config;
     }
 
@@ -117,6 +153,26 @@ public class StarterFragConfig<E extends Entity> {
 
     public Builder swipeRefreshLayoutEnabled(boolean enabled) {
       this.enabled = enabled;
+      return this;
+    }
+
+    public Builder addLoadingListItem(boolean addLoadingListItem) {
+      this.addLoadingListItem = addLoadingListItem;
+      return this;
+    }
+
+    public Builder spanSizeLookup(int spanSizeLookup) {
+      this.spanSizeLookup = spanSizeLookup;
+      return this;
+    }
+
+    public Builder loadingListItemCreator(LoadingListItemCreator loadingListItemCreator) {
+      this.loadingListItemCreator = loadingListItemCreator;
+      return this;
+    }
+
+    public Builder loadingTriggerThreshold(int loadingTriggerThreshold) {
+      this.loadingTriggerThreshold = loadingTriggerThreshold;
       return this;
     }
   }
