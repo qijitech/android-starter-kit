@@ -2,21 +2,22 @@ package starter.kit.rx;
 
 import android.os.Bundle;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 import starter.kit.rx.app.RxStarterRecyclerFragment;
+import starter.kit.rx.util.RxPager;
+
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
+import static rx.schedulers.Schedulers.io;
 
 public class ResourcePresenter extends RxStarterPresenter<RxStarterRecyclerFragment> {
 
   private static final int RESTARTABLE_ID = 1;
 
-  private PublishSubject<Integer> pageRequests = PublishSubject.create();
+  private PublishSubject<RxPager> pageRequests = PublishSubject.create();
 
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
@@ -25,12 +26,14 @@ public class ResourcePresenter extends RxStarterPresenter<RxStarterRecyclerFragm
       @Override public Observable<ArrayList<?>> call() {
         return view().concatMap(new Func1<RxStarterRecyclerFragment, Observable<ArrayList<?>>>() {
           @Override public Observable<ArrayList<?>> call(RxStarterRecyclerFragment fragment) {
-            return pageRequests.startWith(1)
-                .concatMap(new Func1<Integer, Observable<ArrayList<?>>>() {
-                  @Override public Observable<ArrayList<?>> call(Integer page) {
-                    return fragment.request(page)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
+            return pageRequests.startWith(fragment.getRxPager())
+                .concatMap(new Func1<RxPager, Observable<ArrayList<?>>>() {
+                  @Override public Observable<ArrayList<?>> call(RxPager page) {
+                    return fragment.request(page.nextPage(), page.pageSize())
+                        .subscribeOn(io())
+                        .doOnSubscribe(() -> fragment.showProgress())
+                        .subscribeOn(mainThread())
+                        .observeOn(mainThread());
                   }
                 });
           }
@@ -38,7 +41,7 @@ public class ResourcePresenter extends RxStarterPresenter<RxStarterRecyclerFragm
       }
     }, new Action2<RxStarterRecyclerFragment, ArrayList<?>>() {
       @Override public void call(RxStarterRecyclerFragment feedFragment, ArrayList<?> feeds) {
-        feedFragment.appendAll(feeds);
+        feedFragment.notifyDataSetChanged(feeds);
       }
     }, new Action2<RxStarterRecyclerFragment, Throwable>() {
       @Override public void call(RxStarterRecyclerFragment feedFragment, Throwable throwable) {
@@ -51,7 +54,7 @@ public class ResourcePresenter extends RxStarterPresenter<RxStarterRecyclerFragm
     start(RESTARTABLE_ID);
   }
 
-  public void requestNext(int page) {
+  public void requestNext(RxPager page) {
     pageRequests.onNext(page);
   }
 }

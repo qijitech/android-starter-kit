@@ -34,6 +34,10 @@ public class StarterFragConfig<E extends Entity> {
   private LoadingListItemCreator loadingListItemCreator;
   private int loadingTriggerThreshold;
 
+  // page config
+  private int pageSize;
+  private int startPage;
+
   public Observable<ArrayList<E>> getResourceObservable() {
     return resourceObservable;
   }
@@ -82,6 +86,14 @@ public class StarterFragConfig<E extends Entity> {
     return loadingTriggerThreshold;
   }
 
+  public int getPageSize() {
+    return pageSize;
+  }
+
+  public int getStartPage() {
+    return startPage;
+  }
+
   public static class Builder<E extends Entity> {
     private Observable<ArrayList<E>> resourceObservable;
     private BaseEasyViewHolderFactory viewHolderFactory;
@@ -99,6 +111,9 @@ public class StarterFragConfig<E extends Entity> {
     private LoadingListItemCreator loadingListItemCreator;
     private int loadingTriggerThreshold = 2; // default 2
 
+    private int pageSize = 20;
+    private int startPage = 1;
+
     public StarterFragConfig build() {
       StarterFragConfig config = new StarterFragConfig();
       config.resourceObservable = resourceObservable;
@@ -113,6 +128,8 @@ public class StarterFragConfig<E extends Entity> {
       config.spanSizeLookup = spanSizeLookup;
       config.loadingListItemCreator = loadingListItemCreator;
       config.loadingTriggerThreshold = loadingTriggerThreshold;
+      config.pageSize = pageSize;
+      config.startPage = startPage;
       return config;
     }
 
@@ -173,6 +190,16 @@ public class StarterFragConfig<E extends Entity> {
 
     public Builder loadingTriggerThreshold(int loadingTriggerThreshold) {
       this.loadingTriggerThreshold = loadingTriggerThreshold;
+      return this;
+    }
+
+    public Builder pageSize(int pageSize) {
+      this.pageSize = pageSize;
+      return this;
+    }
+
+    public Builder startPage(int startPage) {
+      this.startPage = startPage;
       return this;
     }
   }

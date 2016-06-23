@@ -29,7 +29,7 @@ public class FeedFragment extends RxStarterRecyclerFragment<Feed> {
             .build());
   }
 
-  @Override public Observable<ArrayList<Feed>> request(int page) {
-    return mFeedService.fetchFeeds(page, 20);
+  @Override public Observable<ArrayList<Feed>> request(int page, int pageSize) {
+    return mFeedService.fetchFeeds(page, pageSize);
   }
 }

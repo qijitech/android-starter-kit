@@ -6,29 +6,52 @@ public class RxPager {
 
   public static final int NOT_REQUESTED = -1;
 
+  private final int startPage;
+  private int nextPage;
   private final int pageSize;
   private int size = 0;
   private int requested = NOT_REQUESTED;
-  private Action1<Integer> onRequest;
+  private Action1<RxPager> onRequest;
 
-  public RxPager(int pageSize, Action1<Integer> onRequest) {
+  public RxPager(int startPage, int pageSize, Action1<RxPager> onRequest) {
+    this.startPage = startPage;
     this.pageSize = pageSize;
     this.onRequest = onRequest;
   }
 
   public void next() {
-    if (size % pageSize == 0 && requested != size) {
-      requested = size;
-      onRequest.call(size / pageSize + 1);
+    if (hasMorePage()) {
+      onRequest.call(this);
     }
+  }
+
+  public boolean hasMorePage() {
+    return size % pageSize == 0 && requested != size;
   }
 
   public void received(int itemCount) {
     size += itemCount;
+    if (hasMorePage()) {
+      requested = size;
+      nextPage = size / pageSize + startPage;
+    }
   }
 
   public void reset() {
     size = 0;
+    nextPage = startPage;
     requested = NOT_REQUESTED;
+  }
+
+  public int nextPage() {
+    return nextPage;
+  }
+
+  public int startPage() {
+    return startPage;
+  }
+
+  public int pageSize() {
+    return pageSize;
   }
 }

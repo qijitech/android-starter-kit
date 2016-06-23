@@ -25,8 +25,10 @@ import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
 
 @RequiresPresenter(ResourcePresenter.class)
-public abstract class RxStarterRecyclerFragment<E extends Entity> extends RxStarterFragment<ResourcePresenter>
-    implements com.paginate.Paginate.Callbacks, SwipeRefreshLayout.OnRefreshListener {
+public abstract class RxStarterRecyclerFragment<E extends Entity>
+    extends RxStarterFragment<ResourcePresenter>
+    implements com.paginate.Paginate.Callbacks,
+    SwipeRefreshLayout.OnRefreshListener {
 
   SwipeRefreshLayout mSwipeRefreshLayout;
   RecyclerView mRecyclerView;
@@ -37,7 +39,11 @@ public abstract class RxStarterRecyclerFragment<E extends Entity> extends RxStar
 
   private RxPager pager;
 
-  public abstract Observable<ArrayList<E>> request(int page);
+  public abstract Observable<ArrayList<E>> request(int page, int pageSize);
+
+  public RxPager getRxPager() {
+    return pager;
+  }
 
   protected void buildFragConfig(StarterFragConfig fragConfig) {
     if (fragConfig == null) return;
@@ -62,7 +68,9 @@ public abstract class RxStarterRecyclerFragment<E extends Entity> extends RxStar
     super.onCreate(bundle);
     mAdapter = new EasyRecyclerAdapter(getContext());
 
-    if (bundle == null) getPresenter().request();
+    if (bundle == null) {
+      getPresenter().request();
+    }
   }
 
   @Override protected int getFragmentLayout() {
@@ -96,10 +104,6 @@ public abstract class RxStarterRecyclerFragment<E extends Entity> extends RxStar
   private void setupPaginate() {
     if (mFragConfig != null) {
       if (mFragConfig.canAddLoadingListItem()) {
-        pager = new RxPager(20, page -> {
-          //adapter.showProgress();
-          getPresenter().requestNext(page);
-        });
 
         mPaginate = Paginate.with(mRecyclerView, this)
             .setLoadingTriggerThreshold(mFragConfig.getLoadingTriggerThreshold())
@@ -108,6 +112,14 @@ public abstract class RxStarterRecyclerFragment<E extends Entity> extends RxStar
             .build();
 
         mPaginate.setHasMoreDataToLoad(false);
+
+        pager = new RxPager(mFragConfig.getStartPage(), mFragConfig.getPageSize(), page -> {
+          mPaginate.setHasMoreDataToLoad(true);
+          getPresenter().requestNext(page);
+        });
+
+      } else {
+        pager = new RxPager(mFragConfig.getStartPage(), mFragConfig.getPageSize(), null);
       }
     }
   }
@@ -139,10 +151,10 @@ public abstract class RxStarterRecyclerFragment<E extends Entity> extends RxStar
     return new LinearLayoutManager(getContext());
   }
 
-  public void appendAll(List<?> items) {
+  public void notifyDataSetChanged(List<?> items) {
     pager.received(items.size());
-    mPaginate.setHasMoreDataToLoad(true);
     mAdapter.appendAll(items);
+    mPaginate.setHasMoreDataToLoad(pager.hasMorePage());
     hideProgress();
   }
 
@@ -179,7 +191,9 @@ public abstract class RxStarterRecyclerFragment<E extends Entity> extends RxStar
 
   // Paginate delegate
   @Override public void onLoadMore() {
-    pager.next();
+    if (pager != null) {
+      pager.next();
+    }
   }
 
   @Override public boolean isLoading() {
@@ -187,6 +201,6 @@ public abstract class RxStarterRecyclerFragment<E extends Entity> extends RxStar
   }
 
   @Override public boolean hasLoadedAllItems() {
-    return false;
+    return pager != null && pager.hasMorePage();
   }
 }
