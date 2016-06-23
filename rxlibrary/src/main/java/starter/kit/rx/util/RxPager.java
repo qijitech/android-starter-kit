@@ -20,19 +20,19 @@ public class RxPager {
   }
 
   public void next() {
-    if (hasMorePage()) {
+    if (hasMorePage() && requested != size) {
+      requested = size;
       onRequest.call(this);
     }
   }
 
   public boolean hasMorePage() {
-    return size % pageSize == 0 && requested != size;
+    return size % pageSize == 0;
   }
 
   public void received(int itemCount) {
     size += itemCount;
     if (hasMorePage()) {
-      requested = size;
       nextPage = size / pageSize + startPage;
     }
   }
@@ -45,6 +45,10 @@ public class RxPager {
 
   public int nextPage() {
     return nextPage;
+  }
+
+  public boolean isFirstPage() {
+    return nextPage == startPage;
   }
 
   public int startPage() {

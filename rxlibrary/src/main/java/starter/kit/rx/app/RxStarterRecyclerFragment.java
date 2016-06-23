@@ -112,7 +112,6 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
             .build();
 
         mPaginate.setHasMoreDataToLoad(false);
-
         pager = new RxPager(mFragConfig.getStartPage(), mFragConfig.getPageSize(), page -> {
           mPaginate.setHasMoreDataToLoad(true);
           getPresenter().requestNext(page);
@@ -152,9 +151,11 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
   }
 
   public void notifyDataSetChanged(List<?> items) {
-    pager.received(items.size());
+    if (pager.isFirstPage()) {
+      mAdapter.clear();
+    }
     mAdapter.appendAll(items);
-    mPaginate.setHasMoreDataToLoad(pager.hasMorePage());
+    pager.received(items.size());
     hideProgress();
   }
 
@@ -201,6 +202,6 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
   }
 
   @Override public boolean hasLoadedAllItems() {
-    return pager != null && pager.hasMorePage();
+    return pager != null && !pager.hasMorePage();
   }
 }
