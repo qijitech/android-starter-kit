@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.parceler.Parcel;
-import starter.kit.model.Entity;
+import starter.kit.model.entity.Entity;
 
 @Parcel @JsonIgnoreProperties(ignoreUnknown = true) public class Image extends Entity {
   public String url;

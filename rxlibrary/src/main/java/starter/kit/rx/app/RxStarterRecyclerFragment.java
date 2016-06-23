@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import nucleus.factory.RequiresPresenter;
 import rx.Observable;
+import rx.functions.Func2;
 import starter.kit.model.EmptyEntity;
 import starter.kit.model.entity.Entity;
 import starter.kit.rx.R;
@@ -39,20 +40,27 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
   private Paginate mPaginate;
   private StarterFragConfig mFragConfig;
 
+  private Func2<Integer, Integer, Observable<ArrayList<E>>> requestFunc;
   private RxPager pager;
-
   private EmptyEntity mEmptyEntity;
-
-  public abstract Observable<ArrayList<E>> request(int page, int pageSize);
 
   public RxPager getRxPager() {
     return pager;
+  }
+
+  public StarterFragConfig getFragConfig() {
+    return mFragConfig;
+  }
+
+  public Observable<ArrayList<E>> request(int page, int pageSize) {
+    return requestFunc.call(page, pageSize);
   }
 
   protected void buildFragConfig(StarterFragConfig fragConfig) {
     if (fragConfig == null) return;
 
     mFragConfig = fragConfig;
+    requestFunc = fragConfig.getRequestFunc();
 
     BaseEasyViewHolderFactory viewHolderFactory = fragConfig.getViewHolderFactory();
     if (viewHolderFactory != null) {

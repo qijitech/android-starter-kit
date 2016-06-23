@@ -19,6 +19,7 @@ public class ResourcePresenter extends RxStarterPresenter<RxStarterRecyclerFragm
 
   private PublishSubject<RxPager> pageRequests = PublishSubject.create();
 
+  @SuppressWarnings("Unchecked")
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
 
@@ -29,8 +30,8 @@ public class ResourcePresenter extends RxStarterPresenter<RxStarterRecyclerFragm
             return pageRequests.startWith(fragment.getRxPager())
                 .concatMap(new Func1<RxPager, Observable<ArrayList<?>>>() {
                   @Override public Observable<ArrayList<?>> call(RxPager page) {
-                    return fragment.request(page.nextPage(), page.pageSize())
-                        .subscribeOn(io())
+                    Observable<ArrayList<?>> observable = fragment.request(page.nextPage(), page.pageSize());
+                    return observable.subscribeOn(io())
                         .doOnSubscribe(() -> fragment.showProgress())
                         .subscribeOn(mainThread())
                         .observeOn(mainThread());

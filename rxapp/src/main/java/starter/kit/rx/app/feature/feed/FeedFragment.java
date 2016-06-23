@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import java.util.ArrayList;
 import rx.Observable;
+import rx.functions.Func2;
 import starter.kit.rx.StarterFragConfig;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxStarterRecyclerFragment;
@@ -19,17 +20,20 @@ public class FeedFragment extends RxStarterRecyclerFragment<Feed> {
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
     mFeedService = ApiService.createFeedService();
-    buildFragConfig(
-        new StarterFragConfig.Builder<>().viewHolderFactory(new FeedViewHolderFactory(getContext()))
+
+
+    buildFragConfig(new StarterFragConfig.Builder<>().viewHolderFactory(new FeedViewHolderFactory(getContext()))
+            .pageSize(5)
             .bind(Feed.class, FeedsTextViewHolder.class)
             .recyclerViewDecor(new HorizontalDividerItemDecoration.Builder(getContext()).size(30)
                 .colorResId(R.color.dividerColor)
                 .build())
             .swipeRefreshLayoutColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW)
+            .requestFunc(new Func2<Integer, Integer, Observable<ArrayList<Feed>>>() {
+              @Override public Observable<ArrayList<Feed>> call(Integer page, Integer pageSize) {
+                return mFeedService.fetchFeeds(page, pageSize);
+              }
+            })
             .build());
-  }
-
-  @Override public Observable<ArrayList<Feed>> request(int page, int pageSize) {
-    return mFeedService.fetchFeeds(page, pageSize);
   }
 }
