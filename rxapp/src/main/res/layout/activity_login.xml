@@ -62,6 +62,7 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_button"
         app:supportButtonCornerRadius="24dp"
+        android:enabled="false"
         />
 
   </LinearLayout>
