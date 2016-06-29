@@ -22,6 +22,7 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
   compile deps.appcompatV7
+  compile deps.cardviewV7
   compile deps.supportUi
   // Recycler View
   compile deps.recyclerviewV7

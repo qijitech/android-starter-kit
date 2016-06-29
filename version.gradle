@@ -40,6 +40,7 @@ ext {
       design                     : 'com.android.support:design:' + depsVersion.supportVersion,
       gridlayoutV7               : 'com.android.support:gridlayout-v7:' + depsVersion.supportVersion,
       recyclerviewV7             : 'com.android.support:recyclerview-v7:' + depsVersion.supportVersion,
+      cardviewV7                 : 'com.android.support:cardview-v7:' + depsVersion.supportVersion,
       okhttp                     : 'com.squareup.okhttp3:okhttp:' + depsVersion.okhttpVersion,
       okhttpUrlconnection        : 'com.squareup.okhttp3:okhttp-urlconnection:' + depsVersion.okhttpVersion,
       loggingInterceptor         : 'com.squareup.okhttp3:logging-interceptor:' + depsVersion.okhttpVersion,
