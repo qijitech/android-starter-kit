@@ -2,7 +2,6 @@ package starter.kit.retrofit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import starter.kit.util.Preconditions;
 
@@ -31,7 +30,7 @@ public final class Network {
       mRetrofit = newRetrofitBuilder()
           .baseUrl(baseUrl)
           .client(client)
-          .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+          .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
           .addConverterFactory(JacksonConverterFactory.create())
           .build();
     }

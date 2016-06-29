@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import com.paginate.Paginate;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,8 @@ import rx.Observable;
 import rx.functions.Func2;
 import starter.kit.model.EmptyEntity;
 import starter.kit.model.entity.Entity;
+import starter.kit.retrofit.ErrorResponse;
+import starter.kit.retrofit.RetrofitException;
 import starter.kit.rx.R;
 import starter.kit.rx.ResourcePresenter;
 import starter.kit.rx.StarterFragConfig;
@@ -196,7 +199,13 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
         .subscribe();
   }
 
-  public void onNetworkError(Throwable throwable) {
+  public void onError(RetrofitException throwable) {
+    try {
+      ErrorResponse errorResponse = throwable.getErrorBodyAs(ErrorResponse.class);
+      System.out.println(errorResponse);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     if (pager.isFirstPage() && mAdapter.isEmpty()) {
       mAdapter.clear();
       mEmptyEntity = new EmptyEntity();
