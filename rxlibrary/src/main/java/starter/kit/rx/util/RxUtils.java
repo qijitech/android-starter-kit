@@ -15,6 +15,14 @@ public final class RxUtils {
 
   }
 
+
+  public static <T> Observable.Transformer<T, T> progressTransformer(final ProgressInterface progress) {
+    return observable -> observable.doOnSubscribe(progress::showProgress)
+        .subscribeOn(mainThread())
+        .doOnTerminate(progress::hideProgress)
+        .observeOn(mainThread());
+  }
+
   /**
    * 显示并隐藏Hud
    *

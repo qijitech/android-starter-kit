@@ -21,16 +21,15 @@
       android:theme="@style/AppTheme"
       >
     <activity android:name=".feature.main.MainActivity">
-
-    </activity>
-
-    <activity android:name=".feature.util.SimpleHudActivity"
-        android:label="@string/label_simple_hud">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+    </activity>
+
+    <activity android:name=".feature.util.SimpleHudActivity"
+        android:label="@string/label_simple_hud">
       <!--<meta-data-->
           <!--android:name="android.support.PARENT_ACTIVITY"-->
           <!--android:value=".feature.main.MainActivity"/>-->

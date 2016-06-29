@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import butterknife.OnClick;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxStarterActivity;
 import starter.kit.rx.app.network.ApiService;
@@ -13,6 +11,9 @@ import starter.kit.rx.app.network.service.FeedService;
 import starter.kit.rx.util.HudInterface;
 import starter.kit.rx.util.RxUtils;
 import work.wanghao.simplehud.SimpleHUD;
+
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
+import static rx.schedulers.Schedulers.io;
 
 /**
  * Created by YuGang Yang on 06 29, 2016.
@@ -39,13 +40,13 @@ public class SimpleHudActivity extends RxStarterActivity {
 
   private void doSimpleHud() {
     subscription = mFeedService.fetchFeeds(1, 20)
-        .subscribeOn(Schedulers.io())
+        .subscribeOn(io())
         .compose(RxUtils.hudTransformer((HudInterface) () ->
             RxUtils.showHud(this, "Loading...", () -> {
               RxUtils.unsubscribe(subscription);
               subscription = null;
             })))
-        .observeOn(AndroidSchedulers.mainThread())
+        .observeOn(mainThread())
         .subscribe(feeds -> {
           SimpleHUD.showInfoMessage(this, "成功");
         }, throwable -> {

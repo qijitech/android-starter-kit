@@ -11,7 +11,6 @@ import butterknife.ButterKnife;
 import com.paginate.Paginate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import nucleus.factory.RequiresPresenter;
 import rx.Observable;
@@ -21,16 +20,20 @@ import starter.kit.model.entity.Entity;
 import starter.kit.rx.R;
 import starter.kit.rx.ResourcePresenter;
 import starter.kit.rx.StarterFragConfig;
+import starter.kit.rx.util.ProgressInterface;
 import starter.kit.rx.util.RxPager;
 import starter.kit.viewholder.StarterEmptyViewHolder;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
 
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
+
 @RequiresPresenter(ResourcePresenter.class)
 public abstract class RxStarterRecyclerFragment<E extends Entity>
     extends RxStarterFragment<ResourcePresenter>
     implements com.paginate.Paginate.Callbacks,
+    ProgressInterface,
     SwipeRefreshLayout.OnRefreshListener {
 
   SwipeRefreshLayout mSwipeRefreshLayout;
@@ -162,7 +165,7 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
     return new LinearLayoutManager(getContext());
   }
 
-  public void notifyDataSetChanged(List<?> items) {
+  public void notifyDataSetChanged(ArrayList<? extends Entity> items) {
     if (mEmptyEntity != null) {
       mEmptyEntity = null;
       mAdapter.clear();
@@ -177,16 +180,20 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
     hideProgress();
   }
 
-  public void showProgress() {
-    if (pager.isFirstPage()) {
-      mSwipeRefreshLayout.setRefreshing(true);
-    } else {
-      mPaginate.setHasMoreDataToLoad(true);
-    }
+  @Override public void showProgress() {
+    Observable.empty().observeOn(mainThread()).doOnTerminate(() -> {
+      if (pager.isFirstPage()) {
+        mSwipeRefreshLayout.setRefreshing(true);
+      } else {
+        mPaginate.setHasMoreDataToLoad(true);
+      }
+    }).subscribe();
   }
 
-  public void hideProgress() {
-    mSwipeRefreshLayout.setRefreshing(false);
+  @Override public void hideProgress() {
+    Observable.empty().observeOn(mainThread())
+        .doOnTerminate(() -> mSwipeRefreshLayout.setRefreshing(false))
+        .subscribe();
   }
 
   public void onNetworkError(Throwable throwable) {
@@ -220,8 +227,8 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
 
   // Paginate delegate
   @Override public void onLoadMore() {
-    if (pager != null) {
-      mPaginate.setHasMoreDataToLoad(false);
+    if (pager != null && pager.hasMorePage()) {
+      mPaginate.setHasMoreDataToLoad(true);
       pager.next();
     }
   }

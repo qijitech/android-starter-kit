@@ -2,13 +2,16 @@ package starter.kit.rx;
 
 import android.os.Bundle;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
+import starter.kit.model.entity.Entity;
 import starter.kit.rx.app.RxStarterRecyclerFragment;
 import starter.kit.rx.util.RxPager;
+import starter.kit.rx.util.RxUtils;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 import static rx.schedulers.Schedulers.io;
@@ -23,25 +26,25 @@ public class ResourcePresenter extends RxStarterPresenter<RxStarterRecyclerFragm
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
 
-    restartableReplay(RESTARTABLE_ID, new Func0<Observable<ArrayList<?>>>() {
-      @Override public Observable<ArrayList<?>> call() {
-        return view().concatMap(new Func1<RxStarterRecyclerFragment, Observable<ArrayList<?>>>() {
-          @Override public Observable<ArrayList<?>> call(RxStarterRecyclerFragment fragment) {
+    restartableReplay(RESTARTABLE_ID, new Func0<Observable<ArrayList<? extends Entity>>>() {
+      @Override public Observable<ArrayList<? extends Entity>> call() {
+        return view().concatMap(new Func1<RxStarterRecyclerFragment, Observable<ArrayList<? extends Entity>>>() {
+          @Override public Observable<ArrayList<? extends Entity>> call(RxStarterRecyclerFragment fragment) {
             return pageRequests.startWith(fragment.getRxPager())
-                .concatMap(new Func1<RxPager, Observable<ArrayList<?>>>() {
-                  @Override public Observable<ArrayList<?>> call(RxPager page) {
-                    Observable<ArrayList<?>> observable = fragment.request(page.nextPage(), page.pageSize());
+                .concatMap(new Func1<RxPager, Observable<ArrayList<? extends Entity>>>() {
+                  @Override public Observable<ArrayList<? extends Entity>> call(RxPager page) {
+                    Observable<ArrayList<? extends Entity>> observable = fragment.request(page.nextPage(), page.pageSize());
                     return observable.subscribeOn(io())
-                        .doOnSubscribe(() -> fragment.showProgress())
-                        .subscribeOn(mainThread())
+                        .delay(5, TimeUnit.SECONDS)
+                        .compose(RxUtils.progressTransformer(fragment))
                         .observeOn(mainThread());
                   }
                 });
           }
         });
       }
-    }, new Action2<RxStarterRecyclerFragment, ArrayList<?>>() {
-      @Override public void call(RxStarterRecyclerFragment feedFragment, ArrayList<?> feeds) {
+    }, new Action2<RxStarterRecyclerFragment, ArrayList<? extends Entity>>() {
+      @Override public void call(RxStarterRecyclerFragment feedFragment, ArrayList<? extends Entity> feeds) {
         feedFragment.notifyDataSetChanged(feeds);
       }
     }, new Action2<RxStarterRecyclerFragment, Throwable>() {

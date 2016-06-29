@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:background="#787878"
-    android:orientation="vertical"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    tools:ignore="UselessParent"
+    android:background="?attr/colorAccent"
     >
 
-  <TextView
-      android:layout_width="match_parent"
-      android:layout_height="200dp"
-      android:text="fjdlasjflsajfljl"
+  <ImageView
+      android:id="@android:id/icon"
+      android:layout_width="108dp"
+      android:layout_height="108dp"
+      android:layout_centerHorizontal="true"
+      android:src="@drawable/ic_starter_empty"
+      tools:ignore="ContentDescription"
       />
-</LinearLayout>
+
+  <TextView
+      android:id="@android:id/text1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@android:id/icon"
+      android:layout_centerHorizontal="true"
+      android:layout_marginLeft="16dp"
+      android:layout_marginRight="16dp"
+      android:layout_marginTop="8dp"
+      android:gravity="center"
+      android:text="@string/starter_empty_title_placeholder"
+      android:textSize="15sp"
+      android:textStyle="bold"
+      />
+
+  <TextView
+      android:id="@android:id/text2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@android:id/text1"
+      android:layout_centerHorizontal="true"
+      android:layout_marginBottom="16dp"
+      android:layout_marginLeft="56dp"
+      android:layout_marginRight="56dp"
+      android:layout_marginTop="4dp"
+      android:gravity="center"
+      android:lineSpacingExtra="5.5dp"
+      android:text="@string/starter_empty_subtitle_placeholder"
+      />
+</RelativeLayout>
