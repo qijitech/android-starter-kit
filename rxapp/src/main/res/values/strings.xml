@@ -2,6 +2,8 @@
   <string name="app_name">奇迹空间</string>
   <string name="toolbar_title_account">个人中心</string>
 
+  <string name="label_simple_hud">SimpleHud</string>
+
   <string name="tab_home">首页</string>
   <string name="tab_account">我的</string>
   <string name="feed_with_page">Page分页</string>

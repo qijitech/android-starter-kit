@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="starter.kit.rx.app">
+    package="starter.kit.rx.app"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+  <uses-sdk
+      tools:overrideLibrary="work.wanghao.simplehud"
+      />
 
   <application
       android:name=".RxApp"
@@ -12,13 +18,22 @@
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
       android:supportsRtl="true"
-      android:theme="@style/AppTheme">
+      android:theme="@style/AppTheme"
+      >
     <activity android:name=".feature.main.MainActivity">
+
+    </activity>
+
+    <activity android:name=".feature.util.SimpleHudActivity"
+        android:label="@string/label_simple_hud">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+      <!--<meta-data-->
+          <!--android:name="android.support.PARENT_ACTIVITY"-->
+          <!--android:value=".feature.main.MainActivity"/>-->
     </activity>
   </application>
 

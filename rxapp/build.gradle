@@ -33,6 +33,7 @@ android {
 repositories {
   jcenter()
   maven { url "https://clojars.org/repo/" }
+  maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -41,6 +42,7 @@ dependencies {
 
   compile 'org.parceler:parceler-api:1.1.5'
   apt 'org.parceler:parceler:1.1.5'
+  compile 'com.github.Doublemine:SimpleHud:0.1.2'
 
   compile deps.fresco
 

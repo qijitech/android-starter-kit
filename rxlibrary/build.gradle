@@ -5,6 +5,7 @@ apply plugin: 'me.tatarka.retrolambda'
 repositories {
   jcenter()
   maven { url "https://clojars.org/repo/" }
+  maven { url "https://jitpack.io" }
 }
 
 android {
@@ -69,6 +70,7 @@ dependencies {
   apt 'frankiesardo:icepick-processor:3.2.0'
 
   compile 'com.jakewharton:butterknife:7.0.1'
+  compile 'com.github.Doublemine:SimpleHud:0.1.2'
 
   compile project(':common')
 }
