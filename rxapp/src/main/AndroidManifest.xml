@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="starter.kit.rx.app"
     xmlns:tools="http://schemas.android.com/tools"
+    package="starter.kit.rx.app"
     >
 
   <uses-permission android:name="android.permission.INTERNET"/>
@@ -21,6 +21,31 @@
       android:theme="@style/AppTheme"
       >
     <activity android:name=".feature.main.MainActivity">
+      <!--<intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>-->
+    </activity>
+
+    <activity
+        android:name=".feature.util.SimpleHudActivity"
+        android:label="@string/label_simple_hud">
+      <!--<meta-data-->
+      <!--android:name="android.support.PARENT_ACTIVITY"-->
+      <!--android:value=".feature.main.MainActivity"/>-->
+    </activity>
+
+    <activity
+        android:name=".feature.util.RxPreferencesActivity"
+        android:label="@string/label_rx_pref">
+    </activity>
+
+    <activity
+        android:name=".feature.auth.LoginActivity"
+        android:launchMode="singleTask"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.Close">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -28,12 +53,6 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".feature.util.SimpleHudActivity"
-        android:label="@string/label_simple_hud">
-      <!--<meta-data-->
-          <!--android:name="android.support.PARENT_ACTIVITY"-->
-          <!--android:value=".feature.main.MainActivity"/>-->
-    </activity>
   </application>
 
 </manifest>

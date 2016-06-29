@@ -3,6 +3,7 @@
   <string name="toolbar_title_account">个人中心</string>
 
   <string name="label_simple_hud">SimpleHud</string>
+  <string name="label_rx_pref">RxPreferences</string>
 
   <string name="tab_home">首页</string>
   <string name="tab_account">我的</string>
@@ -24,4 +25,5 @@
   <string name="placehold_short">Placehold</string>
   <string name="placehold_long">Fugit assumenda est incidunt. Odio doloribus non consequatur itaque. Reiciendis et laborum non enim. </string>
 
+  <string name="foo">foo</string>
 </resources>
