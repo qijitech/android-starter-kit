@@ -14,6 +14,9 @@ android {
     versionName "1.0"
   }
   buildTypes {
+    debug {
+      applicationIdSuffix ".debug" // 为了不和 release 版本冲突
+    }
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -27,6 +30,22 @@ android {
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+  }
+
+  applicationVariants.all { variant ->
+    if (variant.buildType.name.equals(com.android.builder.core.BuilderConstants.RELEASE)) {
+      variant.mergedFlavor.versionCode = gitVersionCode()
+      variant.mergedFlavor.versionName = gitVersionName()
+
+      variant.outputs.each { fileObj ->
+        def outputFile = fileObj.outputFile
+        if (outputFile != null && outputFile.name.endsWith('.apk')) {
+          //def fileName = "rxjava_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+          def fileName = "${parent.name}_v${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
+          fileObj.outputFile = new File(relaseOutputFile(), fileName)
+        }
+      }
+    }
   }
 }
 
@@ -49,4 +68,30 @@ dependencies {
 
   compile project(':rxlibrary')
   compile project(':common')
+}
+
+def gitVersionCode() {
+  def cmd = 'git rev-list HEAD --all --author="Doublemine" --count'
+  def versionCode = cmd.execute().text.trim()
+  if (versionCode.empty) {
+    return 1
+  }
+  return versionCode.toInteger()
+}
+
+def gitVersionName() {
+  def cmd = 'git describe --abbrev=0 --tags'
+  def versionName = cmd.execute().text.trim()
+  if (versionName.length() > 5 || versionName.length() <= 0) {
+    return "1.0";
+  }
+  return versionName;
+}
+
+def releaseTime() {
+  return new Date().format('yyyyMMddHHmm', TimeZone.getDefault())
+}
+
+def relaseOutputFile() {
+  return '../release/'
 }

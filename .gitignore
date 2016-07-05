@@ -55,6 +55,7 @@ $RECYCLE.BIN/
 .gradle/
 build/
 out/
+release/
 
 #Maven
 target
