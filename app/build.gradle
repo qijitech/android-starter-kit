@@ -30,11 +30,6 @@ android {
   lintOptions {
     abortOnError false
   }
-
-  dexOptions {
-    incremental true
-    javaMaxHeapSize "4g"
-  }
 }
 
 repositories {
