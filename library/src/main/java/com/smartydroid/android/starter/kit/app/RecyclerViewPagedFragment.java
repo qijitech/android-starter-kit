@@ -25,13 +25,21 @@ public abstract class RecyclerViewPagedFragment<E extends Entity> extends Recycl
     return Paginate.with(getRecyclerView(), this)
         .setLoadingTriggerThreshold(StarterKit.getLoadingTriggerThreshold())
         .addLoadingListItem(true)
-        .setLoadingListItemCreator(new CustomLoadingListItemCreator())
+        .setLoadingListItemCreator(loadingListItemCreator())
         .setLoadingListItemSpanSizeLookup(new LoadingListItemSpanLookup() {
           @Override public int getSpanSize() {
-            return 3;
+            return RecyclerViewPagedFragment.this.getSpanSize();
           }
         })
         .build();
+  }
+
+  public LoadingListItemCreator loadingListItemCreator() {
+    return new CustomLoadingListItemCreator();
+  }
+
+  public int getSpanSize() {
+    return 3;
   }
 
   @Override public void onLoadMore() {
