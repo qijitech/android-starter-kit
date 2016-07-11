@@ -1,198 +1,96 @@
+# Overview
 
--![](https://raw.githubusercontent.com/qijitech/android-starter-kit/master/Screenshots/Screenshots.gif)
+android-starter-kit is a fast development kit.
 
+# Dependencies
 
+This library is published to the Maven Central repository, so you can use it through Gradle/Maven.
+You can use it in Eclipse, but Android Studio (or Gradle) is recommended.
+In Quick start guide, we assume you're using Android Studio.
 
-# 引入权限
+## build.gradle
 
-```java
-<uses-permission android:name="android.permission.INTERNET"/>
-<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-```
+Write the following dependency configuration to your `build.gradle`.
 
-# 编写自己的Application继承StarterKitApp
+```gradle
+repositories {
+    mavenCentral()
+}
 
-```java
-public class YourApp extends StarterKitApp {
-
-  @Override public void onCreate() {
-    super.onCreate();
-    // TODO your code
-  }
+dependencies {
+    // Other dependencies are omitted
+    compile 'com.smartydroid:android-starter-kit:VERSION'
 }
 ```
 
-# 编写xml布局文件list_item_tweet.xml
+You should replace `VERSION` to the appropriate version number like `0.1.14`.
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<com.smartydroid.android.starter.kit.widget.ForegroundLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
-    >
-  <TextView
-      android:id="@+id/text_tweet_content"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginLeft="@dimen/activity_horizontal_margin"
-      android:layout_marginRight="@dimen/activity_horizontal_margin"
-      android:layout_marginTop="8dp"
-      android:maxLines="5"
-      android:textColor="#636363"
-      android:textSize="18sp"
-      />
+Then, click "sync" button to get the library using the configuration above.
 
-  <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginLeft="@dimen/activity_horizontal_margin"
-      android:layout_marginRight="@dimen/activity_horizontal_margin"
-      android:layout_marginTop="4dp"
-      android:paddingBottom="8dp"
-      >
+To confirm the available versions, search [the Maven Central Repository](http://search.maven.org/#search%7Cga%7C1%7Candroid-starter-kit).
 
-    <TextView
-        android:id="@+id/text_tweet_source"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:singleLine="true"
-        android:textColor="#919191"
-        android:textSize="14sp"
-        />
+# Build on Android Studio
 
-    <TextView
-        android:id="@+id/text_tweet_published_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="16dp"
-        android:singleLine="true"
-        android:text="12:48"
-        android:textColor="#919191"
-        android:textSize="14sp"
-        />
-  </RelativeLayout>
-</com.smartydroid.android.starter.kit.widget.ForegroundLinearLayout>
+This library and samples basically support Android Studio and Gradle.
+(Actually, I'm using them to develop this library.)
+
+## Instructions
+
+### Get the source codes
+
+Get the source code of the library and example app, by cloning git repository or downloading archives.
+
+If you use git, execute the following command in your workspace directory.
+
+```
+$ git clone https://github.com/qijitech/android-starter-kit.git
 ```
 
-# 自定义ViewHolder，继承EasyViewHolder
+If you are using Windows, try it on GitBash or Cygwin or something that supports git.
 
+### Import the project to Android Studio
 
-```java
-public class TweetViewHolder extends EasyViewHolder<Tweet> {
+1. Select File &gt; New &gt; Import Project... from the menu.
+1. Select the directory that is cloned. If you can't see your cloned directory, click "Refresh" icon and find it.
+1. Android Studio will import the project and build it. This might take minutes to complete. Even when the project window is opened, wait until the Gradle tasks are finished and indexed.
+1. Click "Run 'app'" button to build and launch the app. Don't forget to connect your devices to your machine.
 
-  @Bind(R.id.text_tweet_content) TextView mTweetContent;
-  @Bind(R.id.text_tweet_published_time) TextView mTweetPublishAt;
-  @Bind(R.id.text_tweet_source) TextView mTweetSource;
+### Build and install using Gradle
 
-  public TweetViewHolder(Context context, ViewGroup parent) {
-    super(context, parent, R.layout.list_item_tweet);
-    ButterKnife.bind(this, itemView);
-  }
+If you just want to install the app to your device, you don't have to import project to Android Studio.
 
-  @Override public void bindTo(Tweet tweet) {
-    mTweetContent.setText(tweet.content);
-    mTweetSource.setText(tweet.source);
-    mTweetPublishAt.setText(String.valueOf(tweet.publishedAt));
-  }
-}
+After cloning the project, connect your device to your machine, and execute the following command on the terminal.
+
+Mac / Linux / Git Bash, Cygwin on Windows:
+
+```sh
+$ cd /path/to/android-starter-kit
+$ ./gradlew installDebug
 ```
 
-# Retrofit Service
+Windows (Command prompt):
 
-```java
-public interface TweetService {
-
-  @GET("api/v1/tweet/list") Call<Collection<Tweet>> getTweetList(
-      @Query("page") int page,
-      @Query("page_size") int pageSize);
-}
+```sh
+> cd C:\path\to\android-starter-kit
+> gradlew installDebug
 ```
 
-# Retrofit Client
+# Environment
 
-```java
-public class StarterNetwork {
+## Development
 
-  private static final String sBaseUrl = "http://duanzi.net/";
-  private Retrofit mRetrofit;
+This project is built and tested under the following environment.
 
-  // Make this class a thread safe singleton
-  private static class SingletonHolder {
-    private static final StarterNetwork INSTANCE = new StarterNetwork();
-  }
+* OS: Mac OS X 10.11.4
+* IDE: Android Studio 2.1.2
+* JDK: 1.7
 
-  public static synchronized StarterNetwork get() {
-    return SingletonHolder.INSTANCE;
-  }
+## Prerequisites for building on Android Studio
 
-
-  protected Retrofit.Builder newRetrofitBuilder() {
-    return new Retrofit.Builder();
-  }
-
-  private Retrofit retrofit() {
-    if (mRetrofit == null) {
-      Retrofit.Builder builder = newRetrofitBuilder();
-      mRetrofit = builder.baseUrl(sBaseUrl)
-          .addConverterFactory(JacksonConverterFactory.create())
-          .build();
-    }
-
-    return mRetrofit;
-  }
-
-  public static TweetService createTweetService() {
-    return get().retrofit().create(TweetService.class);
-  }
-}
-```
-
-# 编写Fragment继承PagesRecyclerViewFragment
-
-```java
-public class FeedFragment extends PagesRecyclerViewFragment<Tweet> {
-
-  private TweetService mTweetService;
-
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mTweetService = StarterNetwork.createTweetService();
-  }
-
-  @Override public void bindViewHolders(EasyRecyclerAdapter adapter) {
-    adapter.bind(Tweet.class, TweetViewHolder.class);
-  }
-
-  @Override public Call<Collection<Tweet>> paginate(int page, int perPage) {
-    return mTweetService.getTweetList(page, perPage);
-  }
-
-  @Override public Object getKeyForData(Tweet item) {
-    return item.id;
-  }
-}
-```
-
-# Gradle文件
-
-```java
-	compile 'com.smartydroid:android-starter-kit:0.0.4'
-```
-
-# 第三方库
-
-* appcompat-v7 - 
-* recyclerview - 
-* ButterKnife - http://jakewharton.github.io/butterknife
-* Retrofit - http://square.github.io/retrofit
-* ConverterJackson - http://square.github.io/retrofit
-* EasyRecyclerAdapters - https://github.com/cmc00022/easyrecycleradapters
-
-
+* Android Studio (2.0.0+)
+* Oracle JDK 7
+* Android SDK Tools (Rev.25.1.7)
+* Android SDK Build-tools (Rev.24)
+* Android N SDK Platform (Rev.1)
+* Android Support Repository (Rev.33)
+* Android Support Library (Rev.23.2.1)
