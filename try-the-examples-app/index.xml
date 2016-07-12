@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Try-the-examples-apps on Android Starter Kit</title>
+    <link>https://qijitech.github.io/try-the-examples-app/</link>
+    <description>Recent content in Try-the-examples-apps on Android Starter Kit</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 12 Jul 2016 18:15:44 +0800</lastBuildDate>
+    <atom:link href="https://qijitech.github.io/try-the-examples-app/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Try the examples app</title>
+      <link>https://qijitech.github.io/try-the-examples-app/</link>
+      <pubDate>Tue, 12 Jul 2016 18:15:44 +0800</pubDate>
+      
+      <guid>https://qijitech.github.io/try-the-examples-app/</guid>
+      <description>
+
+&lt;h1 id=&#34;build-on-android-studio&#34;&gt;Build on Android Studio&lt;/h1&gt;
+
+&lt;p&gt;This library and samples basically support Android Studio and Gradle.
+(Actually, I&amp;rsquo;m using them to develop this library.)&lt;/p&gt;
+
+&lt;h2 id=&#34;instructions&#34;&gt;Instructions&lt;/h2&gt;
+
+&lt;h3 id=&#34;get-the-source-codes&#34;&gt;Get the source codes&lt;/h3&gt;
+
+&lt;p&gt;Get the source code of the library and example app, by cloning git repository or downloading archives.&lt;/p&gt;
+
+&lt;p&gt;If you use git, execute the following command in your workspace directory.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/qijitech/android-starter-kit.git
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you are using Windows, try it on GitBash or Cygwin or something that supports git.&lt;/p&gt;
+
+&lt;h3 id=&#34;import-the-project-to-android-studio&#34;&gt;Import the project to Android Studio&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Select File &amp;gt; New &amp;gt; Import Project&amp;hellip; from the menu.&lt;/li&gt;
+&lt;li&gt;Select the directory that is cloned. If you can&amp;rsquo;t see your cloned directory, click &amp;ldquo;Refresh&amp;rdquo; icon and find it.&lt;/li&gt;
+&lt;li&gt;Android Studio will import the project and build it. This might take minutes to complete. Even when the project window is opened, wait until the Gradle tasks are finished and indexed.&lt;/li&gt;
+&lt;li&gt;Click &amp;ldquo;Run &amp;lsquo;app&amp;rsquo;&amp;rdquo; button to build and launch the app. Don&amp;rsquo;t forget to connect your devices to your machine.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;build-and-install-using-gradle&#34;&gt;Build and install using Gradle&lt;/h3&gt;
+
+&lt;p&gt;If you just want to install the app to your device, you don&amp;rsquo;t have to import project to Android Studio.&lt;/p&gt;
+
+&lt;p&gt;After cloning the project, connect your device to your machine, and execute the following command on the terminal.&lt;/p&gt;
+
+&lt;p&gt;Mac / Linux / Git Bash, Cygwin on Windows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ cd /path/to/android-starter-kit
+$ ./gradlew installDebug
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Windows (Command prompt):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;&amp;gt; cd C:\path\to\android-starter-kit
+&amp;gt; gradlew installDebug
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

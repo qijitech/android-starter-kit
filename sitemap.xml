@@ -2,7 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://replace-this-with-your-hugo-site.com/</loc>
+    <loc>https://qijitech.github.io/</loc>
+    <lastmod>2016-07-12T17:09:38+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qijitech.github.io/</loc>
+    <lastmod>2016-07-12T17:09:38+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qijitech.github.io/try-the-examples-app/</loc>
+    <lastmod>2016-07-12T18:15:44+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qijitech.github.io/getting-started/</loc>
+    <lastmod>2016-07-12T17:21:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qijitech.github.io/reference/</loc>
+    <lastmod>2016-07-12T18:04:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qijitech.github.io/license/</loc>
+    <lastmod>2016-07-12T17:20:51+08:00</lastmod>
   </url>
   
 </urlset>

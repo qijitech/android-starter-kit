@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>References on Android Starter Kit</title>
+    <link>https://qijitech.github.io/reference/</link>
+    <description>Recent content in References on Android Starter Kit</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 12 Jul 2016 18:04:31 +0800</lastBuildDate>
+    <atom:link href="https://qijitech.github.io/reference/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Reference</title>
+      <link>https://qijitech.github.io/reference/</link>
+      <pubDate>Tue, 12 Jul 2016 18:04:31 +0800</pubDate>
+      
+      <guid>https://qijitech.github.io/reference/</guid>
+      <description>
+
+&lt;h2 id=&#34;development&#34;&gt;Development&lt;/h2&gt;
+
+&lt;p&gt;This project is built and tested under the following environment.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;OS: Mac OS X 10.11.4&lt;/li&gt;
+&lt;li&gt;IDE: Android Studio 2.1.2&lt;/li&gt;
+&lt;li&gt;JDK: 1.7&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;prerequisites-for-building-on-android-studio&#34;&gt;Prerequisites for building on Android Studio&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Android Studio (2.0.0+)&lt;/li&gt;
+&lt;li&gt;Oracle JDK 7&lt;/li&gt;
+&lt;li&gt;Android SDK Tools (Rev.25.1.7)&lt;/li&gt;
+&lt;li&gt;Android SDK Build-tools (Rev.24)&lt;/li&gt;
+&lt;li&gt;Android N SDK Platform (Rev.1)&lt;/li&gt;
+&lt;li&gt;Android Support Repository (Rev.33)&lt;/li&gt;
+&lt;li&gt;Android Support Library (Rev.23.2.1)&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
