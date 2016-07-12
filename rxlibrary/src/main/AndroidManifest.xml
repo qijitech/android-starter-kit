@@ -1,7 +1,0 @@
-<manifest
-    xmlns:tools="http://schemas.android.com/tools"
-    package="starter.kit.rx">
-
-  <uses-sdk tools:overrideLibrary="work.wanghao.simplehud"/>
-  <application/>
-</manifest>
