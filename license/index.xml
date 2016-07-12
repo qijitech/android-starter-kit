@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Licenses on Android Starter Kit</title>
-    <link>https://qijitech.github.io/license/</link>
+    <link>https://qijitech.github.io/android-starter-kit/license/</link>
     <description>Recent content in Licenses on Android Starter Kit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 12 Jul 2016 17:20:51 +0800</lastBuildDate>
-    <atom:link href="https://qijitech.github.io/license/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://qijitech.github.io/android-starter-kit/license/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>License</title>
-      <link>https://qijitech.github.io/license/</link>
+      <link>https://qijitech.github.io/android-starter-kit/license/</link>
       <pubDate>Tue, 12 Jul 2016 17:20:51 +0800</pubDate>
       
-      <guid>https://qijitech.github.io/license/</guid>
+      <guid>https://qijitech.github.io/android-starter-kit/license/</guid>
       <description>&lt;p&gt;Copyright &amp;copy; 2016 smartydroid &lt;a href=&#34;mailto:smartydroid@gmail.com&#34;&gt;smartydroid@gmail.com&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Permission is hereby granted, free of charge, to any person obtaining a copy

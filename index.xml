@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Android Starter Kit</title>
-    <link>https://qijitech.github.io/</link>
+    <link>https://qijitech.github.io/android-starter-kit/</link>
     <description>Recent content on Android Starter Kit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 12 Jul 2016 17:09:38 +0800</lastBuildDate>
-    <atom:link href="https://qijitech.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://qijitech.github.io/android-starter-kit/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>StarterKit</title>
-      <link>https://qijitech.github.io/</link>
+      <link>https://qijitech.github.io/android-starter-kit/</link>
       <pubDate>Tue, 12 Jul 2016 17:09:38 +0800</pubDate>
       
-      <guid>https://qijitech.github.io/</guid>
+      <guid>https://qijitech.github.io/android-starter-kit/</guid>
       <description>
 
 &lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
@@ -47,17 +47,17 @@ dependencies {
 Then, click &amp;ldquo;sync&amp;rdquo; button to get the library using the configuration above.
 To confirm the available versions, search &lt;a href=&#34;http://search.maven.org/#search%7Cga%7C1%7Candroid-starter-kit&#34;&gt;the Maven Central Repository&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;See the &lt;a href=&#34;https://qijitech.github.io/getting-started/&#34;&gt;getting started guide&lt;/a&gt; for instructions how to get
+&lt;p&gt;See the &lt;a href=&#34;https://qijitech.github.io/android-starter-kit/getting-started/&#34;&gt;getting started guide&lt;/a&gt; for instructions how to get
 it up and running.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Try the examples app</title>
-      <link>https://qijitech.github.io/try-the-examples-app/</link>
+      <link>https://qijitech.github.io/android-starter-kit/try-the-examples-app/</link>
       <pubDate>Tue, 12 Jul 2016 18:15:44 +0800</pubDate>
       
-      <guid>https://qijitech.github.io/try-the-examples-app/</guid>
+      <guid>https://qijitech.github.io/android-starter-kit/try-the-examples-app/</guid>
       <description>
 
 &lt;h1 id=&#34;build-on-android-studio&#34;&gt;Build on Android Studio&lt;/h1&gt;
@@ -109,19 +109,19 @@ $ ./gradlew installDebug
     
     <item>
       <title>Getting started</title>
-      <link>https://qijitech.github.io/getting-started/</link>
+      <link>https://qijitech.github.io/android-starter-kit/getting-started/</link>
       <pubDate>Tue, 12 Jul 2016 17:21:30 +0800</pubDate>
       
-      <guid>https://qijitech.github.io/getting-started/</guid>
+      <guid>https://qijitech.github.io/android-starter-kit/getting-started/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Reference</title>
-      <link>https://qijitech.github.io/reference/</link>
+      <link>https://qijitech.github.io/android-starter-kit/reference/</link>
       <pubDate>Tue, 12 Jul 2016 18:04:31 +0800</pubDate>
       
-      <guid>https://qijitech.github.io/reference/</guid>
+      <guid>https://qijitech.github.io/android-starter-kit/reference/</guid>
       <description>
 
 &lt;h2 id=&#34;development&#34;&gt;Development&lt;/h2&gt;
@@ -150,10 +150,10 @@ $ ./gradlew installDebug
     
     <item>
       <title>License</title>
-      <link>https://qijitech.github.io/license/</link>
+      <link>https://qijitech.github.io/android-starter-kit/license/</link>
       <pubDate>Tue, 12 Jul 2016 17:20:51 +0800</pubDate>
       
-      <guid>https://qijitech.github.io/license/</guid>
+      <guid>https://qijitech.github.io/android-starter-kit/license/</guid>
       <description>&lt;p&gt;Copyright &amp;copy; 2016 smartydroid &lt;a href=&#34;mailto:smartydroid@gmail.com&#34;&gt;smartydroid@gmail.com&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Permission is hereby granted, free of charge, to any person obtaining a copy

@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Try-the-examples-apps on Android Starter Kit</title>
-    <link>https://qijitech.github.io/try-the-examples-app/</link>
+    <link>https://qijitech.github.io/android-starter-kit/try-the-examples-app/</link>
     <description>Recent content in Try-the-examples-apps on Android Starter Kit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 12 Jul 2016 18:15:44 +0800</lastBuildDate>
-    <atom:link href="https://qijitech.github.io/try-the-examples-app/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://qijitech.github.io/android-starter-kit/try-the-examples-app/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Try the examples app</title>
-      <link>https://qijitech.github.io/try-the-examples-app/</link>
+      <link>https://qijitech.github.io/android-starter-kit/try-the-examples-app/</link>
       <pubDate>Tue, 12 Jul 2016 18:15:44 +0800</pubDate>
       
-      <guid>https://qijitech.github.io/try-the-examples-app/</guid>
+      <guid>https://qijitech.github.io/android-starter-kit/try-the-examples-app/</guid>
       <description>
 
 &lt;h1 id=&#34;build-on-android-studio&#34;&gt;Build on Android Studio&lt;/h1&gt;

@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>References on Android Starter Kit</title>
-    <link>https://qijitech.github.io/reference/</link>
+    <link>https://qijitech.github.io/android-starter-kit/reference/</link>
     <description>Recent content in References on Android Starter Kit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 12 Jul 2016 18:04:31 +0800</lastBuildDate>
-    <atom:link href="https://qijitech.github.io/reference/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://qijitech.github.io/android-starter-kit/reference/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Reference</title>
-      <link>https://qijitech.github.io/reference/</link>
+      <link>https://qijitech.github.io/android-starter-kit/reference/</link>
       <pubDate>Tue, 12 Jul 2016 18:04:31 +0800</pubDate>
       
-      <guid>https://qijitech.github.io/reference/</guid>
+      <guid>https://qijitech.github.io/android-starter-kit/reference/</guid>
       <description>
 
 &lt;h2 id=&#34;development&#34;&gt;Development&lt;/h2&gt;
