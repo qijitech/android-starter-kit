@@ -53,6 +53,15 @@ it up and running.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Getting started</title>
+      <link>https://qijitech.github.io/android-starter-kit/getting-started/</link>
+      <pubDate>Tue, 12 Jul 2016 17:21:30 +0800</pubDate>
+      
+      <guid>https://qijitech.github.io/android-starter-kit/getting-started/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Try the examples app</title>
       <link>https://qijitech.github.io/android-starter-kit/try-the-examples-app/</link>
       <pubDate>Tue, 12 Jul 2016 18:15:44 +0800</pubDate>
@@ -105,15 +114,6 @@ $ ./gradlew installDebug
 &amp;gt; gradlew installDebug
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Getting started</title>
-      <link>https://qijitech.github.io/android-starter-kit/getting-started/</link>
-      <pubDate>Tue, 12 Jul 2016 17:21:30 +0800</pubDate>
-      
-      <guid>https://qijitech.github.io/android-starter-kit/getting-started/</guid>
-      <description></description>
     </item>
     
     <item>
