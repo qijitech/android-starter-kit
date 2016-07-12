@@ -1,96 +1,48 @@
-# Overview
+Android Starter Kit
+========
 
-android-starter-kit is a fast development kit.
+The library is a fast development kit for android.
 
-# Dependencies
+For more information please see [the website][1].
 
-This library is published to the Maven Central repository, so you can use it through Gradle/Maven.
-You can use it in Eclipse, but Android Studio (or Gradle) is recommended.
-In Quick start guide, we assume you're using Android Studio.
+Download
+--------
 
-## build.gradle
+grab via Maven:
 
-Write the following dependency configuration to your `build.gradle`.
-
-```gradle
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    // Other dependencies are omitted
-    compile 'com.smartydroid:android-starter-kit:VERSION'
-}
+```xml
+<dependency>
+    <groupId>com.smartydroid</groupId>
+    <artifactId>android-starter-kit</artifactId>
+    <version>0.1.14</version>
+</dependency>
 ```
 
-You should replace `VERSION` to the appropriate version number like `0.1.14`.
+or Gradle:
 
-Then, click "sync" button to get the library using the configuration above.
-
-To confirm the available versions, search [the Maven Central Repository](http://search.maven.org/#search%7Cga%7C1%7Candroid-starter-kit).
-
-# Build on Android Studio
-
-This library and samples basically support Android Studio and Gradle.
-(Actually, I'm using them to develop this library.)
-
-## Instructions
-
-### Get the source codes
-
-Get the source code of the library and example app, by cloning git repository or downloading archives.
-
-If you use git, execute the following command in your workspace directory.
-
-```
-$ git clone https://github.com/qijitech/android-starter-kit.git
+```groovy
+compile 'com.smartydroid:android-starter-kit:0.1.14'
 ```
 
-If you are using Windows, try it on GitBash or Cygwin or something that supports git.
+Retrofit requires at minimum Java 7 or Android 4.0.
 
-### Import the project to Android Studio
+License
+=======
 
-1. Select File &gt; New &gt; Import Project... from the menu.
-1. Select the directory that is cloned. If you can't see your cloned directory, click "Refresh" icon and find it.
-1. Android Studio will import the project and build it. This might take minutes to complete. Even when the project window is opened, wait until the Gradle tasks are finished and indexed.
-1. Click "Run 'app'" button to build and launch the app. Don't forget to connect your devices to your machine.
+    Copyright 2016 Smartydroid <smartydroid@gmail.com>
 
-### Build and install using Gradle
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-If you just want to install the app to your device, you don't have to import project to Android Studio.
+       http://www.apache.org/licenses/LICENSE-2.0
 
-After cloning the project, connect your device to your machine, and execute the following command on the terminal.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+[1]: http://qijitech.github.io/android-starter-kit/
 
-Mac / Linux / Git Bash, Cygwin on Windows:
 
-```sh
-$ cd /path/to/android-starter-kit
-$ ./gradlew installDebug
-```
-
-Windows (Command prompt):
-
-```sh
-> cd C:\path\to\android-starter-kit
-> gradlew installDebug
-```
-
-# Environment
-
-## Development
-
-This project is built and tested under the following environment.
-
-* OS: Mac OS X 10.11.4
-* IDE: Android Studio 2.1.2
-* JDK: 1.7
-
-## Prerequisites for building on Android Studio
-
-* Android Studio (2.0.0+)
-* Oracle JDK 7
-* Android SDK Tools (Rev.25.1.7)
-* Android SDK Build-tools (Rev.24)
-* Android N SDK Platform (Rev.1)
-* Android Support Repository (Rev.33)
-* Android Support Library (Rev.23.2.1)
