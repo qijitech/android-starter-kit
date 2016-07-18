@@ -24,7 +24,7 @@ or Gradle:
 compile 'com.smartydroid:android-starter-kit:0.1.14'
 ```
 
-Retrofit requires at minimum Java 7 or Android 4.0.
+requires at minimum Java 7 or Android 4.0.
 
 License
 =======
