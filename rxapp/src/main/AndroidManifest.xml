@@ -42,15 +42,21 @@
     </activity>
 
     <activity
-        android:name=".feature.auth.LoginActivity"
-        android:launchMode="singleTask"
-        android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.Close">
+        android:name=".feature.widget.DirectionActivity"
+        android:label="@string/label_direction">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+    </activity>
+
+    <activity
+        android:name=".feature.auth.LoginActivity"
+        android:launchMode="singleTask"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.Close">
+
     </activity>
 
   </application>

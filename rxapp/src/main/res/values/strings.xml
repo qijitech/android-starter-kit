@@ -4,6 +4,7 @@
 
   <string name="label_simple_hud">SimpleHud</string>
   <string name="label_rx_pref">RxPreferences</string>
+  <string name="label_direction">SwipeRefreshLayout Direction</string>
 
   <string name="tab_home">首页</string>
   <string name="tab_account">我的</string>

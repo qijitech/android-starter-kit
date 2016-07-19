@@ -1,4 +1,4 @@
-package starter.kit.rx.app.feature.feed;
+package starter.kit.rx.app.feature.widget;
 
 import android.os.Bundle;
 import rx.subjects.PublishSubject;
@@ -6,13 +6,13 @@ import starter.kit.rx.RxStarterPresenter;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.FeedService;
 
-public class FeedPresenter extends RxStarterPresenter<FeedFragment> {
+public class DirectionPresenter extends RxStarterPresenter<DirectionActivity> {
 
   private static final int RESTARTABLE_ID = 1;
 
-  private PublishSubject<Integer> pageRequests = PublishSubject.create();
-
   private FeedService mFeedService;
+
+  private PublishSubject<Integer> pageRequests = PublishSubject.create();
 
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);

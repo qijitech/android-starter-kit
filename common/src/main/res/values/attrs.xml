@@ -9,4 +9,12 @@
   <declare-styleable name="ForegroundImageView">
     <attr name="android:foreground"/>
   </declare-styleable>
+
+  <declare-styleable name="SwipeRefreshLayout">
+    <attr name="srl_direction">
+      <enum name="top" value="0"/>
+      <enum name="bottom" value="1"/>
+      <enum name="both" value="2"/>
+    </attr>
+  </declare-styleable>
 </resources>
