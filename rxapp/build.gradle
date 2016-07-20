@@ -61,8 +61,18 @@ dependencies {
 
   compile 'org.parceler:parceler-api:1.1.5'
   apt 'org.parceler:parceler:1.1.5'
+
   compile 'com.github.Doublemine:SimpleHud:0.1.2'
   compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+
+  compile 'com.github.bumptech.glide:glide:3.7.0'
+
+  compile('com.mikepenz:materialdrawer:5.3.6@aar') {
+    transitive = true
+  }
+  compile 'com.mikepenz:google-material-typeface:2.2.0.1@aar'
+  compile 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
+  compile 'com.mikepenz:octicons-typeface:3.0.0.1@aar'
 
   compile deps.fresco
 
