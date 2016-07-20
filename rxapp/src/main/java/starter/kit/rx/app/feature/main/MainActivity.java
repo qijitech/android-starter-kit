@@ -7,8 +7,8 @@ import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxStarterActivity;
@@ -49,8 +49,8 @@ public class MainActivity extends RxStarterActivity {
         .withHasStableIds(true)
         .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
         .addStickyDrawerItems(
-            new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog).withIdentifier(10),
-            new SecondaryDrawerItem().withName(R.string.drawer_item_open_source).withIcon(FontAwesome.Icon.faw_github)
+            new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog).withIdentifier(10),
+            new PrimaryDrawerItem().withName(R.string.drawer_item_open_source).withIcon(FontAwesome.Icon.faw_github)
         )
         .withSavedInstance(savedInstanceState)
         .withShowDrawerOnFirstLaunch(true)
