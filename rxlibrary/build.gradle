@@ -62,7 +62,7 @@ dependencies {
   compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
 
   compile 'info.android15.nucleus:nucleus-support-v7:3.0.1'
-  compile 'info.android15.nucleus:nucleus-support-v4:3.0.1'
+  compile 'info.android15.nucleus:nucleus-support-v4:4.0.0'
 
   compile 'com.orhanobut:logger:1.13'
 

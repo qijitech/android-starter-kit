@@ -26,8 +26,8 @@ public class FeedsTextViewHolder extends EasyViewHolder<Feed> {
   }
 
   @Override public void bindTo(int position, Feed feed) {
-    mAvatarView.setImageURI(feed.user.uri());
-    mUsernameTextView.setText(feed.user.nickname);
+    mAvatarView.setImageURI(feed.userInfo.uri());
+    mUsernameTextView.setText(feed.userInfo.nickname);
     mContentTextView.setText(feed.content);
   }
 }

@@ -48,6 +48,7 @@ public class MainActivity extends RxStarterActivity {
         .withToolbar(toolbar)
         .withHasStableIds(true)
         .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
+        .addDrawerItems(new PrimaryDrawerItem().withName("Feeds").withIcon(FontAwesome.Icon.faw_android))
         .addStickyDrawerItems(
             new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog).withIdentifier(10),
             new PrimaryDrawerItem().withName(R.string.drawer_item_open_source).withIcon(FontAwesome.Icon.faw_github)

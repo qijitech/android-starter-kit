@@ -20,13 +20,11 @@
       android:layout_height="match_parent"
       android:layout_below="@id/toolbar"
       >
-    <TextView
-        android:id="@+id/txtLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Test"
-        android:textSize="16sp"
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="starter.kit.rx.app.feature.feed.FeedFragment"
+        android:tag="FeedFragment"
         />
   </FrameLayout>
 </RelativeLayout>
