@@ -1,7 +1,9 @@
 package starter.kit.rx.app.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import java.util.ArrayList;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Image;
@@ -32,6 +35,8 @@ public class PhotoCollectionView extends RecyclerView {
 
   private void initialize() {
     setNestedScrollingEnabled(false);
+    setLayoutManager(new GridLayoutManager(getContext(), 3));
+    addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext()).color(Color.TRANSPARENT).size(20).build());
     mAdapter = new SimpleAdapter();
     setAdapter(mAdapter);
   }
