@@ -30,4 +30,6 @@ dependencies {
   compile deps.paginate
   compile deps.smoothprogressbar
   compile deps.converterJackson
+
+  compile deps.fresco
 }

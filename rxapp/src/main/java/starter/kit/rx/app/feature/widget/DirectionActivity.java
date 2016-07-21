@@ -14,8 +14,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxStarterActivity;
-import starter.kit.rx.app.feature.feed.FeedViewHolderFactory;
-import starter.kit.rx.app.feature.feed.FeedsTextViewHolder;
+import starter.kit.rx.app.feature.feed.FeedsViewHolder;
 import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.rx.util.ProgressInterface;
 import starter.kit.rx.util.RxUtils;
@@ -44,8 +43,7 @@ public class DirectionActivity extends RxStarterActivity
     swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
 
     mAdapter = new EasyRecyclerAdapter(this);
-    mAdapter.viewHolderFactory(new FeedViewHolderFactory(this));
-    mAdapter.bind(Feed.class, FeedsTextViewHolder.class);
+    mAdapter.bind(Feed.class, FeedsViewHolder.class);
     recyclerView.setAdapter(mAdapter);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
   }

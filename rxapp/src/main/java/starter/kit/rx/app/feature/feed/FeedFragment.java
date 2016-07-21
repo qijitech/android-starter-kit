@@ -22,9 +22,9 @@ public class FeedFragment extends RxStarterRecyclerFragment<Feed> {
     mFeedService = ApiService.createFeedService();
 
 
-    buildFragConfig(new StarterFragConfig.Builder<>().viewHolderFactory(new FeedViewHolderFactory(getContext()))
+    buildFragConfig(new StarterFragConfig.Builder<>()
             .pageSize(5)
-            .bind(Feed.class, FeedsTextViewHolder.class)
+            .bind(Feed.class, FeedsViewHolder.class)
             .recyclerViewDecor(new HorizontalDividerItemDecoration.Builder(getContext()).size(30)
                 .colorResId(R.color.dividerColor)
                 .build())

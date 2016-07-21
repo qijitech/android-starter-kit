@@ -17,4 +17,15 @@
       <enum name="both" value="2"/>
     </attr>
   </declare-styleable>
+
+  <declare-styleable name="NineGirdView">
+    <attr format="dimension" name="ngGap"/>
+    <attr format="integer" name="ngMaxSize"/>
+    <attr format="dimension" name="ngSingleSize"/>
+    <attr name="ngStyle">
+      <enum name="grid" value="0"/>
+      <enum name="fill" value="1"/>
+    </attr>
+  </declare-styleable>
+
 </resources>
