@@ -1,7 +1,9 @@
 package starter.kit.util;
 
 import android.app.Activity;
+import android.os.Build;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
@@ -101,6 +103,16 @@ public class ViewUtils {
       throw new IllegalArgumentException("View doesn't exist");
     }
     return v;
+  }
+
+  @SuppressWarnings("deprecation")
+  public static void removeOnGlobalLayoutListener(View view,
+      ViewTreeObserver.OnGlobalLayoutListener listener) {
+    if (Build.VERSION.SDK_INT < 16) {
+      view.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
+    } else {
+      view.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+    }
   }
 
   private ViewUtils() {

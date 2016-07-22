@@ -3,7 +3,6 @@ package starter.kit.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,15 +13,12 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import butterknife.ButterKnife;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.common.ResizeOptions;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import starter.kit.R;
+import starter.kit.util.ImageLoader;
+import starter.kit.util.ViewUtils;
 
 public class NineGirdView extends RecyclerView {
 
@@ -91,11 +87,7 @@ public class NineGirdView extends RecyclerView {
     final ViewTreeObserver vto = getViewTreeObserver();
     vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
       @Override public void onGlobalLayout() {
-        if (Build.VERSION.SDK_INT < 16) {
-          getViewTreeObserver().removeGlobalOnLayoutListener(this);
-        } else {
-          getViewTreeObserver().removeOnGlobalLayoutListener(this);
-        }
+        ViewUtils.removeOnGlobalLayoutListener(NineGirdView.this, this);
         populate();
       }
     });
@@ -147,6 +139,7 @@ public class NineGirdView extends RecyclerView {
         break;
     }
   }
+
 
   private class SimpleAdapter extends Adapter<ViewHolder> {
     protected int itemSize;
@@ -211,19 +204,7 @@ public class NineGirdView extends RecyclerView {
       params.width = itemSize;
       params.height = itemSize;
       mThumbnailView.setLayoutParams(params);
-
-      ResizeOptions options = new ResizeOptions(itemSize, itemSize);
-      displayImage(imageUrl, mThumbnailView, options);
-    }
-
-    private void displayImage(Uri imageUrl, SimpleDraweeView simpleDraweeView,
-        ResizeOptions options) {
-      ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUrl).setResizeOptions(options).build();
-      PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
-              .setOldController(simpleDraweeView.getController())
-              .setImageRequest(request)
-              .build();
-      simpleDraweeView.setController(controller);
+      ImageLoader.getInstance().displayImageView(mThumbnailView, imageUrl, itemSize, itemSize, null);
     }
   }
 }

@@ -6,11 +6,17 @@ import android.net.Uri;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import starter.kit.retrofit.Network;
+import starter.kit.util.ImageLoader;
 
 public class RxApp extends RxStarterApp {
 
@@ -55,5 +61,23 @@ public class RxApp extends RxStarterApp {
         return super.placeholder(ctx, tag);
       }
     });
+
+    ImageLoader.initialize(new ImageLoader.AbstractImageLoader() {
+      @Override
+      public void displayImageView(ImageView imageView, Uri uri, Drawable placeholder, int width,
+          int height) {
+        if (imageView instanceof SimpleDraweeView) {
+          SimpleDraweeView simpleDraweeView = (SimpleDraweeView) imageView;
+          ResizeOptions options = new ResizeOptions(width, height);
+          ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(options).build();
+          PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+              .setOldController(simpleDraweeView.getController())
+              .setImageRequest(request)
+              .build();
+          simpleDraweeView.setController(controller);
+        }
+      }
+    });
   }
+
 }

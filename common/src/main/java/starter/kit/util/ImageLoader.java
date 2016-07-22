@@ -37,8 +37,8 @@ public class ImageLoader {
   }
 
   public boolean displayImageView(ImageView imageView, Uri uri) {
-    Drawable placeHolder = placeholder(imageView, uri, null);
-    if (placeHolder != null) {
+    if (consumed(uri)) {
+      Drawable placeHolder = placeholder(imageView, uri, null);
       imageLoader.displayImageView(imageView, uri, placeHolder);
       return true;
     }
@@ -49,8 +49,8 @@ public class ImageLoader {
    * @return false if not consumed
    */
   public boolean displayImageView(ImageView imageView, Uri uri, String tag) {
-    Drawable placeHolder = placeholder(imageView, uri, tag);
-    if (placeHolder != null) {
+    if (consumed(uri)) {
+      Drawable placeHolder = placeholder(imageView, uri, tag);
       imageLoader.displayImageView(imageView, uri, placeHolder);
       return true;
     }
@@ -58,25 +58,12 @@ public class ImageLoader {
   }
 
   public boolean displayImageView(ImageView imageView, Uri uri, int width, int height, String tag) {
-    Drawable placeHolder = placeholder(imageView, uri, tag);
-    if (placeHolder != null) {
+    if (consumed(uri)) {
+      Drawable placeHolder = placeholder(imageView, uri, tag);
       imageLoader.displayImageView(imageView, uri, placeHolder, width, height);
       return true;
     }
     return false;
-  }
-
-  private Drawable placeholder(ImageView imageView, Uri uri, String tag) {
-    //if we do not handle all uris and are not http or https we keep the original behavior
-    if (mHandleAllUris || "http".equals(uri.getScheme()) || "https".equals(uri.getScheme())) {
-      if (imageLoader != null) {
-        if (TextUtils.isEmpty(tag)) {
-          return imageLoader.placeholder(imageView.getContext());
-        }
-        return imageLoader.placeholder(imageView.getContext(), tag);
-      }
-    }
-    return null;
   }
 
   public void cancelImage(ImageView imageView) {
@@ -91,6 +78,21 @@ public class ImageLoader {
 
   public void setImageLoader(ImageLoaderInterface imageLoader) {
     this.imageLoader = imageLoader;
+  }
+
+  private boolean consumed(Uri uri) {
+    //if we do not handle all uris and are not http or https we keep the original behavior
+    return mHandleAllUris || "http".equals(uri.getScheme()) || "https".equals(uri.getScheme());
+  }
+
+  private Drawable placeholder(ImageView imageView, Uri uri, String tag) {
+    if (imageLoader != null) {
+      if (TextUtils.isEmpty(tag)) {
+        return imageLoader.placeholder(imageView.getContext());
+      }
+      return imageLoader.placeholder(imageView.getContext(), tag);
+    }
+    return null;
   }
 
   public interface ImageLoaderInterface {
