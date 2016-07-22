@@ -3,6 +3,7 @@ package starter.kit.util;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -35,19 +36,47 @@ public class ImageLoader {
     return this;
   }
 
+  public boolean displayImageView(ImageView imageView, Uri uri) {
+    Drawable placeHolder = placeholder(imageView, uri, null);
+    if (placeHolder != null) {
+      imageLoader.displayImageView(imageView, uri, placeHolder);
+      return true;
+    }
+    return false;
+  }
+
   /**
    * @return false if not consumed
    */
   public boolean displayImageView(ImageView imageView, Uri uri, String tag) {
-    //if we do not handle all uris and are not http or https we keep the original behavior
-    if (mHandleAllUris || "http".equals(uri.getScheme()) || "https".equals(uri.getScheme())) {
-      if (imageLoader != null) {
-        Drawable placeHolder = imageLoader.placeholder(imageView.getContext(), tag);
-        imageLoader.displayImageView(imageView, uri, placeHolder);
-      }
+    Drawable placeHolder = placeholder(imageView, uri, tag);
+    if (placeHolder != null) {
+      imageLoader.displayImageView(imageView, uri, placeHolder);
       return true;
     }
     return false;
+  }
+
+  public boolean displayImageView(ImageView imageView, Uri uri, int width, int height, String tag) {
+    Drawable placeHolder = placeholder(imageView, uri, tag);
+    if (placeHolder != null) {
+      imageLoader.displayImageView(imageView, uri, placeHolder, width, height);
+      return true;
+    }
+    return false;
+  }
+
+  private Drawable placeholder(ImageView imageView, Uri uri, String tag) {
+    //if we do not handle all uris and are not http or https we keep the original behavior
+    if (mHandleAllUris || "http".equals(uri.getScheme()) || "https".equals(uri.getScheme())) {
+      if (imageLoader != null) {
+        if (TextUtils.isEmpty(tag)) {
+          return imageLoader.placeholder(imageView.getContext());
+        }
+        return imageLoader.placeholder(imageView.getContext(), tag);
+      }
+    }
+    return null;
   }
 
   public void cancelImage(ImageView imageView) {
@@ -67,6 +96,8 @@ public class ImageLoader {
   public interface ImageLoaderInterface {
     void displayImageView(ImageView imageView, Uri uri, Drawable placeholder);
 
+    void displayImageView(ImageView imageView, Uri uri, Drawable placeholder, int width, int height);
+
     void cancel(ImageView imageView);
 
     Drawable placeholder(Context ctx);
@@ -77,6 +108,12 @@ public class ImageLoader {
   public static abstract class AbstractImageLoader implements ImageLoaderInterface {
 
     @Override public void displayImageView(ImageView imageView, Uri uri, Drawable placeholder) {
+      Log.i("ImageLoader", "you have not specified a ImageLoader implementation through the ImageLoader.initialize(ImageLoaderInterface) method");
+    }
+
+    @Override
+    public void displayImageView(ImageView imageView, Uri uri, Drawable placeholder, int width,
+        int height) {
       Log.i("ImageLoader", "you have not specified a ImageLoader implementation through the ImageLoader.initialize(ImageLoaderInterface) method");
     }
 
