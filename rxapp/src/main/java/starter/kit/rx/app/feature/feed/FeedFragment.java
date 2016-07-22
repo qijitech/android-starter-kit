@@ -17,6 +17,10 @@ public class FeedFragment extends RxStarterRecyclerFragment<Feed> {
 
   private FeedService mFeedService;
 
+  public static FeedFragment create() {
+    return new FeedFragment();
+  }
+
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
     mFeedService = ApiService.createFeedService();
