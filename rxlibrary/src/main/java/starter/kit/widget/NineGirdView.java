@@ -8,7 +8,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
@@ -16,7 +15,7 @@ import butterknife.ButterKnife;
 import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 import java.util.List;
-import starter.kit.R;
+import starter.kit.rx.R;
 import starter.kit.util.ImageLoader;
 import starter.kit.util.ViewUtils;
 
@@ -191,11 +190,6 @@ public class NineGirdView extends RecyclerView {
     private SimpleViewHolder(Context context, ViewGroup parent) {
       super(LayoutInflater.from(context).inflate(R.layout.list_item_image, parent, false));
       mThumbnailView = ButterKnife.findById(itemView, R.id.image_feed_thumbnail);
-      itemView.setOnClickListener(new OnClickListener() {
-        @Override public void onClick(View view) {
-
-        }
-      });
     }
 
     public void bind(Uri imageUrl) {

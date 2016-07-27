@@ -41,6 +41,17 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
 
+  compile deps.appcompatV7
+  compile deps.cardviewV7
+  compile deps.supportUi
+
+  // Recycler View
+  compile deps.recyclerviewV7
+  compile deps.recyclerviewAnimators
+  compile deps.paginate
+  compile deps.smoothprogressbar
+  compile deps.converterJackson
+
   compile deps.design
 
   // Square
@@ -66,8 +77,7 @@ dependencies {
   apt 'frankiesardo:icepick-processor:3.2.0'
 
   compile 'com.jakewharton:butterknife:7.0.1'
-  compile 'com.github.Doublemine:SimpleHud:0.1.2'
   compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
 
-  compile project(':common')
+  compile deps.fresco
 }

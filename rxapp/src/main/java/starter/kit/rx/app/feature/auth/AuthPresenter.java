@@ -8,6 +8,7 @@ import starter.kit.rx.app.model.entity.User;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.AuthService;
 import starter.kit.rx.util.RxUtils;
+import starter.kit.util.Hud;
 import work.wanghao.simplehud.SimpleHUD;
 
 /**
@@ -31,11 +32,7 @@ public class AuthPresenter extends NetworkPresenter<User, LoginActivity> {
   }
 
   @Override public void showHud() {
-    RxUtils.showHud(getView(), "Login...", new SimpleHUD.SimpleHUDCallback() {
-      @Override public void onSimpleHUDDismissed() {
-        stop();
-      }
-    });
+    RxUtils.showHud(getView(), "Login...", () -> stop());
   }
 
   @Override protected void onDestroy() {

@@ -4,17 +4,15 @@ import android.content.Context;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import work.wanghao.simplehud.SimpleHUD;
+import starter.kit.util.Hud;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
-import static work.wanghao.simplehud.SimpleHUD.showLoadingMessage;
 
 public final class RxUtils {
 
   private RxUtils() {
 
   }
-
 
   public static <T> Observable.Transformer<T, T> progressTransformer(final ProgressInterface progress) {
     return observable -> observable.doOnSubscribe(progress::showProgress)
@@ -44,7 +42,7 @@ public final class RxUtils {
   public static Subscription dismissHud() {
     return Observable.empty()
         .observeOn(AndroidSchedulers.mainThread())
-        .doOnTerminate(SimpleHUD::dismiss)
+        .doOnTerminate(() -> Hud.getInstance().dismissHud())
         .subscribe();
   }
 
@@ -58,7 +56,7 @@ public final class RxUtils {
     return Observable.just(message)
         .observeOn(mainThread())
         .subscribe(msg -> {
-          showLoadingMessage(context, msg, false);
+          Hud.getInstance().showHud(context, message);
         });
   }
 
@@ -69,12 +67,11 @@ public final class RxUtils {
    * @param callback dismiss callback
    * @return Subscription
    */
-  public static Subscription showHud(Context context, String message,
-      SimpleHUD.SimpleHUDCallback callback) {
+  public static Subscription showHud(Context context, String message, Hud.HudCallback callback) {
     return Observable.just(message)
         .observeOn(mainThread())
         .subscribe(msg -> {
-          showLoadingMessage(context, msg, true, callback);
+          Hud.getInstance().showHud(context, message, callback);
         });
   }
 

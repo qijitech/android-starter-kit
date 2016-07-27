@@ -3,8 +3,8 @@ package starter.kit.viewholder;
 import android.content.Context;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
-import starter.kit.R;
 import starter.kit.model.EmptyEntity;
+import starter.kit.rx.R;
 import support.ui.adapters.EasyViewHolder;
 
 public class StarterEmptyViewHolder extends EasyViewHolder<EmptyEntity> {

@@ -1,5 +1,4 @@
 include ':app'
 include ':rxapp'
-include ':common'
 include ':library'
 include ':rxlibrary'

@@ -55,7 +55,7 @@ public class ViewUtils {
   }
 
   /**
-   * Generics version of {@link android.app.Activity#findViewById}
+   * Generics version of {@link Activity#findViewById}
    *
    * @param parent Activity
    * @param viewId viewId
@@ -67,14 +67,14 @@ public class ViewUtils {
     return (T) parent.findViewById(viewId);
   }
 
-  /** Generics version of {@link android.view.View#findViewById} */
+  /** Generics version of {@link View#findViewById} */
   @SuppressWarnings("unchecked") public static <T extends View> T getViewOrNull(View parent,
       int viewId) {
     return (T) parent.findViewById(viewId);
   }
 
   /**
-   * Same as {@link android.app.Activity#findViewById}, but crashes if there's no view.
+   * Same as {@link Activity#findViewById}, but crashes if there's no view.
    *
    * @param parent Activity
    * @param viewId viewId
@@ -87,7 +87,7 @@ public class ViewUtils {
   }
 
   /**
-   * Same as {@link android.view.View#findViewById}, but crashes if there's no view.
+   * Same as {@link View#findViewById}, but crashes if there's no view.
    *
    * @param parent View
    * @param viewId viewId

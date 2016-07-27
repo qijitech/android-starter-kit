@@ -41,7 +41,7 @@ import android.view.animation.Transformation;
 import android.widget.AbsListView;
 import java.util.HashMap;
 import java.util.Map;
-import starter.kit.R;
+import starter.kit.rx.R;
 
 /**
  * The SwipeRefreshLayout should be used whenever the user can refresh the

@@ -12,7 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-import starter.kit.R;
+import starter.kit.rx.R;
 
 public class ForegroundImageView extends ImageView {
   private Drawable foreground;

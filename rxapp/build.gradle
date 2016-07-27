@@ -77,7 +77,6 @@ dependencies {
   compile deps.fresco
 
   compile project(':rxlibrary')
-  compile project(':common')
 }
 
 def gitVersionCode() {

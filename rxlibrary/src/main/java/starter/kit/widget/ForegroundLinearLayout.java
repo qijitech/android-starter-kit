@@ -24,10 +24,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.widget.RelativeLayout;
-import starter.kit.R;
+import android.widget.LinearLayout;
+import starter.kit.rx.R;
 
-public class ForegroundRelativeLayout extends RelativeLayout {
+public class ForegroundLinearLayout extends LinearLayout {
 
   private Drawable mForeground;
 
@@ -40,15 +40,15 @@ public class ForegroundRelativeLayout extends RelativeLayout {
 
   boolean mForegroundBoundsChanged = false;
 
-  public ForegroundRelativeLayout(Context context) {
+  public ForegroundLinearLayout(Context context) {
     super(context);
   }
 
-  public ForegroundRelativeLayout(Context context, AttributeSet attrs) {
+  public ForegroundLinearLayout(Context context, AttributeSet attrs) {
     this(context, attrs, 0);
   }
 
-  public ForegroundRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB) public ForegroundLinearLayout(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
 
     TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ForegroundLayout,
