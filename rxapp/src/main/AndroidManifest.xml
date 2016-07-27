@@ -33,9 +33,9 @@
     <activity
         android:name=".feature.util.SimpleHudActivity"
         android:label="@string/label_simple_hud">
-      <!--<meta-data-->
-      <!--android:name="android.support.PARENT_ACTIVITY"-->
-      <!--android:value=".feature.main.MainActivity"/>-->
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="starter.kit.rx.app.feature.main.MainActivity"/>
     </activity>
 
     <activity
@@ -52,7 +52,9 @@
         android:launchMode="singleTask"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.Close">
-
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="starter.kit.rx.app.feature.main.MainActivity"/>
     </activity>
 
   </application>

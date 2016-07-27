@@ -15,7 +15,7 @@ import static rx.schedulers.Schedulers.io;
  * Created by YuGang Yang on 06 29, 2016.
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
-public class AuthPresenter extends RxStarterPresenter<LoginActivity> {
+public class AuthPresenter extends RxStarterPresenter<LoginActivity> implements HudInterface {
 
   public static final int AUTH_LOGIN_REQUEST = 1;
   private AuthService mAuthService;
@@ -30,10 +30,16 @@ public class AuthPresenter extends RxStarterPresenter<LoginActivity> {
     restartableLatestCache(AUTH_LOGIN_REQUEST,
         () -> view().concatMap(loginActivity -> mAuthService.login(username, password)
             .subscribeOn(io())
-            .compose(RxUtils.hudTransformer((HudInterface) () -> RxUtils.showHud(loginActivity, "Login...", () -> stop(AUTH_LOGIN_REQUEST))))
+            .compose(RxUtils.hudTransformer(this))
             .observeOn(mainThread())),
         LoginActivity::onSuccess,
         LoginActivity::onError);
+  }
+
+  @Override public void showHud() {
+    RxUtils.showHud(getView(), "Login...", () -> {
+      stop(AUTH_LOGIN_REQUEST);
+    });
   }
 
   @Override protected void onDestroy() {

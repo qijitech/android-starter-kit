@@ -1,5 +1,6 @@
 package starter.kit.rx.app.feature.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.View;
 import butterknife.Bind;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -17,15 +19,18 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.util.ArrayList;
 import java.util.List;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxApp;
 import starter.kit.rx.app.RxStarterActivity;
+import starter.kit.rx.app.feature.auth.LoginActivity;
 import starter.kit.rx.app.feature.feed.FeedFragment;
+import starter.kit.rx.app.feature.util.SimpleHudActivity;
 
-public class MainActivity extends RxStarterActivity {
+public class MainActivity extends RxStarterActivity implements Drawer.OnDrawerItemClickListener {
 
   //save our header or result
   private AccountHeader headerResult = null;
@@ -94,14 +99,35 @@ public class MainActivity extends RxStarterActivity {
         .withToolbar(mToolbar)
         .withHasStableIds(true)
         .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
-        .addDrawerItems(new PrimaryDrawerItem().withName("Feeds").withIcon(FontAwesome.Icon.faw_android))
+        .addDrawerItems(
+            new PrimaryDrawerItem().withName("Feeds").withIcon(FontAwesome.Icon.faw_android).withTag(TAG_FEEDS),
+            new PrimaryDrawerItem().withName("Login").withIcon(FontAwesome.Icon.faw_adjust).withTag(TAG_LOGIN),
+            new PrimaryDrawerItem().withName("SimpleHud").withIcon(FontAwesome.Icon.faw_adjust).withTag(TAG_SIMPLE_HUD)
+        )
         .addStickyDrawerItems(
-            new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog).withIdentifier(10),
+            new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog),
             new PrimaryDrawerItem().withName(R.string.drawer_item_open_source).withIcon(FontAwesome.Icon.faw_github)
         )
+        .withOnDrawerItemClickListener(this)
         .withSavedInstance(savedInstanceState)
         .withShowDrawerOnFirstLaunch(true)
         .build();
+  }
+
+  private static final String TAG_FEEDS = "feeds";
+  private static final String TAG_LOGIN = "login";
+  private static final String TAG_SIMPLE_HUD = "SimpleHud";
+
+  @Override public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+    if (TAG_LOGIN.equals(drawerItem.getTag())) {
+      startActivity(new Intent(MainActivity.this, LoginActivity.class));
+      return true;
+    }
+    if (TAG_SIMPLE_HUD.equals(drawerItem.getTag())) {
+      startActivity(new Intent(MainActivity.this, SimpleHudActivity.class));
+      return true;
+    }
+    return false;
   }
 
   @Override protected void onSaveInstanceState(Bundle outState) {
