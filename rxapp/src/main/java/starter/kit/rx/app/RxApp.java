@@ -17,6 +17,7 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import starter.kit.retrofit.Network;
 import starter.kit.util.ImageLoader;
+import work.wanghao.simplehud.SimpleHUD;
 
 public class RxApp extends RxStarterApp {
 
@@ -29,6 +30,8 @@ public class RxApp extends RxStarterApp {
         .build();
 
     Fresco.initialize(appContext());
+
+    SimpleHUD.backgroundHexColor = "#aaEF6C00";
 
     //initialize and create the image loader logic
     DrawerImageLoader.init(new AbstractDrawerImageLoader() {

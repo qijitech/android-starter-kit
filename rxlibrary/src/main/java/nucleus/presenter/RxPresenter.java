@@ -333,7 +333,6 @@ public class RxPresenter<View> extends Presenter<View> {
     /**
      * Please, use restartableXX and deliverXX methods for pushing data from RxPresenter into View.
      */
-    @Deprecated
     @Nullable
     @Override
     public View getView() {

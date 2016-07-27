@@ -50,7 +50,6 @@ dependencies {
 
   // prefs
   compile deps.prefs
-  compile deps.kprogresshud
   compile deps.recyclerviewFlexibleDivider
 
   // rx

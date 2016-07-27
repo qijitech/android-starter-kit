@@ -17,9 +17,9 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.retrofit.RetrofitException;
+import starter.kit.rx.NetworkContract;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxStarterActivity;
-import starter.kit.rx.app.model.entity.User;
 import support.ui.app.SupportApp;
 import work.wanghao.simplehud.SimpleHUD;
 
@@ -30,7 +30,8 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 @RequiresPresenter(AuthPresenter.class)
-public class LoginActivity extends RxStarterActivity<AuthPresenter> {
+public class LoginActivity extends RxStarterActivity<AuthPresenter> implements
+    NetworkContract.View {
 
   @Bind(R.id.container_login_username) TextInputLayout mUsernameContainer;
   @Bind(R.id.container_login_password) TextInputLayout mPasswordContainer;
@@ -151,18 +152,16 @@ public class LoginActivity extends RxStarterActivity<AuthPresenter> {
     getPresenter().requestItem(mUsernameEdit.getText().toString(), mPasswordEdit.getText().toString());
   }
 
-  void onError(Throwable throwable) {
-    RetrofitException retrofitException = (RetrofitException) throwable;
-    try {
-      ErrorResponse errorResponse = retrofitException.getErrorBodyAs(ErrorResponse.class);
-      SimpleHUD.showErrorMessage(this, errorResponse.getMessage());
-    } catch (IOException e) {
-      SimpleHUD.showErrorMessage(this, throwable.getMessage());
-    }
-  }
-
-  void onSuccess(User user) {
+  @Override public void onSuccess(Object item) {
     SimpleHUD.showInfoMessage(this, "登录成功");
   }
 
+  @Override public void onError(RetrofitException exception) {
+    try {
+      ErrorResponse errorResponse = exception.getErrorBodyAs(ErrorResponse.class);
+      SimpleHUD.showErrorMessage(this, errorResponse.getMessage());
+    } catch (IOException e) {
+      SimpleHUD.showErrorMessage(this, exception.getMessage());
+    }
+  }
 }

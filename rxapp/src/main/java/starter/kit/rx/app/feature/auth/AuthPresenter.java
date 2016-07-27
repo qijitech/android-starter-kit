@@ -2,22 +2,20 @@ package starter.kit.rx.app.feature.auth;
 
 import android.os.Bundle;
 import icepick.State;
-import starter.kit.rx.RxStarterPresenter;
+import rx.Observable;
+import starter.kit.rx.NetworkPresenter;
+import starter.kit.rx.app.model.entity.User;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.AuthService;
-import starter.kit.rx.util.HudInterface;
 import starter.kit.rx.util.RxUtils;
-
-import static rx.android.schedulers.AndroidSchedulers.mainThread;
-import static rx.schedulers.Schedulers.io;
+import work.wanghao.simplehud.SimpleHUD;
 
 /**
  * Created by YuGang Yang on 06 29, 2016.
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
-public class AuthPresenter extends RxStarterPresenter<LoginActivity> implements HudInterface {
+public class AuthPresenter extends NetworkPresenter<User, LoginActivity> {
 
-  public static final int AUTH_LOGIN_REQUEST = 1;
   private AuthService mAuthService;
 
   @State String username;
@@ -26,19 +24,17 @@ public class AuthPresenter extends RxStarterPresenter<LoginActivity> implements 
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
     mAuthService = ApiService.createAuthService();
+  }
 
-    restartableLatestCache(AUTH_LOGIN_REQUEST,
-        () -> view().concatMap(loginActivity -> mAuthService.login(username, password)
-            .subscribeOn(io())
-            .compose(RxUtils.hudTransformer(this))
-            .observeOn(mainThread())),
-        LoginActivity::onSuccess,
-        LoginActivity::onError);
+  @Override public Observable<User> request() {
+    return mAuthService.login(username, password);
   }
 
   @Override public void showHud() {
-    RxUtils.showHud(getView(), "Login...", () -> {
-      stop(AUTH_LOGIN_REQUEST);
+    RxUtils.showHud(getView(), "Login...", new SimpleHUD.SimpleHUDCallback() {
+      @Override public void onSimpleHUDDismissed() {
+        stop();
+      }
     });
   }
 
@@ -50,6 +46,6 @@ public class AuthPresenter extends RxStarterPresenter<LoginActivity> implements 
   void requestItem(String username, String password) {
     this.username = username;
     this.password = password;
-    start(AUTH_LOGIN_REQUEST);
+    start();
   }
 }
