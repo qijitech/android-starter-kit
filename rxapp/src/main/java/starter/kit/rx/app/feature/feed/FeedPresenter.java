@@ -1,16 +1,14 @@
 package starter.kit.rx.app.feature.feed;
 
 import android.os.Bundle;
-import rx.subjects.PublishSubject;
-import starter.kit.rx.RxStarterPresenter;
+import java.util.ArrayList;
+import rx.Observable;
+import starter.kit.rx.ResourcePresenter;
+import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.FeedService;
 
-public class FeedPresenter extends RxStarterPresenter<FeedFragment> {
-
-  private static final int RESTARTABLE_ID = 1;
-
-  private PublishSubject<Integer> pageRequests = PublishSubject.create();
+public class FeedPresenter extends ResourcePresenter<Feed> {
 
   private FeedService mFeedService;
 
@@ -19,11 +17,7 @@ public class FeedPresenter extends RxStarterPresenter<FeedFragment> {
     mFeedService = ApiService.createFeedService();
   }
 
-  void request() {
-    start(RESTARTABLE_ID);
-  }
-
-  void requestNext(int page) {
-    pageRequests.onNext(page);
+  @Override public Observable<ArrayList<Feed>> request(int page, int pageSize) {
+    return mFeedService.fetchFeeds(page, pageSize);
   }
 }

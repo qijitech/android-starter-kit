@@ -14,8 +14,6 @@ import support.ui.adapters.EasyViewHolder;
 
 public class StarterFragConfig<E extends Entity> {
 
-  private Func2<Integer, Integer, Observable<ArrayList<E>>> requestFunc;
-
   // adapter config
   private BaseEasyViewHolderFactory viewHolderFactory;
   private HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders;
@@ -91,10 +89,6 @@ public class StarterFragConfig<E extends Entity> {
     return startPage;
   }
 
-  public Func2<Integer, Integer, Observable<ArrayList<E>>> getRequestFunc() {
-    return requestFunc;
-  }
-
   public static class Builder<T extends Entity> {
     private BaseEasyViewHolderFactory viewHolderFactory;
     private HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders = Maps.newHashMap();
@@ -114,8 +108,6 @@ public class StarterFragConfig<E extends Entity> {
     private int pageSize = 20;
     private int startPage = 1;
 
-    private Func2<Integer, Integer, Observable<ArrayList<T>>> requestFunc;
-
     public StarterFragConfig build() {
       StarterFragConfig config = new StarterFragConfig();
       config.viewHolderFactory = viewHolderFactory;
@@ -131,7 +123,6 @@ public class StarterFragConfig<E extends Entity> {
       config.loadingTriggerThreshold = loadingTriggerThreshold;
       config.pageSize = pageSize;
       config.startPage = startPage;
-      config.requestFunc = requestFunc;
       return config;
     }
 
@@ -197,11 +188,6 @@ public class StarterFragConfig<E extends Entity> {
 
     public Builder startPage(int startPage) {
       this.startPage = startPage;
-      return this;
-    }
-
-    public Builder requestFunc(Func2<Integer, Integer, Observable<ArrayList<T>>> requestFunc) {
-      this.requestFunc = requestFunc;
       return this;
     }
   }

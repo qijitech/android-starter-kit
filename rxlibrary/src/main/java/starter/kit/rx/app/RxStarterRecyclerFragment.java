@@ -13,9 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import nucleus.factory.RequiresPresenter;
 import rx.Observable;
-import rx.functions.Func2;
 import starter.kit.model.EmptyEntity;
 import starter.kit.model.entity.Entity;
 import starter.kit.retrofit.ErrorResponse;
@@ -32,8 +30,7 @@ import support.ui.adapters.EasyViewHolder;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
-@RequiresPresenter(ResourcePresenter.class)
-public abstract class RxStarterRecyclerFragment<E extends Entity>
+public abstract class RxStarterRecyclerFragment
     extends RxStarterFragment<ResourcePresenter>
     implements com.paginate.Paginate.Callbacks,
     ProgressInterface,
@@ -46,7 +43,6 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
   private Paginate mPaginate;
   private StarterFragConfig mFragConfig;
 
-  private Func2<Integer, Integer, Observable<ArrayList<E>>> requestFunc;
   private RxPager pager;
   private EmptyEntity mEmptyEntity;
 
@@ -58,15 +54,10 @@ public abstract class RxStarterRecyclerFragment<E extends Entity>
     return mFragConfig;
   }
 
-  public Observable<ArrayList<E>> request(int page, int pageSize) {
-    return requestFunc.call(page, pageSize);
-  }
-
   protected void buildFragConfig(StarterFragConfig fragConfig) {
     if (fragConfig == null) return;
 
     mFragConfig = fragConfig;
-    requestFunc = fragConfig.getRequestFunc();
 
     BaseEasyViewHolderFactory viewHolderFactory = fragConfig.getViewHolderFactory();
     if (viewHolderFactory != null) {
