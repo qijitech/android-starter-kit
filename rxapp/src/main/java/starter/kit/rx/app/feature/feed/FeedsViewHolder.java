@@ -6,7 +6,6 @@ package starter.kit.rx.app.feature.feed;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v7.widget.GridLayoutManager;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -17,6 +16,7 @@ import java.util.List;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.rx.app.model.entity.Image;
+import starter.kit.rx.app.util.NineGridAdapter;
 import starter.kit.widget.NineGirdView;
 import support.ui.adapters.EasyViewHolder;
 import support.ui.utilities.ViewUtils;
@@ -31,6 +31,8 @@ public class FeedsViewHolder extends EasyViewHolder<Feed> {
   public FeedsViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_feed_image);
     ButterKnife.bind(this, itemView);
+    mNineGridView.setNineGridAdapter(new NineGridAdapter());
+    mNineGridView.setStyle(NineGirdView.STYLE_GRID);
   }
 
   @Override public void bindTo(int position, Feed feed) {

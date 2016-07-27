@@ -7,16 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
-import butterknife.ButterKnife;
-import com.facebook.drawee.view.SimpleDraweeView;
-import java.util.ArrayList;
 import java.util.List;
 import starter.kit.rx.R;
-import starter.kit.util.ImageLoader;
 import starter.kit.util.ViewUtils;
 
 public class NineGirdView extends RecyclerView {
@@ -31,7 +24,7 @@ public class NineGirdView extends RecyclerView {
   private int mGap;           // 宫格间距
   private int mSingleImgSize; // 单张图片时的尺寸
 
-  private SimpleAdapter mAdapter;
+  private NineGridAdapter mAdapter;
   private GridItemDecoration mGridItemDecoration;
   private List<Uri> mImageUrls;
   private boolean hasPopulated = false;
@@ -58,12 +51,15 @@ public class NineGirdView extends RecyclerView {
     a.recycle();
 
     setNestedScrollingEnabled(false);
-    mAdapter = new SimpleAdapter();
-    setAdapter(mAdapter);
   }
 
-  @Override protected void onMeasure(int widthSpec, int heightSpec) {
-    super.onMeasure(widthSpec, heightSpec);
+  public void setStyle(int style) {
+    this.mShowStyle = style;
+  }
+
+  public void setNineGridAdapter(NineGridAdapter adapter) {
+    mAdapter = adapter;
+    setAdapter(mAdapter);
   }
 
   private boolean isValid(List<Uri> imageUrls) {
@@ -136,69 +132,6 @@ public class NineGirdView extends RecyclerView {
       default:
         mSpanCount = 3;
         break;
-    }
-  }
-
-
-  private class SimpleAdapter extends Adapter<ViewHolder> {
-    protected int itemSize;
-    private List<Uri> mImageUrls;//图片的容器
-
-    public SimpleAdapter() {
-      mImageUrls = new ArrayList<>();
-    }
-
-    public void setItemSize(int itemSize) {
-      this.itemSize = itemSize;
-    }
-
-    public void notifyDataSetChanged(List<Uri> imageUrls) {
-      mImageUrls.clear();
-      mImageUrls.addAll(imageUrls);
-      notifyDataSetChanged();
-    }
-
-    @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      return SimpleViewHolder.create(getContext(), parent);
-    }
-
-    @Override public void onBindViewHolder(final ViewHolder holder, int position) {
-      final Uri image = mImageUrls.get(position);
-      final SimpleViewHolder viewHolder = (SimpleViewHolder) holder;
-      viewHolder.setItemSize(itemSize);
-      viewHolder.bind(image);
-    }
-
-    @Override public int getItemCount() {
-      return mImageUrls.size();
-    }
-  }
-
-  static class SimpleViewHolder extends ViewHolder {
-    protected int itemSize;
-    public Uri image;
-    SimpleDraweeView mThumbnailView;
-
-    public void setItemSize(int itemSize) {
-      this.itemSize = itemSize;
-    }
-
-    static SimpleViewHolder create(Context context, ViewGroup parent) {
-      return new SimpleViewHolder(context, parent);
-    }
-
-    private SimpleViewHolder(Context context, ViewGroup parent) {
-      super(LayoutInflater.from(context).inflate(R.layout.list_item_image, parent, false));
-      mThumbnailView = ButterKnife.findById(itemView, R.id.image_feed_thumbnail);
-    }
-
-    public void bind(Uri imageUrl) {
-      this.image = imageUrl;
-      FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mThumbnailView.getLayoutParams();
-      params.width = itemSize;
-      params.height = itemSize;
-      mThumbnailView.setLayoutParams(params);
-      ImageLoader.getInstance().displayImageView(mThumbnailView, imageUrl, itemSize, itemSize, null);
     }
   }
 }

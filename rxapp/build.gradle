@@ -3,18 +3,19 @@ apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "24.0.0"
+  compileSdkVersion rootProject.ext.android.compileSdkVersion
+  buildToolsVersion rootProject.ext.android.buildToolsVersion
 
   defaultConfig {
     applicationId "starter.kit.rx.app"
-    minSdkVersion 15
-    targetSdkVersion 23
+    minSdkVersion rootProject.ext.android.minSdkVersion
+    targetSdkVersion rootProject.ext.android.targetSdkVersion
     versionCode 1
     versionName "1.0"
   }
+
   buildTypes {
-    debug {
+     debug {
       applicationIdSuffix ".debug" // 为了不和 release 版本冲突
     }
     release {
@@ -75,6 +76,10 @@ dependencies {
   compile 'com.mikepenz:octicons-typeface:3.0.0.1@aar'
 
   compile deps.fresco
+
+  compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
+
+  compile deps.recyclerviewFlexibleDivider
 
   compile project(':rxlibrary')
 }

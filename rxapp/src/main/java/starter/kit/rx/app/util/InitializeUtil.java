@@ -1,4 +1,4 @@
-package starter.kit.rx.app;
+package starter.kit.rx.app.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -15,6 +15,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
+import starter.kit.rx.app.R;
 import starter.kit.util.Hud;
 import starter.kit.util.ImageLoader;
 import work.wanghao.simplehud.SimpleHUD;
