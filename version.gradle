@@ -13,11 +13,11 @@ ext {
 
   depsVersion = [
       supportVersion                    : '24.1.1',
-      okhttpVersion                     : '3.3.1',
-      retrofitVersion                   : '2.0.2',
+      okhttpVersion                     : '3.4.1',
+      retrofitVersion                   : '2.1.0',
       butterknifeVersion                : '7.0.1',
       timberVersion                     : '4.1.2',
-      rxJavaVersion                     : '1.1.6',
+      rxJavaVersion                     : '1.1.8',
       rxAndroidVersion                  : '1.2.1',
       supportUiVersion                  : '0.1.9',
       recyclerviewFlexibleDividerVersion: '1.2.9',
