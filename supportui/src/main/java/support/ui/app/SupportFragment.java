@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class SupportFragment extends Fragment {
 
   protected SupportActivity mSupportActivity;
+
+  private Unbinder mUnbinder;
 
   @Override public void onAttach(Context context) {
     super.onAttach(context);
@@ -40,11 +43,14 @@ public abstract class SupportFragment extends Fragment {
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    ButterKnife.bind(this, view);
+    mUnbinder = ButterKnife.bind(this, view);
   }
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    ButterKnife.unbind(this);
+    if (mUnbinder != null) {
+      mUnbinder.unbind();
+      mUnbinder = null;
+    }
   }
 }

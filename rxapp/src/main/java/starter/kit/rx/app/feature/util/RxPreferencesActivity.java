@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.CheckBox;
-import butterknife.Bind;
+import butterknife.BindView;
 import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
@@ -19,8 +19,8 @@ import starter.kit.rx.app.RxStarterActivity;
  */
 public class RxPreferencesActivity extends RxStarterActivity {
 
-  @Bind(R.id.foo_1) CheckBox foo1Checkbox;
-  @Bind(R.id.foo_2) CheckBox foo2Checkbox;
+  @BindView(R.id.foo_1) CheckBox foo1Checkbox;
+  @BindView(R.id.foo_2) CheckBox foo2Checkbox;
   Preference<Boolean> fooPreference;
   CompositeSubscription subscriptions;
 

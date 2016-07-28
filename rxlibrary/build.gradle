@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jakewharton.butterknife'
 
 repositories {
   jcenter()
@@ -29,8 +30,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility rootProject.ext.android.javaVersion
+    targetCompatibility rootProject.ext.android.javaVersion
   }
 }
 
@@ -65,7 +66,8 @@ dependencies {
   compile 'frankiesardo:icepick:3.2.0'
   apt 'frankiesardo:icepick-processor:3.2.0'
 
-  compile 'com.jakewharton:butterknife:7.0.1'
+  compile deps.butterknife
+  apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 
   compile project(':supportui')
 }

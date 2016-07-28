@@ -11,7 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
-import butterknife.Bind;
+import butterknife.BindView;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -35,10 +35,10 @@ public class MainActivity extends RxStarterActivity implements Drawer.OnDrawerIt
   //save our header or result
   private AccountHeader headerResult = null;
   private Drawer result = null;
-  @Bind(R.id.toolbar) Toolbar mToolbar;
-  @Bind(R.id.viewPager) ViewPager mViewPager;
-  @Bind(R.id.tabLayout) TabLayout mTabLayout;
-  @Bind(R.id.collapsingToolbarLayout) CollapsingToolbarLayout mCollapsingToolbarLayout;
+  @BindView(R.id.toolbar) Toolbar mToolbar;
+  @BindView(R.id.viewPager) ViewPager mViewPager;
+  @BindView(R.id.tabLayout) TabLayout mTabLayout;
+  @BindView(R.id.collapsingToolbarLayout) CollapsingToolbarLayout mCollapsingToolbarLayout;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

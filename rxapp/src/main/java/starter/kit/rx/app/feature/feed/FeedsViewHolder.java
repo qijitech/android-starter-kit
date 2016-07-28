@@ -8,7 +8,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
@@ -23,10 +23,10 @@ import support.ui.utilities.ViewUtils;
 
 public class FeedsViewHolder extends EasyViewHolder<Feed> {
 
-  @Bind(R.id.image_feed_user_avatar) SimpleDraweeView mAvatarView;
-  @Bind(R.id.text_feed_username) TextView mUsernameTextView;
-  @Bind(R.id.text_feed_content) TextView mContentTextView;
-  @Bind(R.id.feed_photo_view) NineGirdView mNineGridView;
+  @BindView(R.id.image_feed_user_avatar) SimpleDraweeView mAvatarView;
+  @BindView(R.id.text_feed_username) TextView mUsernameTextView;
+  @BindView(R.id.text_feed_content) TextView mContentTextView;
+  @BindView(R.id.feed_photo_view) NineGirdView mNineGridView;
 
   public FeedsViewHolder(Context context, ViewGroup parent) {
     super(context, parent, R.layout.list_item_feed_image);

@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import butterknife.Bind;
+import butterknife.BindView;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import java.io.IOException;
@@ -33,9 +33,9 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 public class LoginActivity extends RxStarterActivity<AuthPresenter> implements
     NetworkContract.View {
 
-  @Bind(R.id.container_login_username) TextInputLayout mUsernameContainer;
-  @Bind(R.id.container_login_password) TextInputLayout mPasswordContainer;
-  @Bind(R.id.btn_login) Button mLoginBtn;
+  @BindView(R.id.container_login_username) TextInputLayout mUsernameContainer;
+  @BindView(R.id.container_login_password) TextInputLayout mPasswordContainer;
+  @BindView(R.id.btn_login) Button mLoginBtn;
   EditText mUsernameEdit;
   EditText mPasswordEdit;
 

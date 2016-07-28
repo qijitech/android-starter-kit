@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import java.util.concurrent.TimeUnit;
 import rx.Observable;
@@ -30,8 +30,8 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 public class DirectionActivity extends RxStarterActivity
     implements SwipeRefreshLayout.OnRefreshListener, ProgressInterface {
 
-  @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
-  @Bind(R.id.recyclerView) RecyclerView recyclerView;
+  @BindView(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
+  @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
   private EasyRecyclerAdapter mAdapter;
 

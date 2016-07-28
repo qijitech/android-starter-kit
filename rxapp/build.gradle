@@ -29,8 +29,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility rootProject.ext.android.javaVersion
+    targetCompatibility rootProject.ext.android.javaVersion
   }
 
   applicationVariants.all { variant ->
@@ -80,6 +80,9 @@ dependencies {
   compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
 
   compile deps.recyclerviewFlexibleDivider
+
+  compile deps.butterknife
+  apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 
   compile project(':rxlibrary')
 }

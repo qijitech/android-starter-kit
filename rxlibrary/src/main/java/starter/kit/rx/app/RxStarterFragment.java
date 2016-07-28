@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import icepick.Icepick;
 import nucleus.factory.PresenterFactory;
 import nucleus.presenter.Presenter;
 import nucleus.view.NucleusSupportFragment;
 
 public abstract class RxStarterFragment<P extends Presenter> extends NucleusSupportFragment<P> {
+
+  private Unbinder mUnbinder;
 
   protected abstract int getFragmentLayout();
 
@@ -38,11 +41,14 @@ public abstract class RxStarterFragment<P extends Presenter> extends NucleusSupp
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    ButterKnife.bind(this, view);
+    mUnbinder = ButterKnife.bind(this, view);
   }
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    ButterKnife.unbind(this);
+    if (mUnbinder != null) {
+      mUnbinder.unbind();
+      mUnbinder = null;
+    }
   }
 }

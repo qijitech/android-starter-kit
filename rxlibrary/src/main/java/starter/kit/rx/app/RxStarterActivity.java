@@ -1,12 +1,15 @@
 package starter.kit.rx.app;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import nucleus.presenter.Presenter;
 import nucleus.view.NucleusAppCompatActivity;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 public class RxStarterActivity<P extends Presenter> extends NucleusAppCompatActivity<P> {
+
+  private Unbinder mUnbinder;
 
   private final CompositeSubscription subscriptions = new CompositeSubscription();
 
@@ -20,12 +23,15 @@ public class RxStarterActivity<P extends Presenter> extends NucleusAppCompatActi
 
   @Override public void setContentView(int layoutResID) {
     super.setContentView(layoutResID);
-    ButterKnife.bind(this);
+    mUnbinder = ButterKnife.bind(this);
   }
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    ButterKnife.unbind(this);
+    if (mUnbinder != null) {
+      mUnbinder.unbind();
+      mUnbinder = null;
+    }
     subscriptions.unsubscribe();
   }
 }
