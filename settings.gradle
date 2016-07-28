@@ -3,5 +3,3 @@ include ':rxapp'
 include ':library'
 include ':rxlibrary'
 include ':supportui'
-
-rootProject.name = 'rxstarterkit'
