@@ -81,5 +81,5 @@ dependencies {
 if (project.hasProperty('GROUP') && project.hasProperty('VERSION_NAME') &&
     project.hasProperty('VERSION_CODE') &&
     project.hasProperty('POM_ARTIFACT_ID')) {
-  apply from: '../.buildscript/deploy.gradle'
+//  apply from: '../.buildscript/deploy.gradle'
 }
