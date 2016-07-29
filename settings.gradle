@@ -5,3 +5,7 @@ include ':rxlibrary'
 include ':supportui'
 
 rootProject.name = 'rxstarterkit'
+
+// https://github.com/dcendents/android-maven-gradle-plugin/issues/9
+def submoduleProject = project(':rxlibrary')
+submoduleProject.name = 'rxstarterkit'
