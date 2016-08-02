@@ -11,7 +11,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import starter.kit.rx.app.R;
 import starter.kit.util.ImageLoader;
 
-public class NineGridAdapter extends starter.kit.widget.NineGridAdapter {
+public class NineGridAdapter extends support.ui.widget.NineGridAdapter {
 
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     return SimpleViewHolder.create(parent);

@@ -6,7 +6,7 @@
     >
 
 
-  <support.ui.components.SupportButton
+  <support.ui.widget.SupportButton
       xmlns:app="http://schemas.android.com/apk/res-auto"
       android:id="@+id/btn_simple_hud"
       android:layout_width="match_parent"

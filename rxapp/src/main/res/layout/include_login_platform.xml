@@ -45,7 +45,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         >
-      <starter.kit.widget.ForegroundImageView
+      <support.ui.widget.ForegroundImageView
           android:id="@+id/image_login_qq"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
           android:foreground="?attr/selectableItemBackgroundBorderless"
           android:src="@drawable/ic_login_qq"
           />
-      <starter.kit.widget.ForegroundImageView
+      <support.ui.widget.ForegroundImageView
           android:id="@+id/image_login_wechat"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
           android:foreground="?attr/selectableItemBackgroundBorderless"
           android:src="@drawable/ic_login_wechat"
           />
-      <starter.kit.widget.ForegroundImageView
+      <support.ui.widget.ForegroundImageView
           android:id="@+id/image_login_weibo"
           android:layout_width="0dp"
           android:layout_height="wrap_content"

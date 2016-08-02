@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<starter.kit.widget.ForegroundLinearLayout
+<support.ui.widget.ForegroundLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,7 +10,7 @@
 
   <include layout="@layout/include_feed_header"/>
 
-  <starter.kit.widget.NineGirdView
+  <support.ui.widget.NineGirdView
       android:id="@+id/feed_photo_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -24,4 +24,4 @@
       app:ngGap="3dp"
       />
 
-</starter.kit.widget.ForegroundLinearLayout>
+</support.ui.widget.ForegroundLinearLayout>

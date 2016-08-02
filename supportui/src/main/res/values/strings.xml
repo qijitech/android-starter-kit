@@ -1,8 +1,0 @@
-<resources>
-
-  <string name="support_ui_empty_title_placeholder">暂时没有数据</string>
-  <string name="support_ui_empty_subtitle_placeholder">点击屏幕刷新数据</string>
-  <string name="support_ui_error_title_placeholder">无网络连接</string>
-  <string name="support_ui_error_subtitle_placeholder">请连接到无线网络或者蜂窝数据网络</string>
-
-</resources>

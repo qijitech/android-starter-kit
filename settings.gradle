@@ -2,7 +2,6 @@ include ':app'
 include ':rxapp'
 include ':library'
 include ':rxlibrary'
-include ':supportui'
 
 //rootProject.name = 'rxlibrary'
 

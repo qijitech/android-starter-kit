@@ -18,7 +18,7 @@ import starter.kit.rx.app.feature.feed.FeedsViewHolder;
 import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.rx.util.ProgressInterface;
 import starter.kit.rx.util.RxUtils;
-import starter.kit.widget.SwipeRefreshLayout;
+import support.ui.widget.SwipeRefreshLayout;
 import support.ui.adapters.EasyRecyclerAdapter;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;

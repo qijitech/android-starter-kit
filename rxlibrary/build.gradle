@@ -76,6 +76,9 @@ dependencies {
   // explicitly depend on RxJava's latest version for bug fixes and new features.
   compile deps.rxjava
 
+  compile deps.smoothprogressbar
+  compile deps.prefs
+
   compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
 
   compile 'com.orhanobut:logger:1.13'
@@ -85,6 +88,4 @@ dependencies {
 
   compile deps.butterknife
   apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
-
-  compile project(':supportui')
 }

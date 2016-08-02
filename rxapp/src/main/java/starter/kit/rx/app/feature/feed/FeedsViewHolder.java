@@ -17,7 +17,7 @@ import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.rx.app.model.entity.Image;
 import starter.kit.rx.app.util.NineGridAdapter;
-import starter.kit.widget.NineGirdView;
+import support.ui.widget.NineGirdView;
 import support.ui.adapters.EasyViewHolder;
 import support.ui.utilities.ViewUtils;
 

@@ -16,4 +16,9 @@
   <string name="starter_dialog_login_content">你还没有登录?</string>
   <string name="starter_dialog_login_positive">去登录</string>
   <string name="starter_dialog_login_negative">以后再说</string>
+
+  <string name="support_ui_empty_title_placeholder">暂时没有数据</string>
+  <string name="support_ui_empty_subtitle_placeholder">点击屏幕刷新数据</string>
+  <string name="support_ui_error_title_placeholder">无网络连接</string>
+  <string name="support_ui_error_subtitle_placeholder">请连接到无线网络或者蜂窝数据网络</string>
 </resources>

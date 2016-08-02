@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-  <starter.kit.widget.SwipeRefreshLayout
+  <support.ui.widget.SwipeRefreshLayout
       android:id="@+id/swipeRefreshLayout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
         />
-  </starter.kit.widget.SwipeRefreshLayout>
+  </support.ui.widget.SwipeRefreshLayout>
 
   <Button
       android:id="@+id/buttonRefresh"
