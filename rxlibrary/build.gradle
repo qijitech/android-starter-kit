@@ -23,8 +23,8 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'com.github.dcendents.android-maven'
 
-project.archivesBaseName = 'rxstarterkit'
-group='tech.qiji'
+//project.archivesBaseName = 'rxstarterkit'
+//group='tech.qiji'
 
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion

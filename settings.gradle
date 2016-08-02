@@ -4,8 +4,8 @@ include ':library'
 include ':rxlibrary'
 include ':supportui'
 
-rootProject.name = 'rxlibrary'
+//rootProject.name = 'rxlibrary'
 
 // https://github.com/dcendents/android-maven-gradle-plugin/issues/9
-def submoduleProject = project(':rxlibrary')
-submoduleProject.name = 'rxlibrary'
+//def submoduleProject = project(':rxlibrary')
+//submoduleProject.name = 'rxlibrary'
