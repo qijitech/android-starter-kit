@@ -4,24 +4,20 @@ import java.util.ArrayList;
 import rx.functions.Action1;
 import starter.kit.model.entity.Entity;
 
-public class RxPager implements RxRequestKey {
+public class RxIdentifier implements RxRequestKey {
 
-  private final int startPage; // 第一页
-  private int nextPage; // 下一页
+  private String sinceIdentifier; // 最新数据
+  private String maxIdentifier; // 更多数据
 
-  private final int pageSize; // 每次请求数据大小
-  private int requested = NOT_REQUESTED; // 已请求数据
-  private int size = 0; // 当前总共接收数据
-
+  private final int pageSize;
   private boolean hasMoreData;
+  private int size = 0; // 当前接收数据
+  private int requested = NOT_REQUESTED;
+  private Action1<RxIdentifier> onRequest;
 
-  private Action1<RxPager> onRequest;
-
-  public RxPager(int startPage, int pageSize, Action1<RxPager> onRequest) {
-    this.startPage = startPage;
+  public RxIdentifier(int pageSize, Action1<RxIdentifier> onRequest) {
     this.pageSize = pageSize;
     this.onRequest = onRequest;
-    this.nextPage = startPage;
     this.hasMoreData = true;
   }
 
@@ -29,8 +25,12 @@ public class RxPager implements RxRequestKey {
     final int itemCount = items.size();
     hasMoreData = itemCount >= pageSize;
     size += itemCount;
+
+    if (sinceIdentifier == null) {
+      sinceIdentifier = items.get(0).identifier;
+    }
     if (hasMoreData()) {
-      nextPage = size / pageSize + startPage;
+      maxIdentifier = items.get(itemCount - 1).identifier;
     }
   }
 
@@ -43,8 +43,7 @@ public class RxPager implements RxRequestKey {
 
   @Override public void reset() {
     size = 0;
-    nextPage = startPage;
-    hasMoreData = true;
+    this.hasMoreData = true;
     requested = NOT_REQUESTED;
   }
 
@@ -52,12 +51,12 @@ public class RxPager implements RxRequestKey {
     return hasMoreData && size % pageSize == 0;
   }
 
-  @Override public String nextKey() {
-    return String.valueOf(nextPage);
+  @Override public String previousKey() {
+    return sinceIdentifier;
   }
 
-  @Override public String previousKey() {
-    return String.valueOf(startPage);
+  @Override public String nextKey() {
+    return maxIdentifier;
   }
 
   @Override public int pageSize() {
@@ -65,6 +64,6 @@ public class RxPager implements RxRequestKey {
   }
 
   @Override public boolean isFirstPage() {
-    return nextPage == startPage;
+    return false;
   }
 }

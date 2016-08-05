@@ -10,7 +10,7 @@ import rx.subjects.PublishSubject;
 import starter.kit.model.entity.Entity;
 import starter.kit.retrofit.RetrofitException;
 import starter.kit.rx.app.RxStarterRecyclerFragment;
-import starter.kit.rx.util.RxPager;
+import starter.kit.rx.util.RxRequestKey;
 import starter.kit.rx.util.RxUtils;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
@@ -20,7 +20,7 @@ public abstract class ResourcePresenter<T extends Entity> extends RxStarterPrese
 
   private static final int RESTARTABLE_ID = 1;
 
-  private PublishSubject<RxPager> pageRequests = PublishSubject.create();
+  private PublishSubject<RxRequestKey> pageRequests = PublishSubject.create();
 
   @SuppressWarnings("Unchecked") @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
@@ -30,8 +30,8 @@ public abstract class ResourcePresenter<T extends Entity> extends RxStarterPrese
         return observableFactory();
       }
     }, new Action2<RxStarterRecyclerFragment, ArrayList<T>>() {
-      @Override public void call(RxStarterRecyclerFragment fragment, ArrayList<T> feeds) {
-        fragment.notifyDataSetChanged(feeds);
+      @Override public void call(RxStarterRecyclerFragment fragment, ArrayList<T> items) {
+        fragment.notifyDataSetChanged(items);
       }
     }, new Action2<RxStarterRecyclerFragment, Throwable>() {
       @Override public void call(RxStarterRecyclerFragment fragment, Throwable throwable) {
@@ -44,10 +44,10 @@ public abstract class ResourcePresenter<T extends Entity> extends RxStarterPrese
   private Observable<ArrayList<T>> observableFactory() {
     return view().concatMap(new Func1<RxStarterRecyclerFragment, Observable<ArrayList<T>>>() {
       @Override public Observable<ArrayList<T>> call(RxStarterRecyclerFragment fragment) {
-        return pageRequests.startWith(fragment.getRxPager())
-            .concatMap(new Func1<RxPager, Observable<? extends ArrayList<T>>>() {
-              @Override public Observable<? extends ArrayList<T>> call(RxPager pager) {
-                return request(pager.nextPage(), pager.pageSize()).subscribeOn(io())
+        return pageRequests.startWith(fragment.getRequestKey())
+            .concatMap(new Func1<RxRequestKey, Observable<? extends ArrayList<T>>>() {
+              @Override public Observable<? extends ArrayList<T>> call(RxRequestKey requestKey) {
+                return request(requestKey.previousKey(), requestKey.nextKey(), requestKey.pageSize()).subscribeOn(io())
                     .compose(RxUtils.progressTransformer(fragment))
                     .observeOn(mainThread());
               }
@@ -56,13 +56,13 @@ public abstract class ResourcePresenter<T extends Entity> extends RxStarterPrese
     });
   }
 
-  public abstract Observable<ArrayList<T>> request(int page, int pageSize);
+  public abstract Observable<ArrayList<T>> request(String previousKey, String nextKey, int pageSize);
 
   public void request() {
     start(RESTARTABLE_ID);
   }
 
-  public void requestNext(RxPager page) {
+  public void requestNext(RxRequestKey page) {
     pageRequests.onNext(page);
   }
 }

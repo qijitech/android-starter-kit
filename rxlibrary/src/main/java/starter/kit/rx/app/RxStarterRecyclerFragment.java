@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import rx.Observable;
+import rx.functions.Action1;
 import starter.kit.model.EmptyEntity;
 import starter.kit.model.entity.Entity;
 import starter.kit.retrofit.ErrorResponse;
@@ -22,7 +23,9 @@ import starter.kit.rx.R;
 import starter.kit.rx.ResourcePresenter;
 import starter.kit.rx.StarterFragConfig;
 import starter.kit.rx.util.ProgressInterface;
+import starter.kit.rx.util.RxIdentifier;
 import starter.kit.rx.util.RxPager;
+import starter.kit.rx.util.RxRequestKey;
 import starter.kit.viewholder.StarterEmptyViewHolder;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
@@ -43,11 +46,11 @@ public abstract class RxStarterRecyclerFragment
   private Paginate mPaginate;
   private StarterFragConfig mFragConfig;
 
-  private RxPager pager;
+  private RxRequestKey mRequestKey;
   private EmptyEntity mEmptyEntity;
 
-  public RxPager getRxPager() {
-    return pager;
+  public RxRequestKey getRequestKey() {
+    return mRequestKey;
   }
 
   public StarterFragConfig getFragConfig() {
@@ -59,13 +62,19 @@ public abstract class RxStarterRecyclerFragment
 
     mFragConfig = fragConfig;
 
+    if (fragConfig.isWithIdentifierRequest()) {
+      mRequestKey = buildRxIdentifier(fragConfig);
+    } else {
+      mRequestKey = buildRxPager(fragConfig);
+    }
+
     BaseEasyViewHolderFactory viewHolderFactory = fragConfig.getViewHolderFactory();
     if (viewHolderFactory != null) {
       mAdapter.viewHolderFactory(viewHolderFactory);
     }
 
-    HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders =
-        fragConfig.getBoundViewHolders();
+    //noinspection unchecked
+    HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders = fragConfig.getBoundViewHolders();
     if (!boundViewHolders.isEmpty()) {
       for (Map.Entry<Class, Class<? extends EasyViewHolder>> entry : boundViewHolders.entrySet()) {
         mAdapter.bind(entry.getKey(), entry.getValue());
@@ -73,6 +82,22 @@ public abstract class RxStarterRecyclerFragment
     }
     // bind empty value
     mAdapter.bind(EmptyEntity.class, StarterEmptyViewHolder.class);
+  }
+
+  private RxRequestKey buildRxIdentifier(StarterFragConfig fragConfig) {
+    return new RxIdentifier(fragConfig.getPageSize(), new Action1<RxIdentifier>() {
+      @Override public void call(RxIdentifier rxIdentifier) {
+        getPresenter().requestNext(rxIdentifier);
+      }
+    });
+  }
+
+  private RxRequestKey buildRxPager(StarterFragConfig fragConfig) {
+    return new RxPager(fragConfig.getStartPage(), fragConfig.getPageSize(), new Action1<RxPager>() {
+      @Override public void call(RxPager pager) {
+        getPresenter().requestNext(pager);
+      }
+    });
   }
 
   @Override public void onCreate(Bundle bundle) {
@@ -123,11 +148,6 @@ public abstract class RxStarterRecyclerFragment
             .build();
 
         mPaginate.setHasMoreDataToLoad(false);
-        pager = new RxPager(mFragConfig.getStartPage(),
-            mFragConfig.getPageSize(), page -> getPresenter().requestNext(page));
-
-      } else {
-        pager = new RxPager(mFragConfig.getStartPage(), mFragConfig.getPageSize(), null);
       }
     }
   }
@@ -165,20 +185,24 @@ public abstract class RxStarterRecyclerFragment
       mAdapter.clear();
     }
 
-    if (pager.isFirstPage()) {
+    if (mRequestKey.isFirstPage()) {
       mAdapter.clear();
     }
     mAdapter.appendAll(items);
-    pager.received(items.size());
-    mPaginate.setHasMoreDataToLoad(false);
+    mRequestKey.received(items);
+
     hideProgress();
+
+    if (mPaginate != null) {
+      mPaginate.setHasMoreDataToLoad(false);
+    }
   }
 
   @Override public void showProgress() {
     Observable.empty().observeOn(mainThread()).doOnTerminate(() -> {
-      if (pager.isFirstPage()) {
+      if (mRequestKey != null && mRequestKey.isFirstPage()) {
         mSwipeRefreshLayout.setRefreshing(true);
-      } else {
+      } else if (mPaginate != null) {
         mPaginate.setHasMoreDataToLoad(true);
       }
     }).subscribe();
@@ -197,12 +221,16 @@ public abstract class RxStarterRecyclerFragment
     } catch (IOException e) {
       e.printStackTrace();
     }
-    if (pager.isFirstPage() && mAdapter.isEmpty()) {
+    if (mRequestKey.isFirstPage() && mAdapter.isEmpty()) {
       mAdapter.clear();
       mEmptyEntity = new EmptyEntity();
       mAdapter.add(mEmptyEntity);
     }
-    mPaginate.setHasMoreDataToLoad(false);
+
+    if (mPaginate != null) {
+      mPaginate.setHasMoreDataToLoad(false);
+    }
+
     hideProgress();
     Toast.makeText(getActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show();
   }
@@ -221,15 +249,15 @@ public abstract class RxStarterRecyclerFragment
   }
 
   @Override public void onRefresh() {
-    pager.reset();
+    mRequestKey.reset();
     getPresenter().request();
   }
 
   // Paginate delegate
   @Override public void onLoadMore() {
-    if (pager != null && pager.hasMorePage()) {
+    if (mPaginate != null && mRequestKey != null && mRequestKey.hasMoreData()) {
       mPaginate.setHasMoreDataToLoad(true);
-      pager.next();
+      mRequestKey.next();
     }
   }
 
@@ -238,6 +266,6 @@ public abstract class RxStarterRecyclerFragment
   }
 
   @Override public boolean hasLoadedAllItems() {
-    return pager != null && !pager.hasMorePage();
+    return mRequestKey != null && !mRequestKey.hasMoreData();
   }
 }

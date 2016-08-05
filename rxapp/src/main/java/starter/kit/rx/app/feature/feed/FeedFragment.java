@@ -12,20 +12,33 @@ import starter.kit.rx.app.model.entity.Feed;
 @RequiresPresenter(FeedPresenter.class)
 public class FeedFragment extends RxStarterRecyclerFragment {
 
-  public static FeedFragment create() {
-    return new FeedFragment();
+  private boolean addLoadingListItem;
+  private boolean withIdentifierRequest;
+
+  public static FeedFragment create(boolean addLoadingListItem, boolean withIdentifierRequest) {
+    FeedFragment feedFragment = new FeedFragment();
+    feedFragment.addLoadingListItem = addLoadingListItem;
+    feedFragment.withIdentifierRequest = withIdentifierRequest;
+    return feedFragment;
   }
 
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
-    buildFragConfig(new StarterFragConfig.Builder<>()
-            .pageSize(5)
-            .bind(Feed.class, FeedsViewHolder.class)
-            .recyclerViewDecor(new HorizontalDividerItemDecoration.Builder(getContext()).size(30)
-                .colorResId(R.color.dividerColor)
-                .build())
-            .swipeRefreshLayoutColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW)
-            .build());
+    StarterFragConfig.Builder builder = new StarterFragConfig.Builder<>()
+        .addLoadingListItem(addLoadingListItem) // 是否分页
+        .withIdentifierRequest(withIdentifierRequest)
+        .bind(Feed.class, FeedsViewHolder.class)
+        .recyclerViewDecor(new HorizontalDividerItemDecoration
+            .Builder(getContext()).size(30)
+            .colorResId(R.color.dividerColor)
+            .build())
+        .swipeRefreshLayoutColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
+
+    buildFragConfig(builder.build());
+  }
+
+  public boolean withIdentifierRequest() {
+    return  withIdentifierRequest;
   }
 }

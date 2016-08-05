@@ -17,7 +17,12 @@ public class FeedPresenter extends ResourcePresenter<Feed> {
     mFeedService = ApiService.createFeedService();
   }
 
-  @Override public Observable<ArrayList<Feed>> request(int page, int pageSize) {
-    return mFeedService.fetchFeeds(page, pageSize);
+  @Override
+  public Observable<ArrayList<Feed>> request(String previousKey, String nextKey, int pageSize) {
+    final FeedFragment feedFragment = (FeedFragment) getView();
+    if (feedFragment != null && !feedFragment.withIdentifierRequest()) {
+      return mFeedService.fetchFeedsWithPage(nextKey, pageSize);
+    }
+    return mFeedService.fetchFeeds(previousKey, nextKey, pageSize);
   }
 }

@@ -3,11 +3,9 @@ package starter.kit.rx;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
 import com.paginate.recycler.LoadingListItemCreator;
-import java.util.ArrayList;
 import java.util.HashMap;
-import rx.Observable;
-import rx.functions.Func2;
 import starter.kit.model.entity.Entity;
+import starter.kit.rx.util.RxRequestKey;
 import starter.kit.util.Maps;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyViewHolder;
@@ -36,6 +34,8 @@ public class StarterFragConfig<E extends Entity> {
   // page config
   private int pageSize;
   private int startPage;
+
+  private boolean withIdentifierRequest = true; // Default identifier request
 
   public BaseEasyViewHolderFactory getViewHolderFactory() {
     return viewHolderFactory;
@@ -89,6 +89,10 @@ public class StarterFragConfig<E extends Entity> {
     return startPage;
   }
 
+  public boolean isWithIdentifierRequest() {
+    return withIdentifierRequest;
+  }
+
   public static class Builder<T extends Entity> {
     private BaseEasyViewHolderFactory viewHolderFactory;
     private HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders = Maps.newHashMap();
@@ -108,6 +112,8 @@ public class StarterFragConfig<E extends Entity> {
     private int pageSize = 20;
     private int startPage = 1;
 
+    private boolean withIdentifierRequest;
+
     public StarterFragConfig build() {
       StarterFragConfig config = new StarterFragConfig();
       config.viewHolderFactory = viewHolderFactory;
@@ -123,6 +129,7 @@ public class StarterFragConfig<E extends Entity> {
       config.loadingTriggerThreshold = loadingTriggerThreshold;
       config.pageSize = pageSize;
       config.startPage = startPage;
+      config.withIdentifierRequest = withIdentifierRequest;
       return config;
     }
 
@@ -188,6 +195,11 @@ public class StarterFragConfig<E extends Entity> {
 
     public Builder startPage(int startPage) {
       this.startPage = startPage;
+      return this;
+    }
+
+    public Builder withIdentifierRequest(boolean withIdentifierRequest) {
+      this.withIdentifierRequest = withIdentifierRequest;
       return this;
     }
   }

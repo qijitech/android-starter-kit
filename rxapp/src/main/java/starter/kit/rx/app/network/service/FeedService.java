@@ -8,7 +8,12 @@ import starter.kit.rx.app.model.entity.Feed;
 
 public interface FeedService {
 
+  @GET("/posts/pages") Observable<ArrayList<Feed>> fetchFeedsWithPage(
+      @Query("page") String page,
+      @Query("page_size") int pageSize);
+
   @GET("/posts") Observable<ArrayList<Feed>> fetchFeeds(
-      @Query("page") int page,
+      @Query("since_id") String sinceId,
+      @Query("max_id") String maxId,
       @Query("page_size") int pageSize);
 }
