@@ -14,9 +14,11 @@ public class FeedFragment extends RxStarterRecyclerFragment {
 
   private boolean addLoadingListItem;
   private boolean withIdentifierRequest;
+  public int position;
 
-  public static FeedFragment create(boolean addLoadingListItem, boolean withIdentifierRequest) {
+  public static FeedFragment create(int position, boolean addLoadingListItem, boolean withIdentifierRequest) {
     FeedFragment feedFragment = new FeedFragment();
+    feedFragment.position = position;
     feedFragment.addLoadingListItem = addLoadingListItem;
     feedFragment.withIdentifierRequest = withIdentifierRequest;
     return feedFragment;

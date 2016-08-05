@@ -63,9 +63,9 @@ public class MainActivity extends RxStarterActivity implements Drawer.OnDrawerIt
 
   private void setupViewPager() {
     SimplePagerAdapter adapter = new SimplePagerAdapter(getSupportFragmentManager());
-    adapter.addFrag(FeedFragment.create(true, true), "RxIdentifier");
-    adapter.addFrag(FeedFragment.create(true, false), "RxPager");
-    adapter.addFrag(FeedFragment.create(false, true), "No Page");
+    adapter.addFrag(FeedFragment.create(0, true, true), "RxIdentifier");
+    adapter.addFrag(FeedFragment.create(1, true, false), "RxPager");
+    adapter.addFrag(FeedFragment.create(2, false, true), "No Page");
     mViewPager.setAdapter(adapter);
 
     final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, RxApp.appResources().getDisplayMetrics());

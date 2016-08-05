@@ -25,4 +25,12 @@ public class FeedPresenter extends ResourcePresenter<Feed> {
     }
     return mFeedService.fetchFeeds(previousKey, nextKey, pageSize);
   }
+
+  @Override public int restartableId() {
+    final FeedFragment feedFragment = (FeedFragment) getView();
+    if (feedFragment != null) {
+      return feedFragment.position + 1000;
+    }
+    return super.restartableId();
+  }
 }

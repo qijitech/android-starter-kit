@@ -25,7 +25,7 @@ public abstract class ResourcePresenter<T extends Entity> extends RxStarterPrese
   @SuppressWarnings("Unchecked") @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
 
-    restartableReplay(RESTARTABLE_ID, new Func0<Observable<ArrayList<T>>>() {
+    restartableReplay(restartableId(), new Func0<Observable<ArrayList<T>>>() {
       @Override public Observable<ArrayList<T>> call() {
         return observableFactory();
       }
@@ -56,10 +56,14 @@ public abstract class ResourcePresenter<T extends Entity> extends RxStarterPrese
     });
   }
 
+  public int restartableId() {
+    return RESTARTABLE_ID;
+  }
+
   public abstract Observable<ArrayList<T>> request(String previousKey, String nextKey, int pageSize);
 
   public void request() {
-    start(RESTARTABLE_ID);
+    start(restartableId());
   }
 
   public void requestNext(RxRequestKey page) {

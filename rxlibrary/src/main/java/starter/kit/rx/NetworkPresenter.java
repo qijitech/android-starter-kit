@@ -37,7 +37,7 @@ public abstract class NetworkPresenter<T, ViewType extends NetworkContract.View>
     });
   }
 
-  private int restartableId() {
+  public int restartableId() {
     return RESTARTABLE_ID;
   }
 
