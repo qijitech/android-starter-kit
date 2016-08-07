@@ -9,8 +9,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
-import me.alexrs.prefs.lib.Prefs;
+import starter.kit.util.PreferencesHelper;
 import support.ui.utilities.AppInfo;
 
 /**
@@ -96,21 +95,17 @@ public class SupportApp extends Application {
     sAppHandler = new Handler(sAppContext.getMainLooper());
   }
 
+  /**
+   * 更新本地versionCode
+   */
   public static void enterApp() {
-
-    Prefs.with(appContext()).save("is_first_enter_app", appInfo().versionCode);
+    PreferencesHelper.INSTANCE.setVersionCode(appInfo().versionCode);
   }
 
   /**
-   * 判断是否第一次进入APP
-   * @return
+   * 是否有版本更新显示引导页
    */
-  public static boolean isFirstEnterApp() {
-    String ver = Prefs.with(appContext()).getString("is_first_enter_app", null);
-    if (TextUtils.isEmpty(ver) || !ver.equals(appInfo().versionCode)) {
-      return true;
-    } else {
-      return false;
-    }
+  public static boolean shouldEnterApp() {
+    return appInfo().versionCode > PreferencesHelper.INSTANCE.getVersionCode();
   }
 }

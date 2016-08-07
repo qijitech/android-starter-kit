@@ -14,7 +14,7 @@ public final class AppInfo {
   public String deviceName;
   public String deviceId;
   public String version;
-  public String versionCode;
+  public int versionCode;
   public String channel;
   public int screenWidth;
   public int screenHeight;
@@ -42,10 +42,10 @@ public final class AppInfo {
     }
 
     String version = "";
-    String code = "";
+    int code = 0;
     if (packInfo != null) {
       version = packInfo.versionName;
-      code = Integer.valueOf(packInfo.versionCode).toString();
+      code = packInfo.versionCode;
     }
     this.version = version;
     this.versionCode = code;

@@ -77,7 +77,6 @@ dependencies {
   compile deps.rxjava
 
   compile deps.smoothprogressbar
-  compile deps.prefs
 
   compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
 
