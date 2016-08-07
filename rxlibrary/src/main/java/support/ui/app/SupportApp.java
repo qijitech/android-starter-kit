@@ -97,6 +97,7 @@ public class SupportApp extends Application {
   }
 
   public static void enterApp() {
+
     Prefs.with(appContext()).save("is_first_enter_app", appInfo().versionCode);
   }
 
