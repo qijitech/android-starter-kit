@@ -3,6 +3,8 @@
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="activity_vertical_margin">16dp</dimen>
 
+  <dimen name="app_margin">16dp</dimen>
+
   <dimen name="tab_indicator_height">4dp</dimen>
   <dimen name="tab_bar_height">56dp</dimen>
   <dimen name="toolbar_height">56dp</dimen>

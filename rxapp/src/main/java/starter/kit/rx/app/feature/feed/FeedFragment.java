@@ -32,7 +32,7 @@ public class FeedFragment extends RxStarterRecyclerFragment {
         .withIdentifierRequest(withIdentifierRequest)
         .bind(Feed.class, FeedsViewHolder.class)
         .recyclerViewDecor(new HorizontalDividerItemDecoration
-            .Builder(getContext()).size(30)
+            .Builder(getContext()).size(10)
             .colorResId(R.color.dividerColor)
             .build())
         .swipeRefreshLayoutColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);

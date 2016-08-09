@@ -29,7 +29,7 @@ public class FeedsViewHolder extends EasyViewHolder<Feed> {
   @BindView(R.id.feed_photo_view) NineGirdView mNineGridView;
 
   public FeedsViewHolder(Context context, ViewGroup parent) {
-    super(context, parent, R.layout.list_item_feed_image);
+    super(context, parent, R.layout.list_item_feed);
     ButterKnife.bind(this, itemView);
     mNineGridView.setNineGridAdapter(new NineGridAdapter());
     mNineGridView.setStyle(NineGirdView.STYLE_GRID);
