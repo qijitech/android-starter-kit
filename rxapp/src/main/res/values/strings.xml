@@ -6,6 +6,7 @@
   <string name="drawer_item_open_source">Open Source</string>
 
   <string name="label_simple_hud">SimpleHud</string>
+  <string name="label_content">Content Demo</string>
   <string name="label_rx_pref">RxPreferences</string>
   <string name="label_direction">SwipeRefreshLayout Direction</string>
 

@@ -58,6 +58,16 @@
           android:value="starter.kit.rx.app.feature.main.MainActivity"/>
     </activity>
 
+    <activity
+        android:name=".feature.content.ContentActivity"
+        android:launchMode="singleTask"
+        android:screenOrientation="portrait"
+        android:label="@string/label_content">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="starter.kit.rx.app.feature.main.MainActivity"/>
+    </activity>
+
   </application>
 
 </manifest>

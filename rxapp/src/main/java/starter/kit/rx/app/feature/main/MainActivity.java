@@ -27,6 +27,7 @@ import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxApp;
 import starter.kit.rx.app.RxStarterActivity;
 import starter.kit.rx.app.feature.auth.LoginActivity;
+import starter.kit.rx.app.feature.content.ContentActivity;
 import starter.kit.rx.app.feature.feed.FeedFragment;
 import starter.kit.rx.app.feature.util.SimpleHudActivity;
 
@@ -102,7 +103,8 @@ public class MainActivity extends RxStarterActivity implements Drawer.OnDrawerIt
         .addDrawerItems(
             new PrimaryDrawerItem().withName("Feeds").withIcon(FontAwesome.Icon.faw_android).withTag(TAG_FEEDS),
             new PrimaryDrawerItem().withName("Login").withIcon(FontAwesome.Icon.faw_adjust).withTag(TAG_LOGIN),
-            new PrimaryDrawerItem().withName("SimpleHud").withIcon(FontAwesome.Icon.faw_adjust).withTag(TAG_SIMPLE_HUD)
+            new PrimaryDrawerItem().withName("SimpleHud").withIcon(FontAwesome.Icon.faw_adjust).withTag(TAG_SIMPLE_HUD),
+            new PrimaryDrawerItem().withName("Content").withIcon(FontAwesome.Icon.faw_connectdevelop).withTag(TAG_CONTENT)
         )
         .addStickyDrawerItems(
             new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog),
@@ -117,6 +119,7 @@ public class MainActivity extends RxStarterActivity implements Drawer.OnDrawerIt
   private static final String TAG_FEEDS = "feeds";
   private static final String TAG_LOGIN = "login";
   private static final String TAG_SIMPLE_HUD = "SimpleHud";
+  private static final String TAG_CONTENT = "ContentDemo";
 
   @Override public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
     if (TAG_LOGIN.equals(drawerItem.getTag())) {
@@ -125,6 +128,10 @@ public class MainActivity extends RxStarterActivity implements Drawer.OnDrawerIt
     }
     if (TAG_SIMPLE_HUD.equals(drawerItem.getTag())) {
       startActivity(new Intent(MainActivity.this, SimpleHudActivity.class));
+      return true;
+    }
+    if (TAG_CONTENT.equals(drawerItem.getTag())) {
+      startActivity(new Intent(MainActivity.this, ContentActivity.class));
       return true;
     }
     return false;
