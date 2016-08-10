@@ -67,4 +67,8 @@ public class RxPager implements RxRequestKey {
   @Override public boolean isFirstPage() {
     return nextPage == startPage;
   }
+
+  @Override public boolean requested() {
+    return requested != NOT_REQUESTED;
+  }
 }

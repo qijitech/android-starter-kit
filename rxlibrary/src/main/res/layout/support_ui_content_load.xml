@@ -15,6 +15,7 @@
       android:layout_gravity="center"
       android:indeterminate="true"
       app:cpb_color="?attr/colorPrimary"
+      android:layout_marginBottom="?attr/actionBarSize"
       app:cpb_max_sweep_angle="300"
       app:cpb_min_sweep_angle="10"
       app:cpb_rotation_speed="1.0"

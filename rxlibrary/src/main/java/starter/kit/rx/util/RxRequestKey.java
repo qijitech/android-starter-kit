@@ -22,4 +22,6 @@ public interface RxRequestKey {
   int pageSize();
 
   boolean isFirstPage();
+
+  boolean requested();
 }

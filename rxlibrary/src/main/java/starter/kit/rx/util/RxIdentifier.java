@@ -64,6 +64,10 @@ public class RxIdentifier implements RxRequestKey {
   }
 
   @Override public boolean isFirstPage() {
-    return false;
+    return requested == NOT_REQUESTED;
+  }
+
+  @Override public boolean requested() {
+    return requested != NOT_REQUESTED;
   }
 }

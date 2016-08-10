@@ -30,6 +30,7 @@ public class FeedFragment extends RxStarterRecyclerFragment {
     StarterFragConfig.Builder builder = new StarterFragConfig.Builder<>()
         .addLoadingListItem(addLoadingListItem) // 是否分页
         .withIdentifierRequest(withIdentifierRequest)
+        .pageSize(5)
         .bind(Feed.class, FeedsViewHolder.class)
         .recyclerViewDecor(new HorizontalDividerItemDecoration
             .Builder(getContext()).size(10)

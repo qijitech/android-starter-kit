@@ -35,7 +35,7 @@ public class StarterFragConfig<E extends Entity> {
   private int pageSize;
   private int startPage;
 
-  private boolean withIdentifierRequest = true; // Default identifier request
+  private boolean withIdentifierRequest;
 
   public BaseEasyViewHolderFactory getViewHolderFactory() {
     return viewHolderFactory;
@@ -112,7 +112,7 @@ public class StarterFragConfig<E extends Entity> {
     private int pageSize = 20;
     private int startPage = 1;
 
-    private boolean withIdentifierRequest;
+    private boolean withIdentifierRequest = true; // Default identifier request
 
     public StarterFragConfig build() {
       StarterFragConfig config = new StarterFragConfig();

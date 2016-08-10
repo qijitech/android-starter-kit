@@ -13,4 +13,6 @@
   <item name="support_ui_error_image_view" type="id"/>
   <item name="support_ui_content_container" type="id"/>
   <item name="support_ui_content_recycler_view" type="id"/>
+
+  <item name="swipeRefreshLayout" type="id"/>
 </resources>

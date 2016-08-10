@@ -18,7 +18,7 @@ import static rx.schedulers.Schedulers.io;
 
 public abstract class ResourcePresenter<T extends Entity> extends RxStarterPresenter<RxStarterRecyclerFragment> {
 
-  private static final int RESTARTABLE_ID = 1;
+  private static final int RESTARTABLE_ID = 100;
 
   private PublishSubject<RxRequestKey> pageRequests = PublishSubject.create();
 
@@ -35,8 +35,7 @@ public abstract class ResourcePresenter<T extends Entity> extends RxStarterPrese
       }
     }, new Action2<RxStarterRecyclerFragment, Throwable>() {
       @Override public void call(RxStarterRecyclerFragment fragment, Throwable throwable) {
-        RetrofitException error = (RetrofitException) throwable;
-        fragment.onError(error);
+        fragment.onError(throwable);
       }
     });
   }
