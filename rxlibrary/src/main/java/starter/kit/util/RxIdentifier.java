@@ -26,11 +26,13 @@ public class RxIdentifier implements RxRequestKey {
     hasMoreData = itemCount >= pageSize;
     size += itemCount;
 
-    if (sinceIdentifier == null) {
-      sinceIdentifier = items.get(0).identifier;
-    }
-    if (hasMoreData()) {
+    if (isFirstPage()) {
+      // TODO
+      //sinceIdentifier = items.get(0).identifier;
+      maxIdentifier = null;
+    } else if (hasMoreData()) {
       maxIdentifier = items.get(itemCount - 1).identifier;
+      //sinceIdentifier = null;
     }
   }
 
@@ -43,6 +45,8 @@ public class RxIdentifier implements RxRequestKey {
 
   @Override public void reset() {
     size = 0;
+    maxIdentifier = null;
+    maxIdentifier = null;
     this.hasMoreData = true;
     requested = NOT_REQUESTED;
   }

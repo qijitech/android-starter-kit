@@ -1,9 +1,12 @@
 package starter.kit.feature.rx;
 
 import android.os.Bundle;
+import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.RxLifecycle;
 import rx.Observable;
 import rx.functions.Action2;
 import rx.functions.Func0;
+import rx.subjects.BehaviorSubject;
 import starter.kit.feature.NetworkContract;
 import starter.kit.retrofit.RetrofitException;
 import starter.kit.util.HudInterface;
@@ -23,8 +26,10 @@ public abstract class RxNetworkPresenter<T, ViewType extends NetworkContract.Vie
 
     restartableReplay(restartableId(), new Func0<Observable<T>>() {
       @Override public Observable<T> call() {
+        BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
         return request().subscribeOn(io())
             .compose(RxUtils.hudTransformer(RxNetworkPresenter.this))
+            .compose(RxLifecycle.bindFragment(lifecycle))
             .observeOn(mainThread());
       }
     }, new Action2<ViewType, T>() {

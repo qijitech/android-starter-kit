@@ -1,15 +1,16 @@
 package starter.kit.feature.rx;
 
 import android.os.Bundle;
+import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.RxLifecycle;
 import java.util.ArrayList;
 import rx.Observable;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
+import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
-import starter.kit.feature.rx.RxStarterPresenter;
 import starter.kit.model.entity.Entity;
-import starter.kit.feature.rx.RxStarterRecyclerFragment;
 import starter.kit.util.RxRequestKey;
 import starter.kit.util.RxUtils;
 
@@ -47,8 +48,10 @@ public abstract class RxResourcePresenter<T extends Entity> extends
         return pageRequests.startWith(fragment.getRequestKey())
             .concatMap(new Func1<RxRequestKey, Observable<? extends ArrayList<T>>>() {
               @Override public Observable<? extends ArrayList<T>> call(RxRequestKey requestKey) {
+                BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
                 return request(requestKey.previousKey(), requestKey.nextKey(), requestKey.pageSize()).subscribeOn(io())
                     .compose(RxUtils.progressTransformer(fragment))
+                    .compose(RxLifecycle.bindFragment(lifecycle))
                     .observeOn(mainThread());
               }
             });

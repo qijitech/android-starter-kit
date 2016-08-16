@@ -261,7 +261,9 @@ public abstract class RxStarterRecyclerFragment
 
   // Paginate delegate
   @Override public void onLoadMore() {
-    if (mPaginate != null && mRequestKey != null && mRequestKey.hasMoreData()) {
+    if (isNotNull(mPaginate) && isNotNull(mRequestKey)
+        && !mAdapter.isEmpty()
+        && mRequestKey.hasMoreData()) {
       mPaginate.setHasMoreDataToLoad(true);
       mRequestKey.next();
     }
