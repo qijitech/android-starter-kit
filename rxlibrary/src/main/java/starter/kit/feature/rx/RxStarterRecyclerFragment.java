@@ -1,4 +1,4 @@
-package starter.kit.rx.app;
+package starter.kit.feature.rx;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,40 +14,29 @@ import java.util.HashMap;
 import java.util.Map;
 import rx.Observable;
 import rx.functions.Action1;
+import starter.kit.feature.StarterContentFragment;
+import starter.kit.feature.StarterFragConfig;
 import starter.kit.model.EmptyEntity;
 import starter.kit.model.entity.Entity;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.rx.R;
-import starter.kit.rx.ResourcePresenter;
-import starter.kit.rx.StarterFragConfig;
-import starter.kit.rx.util.ErrorHandler;
-import starter.kit.rx.util.ProgressInterface;
-import starter.kit.rx.util.RxIdentifier;
-import starter.kit.rx.util.RxPager;
-import starter.kit.rx.util.RxRequestKey;
+import starter.kit.util.ErrorHandler;
+import starter.kit.util.ProgressInterface;
+import starter.kit.util.RxIdentifier;
+import starter.kit.util.RxPager;
+import starter.kit.util.RxRequestKey;
 import starter.kit.viewholder.StarterEmptyViewHolder;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
-import support.ui.content.ContentPresenter;
-import support.ui.content.EmptyView;
-import support.ui.content.ErrorView;
-import support.ui.content.ReflectionContentPresenterFactory;
-import support.ui.content.RequiresContent;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
-@RequiresContent public abstract class RxStarterRecyclerFragment
-    extends RxStarterFragment<ResourcePresenter>
+public abstract class RxStarterRecyclerFragment
+    extends StarterContentFragment<RxResourcePresenter>
     implements com.paginate.Paginate.Callbacks,
     ProgressInterface,
-    EmptyView.OnEmptyViewClickListener,
-    ErrorView.OnErrorViewClickListener,
     SwipeRefreshLayout.OnRefreshListener {
-
-  ReflectionContentPresenterFactory factory =
-      ReflectionContentPresenterFactory.fromViewClass(getClass());
-  ContentPresenter contentPresenter;
 
   FrameLayout mContainer;
   SwipeRefreshLayout mSwipeRefreshLayout;
@@ -109,15 +98,14 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
     mAdapter = new EasyRecyclerAdapter(getContext());
-
-    contentPresenter = factory.createContentPresenter();
-    contentPresenter.setOnEmptyViewClickListener(this);
-    contentPresenter.setOnErrorViewClickListener(this);
-    contentPresenter.onCreate(getContext());
   }
 
   @Override protected int getFragmentLayout() {
     return R.layout.starter_recycler_view;
+  }
+
+  @Override public View provideContentView() {
+    return mSwipeRefreshLayout;
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -125,9 +113,6 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
     mContainer = ButterKnife.findById(view, R.id.support_ui_content_container);
     mSwipeRefreshLayout = ButterKnife.findById(view, R.id.swipeRefreshLayout);
     mRecyclerView = ButterKnife.findById(view, R.id.support_ui_content_recycler_view);
-
-    contentPresenter.attachContainer(mContainer);
-    contentPresenter.attachContentView(mSwipeRefreshLayout);
 
     setupRecyclerView();
     setupPaginate();
@@ -155,6 +140,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
         mPaginate = Paginate.with(mRecyclerView, this)
             .setLoadingTriggerThreshold(mFragConfig.getLoadingTriggerThreshold())
             .addLoadingListItem(true)
+            .setLoadingListItemCreator(mFragConfig.getLoadingListItemCreator())
             .setLoadingListItemSpanSizeLookup(() -> mFragConfig.getSpanSizeLookup())
             .build();
 
@@ -193,7 +179,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
   @Override public void showProgress() {
     Observable.empty().observeOn(mainThread()).doOnTerminate(() -> {
       if (isEmpty()) {
-        contentPresenter.displayLoadView();
+        getContentPresenter().displayLoadView();
       } else if (mRequestKey != null && mRequestKey.isFirstPage()) {
         mSwipeRefreshLayout.setRefreshing(true);
       } else if (mPaginate != null) {
@@ -204,7 +190,11 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
   @Override public void hideProgress() {
     Observable.empty().observeOn(mainThread())
-        .doOnTerminate(() -> mSwipeRefreshLayout.setRefreshing(false))
+        .doOnTerminate(() -> {
+          if (isNotNull(mSwipeRefreshLayout)) {
+            mSwipeRefreshLayout.setRefreshing(false);
+          }
+        })
         .subscribe();
   }
 
@@ -221,9 +211,9 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
     }
 
     if (isEmpty()) {
-      contentPresenter.displayEmptyView();
+      getContentPresenter().displayEmptyView();
     } else {
-      contentPresenter.displayContentView();
+      getContentPresenter().displayContentView();
     }
 
   }
@@ -240,7 +230,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
     }
 
     if (isEmpty()) {
-      contentPresenter.displayErrorView();
+      getContentPresenter().displayErrorView();
     }
   }
 
@@ -253,15 +243,12 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
   @Override public void onDestroyView() {
     super.onDestroyView();
-    contentPresenter.onDestroyView();
     mSwipeRefreshLayout = null;
     mRecyclerView = null;
   }
 
   @Override public void onDestroy() {
     super.onDestroy();
-    contentPresenter.onDestroy();
-    contentPresenter = null;
     mAdapter = null;
     mFragConfig = null;
     mPaginate = null;

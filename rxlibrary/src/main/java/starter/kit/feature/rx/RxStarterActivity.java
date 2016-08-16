@@ -1,4 +1,4 @@
-package starter.kit.rx.app;
+package starter.kit.feature.rx;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

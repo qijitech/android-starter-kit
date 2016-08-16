@@ -1,10 +1,9 @@
-package starter.kit.rx.util;
+package starter.kit.util;
 
 import android.content.Context;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import starter.kit.util.Hud;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 

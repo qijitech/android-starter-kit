@@ -11,7 +11,7 @@ import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 import starter.kit.rx.app.R;
-import starter.kit.rx.app.RxStarterActivity;
+import starter.kit.feature.rx.RxStarterActivity;
 
 /**
  * Created by YuGang Yang on 06 29, 2016.

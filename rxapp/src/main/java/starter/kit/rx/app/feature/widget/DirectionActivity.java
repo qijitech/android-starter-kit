@@ -13,11 +13,11 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import starter.kit.rx.app.R;
-import starter.kit.rx.app.RxStarterActivity;
+import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.feature.feed.FeedsViewHolder;
 import starter.kit.rx.app.model.entity.Feed;
-import starter.kit.rx.util.ProgressInterface;
-import starter.kit.rx.util.RxUtils;
+import starter.kit.util.ProgressInterface;
+import starter.kit.util.RxUtils;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.widget.SwipeRefreshLayout;
 

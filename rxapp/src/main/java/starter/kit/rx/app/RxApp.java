@@ -1,6 +1,7 @@
 package starter.kit.rx.app;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import starter.kit.app.RxStarterApp;
 import starter.kit.retrofit.Network;
 import starter.kit.rx.app.util.InitializeUtil;
 

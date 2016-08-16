@@ -1,4 +1,4 @@
-package starter.kit.rx;
+package starter.kit.feature.rx;
 
 import android.os.Bundle;
 import icepick.Icepick;

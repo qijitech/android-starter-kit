@@ -3,7 +3,7 @@ package starter.kit.account;
 import android.content.Context;
 import android.text.TextUtils;
 import starter.kit.model.entity.Account;
-import starter.kit.rx.app.RxStarterApp;
+import starter.kit.app.RxStarterApp;
 
 public enum AccountManager {
 

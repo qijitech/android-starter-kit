@@ -17,9 +17,9 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.retrofit.RetrofitException;
-import starter.kit.rx.NetworkContract;
+import starter.kit.feature.NetworkContract;
 import starter.kit.rx.app.R;
-import starter.kit.rx.app.RxStarterActivity;
+import starter.kit.feature.rx.RxStarterActivity;
 import support.ui.app.SupportApp;
 import work.wanghao.simplehud.SimpleHUD;
 

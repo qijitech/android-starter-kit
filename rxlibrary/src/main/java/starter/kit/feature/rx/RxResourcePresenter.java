@@ -1,4 +1,4 @@
-package starter.kit.rx;
+package starter.kit.feature.rx;
 
 import android.os.Bundle;
 import java.util.ArrayList;
@@ -7,16 +7,17 @@ import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
+import starter.kit.feature.rx.RxStarterPresenter;
 import starter.kit.model.entity.Entity;
-import starter.kit.retrofit.RetrofitException;
-import starter.kit.rx.app.RxStarterRecyclerFragment;
-import starter.kit.rx.util.RxRequestKey;
-import starter.kit.rx.util.RxUtils;
+import starter.kit.feature.rx.RxStarterRecyclerFragment;
+import starter.kit.util.RxRequestKey;
+import starter.kit.util.RxUtils;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 import static rx.schedulers.Schedulers.io;
 
-public abstract class ResourcePresenter<T extends Entity> extends RxStarterPresenter<RxStarterRecyclerFragment> {
+public abstract class RxResourcePresenter<T extends Entity> extends
+    RxStarterPresenter<RxStarterRecyclerFragment> {
 
   private static final int RESTARTABLE_ID = 100;
 

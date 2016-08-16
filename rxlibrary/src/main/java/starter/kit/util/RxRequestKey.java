@@ -1,4 +1,4 @@
-package starter.kit.rx.util;
+package starter.kit.util;
 
 import java.util.ArrayList;
 import starter.kit.model.entity.Entity;

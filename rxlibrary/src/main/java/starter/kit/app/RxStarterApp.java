@@ -1,6 +1,5 @@
-package starter.kit.rx.app;
+package starter.kit.app;
 
-import android.app.Application;
 import support.ui.app.SupportApp;
 
 public class RxStarterApp extends SupportApp {

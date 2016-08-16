@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxApp;
-import starter.kit.rx.app.RxStarterActivity;
+import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.feature.auth.LoginActivity;
 import starter.kit.rx.app.feature.content.ContentActivity;
 import starter.kit.rx.app.feature.feed.FeedFragment;

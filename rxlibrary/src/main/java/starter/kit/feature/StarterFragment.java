@@ -1,4 +1,4 @@
-package starter.kit.rx.app;
+package starter.kit.feature;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,7 @@ import nucleus.factory.PresenterFactory;
 import nucleus.presenter.Presenter;
 import nucleus.view.NucleusSupportFragment;
 
-public abstract class RxStarterFragment<P extends Presenter> extends NucleusSupportFragment<P> {
+public abstract class StarterFragment<P extends Presenter> extends NucleusSupportFragment<P> {
 
   private Unbinder mUnbinder;
 

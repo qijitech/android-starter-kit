@@ -1,4 +1,4 @@
-package starter.kit.rx;
+package starter.kit.feature;
 
 import starter.kit.retrofit.RetrofitException;
 

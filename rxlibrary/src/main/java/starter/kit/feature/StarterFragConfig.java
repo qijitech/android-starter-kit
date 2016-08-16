@@ -1,11 +1,10 @@
-package starter.kit.rx;
+package starter.kit.feature;
 
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
 import com.paginate.recycler.LoadingListItemCreator;
 import java.util.HashMap;
 import starter.kit.model.entity.Entity;
-import starter.kit.rx.util.RxRequestKey;
 import starter.kit.util.Maps;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyViewHolder;

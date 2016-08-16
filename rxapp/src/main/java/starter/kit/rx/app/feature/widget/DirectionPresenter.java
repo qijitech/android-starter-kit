@@ -2,7 +2,7 @@ package starter.kit.rx.app.feature.widget;
 
 import android.os.Bundle;
 import rx.subjects.PublishSubject;
-import starter.kit.rx.RxStarterPresenter;
+import starter.kit.feature.rx.RxStarterPresenter;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.FeedService;
 

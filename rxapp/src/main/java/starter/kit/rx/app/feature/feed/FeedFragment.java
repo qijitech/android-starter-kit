@@ -4,9 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import nucleus.factory.RequiresPresenter;
-import starter.kit.rx.StarterFragConfig;
+import starter.kit.feature.StarterFragConfig;
 import starter.kit.rx.app.R;
-import starter.kit.rx.app.RxStarterRecyclerFragment;
+import starter.kit.feature.rx.RxStarterRecyclerFragment;
 import starter.kit.rx.app.model.entity.Feed;
 
 @RequiresPresenter(FeedPresenter.class)

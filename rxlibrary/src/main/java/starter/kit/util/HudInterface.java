@@ -1,4 +1,4 @@
-package starter.kit.rx.util;
+package starter.kit.util;
 
 public interface HudInterface {
   void showHud();

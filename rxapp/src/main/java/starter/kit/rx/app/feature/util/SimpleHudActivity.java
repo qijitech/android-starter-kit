@@ -5,11 +5,11 @@ import android.view.View;
 import butterknife.OnClick;
 import rx.Subscription;
 import starter.kit.rx.app.R;
-import starter.kit.rx.app.RxStarterActivity;
+import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.FeedService;
-import starter.kit.rx.util.HudInterface;
-import starter.kit.rx.util.RxUtils;
+import starter.kit.util.HudInterface;
+import starter.kit.util.RxUtils;
 import work.wanghao.simplehud.SimpleHUD;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
