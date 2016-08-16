@@ -8,7 +8,7 @@ import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.FeedService;
 
-public class FeedPresenter extends RxResourcePresenter<Feed> {
+public class PageFeedPresenter extends RxResourcePresenter<Feed> {
 
   private FeedService mFeedService;
 
@@ -19,10 +19,10 @@ public class FeedPresenter extends RxResourcePresenter<Feed> {
 
   @Override
   public Observable<ArrayList<Feed>> request(String previousKey, String nextKey, int pageSize) {
-    final FeedFragment feedFragment = (FeedFragment) getView();
-    if (feedFragment != null && !feedFragment.withIdentifierRequest()) {
-      return mFeedService.fetchFeedsWithPage(nextKey, pageSize);
-    }
-    return mFeedService.fetchFeeds(previousKey, nextKey, pageSize);
+    return mFeedService.fetchFeedsWithPage(nextKey, pageSize);
+  }
+
+  @Override public int restartableId() {
+    return 1000;
   }
 }

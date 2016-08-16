@@ -22,7 +22,7 @@ public abstract class RxResourcePresenter<T extends Entity> extends
 
   private static final int RESTARTABLE_ID = 100;
 
-  private PublishSubject<RxRequestKey> pageRequests = PublishSubject.create();
+  private PublishSubject<RxRequestKey> mRequests = PublishSubject.create();
 
   @SuppressWarnings("Unchecked") @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
@@ -45,7 +45,7 @@ public abstract class RxResourcePresenter<T extends Entity> extends
   private Observable<ArrayList<T>> observableFactory() {
     return view().concatMap(new Func1<RxStarterRecyclerFragment, Observable<ArrayList<T>>>() {
       @Override public Observable<ArrayList<T>> call(RxStarterRecyclerFragment fragment) {
-        return pageRequests.startWith(fragment.getRequestKey())
+        return mRequests.startWith(fragment.getRequestKey())
             .concatMap(new Func1<RxRequestKey, Observable<? extends ArrayList<T>>>() {
               @Override public Observable<? extends ArrayList<T>> call(RxRequestKey requestKey) {
                 BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
@@ -66,10 +66,11 @@ public abstract class RxResourcePresenter<T extends Entity> extends
   public abstract Observable<ArrayList<T>> request(String previousKey, String nextKey, int pageSize);
 
   public void request() {
+    mRequests = PublishSubject.create();
     start(restartableId());
   }
 
-  public void requestNext(RxRequestKey page) {
-    pageRequests.onNext(page);
+  public void requestNext(RxRequestKey requestKey) {
+    mRequests.onNext(requestKey);
   }
 }

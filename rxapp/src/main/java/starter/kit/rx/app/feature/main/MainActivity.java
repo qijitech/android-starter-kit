@@ -23,12 +23,14 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.util.ArrayList;
 import java.util.List;
+import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxApp;
-import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.feature.auth.LoginActivity;
 import starter.kit.rx.app.feature.content.ContentActivity;
-import starter.kit.rx.app.feature.feed.FeedFragment;
+import starter.kit.rx.app.feature.feed.IdFeedFragment;
+import starter.kit.rx.app.feature.feed.NoPageFeedFragment;
+import starter.kit.rx.app.feature.feed.PageFeedFragment;
 import starter.kit.rx.app.feature.util.SimpleHudActivity;
 
 public class MainActivity extends RxStarterActivity implements Drawer.OnDrawerItemClickListener {
@@ -64,9 +66,9 @@ public class MainActivity extends RxStarterActivity implements Drawer.OnDrawerIt
 
   private void setupViewPager() {
     SimplePagerAdapter adapter = new SimplePagerAdapter(getSupportFragmentManager());
-    adapter.addFrag(FeedFragment.create(0, true, true), "RxIdentifier");
-    adapter.addFrag(FeedFragment.create(1, true, false), "RxPager");
-    adapter.addFrag(FeedFragment.create(2, false, true), "No Page");
+    adapter.addFrag(IdFeedFragment.create(), "RxIdentifier");
+    adapter.addFrag(PageFeedFragment.create(), "RxPager");
+    adapter.addFrag(NoPageFeedFragment.create(), "No Page");
     mViewPager.setAdapter(adapter);
 
     final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, RxApp.appResources().getDisplayMetrics());
