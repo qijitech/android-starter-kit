@@ -31,4 +31,5 @@
   <string name="placehold_long">Fugit assumenda est incidunt. Odio doloribus non consequatur itaque. Reiciendis et laborum non enim. </string>
 
   <string name="foo">foo</string>
+  <string name="contentDescription">contentDescription</string>
 </resources>

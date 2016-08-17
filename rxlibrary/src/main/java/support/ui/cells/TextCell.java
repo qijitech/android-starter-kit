@@ -12,7 +12,6 @@ import android.widget.TextView;
 import starter.kit.rx.R;
 import support.ui.utilities.AndroidUtilities;
 import support.ui.utilities.LayoutHelper;
-import support.ui.utilities.ViewUtils;
 
 /**
  * Created by YuGang Yang on 04 07, 2016.

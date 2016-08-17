@@ -41,10 +41,8 @@ public abstract class EasyViewHolder<V> extends RecyclerView.ViewHolder
   }
 
   @Override public boolean onLongClick(View v) {
-    if (longClickListener == null) {
-      return false;
-    }
-    return longClickListener.onLongItemClicked(getAdapterPosition(), itemView);
+    return longClickListener != null && longClickListener.onLongItemClicked(getAdapterPosition(),
+        itemView);
   }
 
   @Override public void onClick(View v) {

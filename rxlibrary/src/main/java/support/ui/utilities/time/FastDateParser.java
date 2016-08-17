@@ -498,7 +498,7 @@ public class FastDateParser implements DateParser, Serializable {
      * @param definingCalendar The calendar to obtain the short and long values
      * @return The Strategy that will handle parsing for the field
      */
-    private Strategy getStrategy(final String formatField, final Calendar definingCalendar) {
+    @SuppressWarnings("fallthrough") private Strategy getStrategy(final String formatField, final Calendar definingCalendar) {
         switch (formatField.charAt(0)) {
             case '\'':
                 if (formatField.length() > 2) {

@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import java.util.Arrays;
 import starter.kit.rx.R;
 import support.ui.utilities.BuildCompat;
+import support.ui.utilities.ThemeCompat;
 import support.ui.utilities.ViewUtils;
 
 /**
@@ -40,7 +41,7 @@ public class SupportButton extends AppCompatButton {
 
   public SupportButton(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
-    initialize(context, attrs);
+    initialize(context);
     parseAttrs(context, attrs);
     if (BuildCompat.hasLollipop()) {
       ViewUtils.setBackground(this, createRippleDrawable());
@@ -119,14 +120,8 @@ public class SupportButton extends AppCompatButton {
     return new ShapeDrawable(new RoundRectShape(outerRadius, null, null));
   }
 
-  private void initialize(Context context, AttributeSet attrs) {
-    int[] attrsArray = new int[] {
-        R.attr.colorPrimary, // 0
-        R.attr.colorAccent // 1
-    };
-    TypedArray a = context.obtainStyledAttributes(attrs, attrsArray);
-    mNormalColor = a.getColor(0, 0);
-    mRippleColor = a.getColor(1, 0);
-    a.recycle();
+  private void initialize(Context context) {
+    mNormalColor = ThemeCompat.getThemeAttrColor(context, R.attr.colorPrimary);
+    mRippleColor = ThemeCompat.getThemeAttrColor(context, R.attr.colorAccent);
   }
 }

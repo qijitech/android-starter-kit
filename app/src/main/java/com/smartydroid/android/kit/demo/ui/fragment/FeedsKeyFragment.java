@@ -13,7 +13,6 @@ import com.smartydroid.android.kit.demo.ui.viewholder.FeedsTextViewHolder;
 import com.smartydroid.android.starter.kit.app.StarterKeysFragment;
 import com.smartydroid.android.starter.kit.utilities.RecyclerViewUtils;
 import java.util.ArrayList;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import retrofit2.Call;
 import support.ui.adapters.EasyRecyclerAdapter;
 

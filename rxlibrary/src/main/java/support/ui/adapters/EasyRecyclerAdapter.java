@@ -108,10 +108,7 @@ public class EasyRecyclerAdapter extends RecyclerView.Adapter<EasyViewHolder> {
   }
 
   public boolean remove(Object data) {
-    if (dataList.contains(data)) {
-      return remove(getIndex(data));
-    }
-    return false;
+    return dataList.contains(data) && remove(getIndex(data));
   }
 
   public boolean remove(int position) {
@@ -158,10 +155,7 @@ public class EasyRecyclerAdapter extends RecyclerView.Adapter<EasyViewHolder> {
   public void setOnLongClickListener(final OnItemLongClickListener listener) {
     this.longClickListener = new DebouncedOnLongClickListener() {
       @Override public boolean onDebouncedClick(View v, int position) {
-        if (listener != null) {
-          return listener.onLongItemClicked(position, v);
-        }
-        return false;
+        return listener != null && listener.onLongItemClicked(position, v);
       }
     };
   }
