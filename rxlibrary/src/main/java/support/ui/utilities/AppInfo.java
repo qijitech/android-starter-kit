@@ -3,6 +3,7 @@ package support.ui.utilities;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import starter.kit.util.Installation;
 
 /**
  * Created by YuGang Yang on 04 13, 2016.
@@ -28,8 +29,8 @@ public final class AppInfo {
     this.screenHeight = ScreenUtils.getScreenHeight();
   }
 
-  private void initDeviceId(Context context) {
-    this.deviceId = DeviceID.getDeviceID(context);
+  private void initDeviceId() {
+    this.deviceId = Installation.genInstallationId();
   }
 
   private void initVersion(Context context) {
@@ -60,7 +61,7 @@ public final class AppInfo {
   }
 
   public AppInfo(Context context) {
-    initDeviceId(context);
+    initDeviceId();
     initVersion(context);
     initChannel(context);
     initOs();
