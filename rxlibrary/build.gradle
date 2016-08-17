@@ -13,7 +13,8 @@ buildscript {
     maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
-//    classpath "com.github.dcendents:android-maven-gradle-plugin:1.3"
+    classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
   }
 }
 
@@ -21,9 +22,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
-//apply plugin: 'com.github.dcendents.android-maven'
 
-//project.archivesBaseName = 'rxstarterkit'
+project.archivesBaseName = 'starter'
 //group='tech.qiji'
 
 android {
@@ -90,3 +90,30 @@ dependencies {
   compile deps.butterknife
   apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 }
+
+ext {
+  bintrayOrg = 'qijitech'
+  bintrayRepo = 'android'
+  bintrayName = 'android-starter-kit'
+
+  publishedGroupId = 'tech.qiji'
+  libraryName = 'AndroidStarterKit'
+  artifact = 'starter'
+
+  libraryDescription = 'Android starter kit'
+
+  siteUrl = 'https://github.com/qijitech/android-starter-kit'
+  gitUrl = 'https://github.com/qijitech/android-starter-kit.git'
+
+  libraryVersion = '0.1'
+
+  developerId = POM_DEVELOPER_ID
+  developerName = POM_DEVELOPER_NAME
+  developerEmail = POM_DEVELOPER_EMAIL
+
+  licenseName = 'The Apache Software License, Version 2.0'
+  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+  allLicenses = ["Apache-2.0"]
+}
+
+apply from: '../.buildscript/bintray.gradle'

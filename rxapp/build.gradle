@@ -84,7 +84,8 @@ dependencies {
   compile deps.butterknife
   apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 
-  compile project(':rxlibrary')
+//  compile project(':rxlibrary')
+  compile 'tech.qiji:starter:0.1'
 }
 
 def gitVersionCode() {
