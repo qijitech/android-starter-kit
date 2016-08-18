@@ -4,14 +4,16 @@ import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
 import com.paginate.recycler.LoadingListItemCreator;
 import java.util.HashMap;
-import starter.kit.model.entity.Entity;
+import java.util.List;
 import starter.kit.util.Maps;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyViewHolder;
 
-public class StarterFragConfig<E extends Entity> {
+public class StarterFragConfig {
 
   // adapter config
+  private List<Object> mItems;
+
   private BaseEasyViewHolderFactory viewHolderFactory;
   private HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders;
 
@@ -35,6 +37,10 @@ public class StarterFragConfig<E extends Entity> {
   private int startPage;
 
   private boolean withIdentifierRequest;
+
+  public List<Object> getItems() {
+    return mItems;
+  }
 
   public BaseEasyViewHolderFactory getViewHolderFactory() {
     return viewHolderFactory;
@@ -92,7 +98,9 @@ public class StarterFragConfig<E extends Entity> {
     return withIdentifierRequest;
   }
 
-  public static class Builder<T extends Entity> {
+  public static class Builder {
+    private List<Object> items;
+
     private BaseEasyViewHolderFactory viewHolderFactory;
     private HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders = Maps.newHashMap();
 
@@ -129,7 +137,13 @@ public class StarterFragConfig<E extends Entity> {
       config.pageSize = pageSize;
       config.startPage = startPage;
       config.withIdentifierRequest = withIdentifierRequest;
+      config.mItems = items;
       return config;
+    }
+
+    public Builder items(List<Object> items) {
+      this.items = items;
+      return this;
     }
 
     public Builder viewHolderFactory(BaseEasyViewHolderFactory viewHolderFactory) {

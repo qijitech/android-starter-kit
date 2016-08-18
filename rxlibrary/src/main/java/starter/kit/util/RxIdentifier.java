@@ -11,6 +11,7 @@ public class RxIdentifier implements RxRequestKey {
 
   private final int pageSize;
   private boolean hasMoreData;
+  private boolean isLoading;
   private int size = 0; // 当前接收数据
   private int requested = NOT_REQUESTED;
   private Action1<RxIdentifier> onRequest;
@@ -19,9 +20,11 @@ public class RxIdentifier implements RxRequestKey {
     this.pageSize = pageSize;
     this.onRequest = onRequest;
     this.hasMoreData = true;
+    this.isLoading = true;
   }
 
   @Override public void received(ArrayList<? extends Entity> items) {
+    isLoading = false;
     final int itemCount = items.size();
     hasMoreData = itemCount >= pageSize;
     size += itemCount;
@@ -39,12 +42,14 @@ public class RxIdentifier implements RxRequestKey {
   @Override public void next() {
     if (hasMoreData() && requested != size) {
       requested = size;
+      isLoading = true;
       onRequest.call(this);
     }
   }
 
   @Override public void reset() {
     size = 0;
+    isLoading = false;
     maxIdentifier = null;
     maxIdentifier = null;
     this.hasMoreData = true;
@@ -73,5 +78,9 @@ public class RxIdentifier implements RxRequestKey {
 
   @Override public boolean requested() {
     return requested != NOT_REQUESTED;
+  }
+
+  @Override public boolean isLoading() {
+    return isLoading;
   }
 }

@@ -14,6 +14,7 @@ public class RxPager implements RxRequestKey {
   private int size = 0; // 当前总共接收数据
 
   private boolean hasMoreData;
+  private boolean isLoading;
 
   private Action1<RxPager> onRequest;
 
@@ -23,9 +24,11 @@ public class RxPager implements RxRequestKey {
     this.onRequest = onRequest;
     this.nextPage = startPage;
     this.hasMoreData = true;
+    this.isLoading = true;
   }
 
   @Override public void received(ArrayList<? extends Entity> items) {
+    isLoading = false;
     final int itemCount = items.size();
     hasMoreData = itemCount >= pageSize;
     size += itemCount;
@@ -37,6 +40,7 @@ public class RxPager implements RxRequestKey {
   @Override public void next() {
     if (hasMoreData() && requested != size) {
       requested = size;
+      isLoading = true;
       onRequest.call(this);
     }
   }
@@ -44,6 +48,7 @@ public class RxPager implements RxRequestKey {
   @Override public void reset() {
     size = 0;
     nextPage = startPage;
+    isLoading = true;
     hasMoreData = true;
     requested = NOT_REQUESTED;
   }
@@ -70,5 +75,9 @@ public class RxPager implements RxRequestKey {
 
   @Override public boolean requested() {
     return requested != NOT_REQUESTED;
+  }
+
+  @Override public boolean isLoading() {
+    return isLoading;
   }
 }

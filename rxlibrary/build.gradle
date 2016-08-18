@@ -116,4 +116,4 @@ ext {
   allLicenses = ["Apache-2.0"]
 }
 
-apply from: '../.buildscript/bintray.gradle'
+//apply from: '../.buildscript/bintray.gradle'

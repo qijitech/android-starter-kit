@@ -6,11 +6,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.FrameLayout;
 import butterknife.ButterKnife;
 import com.paginate.Paginate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import rx.Observable;
 import rx.functions.Action1;
@@ -31,6 +31,8 @@ import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
+import static starter.kit.util.Utilities.isAdapterEmpty;
+import static starter.kit.util.Utilities.isNotNull;
 
 public abstract class RxStarterRecyclerFragment
     extends StarterContentFragment<RxResourcePresenter>
@@ -38,7 +40,6 @@ public abstract class RxStarterRecyclerFragment
     ProgressInterface,
     SwipeRefreshLayout.OnRefreshListener {
 
-  FrameLayout mContainer;
   SwipeRefreshLayout mSwipeRefreshLayout;
   RecyclerView mRecyclerView;
 
@@ -50,6 +51,14 @@ public abstract class RxStarterRecyclerFragment
 
   public RxRequestKey getRequestKey() {
     return mRequestKey;
+  }
+
+  public EasyRecyclerAdapter getAdapter() {
+    return mAdapter;
+  }
+
+  public RecyclerView getRecyclerView() {
+    return mRecyclerView;
   }
 
   protected void buildFragConfig(StarterFragConfig fragConfig) {
@@ -110,13 +119,19 @@ public abstract class RxStarterRecyclerFragment
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mContainer = ButterKnife.findById(view, R.id.support_ui_content_container);
     mSwipeRefreshLayout = ButterKnife.findById(view, R.id.swipeRefreshLayout);
     mRecyclerView = ButterKnife.findById(view, R.id.support_ui_content_recycler_view);
 
     setupRecyclerView();
     setupPaginate();
     setupSwipeRefreshLayout();
+
+    if (isNotNull(mFragConfig)) {
+      List<Object> items = mFragConfig.getItems();
+      if (isNotNull(items) && !items.isEmpty()) {
+        mAdapter.addAll(items);
+      }
+    }
   }
 
   private void setupSwipeRefreshLayout() {
@@ -178,11 +193,11 @@ public abstract class RxStarterRecyclerFragment
 
   @Override public void showProgress() {
     Observable.empty().observeOn(mainThread()).doOnTerminate(() -> {
-      if (isEmpty()) {
+      if (isAdapterEmpty(mAdapter)) {
         getContentPresenter().displayLoadView();
-      } else if (mRequestKey != null && mRequestKey.isFirstPage()) {
+      } else if (isNotNull(mRequestKey) && mRequestKey.isFirstPage()) {
         mSwipeRefreshLayout.setRefreshing(true);
-      } else if (mPaginate != null) {
+      } else if (isNotNull(mPaginate)) {
         mPaginate.setHasMoreDataToLoad(true);
       }
     }).subscribe();
@@ -210,7 +225,7 @@ public abstract class RxStarterRecyclerFragment
       mPaginate.setHasMoreDataToLoad(false);
     }
 
-    if (isEmpty()) {
+    if (isAdapterEmpty(mAdapter)) {
       getContentPresenter().displayEmptyView();
     } else {
       getContentPresenter().displayContentView();
@@ -225,11 +240,11 @@ public abstract class RxStarterRecyclerFragment
       mAdapter.clear();
     }
 
-    if (mPaginate != null) {
+    if (isNotNull(mPaginate)) {
       mPaginate.setHasMoreDataToLoad(false);
     }
 
-    if (isEmpty()) {
+    if (isAdapterEmpty(mAdapter)) {
       getContentPresenter().displayErrorView();
     }
   }
@@ -262,7 +277,7 @@ public abstract class RxStarterRecyclerFragment
   // Paginate delegate
   @Override public void onLoadMore() {
     if (isNotNull(mPaginate) && isNotNull(mRequestKey)
-        && !mAdapter.isEmpty()
+        && !isAdapterEmpty(mAdapter)
         && mRequestKey.hasMoreData()) {
       mPaginate.setHasMoreDataToLoad(true);
       mRequestKey.next();
@@ -270,11 +285,13 @@ public abstract class RxStarterRecyclerFragment
   }
 
   @Override public boolean isLoading() {
-    return mSwipeRefreshLayout.isRefreshing();
+    return isNotNull(mSwipeRefreshLayout)
+        && isNotNull(mRequestKey)
+        && (mSwipeRefreshLayout.isRefreshing() || mRequestKey.isLoading());
   }
 
   @Override public boolean hasLoadedAllItems() {
-    return mRequestKey != null && !mRequestKey.hasMoreData();
+    return isNotNull(mRequestKey) && !mRequestKey.hasMoreData();
   }
 
   @Override public void onEmptyViewClick(View view) {
@@ -285,11 +302,4 @@ public abstract class RxStarterRecyclerFragment
     onRefresh();
   }
 
-  public boolean isEmpty() {
-    return isNotNull(mAdapter) && mAdapter.isEmpty();
-  }
-
-  public boolean isNotNull(Object object) {
-    return object != null;
-  }
 }

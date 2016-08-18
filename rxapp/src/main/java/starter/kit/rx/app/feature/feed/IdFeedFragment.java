@@ -20,7 +20,7 @@ public class IdFeedFragment extends RxStarterRecyclerFragment {
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
-    StarterFragConfig.Builder builder = new StarterFragConfig.Builder<>()
+    StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
         .pageSize(5)
         .bind(Feed.class, FeedsViewHolder.class)
         .recyclerViewDecor(new HorizontalDividerItemDecoration

@@ -54,6 +54,7 @@ repositories {
   jcenter()
   maven { url "https://clojars.org/repo/" }
   maven { url "https://jitpack.io" }
+  maven { url "https://dl.bintray.com/qijitech/android/" }
 }
 
 dependencies {
@@ -84,8 +85,8 @@ dependencies {
   compile deps.butterknife
   apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 
-//  compile project(':rxlibrary')
-  compile 'tech.qiji:starter:0.1'
+  compile project(':rxlibrary')
+//  compile 'tech.qiji:starter:0.1'
 }
 
 def gitVersionCode() {

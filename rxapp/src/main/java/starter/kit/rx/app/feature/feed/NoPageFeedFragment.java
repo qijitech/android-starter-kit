@@ -20,7 +20,7 @@ public class NoPageFeedFragment extends RxStarterRecyclerFragment {
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
-    StarterFragConfig.Builder builder = new StarterFragConfig.Builder<>()
+    StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
         .addLoadingListItem(false) // 是否分页
         .withIdentifierRequest(false)
         .pageSize(5)

@@ -24,4 +24,6 @@ public interface RxRequestKey {
   boolean isFirstPage();
 
   boolean requested();
+
+  boolean isLoading();
 }
