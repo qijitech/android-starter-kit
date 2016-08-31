@@ -59,7 +59,7 @@ public final class Network {
 
     private void ensureSaneDefaults() {
       if (mClient == null) {
-        mClient = OkHttpManager.get().okHttpClient();
+        mClient = OkHttpManager.get().okHttpClient(accept);
       }
     }
 

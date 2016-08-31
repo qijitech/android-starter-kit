@@ -16,7 +16,6 @@ import rx.Observable;
 import rx.functions.Action1;
 import starter.kit.feature.StarterContentFragment;
 import starter.kit.feature.StarterFragConfig;
-import starter.kit.model.EmptyEntity;
 import starter.kit.model.entity.Entity;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.rx.R;
@@ -25,7 +24,6 @@ import starter.kit.util.ProgressInterface;
 import starter.kit.util.RxIdentifier;
 import starter.kit.util.RxPager;
 import starter.kit.util.RxRequestKey;
-import starter.kit.viewholder.StarterEmptyViewHolder;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
@@ -85,7 +83,6 @@ public abstract class RxStarterRecyclerFragment
       }
     }
     // bind empty value
-    mAdapter.bind(EmptyEntity.class, StarterEmptyViewHolder.class);
   }
 
   private RxRequestKey buildRxIdentifier(StarterFragConfig fragConfig) {
