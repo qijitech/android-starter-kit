@@ -32,14 +32,14 @@ public class RxPager implements RxRequestKey {
     final int itemCount = items.size();
     hasMoreData = itemCount >= pageSize;
     size += itemCount;
+    requested += itemCount;
     if (hasMoreData()) {
       nextPage = size / pageSize + startPage;
     }
   }
 
   @Override public void next() {
-    if (hasMoreData() && requested != size) {
-      requested = size;
+    if (hasMoreData()) {
       isLoading = true;
       onRequest.call(this);
     }

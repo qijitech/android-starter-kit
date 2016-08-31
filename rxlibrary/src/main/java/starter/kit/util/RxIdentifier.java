@@ -28,6 +28,7 @@ public class RxIdentifier implements RxRequestKey {
     final int itemCount = items.size();
     hasMoreData = itemCount >= pageSize;
     size += itemCount;
+    requested = size;
 
     if (isFirstPage()) {
       // TODO
@@ -40,8 +41,7 @@ public class RxIdentifier implements RxRequestKey {
   }
 
   @Override public void next() {
-    if (hasMoreData() && requested != size) {
-      requested = size;
+    if (hasMoreData()) {
       isLoading = true;
       onRequest.call(this);
     }

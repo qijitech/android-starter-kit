@@ -39,7 +39,7 @@ public class SimpleHudActivity extends RxStarterActivity {
   }
 
   private void doSimpleHud() {
-    subscription = mFeedService.fetchFeedsWithPage("1", 20)
+    subscription = mFeedService.fetchFeedsWithPage("1", 20, "SimpleHudActivity")
         .subscribeOn(io())
         .compose(RxUtils.hudTransformer((HudInterface) () ->
             RxUtils.showHud(this, "Loading...", () -> {

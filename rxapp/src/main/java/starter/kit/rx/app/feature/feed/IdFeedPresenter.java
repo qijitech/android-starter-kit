@@ -19,7 +19,7 @@ public class IdFeedPresenter extends RxResourcePresenter<Feed> {
 
   @Override
   public Observable<ArrayList<Feed>> request(String previousKey, String nextKey, int pageSize) {
-    return mFeedService.fetchFeeds(previousKey, nextKey, pageSize);
+    return mFeedService.fetchFeeds(previousKey, nextKey, pageSize, "IdFeedPresenter");
   }
 
   @Override public int restartableId() {

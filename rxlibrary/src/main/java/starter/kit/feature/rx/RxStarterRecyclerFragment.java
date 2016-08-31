@@ -278,7 +278,8 @@ public abstract class RxStarterRecyclerFragment
   @Override public void onLoadMore() {
     if (isNotNull(mPaginate) && isNotNull(mRequestKey)
         && !isAdapterEmpty(mAdapter)
-        && mRequestKey.hasMoreData()) {
+        && mRequestKey.hasMoreData()
+        && !isLoading()) {
       mPaginate.setHasMoreDataToLoad(true);
       mRequestKey.next();
     }

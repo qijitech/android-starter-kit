@@ -19,7 +19,7 @@ public class PageFeedPresenter extends RxResourcePresenter<Feed> {
 
   @Override
   public Observable<ArrayList<Feed>> request(String previousKey, String nextKey, int pageSize) {
-    return mFeedService.fetchFeedsWithPage(nextKey, pageSize);
+    return mFeedService.fetchFeedsWithPage(nextKey, pageSize, "PageFeedPresenter");
   }
 
   @Override public int restartableId() {

@@ -91,12 +91,31 @@ public class EasyRecyclerAdapter extends RecyclerView.Adapter<EasyViewHolder> {
     if (objects == null) {
       throw new IllegalArgumentException("objects can not be null");
     }
+    List<?> toAppends = filter(objects);
+    final int toAppendSize = toAppends.size();
+    if (toAppendSize <= 0) {
+      return;
+    }
     int prevSize = this.dataList.size();
-    List<Object> data = new ArrayList<>(prevSize + dataList.size());
+    List<Object> data = new ArrayList<>(prevSize + toAppendSize);
     data.addAll(dataList);
-    data.addAll(objects);
+    data.addAll(toAppends);
     dataList = data;
-    notifyItemRangeInserted(prevSize, objects.size());
+    notifyItemRangeInserted(prevSize, toAppends.size());
+  }
+
+  /**
+   * 去掉重复数据
+   */
+  private List<?> filter(List<?> data) {
+    List<Object> returnData = new ArrayList<>();
+    List<?> localDataList = this.dataList;
+    for (Object o : data) {
+      if (!localDataList.contains(o)) {
+        returnData.add(o);
+      }
+    }
+    return returnData;
   }
 
   public boolean update(Object data, int position) {

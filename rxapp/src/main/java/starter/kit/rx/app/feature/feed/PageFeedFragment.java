@@ -23,6 +23,7 @@ public class PageFeedFragment extends RxStarterRecyclerFragment {
     StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
         .withIdentifierRequest(false)
         .pageSize(5)
+        .loadingTriggerThreshold(0)
         .bind(Feed.class, FeedsViewHolder.class)
         .recyclerViewDecor(new HorizontalDividerItemDecoration
             .Builder(getContext()).size(10)

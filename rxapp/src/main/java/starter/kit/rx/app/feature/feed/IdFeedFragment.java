@@ -23,6 +23,7 @@ public class IdFeedFragment extends RxStarterRecyclerFragment {
     StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
         .pageSize(5)
         .bind(Feed.class, FeedsViewHolder.class)
+        .loadingTriggerThreshold(0)
         .recyclerViewDecor(new HorizontalDividerItemDecoration
             .Builder(getContext()).size(10)
             .colorResId(R.color.dividerColor)

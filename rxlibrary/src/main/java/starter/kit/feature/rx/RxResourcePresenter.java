@@ -66,7 +66,6 @@ public abstract class RxResourcePresenter<T extends Entity> extends
   public abstract Observable<ArrayList<T>> request(String previousKey, String nextKey, int pageSize);
 
   public void request() {
-    mRequests = PublishSubject.create();
     start(restartableId());
   }
 
