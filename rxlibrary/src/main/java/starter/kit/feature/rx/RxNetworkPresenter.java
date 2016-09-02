@@ -24,7 +24,7 @@ public abstract class RxNetworkPresenter<T, ViewType extends NetworkContract.Vie
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
 
-    restartableReplay(restartableId(), new Func0<Observable<T>>() {
+    restartableFirst(restartableId(), new Func0<Observable<T>>() {
       @Override public Observable<T> call() {
         BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
         return request().subscribeOn(io())
