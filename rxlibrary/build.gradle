@@ -105,7 +105,7 @@ ext {
   siteUrl = 'https://github.com/qijitech/android-starter-kit'
   gitUrl = 'https://github.com/qijitech/android-starter-kit.git'
 
-  libraryVersion = '0.1'
+  libraryVersion = '0.1.1'
 
   developerId = POM_DEVELOPER_ID
   developerName = POM_DEVELOPER_NAME
@@ -116,4 +116,4 @@ ext {
   allLicenses = ["Apache-2.0"]
 }
 
-//apply from: '../.buildscript/bintray.gradle'
+apply from: '../.buildscript/bintray.gradle'
