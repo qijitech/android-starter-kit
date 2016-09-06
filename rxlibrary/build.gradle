@@ -23,7 +23,7 @@ apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 
-project.archivesBaseName = 'starter'
+//project.archivesBaseName = 'starter'
 //group='tech.qiji'
 
 android {
@@ -91,29 +91,8 @@ dependencies {
   apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 }
 
-ext {
-  bintrayOrg = 'qijitech'
-  bintrayRepo = 'android'
-  bintrayName = 'android-starter-kit'
-
-  publishedGroupId = 'tech.qiji'
-  libraryName = 'AndroidStarterKit'
-  artifact = 'starter'
-
-  libraryDescription = 'Android starter kit'
-
-  siteUrl = 'https://github.com/qijitech/android-starter-kit'
-  gitUrl = 'https://github.com/qijitech/android-starter-kit.git'
-
-  libraryVersion = '0.1.1'
-
-  developerId = POM_DEVELOPER_ID
-  developerName = POM_DEVELOPER_NAME
-  developerEmail = POM_DEVELOPER_EMAIL
-
-  licenseName = 'The Apache Software License, Version 2.0'
-  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-  allLicenses = ["Apache-2.0"]
+if (project.hasProperty('GROUP') && project.hasProperty('VERSION_NAME') &&
+    project.hasProperty('VERSION_CODE') &&
+    project.hasProperty('POM_ARTIFACT_ID')) {
+    apply from: '../.buildscript/deploy.gradle'
 }
-
-apply from: '../.buildscript/bintray.gradle'
