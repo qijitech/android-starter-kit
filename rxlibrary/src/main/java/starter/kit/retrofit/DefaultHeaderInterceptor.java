@@ -31,14 +31,15 @@ public class DefaultHeaderInterceptor implements HeaderInterceptor {
     final AppInfo appInfo = SupportApp.appInfo();
 
     builder.add("Content-Encoding", "gzip")
-        .add("version-code", String.valueOf(appInfo.versionCode))
-        .add("version-name", appInfo.version)
-        .add("device", appInfo.deviceId)
-        .add("platform", "android");
+        .add("X-Client-Build", String.valueOf(appInfo.versionCode))
+        .add("X-Client-Version", appInfo.version)
+        .add("X-Client", appInfo.deviceId)
+        .add("X-Language-Code", appInfo.languageCode)
+        .add("X-Client-Type", "android");
 
     final String channel = appInfo.channel;
     if (! TextUtils.isEmpty(channel)) {
-      builder.add("channel", channel);
+      builder.add("X-Client-Channel", channel);
     }
 
     if (!Strings.isBlank(mToken)) {

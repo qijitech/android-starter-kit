@@ -3,6 +3,7 @@ package support.ui.utilities;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import java.util.Locale;
 import starter.kit.util.Installation;
 
 /**
@@ -19,6 +20,16 @@ public final class AppInfo {
   public String channel;
   public int screenWidth;
   public int screenHeight;
+  public String languageCode;
+
+  private void initLanguageCode() {
+    Locale locale = Locale.getDefault();
+    String language = locale.getLanguage();
+    if ("zh".equals(language)) {
+      language = language + "-" + locale.getCountry();
+    }
+    this.languageCode = language;
+  }
 
   private void initOs() {
     this.os = android.os.Build.MODEL + "," + android.os.Build.VERSION.SDK_INT + "," + android.os.Build.VERSION.RELEASE;
@@ -61,6 +72,7 @@ public final class AppInfo {
   }
 
   public AppInfo(Context context) {
+    initLanguageCode();
     initDeviceId();
     initVersion(context);
     initChannel(context);
