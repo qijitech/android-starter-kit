@@ -43,7 +43,7 @@ android {
         if (outputFile != null && outputFile.name.endsWith('.apk')) {
           //def fileName = "rxjava_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
           def fileName = "${parent.name}_v${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
-          fileObj.outputFile = new File(relaseOutputFile(), fileName)
+          fileObj.outputFile = new File(releaseOutputFile(), fileName)
         }
       }
     }
