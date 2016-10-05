@@ -11,10 +11,12 @@ import icepick.Icepick;
 import nucleus.factory.PresenterFactory;
 import nucleus.presenter.Presenter;
 import nucleus.view.NucleusSupportFragment;
+import starter.kit.util.StarterCommon;
 
 public abstract class StarterFragment<P extends Presenter> extends NucleusSupportFragment<P> {
 
   private Unbinder mUnbinder;
+  private StarterCommon starterCommon;
 
   protected abstract int getFragmentLayout();
 
@@ -27,6 +29,8 @@ public abstract class StarterFragment<P extends Presenter> extends NucleusSuppor
     });
     super.onCreate(bundle);
     Icepick.restoreInstanceState(this, bundle);
+
+    starterCommon = StarterCommon.create(getActivity());
   }
 
   @Override public void onSaveInstanceState(Bundle bundle) {
@@ -50,5 +54,36 @@ public abstract class StarterFragment<P extends Presenter> extends NucleusSuppor
       mUnbinder.unbind();
       mUnbinder = null;
     }
+  }
+
+  @Override public void onDestroy() {
+    if (starterCommon != null) {
+      starterCommon.onDestroy();
+      starterCommon = null;
+    }
+    super.onDestroy();
+  }
+
+  @Override public void onHiddenChanged(boolean hidden) {
+    super.onHiddenChanged(hidden);
+    if (hidden) {
+      hideSoftInputMethod();
+    }
+  }
+
+  public void hideSoftInputMethod() {
+    if (starterCommon != null) {
+      starterCommon.hideSoftInputMethod();
+    }
+  }
+
+  public void showSoftInputMethod() {
+    if (starterCommon != null) {
+      starterCommon.showSoftInputMethod();
+    }
+  }
+
+  public boolean isImmActive() {
+    return starterCommon != null && starterCommon.isImmActive();
   }
 }
