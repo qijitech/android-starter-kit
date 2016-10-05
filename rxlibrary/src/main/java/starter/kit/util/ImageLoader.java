@@ -127,13 +127,5 @@ public class ImageLoader {
     @Override public Drawable placeholderDrawable(Context context, String tag) {
       return null;
     }
-
-    @Override public int placeholderResourceId(Context ctx) {
-      return 0;
-    }
-
-    @Override public int placeholderResourceId(Context context, String tag) {
-      return 0;
-    }
   }
 }
