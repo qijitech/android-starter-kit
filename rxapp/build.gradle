@@ -51,7 +51,7 @@ android {
         if (outputFile != null && outputFile.name.endsWith('.apk')) {
           //def fileName = "rxjava_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
           def fileName = "${parent.name}_v${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
-          fileObj.outputFile = new File(relaseOutputFile(), fileName)
+          fileObj.outputFile = new File(releaseOutputFile(), fileName)
         }
       }
     }
@@ -101,7 +101,7 @@ dependencies {
 }
 
 def gitVersionCode() {
-  def cmd = 'git rev-list HEAD --all --author="Doublemine" --count'
+  def cmd = 'git rev-list HEAD --all  --count'
   def versionCode = cmd.execute().text.trim()
   if (versionCode.empty) {
     return 1
@@ -122,6 +122,6 @@ def releaseTime() {
   return new Date().format('yyyyMMddHHmm', TimeZone.getDefault())
 }
 
-def relaseOutputFile() {
+def releaseOutputFile() {
   return '../release/'
 }
