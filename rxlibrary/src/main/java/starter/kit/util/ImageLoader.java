@@ -37,12 +37,7 @@ public class ImageLoader {
   }
 
   public boolean displayImageView(ImageView imageView, Uri uri) {
-    if (consumed(uri)) {
-      Drawable placeHolder = placeholder(imageView, uri, null);
-      imageLoader.displayImageView(imageView, uri, placeHolder);
-      return true;
-    }
-    return false;
+    return displayImageView(imageView, uri, null);
   }
 
   /**
@@ -50,16 +45,20 @@ public class ImageLoader {
    */
   public boolean displayImageView(ImageView imageView, Uri uri, String tag) {
     if (consumed(uri)) {
-      Drawable placeHolder = placeholder(imageView, uri, tag);
+      Drawable placeHolder = placeholder(imageView, tag);
       imageLoader.displayImageView(imageView, uri, placeHolder);
       return true;
     }
     return false;
   }
 
+  public boolean displayImageView(ImageView imageView, Uri uri, int width, int height) {
+    return displayImageView(imageView, uri, width, height, null);
+  }
+
   public boolean displayImageView(ImageView imageView, Uri uri, int width, int height, String tag) {
     if (consumed(uri)) {
-      Drawable placeHolder = placeholder(imageView, uri, tag);
+      Drawable placeHolder = placeholder(imageView, tag);
       imageLoader.displayImageView(imageView, uri, placeHolder, width, height);
       return true;
     }
@@ -85,12 +84,12 @@ public class ImageLoader {
     return mHandleAllUris || "http".equals(uri.getScheme()) || "https".equals(uri.getScheme());
   }
 
-  private Drawable placeholder(ImageView imageView, Uri uri, String tag) {
+  private Drawable placeholder(ImageView imageView, String tag) {
     if (imageLoader != null) {
       if (TextUtils.isEmpty(tag)) {
-        return imageLoader.placeholder(imageView.getContext());
+        return imageLoader.placeholderDrawable(imageView.getContext());
       }
-      return imageLoader.placeholder(imageView.getContext(), tag);
+      return imageLoader.placeholderDrawable(imageView.getContext(), tag);
     }
     return null;
   }
@@ -102,9 +101,8 @@ public class ImageLoader {
 
     void cancel(ImageView imageView);
 
-    Drawable placeholder(Context ctx);
-
-    Drawable placeholder(Context context, String tag);
+    Drawable placeholderDrawable(Context ctx);
+    Drawable placeholderDrawable(Context context, String tag);
   }
 
   public static abstract class AbstractImageLoader implements ImageLoaderInterface {
@@ -122,12 +120,20 @@ public class ImageLoader {
     @Override public void cancel(ImageView imageView) {
     }
 
-    @Override public Drawable placeholder(Context ctx) {
+    @Override public Drawable placeholderDrawable(Context ctx) {
       return null;
     }
 
-    @Override public Drawable placeholder(Context context, String tag) {
+    @Override public Drawable placeholderDrawable(Context context, String tag) {
       return null;
+    }
+
+    @Override public int placeholderResourceId(Context ctx) {
+      return 0;
+    }
+
+    @Override public int placeholderResourceId(Context context, String tag) {
+      return 0;
     }
   }
 }
