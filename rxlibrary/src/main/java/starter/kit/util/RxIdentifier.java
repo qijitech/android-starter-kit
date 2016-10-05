@@ -57,7 +57,7 @@ public class RxIdentifier implements RxRequestKey {
   }
 
   @Override public boolean hasMoreData() {
-    return hasMoreData && size % pageSize == 0;
+    return hasMoreData && size >= pageSize && size % pageSize == 0;
   }
 
   @Override public String previousKey() {
