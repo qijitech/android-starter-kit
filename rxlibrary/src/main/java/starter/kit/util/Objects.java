@@ -109,4 +109,8 @@ public final class Objects {
   public static String toString(Object o, String nullString) {
     return (o == null) ? nullString : o.toString();
   }
+
+  public boolean isNull(Object object) {
+    return object == null;
+  }
 }
