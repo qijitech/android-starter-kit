@@ -31,7 +31,7 @@ public abstract class SupportSinglePaneActivity extends SupportActivity {
       mFragment = onCreatePane();
       mFragment.setArguments(intentToFragmentArguments(getIntent()));
       getSupportFragmentManager().beginTransaction()
-          .add(R.id.root_container, mFragment, "single_pane")
+          .add(R.id.rootContainer, mFragment, "single_pane")
           .commit();
     } else {
       mFragment = getSupportFragmentManager().findFragmentByTag("single_pane");

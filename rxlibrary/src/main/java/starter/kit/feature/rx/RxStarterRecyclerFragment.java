@@ -117,7 +117,7 @@ public abstract class RxStarterRecyclerFragment
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     mSwipeRefreshLayout = ButterKnife.findById(view, R.id.swipeRefreshLayout);
-    mRecyclerView = ButterKnife.findById(view, R.id.support_ui_content_recycler_view);
+    mRecyclerView = ButterKnife.findById(view, R.id.supportUiContentRecyclerView);
 
     setupRecyclerView();
     setupPaginate();

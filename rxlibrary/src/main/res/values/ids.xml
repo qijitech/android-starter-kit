@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <item name="support_ui_load_view" type="id"/>
-  <item name="support_ui_empty_view" type="id"/>
-  <item name="support_ui_error_view" type="id"/>
-  <item name="support_ui_content_view" type="id"/>
-  <item name="support_ui_empty_title" type="id"/>
-  <item name="support_ui_empty_subtitle" type="id"/>
-  <item name="support_ui_empty_image_view" type="id"/>
-  <item name="support_ui_error_title" type="id"/>
-  <item name="support_ui_error_subtitle" type="id"/>
-  <item name="support_ui_error_image_view" type="id"/>
-  <item name="support_ui_content_container" type="id"/>
-  <item name="support_ui_content_recycler_view" type="id"/>
+  <item name="supportUiLoadView" type="id"/>
+  <item name="supportUiEmptyView" type="id"/>
+  <item name="supportUiErrorView" type="id"/>
+  <item name="supportUiContentView" type="id"/>
+  <item name="supportUiEmptyTitle" type="id"/>
+  <item name="supportUiEmptySubtitle" type="id"/>
+  <item name="supportUiEmptyImageView" type="id"/>
+  <item name="supportUiErrorTitle" type="id"/>
+  <item name="supportUiErrorSubtitle" type="id"/>
+  <item name="supportUiErrorImageView" type="id"/>
+  <item name="supportUiContentContainer" type="id"/>
+  <item name="supportUiContentRecyclerView" type="id"/>
 
+  <item name="containerLoadingView" type="id"/>
+  <item name="rootContainer" type="id"/>
   <item name="swipeRefreshLayout" type="id"/>
 </resources>

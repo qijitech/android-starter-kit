@@ -87,21 +87,21 @@ public class DefaultErrorView extends FrameLayout implements ErrorView, View.OnC
 
   public TextView titleTextView() {
     if (titleTextView == null) {
-      titleTextView = ButterKnife.findById(this, R.id.support_ui_error_title);
+      titleTextView = ButterKnife.findById(this, R.id.supportUiErrorTitle);
     }
     return titleTextView;
   }
 
   public TextView subtitleTextView() {
     if (subtitleTextView == null) {
-      subtitleTextView = ButterKnife.findById(this, R.id.support_ui_error_subtitle);
+      subtitleTextView = ButterKnife.findById(this, R.id.supportUiErrorSubtitle);
     }
     return subtitleTextView;
   }
 
   public ImageView imageView() {
     if (imageView == null) {
-      imageView = ButterKnife.findById(this, R.id.support_ui_error_image_view);
+      imageView = ButterKnife.findById(this, R.id.supportUiErrorImageView);
     }
     return imageView;
   }

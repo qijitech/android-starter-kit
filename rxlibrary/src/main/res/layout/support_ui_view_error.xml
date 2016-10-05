@@ -15,7 +15,7 @@
       >
 
     <ImageView
-        android:id="@id/support_ui_error_image_view"
+        android:id="@id/supportUiErrorImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -24,10 +24,10 @@
         />
 
     <TextView
-        android:id="@id/support_ui_error_title"
+        android:id="@id/supportUiErrorTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/support_ui_error_image_view"
+        android:layout_below="@id/supportUiErrorImageView"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="56dp"
         android:layout_marginRight="56dp"
@@ -39,10 +39,10 @@
         />
 
     <TextView
-        android:id="@id/support_ui_error_subtitle"
+        android:id="@id/supportUiErrorSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/support_ui_error_title"
+        android:layout_below="@id/supportUiErrorTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="56dp"
         android:layout_marginRight="56dp"

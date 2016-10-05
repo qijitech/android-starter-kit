@@ -15,10 +15,10 @@ import support.ui.utilities.LayoutHelper;
 public final class ContentPresenter {
 
   private static final int ID_NONE = -1;
-  private static final int LoadViewId = R.id.support_ui_load_view;
-  private static final int EmptyViewId = R.id.support_ui_empty_view;
-  private static final int ErrorViewId = R.id.support_ui_error_view;
-  private static final int ContentViewId = R.id.support_ui_content_view;
+  private static final int LoadViewId = R.id.supportUiLoadView;
+  private static final int EmptyViewId = R.id.supportUiEmptyView;
+  private static final int ErrorViewId = R.id.supportUiErrorView;
+  private static final int ContentViewId = R.id.supportUiContentView;
 
   private SparseArrayCompat<Class<View>> mViewClassArray = new SparseArrayCompat<>(4);
   private SparseArrayCompat<View> mViewArray = new SparseArrayCompat<>(4);

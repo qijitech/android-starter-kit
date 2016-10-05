@@ -43,7 +43,7 @@ public abstract class SinglePaneActivity<P extends Presenter> extends RxStarterA
   }
 
   protected int getContentViewResId() {
-    return R.layout.activity_singlepane_empty;
+    return R.layout.support_ui_singlepane_empty;
   }
 
   /**

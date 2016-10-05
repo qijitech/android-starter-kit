@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/support_ui_content_container"
+    android:id="@id/supportUiContentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -13,7 +13,7 @@
       android:layout_height="match_parent"
       >
     <android.support.v7.widget.RecyclerView
-        android:id="@id/support_ui_content_recycler_view"
+        android:id="@id/supportUiContentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"

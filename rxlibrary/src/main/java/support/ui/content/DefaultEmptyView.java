@@ -87,21 +87,21 @@ public class DefaultEmptyView extends FrameLayout implements EmptyView, View.OnC
 
   public TextView titleTextView() {
     if (titleTextView == null) {
-      titleTextView = ButterKnife.findById(this, R.id.support_ui_empty_title);
+      titleTextView = ButterKnife.findById(this, R.id.supportUiEmptyTitle);
     }
     return titleTextView;
   }
 
   public TextView subtitleTextView() {
     if (subtitleTextView == null) {
-      subtitleTextView = ButterKnife.findById(this, R.id.support_ui_empty_subtitle);
+      subtitleTextView = ButterKnife.findById(this, R.id.supportUiEmptySubtitle);
     }
     return subtitleTextView;
   }
 
   public ImageView imageView() {
     if (imageView == null) {
-      imageView = ButterKnife.findById(this, R.id.support_ui_empty_image_view);
+      imageView = ButterKnife.findById(this, R.id.supportUiEmptyImageView);
     }
     return imageView;
   }
