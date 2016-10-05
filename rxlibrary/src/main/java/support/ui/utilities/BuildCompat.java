@@ -39,4 +39,9 @@ public class BuildCompat {
   public static boolean hasM() {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
   }
+
+  public static boolean hasN() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+  }
+
 }
