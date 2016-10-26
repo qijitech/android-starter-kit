@@ -1,11 +1,11 @@
 package starter.kit.rx.app;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import starter.kit.app.RxStarterApp;
+import starter.kit.app.StarterApp;
 import starter.kit.retrofit.Network;
 import starter.kit.rx.app.util.InitializeUtil;
 
-public class RxApp extends RxStarterApp {
+public class RxApp extends StarterApp {
 
   @Override public void onCreate() {
     super.onCreate();

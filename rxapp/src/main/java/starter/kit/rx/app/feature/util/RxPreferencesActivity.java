@@ -10,14 +10,14 @@ import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
+import starter.kit.app.StarterActivity;
 import starter.kit.rx.app.R;
-import starter.kit.feature.rx.RxStarterActivity;
 
 /**
  * Created by YuGang Yang on 06 29, 2016.
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
-public class RxPreferencesActivity extends RxStarterActivity {
+public class RxPreferencesActivity extends StarterActivity {
 
   @BindView(R.id.foo_1) CheckBox foo1Checkbox;
   @BindView(R.id.foo_2) CheckBox foo2Checkbox;

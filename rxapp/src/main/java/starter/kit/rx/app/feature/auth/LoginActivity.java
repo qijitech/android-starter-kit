@@ -9,16 +9,14 @@ import android.widget.EditText;
 import butterknife.BindView;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import nucleus.factory.RequiresPresenter;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import starter.kit.app.StarterActivity;
 import starter.kit.retrofit.ErrorResponse;
-import starter.kit.retrofit.RetrofitException;
 import starter.kit.rx.app.R;
-import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.util.ErrorHandler;
 import starter.kit.util.NetworkContract;
 import support.ui.app.SupportApp;
@@ -31,7 +29,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 @RequiresPresenter(AuthPresenter.class)
-public class LoginActivity extends RxStarterActivity<AuthPresenter> implements
+public class LoginActivity extends StarterActivity<AuthPresenter> implements
     NetworkContract.View {
 
   @BindView(R.id.container_login_username) TextInputLayout mUsernameContainer;

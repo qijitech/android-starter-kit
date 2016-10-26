@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import starter.kit.app.StarterActivity;
 import starter.kit.rx.app.R;
-import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.views.CustomEmptyView;
 import starter.kit.util.NetworkContract;
 import starter.kit.util.RxUtils;
@@ -23,7 +23,8 @@ import support.ui.content.RequiresContent;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
-@RequiresContent(emptyView = CustomEmptyView.class) public class ContentActivity extends RxStarterActivity
+@RequiresContent(emptyView = CustomEmptyView.class) public class ContentActivity extends
+    StarterActivity
     implements EmptyView.OnEmptyViewClickListener,
     ErrorView.OnErrorViewClickListener, NetworkContract.ProgressInterface {
 

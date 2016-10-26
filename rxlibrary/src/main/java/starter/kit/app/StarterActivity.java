@@ -1,4 +1,4 @@
-package starter.kit.feature.rx;
+package starter.kit.app;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,7 +11,7 @@ import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import starter.kit.util.StarterCommon;
 
-public class RxStarterActivity<P extends Presenter> extends NucleusAppCompatActivity<P> {
+public class StarterActivity<P extends Presenter> extends NucleusAppCompatActivity<P> {
 
   private StarterCommon starterCommon;
   private Unbinder mUnbinder;

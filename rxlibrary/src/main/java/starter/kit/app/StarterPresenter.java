@@ -1,10 +1,10 @@
-package starter.kit.feature.rx;
+package starter.kit.app;
 
 import android.os.Bundle;
 import icepick.Icepick;
 import nucleus.presenter.RxPresenter;
 
-public class RxStarterPresenter<ViewType> extends RxPresenter<ViewType> {
+public class StarterPresenter<ViewType> extends RxPresenter<ViewType> {
 
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);

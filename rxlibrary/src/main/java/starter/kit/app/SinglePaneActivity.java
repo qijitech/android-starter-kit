@@ -1,4 +1,4 @@
-package starter.kit.feature;
+package starter.kit.app;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import nucleus.presenter.Presenter;
-import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.R;
 
 /**
@@ -16,7 +15,7 @@ import starter.kit.rx.R;
  * activity is forwarded to the fragment as arguments during fragment instantiation. Derived
  * activities should only need to implement {@link SimpleSinglePaneActivity#onCreatePane()}.
  */
-public abstract class SinglePaneActivity<P extends Presenter> extends RxStarterActivity<P> {
+public abstract class SinglePaneActivity<P extends Presenter> extends StarterActivity<P> {
 
   private Fragment mFragment;
 

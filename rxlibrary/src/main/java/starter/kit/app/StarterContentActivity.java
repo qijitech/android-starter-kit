@@ -1,10 +1,9 @@
-package starter.kit.feature;
+package starter.kit.app;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import nucleus.presenter.Presenter;
-import starter.kit.feature.rx.RxStarterActivity;
 import support.ui.content.ContentPresenter;
 import support.ui.content.EmptyView;
 import support.ui.content.ErrorView;
@@ -13,7 +12,7 @@ import support.ui.content.ReflectionContentPresenterFactory;
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-public abstract class StarterContentActivity<P extends Presenter> extends RxStarterActivity<P>
+public abstract class StarterContentActivity<P extends Presenter> extends StarterActivity<P>
     implements EmptyView.OnEmptyViewClickListener, ErrorView.OnErrorViewClickListener {
 
   private ReflectionContentPresenterFactory factory =

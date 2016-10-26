@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import rx.functions.Action0;
 import rx.functions.Action1;
-import starter.kit.feature.rx.RxResourcePresenter;
 import starter.kit.model.entity.Entity;
 import starter.kit.rx.R;
 import starter.kit.util.RxIdentifier;
@@ -34,7 +33,7 @@ import static starter.kit.util.Utilities.isNotNull;
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-public abstract class StarterRecyclerFragment<P extends RxResourcePresenter>
+public abstract class StarterRecyclerFragment<P extends ResourcePresenter>
     extends StarterNetworkFragment<P>
     implements com.paginate.Paginate.Callbacks,
     SwipeRefreshLayout.OnRefreshListener {

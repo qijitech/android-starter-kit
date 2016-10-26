@@ -1,4 +1,4 @@
-package starter.kit.feature.rx;
+package starter.kit.app;
 
 import android.os.Bundle;
 import com.trello.rxlifecycle.FragmentEvent;
@@ -8,15 +8,14 @@ import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.subjects.BehaviorSubject;
 import starter.kit.retrofit.RetrofitException;
-import starter.kit.util.Hud;
 import starter.kit.util.NetworkContract;
 import starter.kit.util.RxUtils;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 import static rx.schedulers.Schedulers.io;
 
-public abstract class RxNetworkPresenter<T, ViewType extends NetworkContract.View> extends
-    RxStarterPresenter<ViewType> implements NetworkContract.HudInterface {
+public abstract class NetworkPresenter<T, ViewType extends NetworkContract.View> extends
+    StarterPresenter<ViewType> implements NetworkContract.HudInterface {
 
   private static final int RESTARTABLE_ID = 2000;
 
@@ -27,7 +26,7 @@ public abstract class RxNetworkPresenter<T, ViewType extends NetworkContract.Vie
       @Override public Observable<T> call() {
         BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
         return request().subscribeOn(io())
-            .compose(RxUtils.hudTransformer(RxNetworkPresenter.this))
+            .compose(RxUtils.hudTransformer(NetworkPresenter.this))
             .compose(RxLifecycle.bindFragment(lifecycle))
             .observeOn(mainThread());
       }

@@ -23,7 +23,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.util.ArrayList;
 import java.util.List;
-import starter.kit.feature.rx.RxStarterActivity;
+import starter.kit.app.StarterActivity;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.RxApp;
 import starter.kit.rx.app.feature.auth.LoginActivity;
@@ -33,7 +33,7 @@ import starter.kit.rx.app.feature.feed.NoPageFeedFragment;
 import starter.kit.rx.app.feature.feed.PageFeedFragment;
 import starter.kit.rx.app.feature.util.SimpleHudActivity;
 
-public class MainActivity extends RxStarterActivity implements Drawer.OnDrawerItemClickListener {
+public class MainActivity extends StarterActivity implements Drawer.OnDrawerItemClickListener {
 
   //save our header or result
   private AccountHeader headerResult = null;

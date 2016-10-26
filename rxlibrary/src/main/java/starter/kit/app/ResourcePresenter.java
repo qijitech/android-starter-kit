@@ -1,4 +1,4 @@
-package starter.kit.feature.rx;
+package starter.kit.app;
 
 import android.os.Bundle;
 import com.trello.rxlifecycle.FragmentEvent;
@@ -10,7 +10,6 @@ import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
-import starter.kit.app.StarterRecyclerFragment;
 import starter.kit.model.entity.Entity;
 import starter.kit.util.RxRequestKey;
 import starter.kit.util.RxUtils;
@@ -18,8 +17,8 @@ import starter.kit.util.RxUtils;
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 import static rx.schedulers.Schedulers.io;
 
-public abstract class RxResourcePresenter<T extends Entity> extends
-    RxStarterPresenter<StarterRecyclerFragment> {
+public abstract class ResourcePresenter<T extends Entity> extends
+    StarterPresenter<StarterRecyclerFragment> {
 
   private static final int RESTARTABLE_ID = 100;
 

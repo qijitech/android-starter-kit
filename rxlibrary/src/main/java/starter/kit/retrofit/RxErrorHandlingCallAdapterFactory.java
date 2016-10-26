@@ -23,6 +23,8 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
     return new RxErrorHandlingCallAdapterFactory();
   }
 
+
+
   @Override
   public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
     return new RxCallAdapterWrapper(retrofit, original.get(returnType, annotations, retrofit));

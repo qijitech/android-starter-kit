@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import starter.kit.app.StarterActivity;
 import starter.kit.rx.app.R;
-import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.feature.feed.FeedsViewHolder;
 import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.util.NetworkContract;
@@ -27,7 +27,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  * Created by YuGang Yang on 07 19, 2016.
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
-public class DirectionActivity extends RxStarterActivity
+public class DirectionActivity extends StarterActivity
     implements SwipeRefreshLayout.OnRefreshListener, NetworkContract.ProgressInterface {
 
   @BindView(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
