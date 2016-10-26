@@ -7,17 +7,16 @@ import rx.Observable;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.subjects.BehaviorSubject;
-import starter.kit.feature.NetworkContract;
 import starter.kit.retrofit.RetrofitException;
-import starter.kit.util.HudInterface;
+import starter.kit.util.Hud;
+import starter.kit.util.NetworkContract;
 import starter.kit.util.RxUtils;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 import static rx.schedulers.Schedulers.io;
 
 public abstract class RxNetworkPresenter<T, ViewType extends NetworkContract.View> extends
-    RxStarterPresenter<ViewType> implements
-    HudInterface {
+    RxStarterPresenter<ViewType> implements NetworkContract.HudInterface {
 
   private static final int RESTARTABLE_ID = 2000;
 

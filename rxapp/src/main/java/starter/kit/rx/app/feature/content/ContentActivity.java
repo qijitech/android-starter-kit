@@ -13,7 +13,7 @@ import rx.schedulers.Schedulers;
 import starter.kit.rx.app.R;
 import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.views.CustomEmptyView;
-import starter.kit.util.ProgressInterface;
+import starter.kit.util.NetworkContract;
 import starter.kit.util.RxUtils;
 import support.ui.content.ContentPresenter;
 import support.ui.content.EmptyView;
@@ -25,15 +25,14 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 @RequiresContent(emptyView = CustomEmptyView.class) public class ContentActivity extends RxStarterActivity
     implements EmptyView.OnEmptyViewClickListener,
-    ErrorView.OnErrorViewClickListener,
-    ProgressInterface {
+    ErrorView.OnErrorViewClickListener, NetworkContract.ProgressInterface {
 
   ReflectionContentPresenterFactory factory =
       ReflectionContentPresenterFactory.fromViewClass(getClass());
   ContentPresenter contentPresenter;
 
   @BindView(R.id.container) FrameLayout container;
-  @BindView(R.id.support_ui_content_view) ImageView contentView;
+  @BindView(R.id.supportUiContentView) ImageView contentView;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

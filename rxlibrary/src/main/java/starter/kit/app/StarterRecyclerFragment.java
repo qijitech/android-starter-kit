@@ -1,41 +1,42 @@
-package starter.kit.feature.rx;
+package starter.kit.app;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import com.paginate.Paginate;
+import com.paginate.recycler.LoadingListItemSpanLookup;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import rx.Observable;
+import rx.functions.Action0;
 import rx.functions.Action1;
-import starter.kit.feature.StarterContentFragment;
-import starter.kit.feature.StarterFragConfig;
+import starter.kit.feature.rx.RxResourcePresenter;
 import starter.kit.model.entity.Entity;
-import starter.kit.retrofit.ErrorResponse;
 import starter.kit.rx.R;
-import starter.kit.util.ErrorHandler;
-import starter.kit.util.ProgressInterface;
 import starter.kit.util.RxIdentifier;
 import starter.kit.util.RxPager;
 import starter.kit.util.RxRequestKey;
+import starter.kit.util.RxUtils;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
 
-import static rx.android.schedulers.AndroidSchedulers.mainThread;
 import static starter.kit.util.Utilities.isAdapterEmpty;
 import static starter.kit.util.Utilities.isNotNull;
 
-public abstract class RxStarterRecyclerFragment
-    extends StarterContentFragment<RxResourcePresenter>
+/**
+ * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
+ */
+public abstract class StarterRecyclerFragment<P extends RxResourcePresenter>
+    extends StarterNetworkFragment<P>
     implements com.paginate.Paginate.Callbacks,
-    ProgressInterface,
     SwipeRefreshLayout.OnRefreshListener {
 
   SwipeRefreshLayout mSwipeRefreshLayout;
@@ -43,7 +44,6 @@ public abstract class RxStarterRecyclerFragment
 
   private EasyRecyclerAdapter mAdapter;
   private Paginate mPaginate;
-  private StarterFragConfig mFragConfig;
 
   private RxRequestKey mRequestKey;
 
@@ -59,11 +59,7 @@ public abstract class RxStarterRecyclerFragment
     return mRecyclerView;
   }
 
-  protected void buildFragConfig(StarterFragConfig fragConfig) {
-    if (fragConfig == null) return;
-
-    mFragConfig = fragConfig;
-
+  public void buildFragConfig(StarterFragConfig fragConfig) {
     if (fragConfig.isWithIdentifierRequest()) {
       mRequestKey = buildRxIdentifier(fragConfig);
     } else {
@@ -83,6 +79,8 @@ public abstract class RxStarterRecyclerFragment
       }
     }
     // bind empty value
+
+    super.buildFragConfig(fragConfig);
   }
 
   private RxRequestKey buildRxIdentifier(StarterFragConfig fragConfig) {
@@ -110,21 +108,26 @@ public abstract class RxStarterRecyclerFragment
     return R.layout.starter_recycler_view;
   }
 
-  @Override public View provideContentView() {
-    return mSwipeRefreshLayout;
+  @Override public View targetView() {
+    return mRecyclerView;
+  }
+
+  @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View view = inflater.inflate(getFragmentLayout(), container, false);
+    mSwipeRefreshLayout = ButterKnife.findById(view, R.id.swipeRefreshLayout);
+    mRecyclerView = ButterKnife.findById(view, R.id.supportUiContentRecyclerView);
+    return view;
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mSwipeRefreshLayout = ButterKnife.findById(view, R.id.swipeRefreshLayout);
-    mRecyclerView = ButterKnife.findById(view, R.id.supportUiContentRecyclerView);
-
     setupRecyclerView();
     setupPaginate();
     setupSwipeRefreshLayout();
 
-    if (isNotNull(mFragConfig)) {
-      List<Object> items = mFragConfig.getItems();
+    if (isNotNull(getFragConfig())) {
+      List<Object> items = getFragConfig().getItems();
       if (isNotNull(items) && !items.isEmpty()) {
         mAdapter.addAll(items);
       }
@@ -132,12 +135,13 @@ public abstract class RxStarterRecyclerFragment
   }
 
   private void setupSwipeRefreshLayout() {
-    if (mFragConfig != null) {
-      int[] colors = mFragConfig.getColorSchemeColors();
+    if (isNotNull(getFragConfig())) {
+      final StarterFragConfig fragConfig = getFragConfig();
+      int[] colors = fragConfig.getColorSchemeColors();
       if (colors != null) {
         mSwipeRefreshLayout.setColorSchemeColors(colors);
       }
-      boolean enabled = mFragConfig.isEnabled();
+      boolean enabled = fragConfig.isEnabled();
       mSwipeRefreshLayout.setEnabled(enabled);
       if (enabled) {
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -146,14 +150,18 @@ public abstract class RxStarterRecyclerFragment
   }
 
   private void setupPaginate() {
-    if (mFragConfig != null) {
-      if (mFragConfig.canAddLoadingListItem()) {
-
+    if (isNotNull(getFragConfig())) {
+      final StarterFragConfig fragConfig = getFragConfig();
+      if (fragConfig.canAddLoadingListItem()) {
         mPaginate = Paginate.with(mRecyclerView, this)
-            .setLoadingTriggerThreshold(mFragConfig.getLoadingTriggerThreshold())
+            .setLoadingTriggerThreshold(fragConfig.getLoadingTriggerThreshold())
             .addLoadingListItem(true)
-            .setLoadingListItemCreator(mFragConfig.getLoadingListItemCreator())
-            .setLoadingListItemSpanSizeLookup(() -> mFragConfig.getSpanSizeLookup())
+            .setLoadingListItemCreator(fragConfig.getLoadingListItemCreator())
+            .setLoadingListItemSpanSizeLookup(new LoadingListItemSpanLookup() {
+              @Override public int getSpanSize() {
+                return fragConfig.getSpanSizeLookup();
+              }
+            })
             .build();
 
         mPaginate.setHasMoreDataToLoad(false);
@@ -164,20 +172,21 @@ public abstract class RxStarterRecyclerFragment
   private void setupRecyclerView() {
     mRecyclerView.setAdapter(mAdapter);
 
-    if (mFragConfig != null) {
-      RecyclerView.LayoutManager layoutManager = mFragConfig.getLayoutManager();
+    if (isNotNull(getFragConfig())) {
+      final StarterFragConfig fragConfig = getFragConfig();
+      RecyclerView.LayoutManager layoutManager = fragConfig.getLayoutManager();
       if (layoutManager != null) {
         mRecyclerView.setLayoutManager(layoutManager);
       } else {
         mRecyclerView.setLayoutManager(newLayoutManager());
       }
 
-      RecyclerView.ItemDecoration decor = mFragConfig.getDecor();
+      RecyclerView.ItemDecoration decor = fragConfig.getDecor();
       if (decor != null) {
         mRecyclerView.addItemDecoration(decor);
       }
 
-      RecyclerView.ItemAnimator animator = mFragConfig.getAnimator();
+      RecyclerView.ItemAnimator animator = fragConfig.getAnimator();
       if (animator != null) {
         mRecyclerView.setItemAnimator(animator);
       }
@@ -189,25 +198,23 @@ public abstract class RxStarterRecyclerFragment
   }
 
   @Override public void showProgress() {
-    Observable.empty().observeOn(mainThread()).doOnTerminate(() -> {
-      if (isAdapterEmpty(mAdapter)) {
-        getContentPresenter().displayLoadView();
-      } else if (isNotNull(mRequestKey) && mRequestKey.isFirstPage()) {
-        mSwipeRefreshLayout.setRefreshing(true);
-      } else if (isNotNull(mPaginate)) {
-        mPaginate.setHasMoreDataToLoad(true);
-      }
-    }).subscribe();
+    if (isAdapterEmpty(mAdapter)) {
+      super.showProgress();
+    } else if (isNotNull(mRequestKey) && mRequestKey.isFirstPage()) {
+      mSwipeRefreshLayout.setRefreshing(true);
+    } else if (isNotNull(mPaginate)) {
+      mPaginate.setHasMoreDataToLoad(true);
+    }
   }
 
   @Override public void hideProgress() {
-    Observable.empty().observeOn(mainThread())
-        .doOnTerminate(() -> {
-          if (isNotNull(mSwipeRefreshLayout)) {
-            mSwipeRefreshLayout.setRefreshing(false);
-          }
-        })
-        .subscribe();
+    RxUtils.empty(new Action0() {
+      @Override public void call() {
+        if (isNotNull(mSwipeRefreshLayout)) {
+          mSwipeRefreshLayout.setRefreshing(false);
+        }
+      }
+    });
   }
 
   public void notifyDataSetChanged(ArrayList<? extends Entity> items) {
@@ -223,16 +230,13 @@ public abstract class RxStarterRecyclerFragment
     }
 
     if (isAdapterEmpty(mAdapter)) {
-      getContentPresenter().displayEmptyView();
+      showEmptyView();
     } else {
-      getContentPresenter().displayContentView();
+      showContentView();
     }
-
   }
 
-  public void onError(Throwable throwable) {
-    ErrorResponse errorResponse = ErrorHandler.handleThrowable(throwable);
-
+  @Override public void onError(Throwable throwable) {
     if (mRequestKey.isFirstPage() && mAdapter.isEmpty()) {
       mAdapter.clear();
     }
@@ -242,7 +246,7 @@ public abstract class RxStarterRecyclerFragment
     }
 
     if (isAdapterEmpty(mAdapter)) {
-      getContentPresenter().displayErrorView();
+      super.onError(throwable);
     }
   }
 
@@ -262,7 +266,6 @@ public abstract class RxStarterRecyclerFragment
   @Override public void onDestroy() {
     super.onDestroy();
     mAdapter = null;
-    mFragConfig = null;
     mPaginate = null;
   }
 
@@ -292,12 +295,7 @@ public abstract class RxStarterRecyclerFragment
     return isNotNull(mRequestKey) && !mRequestKey.hasMoreData();
   }
 
-  @Override public void onEmptyViewClick(View view) {
+  @Override public void onClick(View view) {
     onRefresh();
   }
-
-  @Override public void onErrorViewClick(View view) {
-    onRefresh();
-  }
-
 }

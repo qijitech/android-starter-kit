@@ -96,8 +96,8 @@ dependencies {
   compile deps.butterknife
   apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 
-//  compile project(':rxlibrary')
-  compile 'com.smartydroid:rxstarter:0.1'
+  compile project(':rxlibrary')
+//  compile 'com.smartydroid:rxstarter:0.1'
 }
 
 def gitVersionCode() {

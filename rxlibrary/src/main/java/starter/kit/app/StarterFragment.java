@@ -1,4 +1,4 @@
-package starter.kit.feature;
+package starter.kit.app;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +13,10 @@ import nucleus.presenter.Presenter;
 import nucleus.view.NucleusSupportFragment;
 import starter.kit.util.StarterCommon;
 
+
+/**
+ * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
+ */
 public abstract class StarterFragment<P extends Presenter> extends NucleusSupportFragment<P> {
 
   private Unbinder mUnbinder;

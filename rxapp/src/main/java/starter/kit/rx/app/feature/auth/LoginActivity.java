@@ -17,9 +17,10 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.retrofit.RetrofitException;
-import starter.kit.feature.NetworkContract;
 import starter.kit.rx.app.R;
 import starter.kit.feature.rx.RxStarterActivity;
+import starter.kit.util.ErrorHandler;
+import starter.kit.util.NetworkContract;
 import support.ui.app.SupportApp;
 import work.wanghao.simplehud.SimpleHUD;
 
@@ -156,12 +157,8 @@ public class LoginActivity extends RxStarterActivity<AuthPresenter> implements
     SimpleHUD.showInfoMessage(this, "登录成功");
   }
 
-  @Override public void onError(RetrofitException exception) {
-    try {
-      ErrorResponse errorResponse = exception.getErrorBodyAs(ErrorResponse.class);
-      SimpleHUD.showErrorMessage(this, errorResponse.getMessage());
-    } catch (IOException e) {
-      SimpleHUD.showErrorMessage(this, exception.getMessage());
-    }
+  @Override public void onError(Throwable exception) {
+    ErrorResponse errorResponse = ErrorHandler.handleThrowable(exception);
+    SimpleHUD.showErrorMessage(this, errorResponse.getMessage());
   }
 }

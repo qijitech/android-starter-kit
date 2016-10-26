@@ -4,13 +4,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import nucleus.factory.RequiresPresenter;
-import starter.kit.feature.StarterFragConfig;
-import starter.kit.feature.rx.RxStarterRecyclerFragment;
+import starter.kit.app.StarterFragConfig;
+import starter.kit.app.StarterRecyclerFragment;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 
 @RequiresPresenter(PageFeedPresenter.class)
-public class PageFeedFragment extends RxStarterRecyclerFragment {
+public class PageFeedFragment extends StarterRecyclerFragment {
 
   public static PageFeedFragment create() {
     PageFeedFragment feedFragment = new PageFeedFragment();

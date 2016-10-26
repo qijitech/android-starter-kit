@@ -8,7 +8,8 @@ import starter.kit.rx.app.R;
 import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.FeedService;
-import starter.kit.util.HudInterface;
+import starter.kit.util.Hud;
+import starter.kit.util.NetworkContract;
 import starter.kit.util.RxUtils;
 import work.wanghao.simplehud.SimpleHUD;
 
@@ -41,7 +42,7 @@ public class SimpleHudActivity extends RxStarterActivity {
   private void doSimpleHud() {
     subscription = mFeedService.fetchFeedsWithPage("1", 20, "SimpleHudActivity")
         .subscribeOn(io())
-        .compose(RxUtils.hudTransformer((HudInterface) () ->
+        .compose(RxUtils.hudTransformer((NetworkContract.HudInterface) () ->
             RxUtils.showHud(this, "Loading...", () -> {
               RxUtils.unsubscribe(subscription);
               subscription = null;

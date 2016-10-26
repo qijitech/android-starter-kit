@@ -3,7 +3,8 @@ package starter.kit.util;
 import android.content.Context;
 import rx.Observable;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
@@ -13,11 +14,21 @@ public final class RxUtils {
 
   }
 
-  public static <T> Observable.Transformer<T, T> progressTransformer(final ProgressInterface progress) {
-    return observable -> observable.doOnSubscribe(progress::showProgress)
-        .subscribeOn(mainThread())
-        .doOnTerminate(progress::hideProgress)
-        .observeOn(mainThread());
+  public static <T> Observable.Transformer<T, T> progressTransformer(
+      final NetworkContract.ProgressInterface progress) {
+    return new Observable.Transformer<T, T>() {
+      @Override public Observable<T> call(Observable<T> observable) {
+        return observable.doOnSubscribe(new Action0() {
+          @Override public void call() {
+            progress.showProgress();
+          }
+        }).subscribeOn(mainThread()).doOnTerminate(new Action0() {
+          @Override public void call() {
+            progress.hideProgress();
+          }
+        }).observeOn(mainThread());
+      }
+    };
   }
 
   /**
@@ -27,11 +38,20 @@ public final class RxUtils {
    * @param <T> the type of the items emitted by the Observable
    * @return Observable
    */
-  public static <T> Observable.Transformer<T, T> hudTransformer(final HudInterface hud) {
-    return observable -> observable.doOnSubscribe(hud::showHud)
-        .subscribeOn(mainThread())
-        .doOnTerminate(RxUtils::dismissHud)
-        .observeOn(mainThread());
+  public static <T> Observable.Transformer<T, T> hudTransformer(final NetworkContract.HudInterface hud) {
+    return new Observable.Transformer<T, T>() {
+      @Override public Observable<T> call(Observable<T> observable) {
+        return observable.doOnSubscribe(new Action0() {
+          @Override public void call() {
+            hud.showHud();
+          }
+        }).subscribeOn(mainThread()).doOnTerminate(new Action0() {
+          @Override public void call() {
+            RxUtils.dismissHud();
+          }
+        }).observeOn(mainThread());
+      }
+    };
   }
 
   /**
@@ -39,10 +59,11 @@ public final class RxUtils {
    * @return Subscription
    */
   public static Subscription dismissHud() {
-    return Observable.empty()
-        .observeOn(AndroidSchedulers.mainThread())
-        .doOnTerminate(() -> Hud.getInstance().dismissHud())
-        .subscribe();
+    return  RxUtils.empty(new Action0() {
+      @Override public void call() {
+        Hud.getInstance().dismissHud();
+      }
+    });
   }
 
   /**
@@ -54,8 +75,10 @@ public final class RxUtils {
   public static Subscription showHud(Context context, String message) {
     return Observable.just(message)
         .observeOn(mainThread())
-        .subscribe(msg -> {
-          Hud.getInstance().showHud(context, message);
+        .subscribe(new Action1<String>() {
+          @Override public void call(String msg) {
+            Hud.getInstance().showHud(context, message);
+          }
         });
   }
 
@@ -69,9 +92,18 @@ public final class RxUtils {
   public static Subscription showHud(Context context, String message, Hud.HudCallback callback) {
     return Observable.just(message)
         .observeOn(mainThread())
-        .subscribe(msg -> {
-          Hud.getInstance().showHud(context, message, callback);
+        .subscribe(new Action1<String>() {
+          @Override public void call(String msg) {
+            Hud.getInstance().showHud(context, message, callback);
+          }
         });
+  }
+
+  public static Subscription empty(Action0 action0) {
+    return Observable.empty()
+        .observeOn(mainThread())
+        .doOnTerminate(action0)
+        .subscribe();
   }
 
   /**

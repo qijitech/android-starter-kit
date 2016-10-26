@@ -16,7 +16,7 @@ import starter.kit.rx.app.R;
 import starter.kit.feature.rx.RxStarterActivity;
 import starter.kit.rx.app.feature.feed.FeedsViewHolder;
 import starter.kit.rx.app.model.entity.Feed;
-import starter.kit.util.ProgressInterface;
+import starter.kit.util.NetworkContract;
 import starter.kit.util.RxUtils;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.widget.SwipeRefreshLayout;
@@ -28,7 +28,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 public class DirectionActivity extends RxStarterActivity
-    implements SwipeRefreshLayout.OnRefreshListener, ProgressInterface {
+    implements SwipeRefreshLayout.OnRefreshListener, NetworkContract.ProgressInterface {
 
   @BindView(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
   @BindView(R.id.recyclerView) RecyclerView recyclerView;

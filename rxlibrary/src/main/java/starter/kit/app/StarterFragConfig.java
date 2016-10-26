@@ -1,7 +1,8 @@
-package starter.kit.feature;
+package starter.kit.app;
 
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import com.paginate.recycler.LoadingListItemCreator;
 import java.util.HashMap;
 import java.util.List;
@@ -9,10 +10,19 @@ import starter.kit.util.Maps;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyViewHolder;
 
+/**
+ * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
+ */
 public class StarterFragConfig {
 
   // adapter config
   private List<Object> mItems;
+
+  // DynamicBox config
+  private View customInternetView;
+  private View customLoadingView;
+  private View customExceptionView;
+  private View customEmptyView;
 
   private BaseEasyViewHolderFactory viewHolderFactory;
   private HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders;
@@ -98,6 +108,22 @@ public class StarterFragConfig {
     return withIdentifierRequest;
   }
 
+  public View getCustomExceptionView() {
+    return customExceptionView;
+  }
+
+  public View getCustomEmptyView() {
+    return customEmptyView;
+  }
+
+  public View getCustomInternetView() {
+    return customInternetView;
+  }
+
+  public View getCustomLoadingView() {
+    return customLoadingView;
+  }
+
   public static class Builder {
     private List<Object> items;
 
@@ -121,6 +147,12 @@ public class StarterFragConfig {
 
     private boolean withIdentifierRequest = true; // Default identifier request
 
+    // DynamicBox config
+    private View customInternetView;
+    private View customLoadingView;
+    private View customExceptionView;
+    private View customEmptyView;
+
     public StarterFragConfig build() {
       StarterFragConfig config = new StarterFragConfig();
       config.viewHolderFactory = viewHolderFactory;
@@ -138,6 +170,11 @@ public class StarterFragConfig {
       config.startPage = startPage;
       config.withIdentifierRequest = withIdentifierRequest;
       config.mItems = items;
+
+      config.customExceptionView = customExceptionView;
+      config.customLoadingView = customLoadingView;
+      config.customInternetView = customInternetView;
+      config.customEmptyView = customEmptyView;
       return config;
     }
 
@@ -215,5 +252,26 @@ public class StarterFragConfig {
       this.withIdentifierRequest = withIdentifierRequest;
       return this;
     }
+
+    public Builder customExceptionView(View customExceptionView) {
+      this.customExceptionView = customExceptionView;
+      return this;
+    }
+
+    public Builder customLoadingView(View customLoadingView) {
+      this.customLoadingView = customLoadingView;
+      return this;
+    }
+
+    public Builder customInternetView(View customInternetView) {
+      this.customInternetView = customInternetView;
+      return this;
+    }
+
+    public Builder customEmptyView(View customEmptyView) {
+      this.customEmptyView = customEmptyView;
+      return this;
+    }
+
   }
 }

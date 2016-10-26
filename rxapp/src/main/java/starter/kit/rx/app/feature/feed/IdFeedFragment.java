@@ -4,17 +4,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import nucleus.factory.RequiresPresenter;
-import starter.kit.feature.StarterFragConfig;
-import starter.kit.feature.rx.RxStarterRecyclerFragment;
+import starter.kit.app.StarterFragConfig;
+import starter.kit.app.StarterRecyclerFragment;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 
 @RequiresPresenter(IdFeedPresenter.class)
-public class IdFeedFragment extends RxStarterRecyclerFragment {
+public class IdFeedFragment extends StarterRecyclerFragment {
 
   public static IdFeedFragment create() {
-    IdFeedFragment feedFragment = new IdFeedFragment();
-    return feedFragment;
+    return new IdFeedFragment();
   }
 
   @Override public void onCreate(Bundle bundle) {

@@ -10,6 +10,7 @@ import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
+import starter.kit.app.StarterRecyclerFragment;
 import starter.kit.model.entity.Entity;
 import starter.kit.util.RxRequestKey;
 import starter.kit.util.RxUtils;
@@ -18,7 +19,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 import static rx.schedulers.Schedulers.io;
 
 public abstract class RxResourcePresenter<T extends Entity> extends
-    RxStarterPresenter<RxStarterRecyclerFragment> {
+    RxStarterPresenter<StarterRecyclerFragment> {
 
   private static final int RESTARTABLE_ID = 100;
 
@@ -31,20 +32,20 @@ public abstract class RxResourcePresenter<T extends Entity> extends
       @Override public Observable<ArrayList<T>> call() {
         return observableFactory();
       }
-    }, new Action2<RxStarterRecyclerFragment, ArrayList<T>>() {
-      @Override public void call(RxStarterRecyclerFragment fragment, ArrayList<T> items) {
+    }, new Action2<StarterRecyclerFragment, ArrayList<T>>() {
+      @Override public void call(StarterRecyclerFragment fragment, ArrayList<T> items) {
         fragment.notifyDataSetChanged(items);
       }
-    }, new Action2<RxStarterRecyclerFragment, Throwable>() {
-      @Override public void call(RxStarterRecyclerFragment fragment, Throwable throwable) {
+    }, new Action2<StarterRecyclerFragment, Throwable>() {
+      @Override public void call(StarterRecyclerFragment fragment, Throwable throwable) {
         fragment.onError(throwable);
       }
     });
   }
 
   private Observable<ArrayList<T>> observableFactory() {
-    return view().concatMap(new Func1<RxStarterRecyclerFragment, Observable<ArrayList<T>>>() {
-      @Override public Observable<ArrayList<T>> call(RxStarterRecyclerFragment fragment) {
+    return view().concatMap(new Func1<StarterRecyclerFragment, Observable<ArrayList<T>>>() {
+      @Override public Observable<ArrayList<T>> call(StarterRecyclerFragment fragment) {
         return mRequests.startWith(fragment.getRequestKey())
             .concatMap(new Func1<RxRequestKey, Observable<? extends ArrayList<T>>>() {
               @Override public Observable<? extends ArrayList<T>> call(RxRequestKey requestKey) {
