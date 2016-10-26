@@ -19,7 +19,7 @@ public class NoPageFeedPresenter extends PaginatorPresenter<ArrayList<Feed>> {
 
   @Override
   public Observable<ArrayList<Feed>> request(String paginatorKey, int pageSize) {
-    return mFeedService.fetchFeedsWithPage(paginatorKey, pageSize, "NoPageFeedPresenter");
+    return mFeedService.fetchFeedsWithPage("100", pageSize, "NoPageFeedPresenter");
   }
 
   @Override public int restartableId() {

@@ -103,6 +103,7 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
     setupRecyclerView();
     setupPaginate();
     setupSwipeRefreshLayout();
@@ -232,8 +233,6 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
     } else {
       showContentView();
     }
-
-    super.onSuccess(data);
   }
 
   @Override public void onError(Throwable throwable) {

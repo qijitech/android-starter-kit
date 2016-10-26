@@ -10,7 +10,7 @@ import starter.kit.retrofit.ErrorResponse;
 import starter.kit.util.ErrorHandler;
 import starter.kit.util.NetworkContract;
 import starter.kit.util.RxUtils;
-import support.ui.content.DefaultEmptyView;
+import starter.kit.views.DefaultEmptyView;
 
 import static starter.kit.util.Utilities.isNotNull;
 
@@ -27,24 +27,16 @@ public abstract class StarterNetworkFragment<P extends Presenter> extends Starte
   private final String TAG_INTERNET_OFF 	 =  "INTERNET_OFF";
   private final String TAG_LOADING_CONTENT =  "LOADING_CONTENT";
   private final String TAG_OTHER_EXCEPTION =  "OTHER_EXCEPTION";
-  private final String TAG_EMPTY =  "TAG_EMPTY";
-
-  private DefaultEmptyView mEmptyView;
+  private final String TAG_EMPTY = "TAG_EMPTY";
 
   protected void buildFragConfig(StarterFragConfig fragConfig) {
     mFragConfig = fragConfig;
-  }
-
-  public DefaultEmptyView getEmptyView() {
-    return mEmptyView;
   }
 
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     mDynamicBox = new DynamicBox(getContext(), targetView());
     mDynamicBox.setClickListener(this);
-    mEmptyView = new DefaultEmptyView(getContext());
-    mDynamicBox.addCustomView(mEmptyView, TAG_EMPTY);
 
     if (mFragConfig != null) {
       if (mFragConfig.getCustomExceptionView() != null) {
@@ -53,6 +45,8 @@ public abstract class StarterNetworkFragment<P extends Presenter> extends Starte
 
       if (mFragConfig.getCustomEmptyView() != null) {
         mDynamicBox.addCustomView(mFragConfig.getCustomEmptyView(), TAG_EMPTY);
+      } else {
+        mDynamicBox.addCustomView(new DefaultEmptyView(getContext()), TAG_EMPTY);
       }
 
       if (mFragConfig.getCustomInternetView() != null) {
@@ -62,13 +56,14 @@ public abstract class StarterNetworkFragment<P extends Presenter> extends Starte
       if (mFragConfig.getCustomLoadingView() != null) {
         mDynamicBox.addCustomView(mFragConfig.getCustomLoadingView(), TAG_LOADING_CONTENT);
       }
+    } else {
+      mDynamicBox.addCustomView(new DefaultEmptyView(getContext()), TAG_EMPTY);
     }
   }
 
   @Override public void onDestroyView() {
     mDynamicBox.setClickListener(null);
     mDynamicBox = null;
-    mEmptyView = null;
     super.onDestroyView();
   }
 
