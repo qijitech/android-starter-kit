@@ -89,8 +89,6 @@ dependencies {
 
   compile deps.butterknife
   apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
-
-  compile 'com.github.medyo:dynamicbox:1.2@aar'
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {

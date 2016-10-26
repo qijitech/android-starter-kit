@@ -89,15 +89,11 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
     return R.layout.starter_recycler_view;
   }
 
-  @Override public View targetView() {
-    return mRecyclerView;
-  }
-
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(getFragmentLayout(), container, false);
     mSwipeRefreshLayout = ButterKnife.findById(view, R.id.swipeRefreshLayout);
-    mRecyclerView = ButterKnife.findById(view, R.id.recyclerView);
+    mRecyclerView = ButterKnife.findById(view, R.id.supportUiContentRecyclerView);
     return view;
   }
 
@@ -229,9 +225,9 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
     }
 
     if (isAdapterEmpty(mAdapter)) {
-      showEmptyView();
+      getContentPresenter().displayEmptyView();
     } else {
-      showContentView();
+      getContentPresenter().displayContentView();
     }
   }
 
@@ -245,7 +241,7 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
     }
 
     if (isAdapterEmpty(mAdapter)) {
-      super.onError(throwable);
+      getContentPresenter().displayErrorView();
     }
   }
 
@@ -298,7 +294,15 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
     return isNotNull(mPaginatorEmitter) && !mPaginatorEmitter.hasPages();
   }
 
-  @Override public void onClick(View view) {
+  @Override public View provideContentView() {
+    return mSwipeRefreshLayout;
+  }
+
+  @Override public void onEmptyViewClick(View view) {
+    onRefresh();
+  }
+
+  @Override public void onErrorViewClick(View view) {
     onRefresh();
   }
 }

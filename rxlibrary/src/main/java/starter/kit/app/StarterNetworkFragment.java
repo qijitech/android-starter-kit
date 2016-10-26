@@ -1,125 +1,81 @@
 package starter.kit.app;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
-import java.net.UnknownHostException;
-import mehdi.sakout.dynamicbox.DynamicBox;
+import android.view.ViewGroup;
 import nucleus.presenter.Presenter;
 import rx.functions.Action0;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.util.ErrorHandler;
 import starter.kit.util.NetworkContract;
 import starter.kit.util.RxUtils;
-import starter.kit.views.DefaultEmptyView;
-
-import static starter.kit.util.Utilities.isNotNull;
+import support.ui.content.ContentPresenter;
+import support.ui.content.EmptyView;
+import support.ui.content.ErrorView;
+import support.ui.content.ReflectionContentPresenterFactory;
+import support.ui.content.RequiresContent;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-public abstract class StarterNetworkFragment<P extends Presenter> extends StarterFragment<P>
-    implements NetworkContract.ContentInterface, View.OnClickListener {
+@RequiresContent public abstract class StarterNetworkFragment<P extends Presenter> extends StarterFragment<P>
+    implements NetworkContract.ContentInterface,
+    EmptyView.OnEmptyViewClickListener,
+    ErrorView.OnErrorViewClickListener {
 
-  private DynamicBox mDynamicBox;
+  private ReflectionContentPresenterFactory factory =
+      ReflectionContentPresenterFactory.fromViewClass(getClass());
+  private ContentPresenter contentPresenter;
+
   private StarterFragConfig mFragConfig;
 
-  // Default Tags
-  private final String TAG_INTERNET_OFF 	 =  "INTERNET_OFF";
-  private final String TAG_LOADING_CONTENT =  "LOADING_CONTENT";
-  private final String TAG_OTHER_EXCEPTION =  "OTHER_EXCEPTION";
-  private final String TAG_EMPTY = "TAG_EMPTY";
+  @Override public void onCreate(Bundle bundle) {
+    super.onCreate(bundle);
+
+    contentPresenter = factory.createContentPresenter();
+    contentPresenter.onCreate(getContext());
+
+    contentPresenter.setOnEmptyViewClickListener(this);
+    contentPresenter.setOnErrorViewClickListener(this);
+  }
 
   protected void buildFragConfig(StarterFragConfig fragConfig) {
     mFragConfig = fragConfig;
   }
 
-  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mDynamicBox = new DynamicBox(getContext(), targetView());
-    mDynamicBox.setClickListener(this);
 
-    if (mFragConfig != null) {
-      if (mFragConfig.getCustomExceptionView() != null) {
-        mDynamicBox.addCustomView(mFragConfig.getCustomExceptionView(), TAG_OTHER_EXCEPTION);
-      }
-
-      if (mFragConfig.getCustomEmptyView() != null) {
-        mDynamicBox.addCustomView(mFragConfig.getCustomEmptyView(), TAG_EMPTY);
-      } else {
-        mDynamicBox.addCustomView(new DefaultEmptyView(getContext()), TAG_EMPTY);
-      }
-
-      if (mFragConfig.getCustomInternetView() != null) {
-        mDynamicBox.addCustomView(mFragConfig.getCustomInternetView(), TAG_INTERNET_OFF);
-      }
-
-      if (mFragConfig.getCustomLoadingView() != null) {
-        mDynamicBox.addCustomView(mFragConfig.getCustomLoadingView(), TAG_LOADING_CONTENT);
-      }
-    } else {
-      mDynamicBox.addCustomView(new DefaultEmptyView(getContext()), TAG_EMPTY);
-    }
+    contentPresenter.attachContainer(provideContainer());
+    contentPresenter.attachContentView(provideContentView());
   }
 
   @Override public void onDestroyView() {
-    mDynamicBox.setClickListener(null);
-    mDynamicBox = null;
     super.onDestroyView();
+    contentPresenter.onDestroyView();
   }
 
-  public DynamicBox getDynamicBox() {
-    return mDynamicBox;
+  @Override public void onDestroy() {
+    super.onDestroy();
+    contentPresenter.onDestroy();
+    contentPresenter = null;
+  }
+
+  public ContentPresenter getContentPresenter() {
+    return contentPresenter;
   }
 
   public StarterFragConfig getFragConfig() {
     return mFragConfig;
   }
 
-  /**
-   * refers to the target view, eg a ListView or a layout
-   *
-   * @return View
-   */
-  public View targetView() {
-    return getView();
-  }
-
-  public void showLoadingView() {
-    showDynamicBox(TAG_LOADING_CONTENT);
-  }
-
-  public void showContentView() {
-    RxUtils.empty(new Action0() {
-      @Override public void call() {
-        mDynamicBox.hideAll();
-      }
-    });
-  }
-
-  public void showEmptyView() {
-    showDynamicBox(TAG_EMPTY);
-  }
-
-  public void showInternetView() {
-    showDynamicBox(TAG_INTERNET_OFF);
-  }
-
-  public void showExceptionView() {
-    showDynamicBox(TAG_OTHER_EXCEPTION);
-  }
-
-  public void showDynamicBox(String tag) {
-    RxUtils.empty(new Action0() {
-      @Override public void call() {
-        if (isNotNull(mDynamicBox)) {
-          mDynamicBox.showCustomView(tag);
-        }
-      }
-    });
-  }
-
   @Override public void showProgress() {
-    showLoadingView();
+    RxUtils.empty(new Action0() {
+      @Override public void call() {
+        getContentPresenter().displayLoadView();
+      }
+    });
   }
 
   @Override public void hideProgress() {
@@ -128,18 +84,15 @@ public abstract class StarterNetworkFragment<P extends Presenter> extends Starte
 
   @Override public void onError(Throwable throwable) {
     ErrorResponse errorResponse = ErrorHandler.handleThrowable(throwable);
-    if (throwable.getCause() instanceof UnknownHostException) {
-      showInternetView();
-    } else {
-      showExceptionView();
-    }
   }
 
   @Override public void onSuccess(Object data) {
-    showContentView();
   }
 
-  @Override public void onClick(View view) {
-
+  public ViewGroup provideContainer() {
+    return (ViewGroup) getView();
   }
+
+  public abstract View provideContentView();
+
 }

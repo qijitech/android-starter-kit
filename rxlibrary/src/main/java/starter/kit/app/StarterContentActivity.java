@@ -25,7 +25,7 @@ public abstract class StarterContentActivity<P extends Presenter> extends Starte
     contentPresenter = factory.createContentPresenter();
     contentPresenter.onCreate(this);
 
-    contentPresenter.attachContainer(provideContainer((ViewGroup) getWindow().getDecorView()));
+    contentPresenter.attachContainer(provideContainer());
     contentPresenter.attachContentView(provideContentView());
 
     contentPresenter.setOnEmptyViewClickListener(this);
@@ -43,8 +43,8 @@ public abstract class StarterContentActivity<P extends Presenter> extends Starte
     return contentPresenter;
   }
 
-  public ViewGroup provideContainer(ViewGroup view) {
-    return view;
+  public ViewGroup provideContainer() {
+    return (ViewGroup) getWindow().getDecorView();
   }
 
   public abstract View provideContentView();
