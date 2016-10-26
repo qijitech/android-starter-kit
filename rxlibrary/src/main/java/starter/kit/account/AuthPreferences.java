@@ -3,6 +3,7 @@ package starter.kit.account;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.content.SharedPreferencesCompat.EditorCompat;
+import starter.kit.util.Strings;
 
 public class AuthPreferences {
 
@@ -52,6 +53,6 @@ public class AuthPreferences {
   }
 
   public boolean isLogin() {
-    return getUser() != null && getToken() != null;
+    return Strings.isBlank(getToken());
   }
 }

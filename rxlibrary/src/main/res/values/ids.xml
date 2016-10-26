@@ -16,5 +16,7 @@
 
   <item name="containerLoadingView" type="id"/>
   <item name="rootContainer" type="id"/>
+
   <item name="swipeRefreshLayout" type="id"/>
+  <item name="recyclerView" type="id"/>
 </resources>

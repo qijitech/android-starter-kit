@@ -11,6 +11,7 @@ public class RxApp extends StarterApp {
     super.onCreate();
 
     new Network.Builder()
+        .networkDebug(true)
         .accept(Profile.API_ACCEPT)
         .baseUrl(Profile.API_ENDPOINT)
         .build();

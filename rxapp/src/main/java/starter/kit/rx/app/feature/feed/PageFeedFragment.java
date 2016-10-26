@@ -22,7 +22,7 @@ public class PageFeedFragment extends StarterRecyclerFragment {
 
     StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
         .withIdentifierRequest(false)
-        .pageSize(5)
+        .pageSize(30)
         .loadingTriggerThreshold(0)
         .bind(Feed.class, FeedsViewHolder.class)
         .recyclerViewDecor(new HorizontalDividerItemDecoration
