@@ -30,6 +30,8 @@ import support.ui.content.RequiresContent;
 
   private StarterFragConfig mFragConfig;
 
+  private ErrorResponse mErrorResponse;
+
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
@@ -83,7 +85,10 @@ import support.ui.content.RequiresContent;
   }
 
   @Override public void onError(Throwable throwable) {
-    ErrorResponse errorResponse = ErrorHandler.handleThrowable(throwable);
+    mErrorResponse = ErrorHandler.handleThrowable(throwable);
+    if (mErrorResponse != null) {
+      getContentPresenter().buildEmptyTitle(mErrorResponse.getMessage());
+    }
   }
 
   @Override public void onSuccess(Object data) {
@@ -95,4 +100,11 @@ import support.ui.content.RequiresContent;
 
   public abstract View provideContentView();
 
+  public ErrorResponse getErrorResponse() {
+    return mErrorResponse;
+  }
+
+  public void setErrorResponse(ErrorResponse errorResponse) {
+    mErrorResponse = errorResponse;
+  }
 }

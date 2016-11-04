@@ -42,6 +42,8 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
   private EasyRecyclerAdapter mAdapter;
   private Paginate mPaginate;
 
+  private Paginator mPaginator;
+
   private PaginatorEmitter mPaginatorEmitter;
 
   public PaginatorEmitter getPaginatorEmitter() {
@@ -210,6 +212,10 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
 
   @Override public void onSuccess(Object data) {
 
+    if (data instanceof Paginator) {
+      mPaginator = (Paginator) data;
+    }
+
     //noinspection unchecked
     ArrayList<? extends Entity> items = (ArrayList<? extends Entity>) transform(data);
 
@@ -232,6 +238,8 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
   }
 
   @Override public void onError(Throwable throwable) {
+    super.onError(throwable);
+
     if (mPaginatorEmitter.isFirstPage() && mAdapter.isEmpty()) {
       mAdapter.clear();
     }
@@ -242,6 +250,8 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
 
     if (isAdapterEmpty(mAdapter)) {
       getContentPresenter().displayErrorView();
+    } else {
+      getContentPresenter().displayContentView();
     }
   }
 
@@ -265,6 +275,7 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
   }
 
   @Override public void onRefresh() {
+    setErrorResponse(null);
     if (isNotNull(mPaginatorEmitter) && !mPaginatorEmitter.isLoading()) {
       mPaginatorEmitter.reset();
       getPresenter().request();
@@ -304,5 +315,9 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
 
   @Override public void onErrorViewClick(View view) {
     onRefresh();
+  }
+
+  public Paginator getPaginator() {
+    return mPaginator;
   }
 }

@@ -15,9 +15,6 @@ import java.util.ArrayList;
   @JsonProperty("current_page") private int currentPage;
   @JsonProperty("last_page") private int lastPage;
 
-  private int from;
-  private int to;
-
   @JsonProperty("data") private ArrayList<T> mData;
 
   public ArrayList<T> data() {
@@ -34,14 +31,6 @@ import java.util.ArrayList;
 
   public int lastPage() {
     return lastPage;
-  }
-
-  public int from() {
-    return from;
-  }
-
-  public int to() {
-    return to;
   }
 
   public int total() {
