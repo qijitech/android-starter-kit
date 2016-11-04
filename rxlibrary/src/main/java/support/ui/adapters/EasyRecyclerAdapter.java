@@ -84,7 +84,8 @@ public class EasyRecyclerAdapter extends RecyclerView.Adapter<EasyViewHolder> {
 
   public void addAll(List<?> objects) {
     dataList.clear();
-    appendAll(objects);
+    dataList.addAll(objects);
+    notifyDataSetChanged();
   }
 
   public void appendAll(List<?> objects) {
