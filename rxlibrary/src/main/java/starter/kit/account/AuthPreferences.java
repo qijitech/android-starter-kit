@@ -53,6 +53,6 @@ public class AuthPreferences {
   }
 
   public boolean isLogin() {
-    return Strings.isBlank(getToken());
+    return !Strings.isBlank(getToken());
   }
 }
