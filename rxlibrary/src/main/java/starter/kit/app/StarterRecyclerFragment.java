@@ -93,14 +93,14 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    View view = inflater.inflate(getFragmentLayout(), container, false);
-    mSwipeRefreshLayout = ButterKnife.findById(view, R.id.swipeRefreshLayout);
-    mRecyclerView = ButterKnife.findById(view, R.id.supportUiContentRecyclerView);
-    return view;
+    return inflater.inflate(getFragmentLayout(), container, false);
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
+    mSwipeRefreshLayout = ButterKnife.findById(view, R.id.swipeRefreshLayout);
+    mRecyclerView = ButterKnife.findById(view, R.id.supportUiContentRecyclerView);
 
     setupRecyclerView();
     setupPaginate();

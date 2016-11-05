@@ -1,7 +1,6 @@
 package starter.kit.app;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import nucleus.presenter.Presenter;
@@ -46,15 +45,14 @@ import support.ui.content.RequiresContent;
     mFragConfig = fragConfig;
   }
 
-  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-
+  @Override public void onResume() {
+    super.onResume();
     contentPresenter.attachContainer(provideContainer());
     contentPresenter.attachContentView(provideContentView());
   }
 
-  @Override public void onDestroyView() {
-    super.onDestroyView();
+  @Override public void onPause() {
+    super.onPause();
     contentPresenter.onDestroyView();
   }
 
