@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 @JsonIgnoreProperties(ignoreUnknown = true) public class Paginator<T> {
 
-  private int total;
+  @JsonProperty("total") private int total;
 
   @JsonProperty("per_page") private int perPage;
   @JsonProperty("current_page") private int currentPage;
