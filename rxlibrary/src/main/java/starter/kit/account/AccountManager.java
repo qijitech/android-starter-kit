@@ -9,13 +9,13 @@ public enum AccountManager {
 
   INSTANCE;
 
-  private final AuthPreferences authPreferences;
+  private final FileAuthPreferences authPreferences;
   private Account mCurrentAccount;
   private Context mContext;
 
   AccountManager() {
     mContext = StarterApp.appContext();
-    authPreferences = new AuthPreferences(mContext);
+    authPreferences = new FileAuthPreferences(mContext);
   }
 
   public boolean isLogin() {
