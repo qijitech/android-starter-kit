@@ -1,7 +1,9 @@
 package starter.kit.rx.app;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import starter.kit.app.StarterApp;
+import starter.kit.model.entity.Account;
 import starter.kit.retrofit.Network;
 import starter.kit.rx.app.util.InitializeUtil;
 
@@ -21,4 +23,8 @@ public class RxApp extends StarterApp {
     InitializeUtil.initialize();
   }
 
+  @Override public Account provideAccount(String accountJson) {
+    // TODO: 2016/11/10 Must Convert to Account Obj
+    return null;
+  }
 }
