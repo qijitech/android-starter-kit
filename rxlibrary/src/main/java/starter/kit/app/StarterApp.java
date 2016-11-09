@@ -5,7 +5,4 @@ import support.ui.app.SupportApp;
 
 public abstract class StarterApp extends SupportApp implements AccountProvider {
 
-  @Override public void onCreate() {
-    super.onCreate();
-  }
 }
