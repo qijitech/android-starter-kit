@@ -5,8 +5,8 @@ package starter.kit.util;
  */
 public interface NetworkContract {
 
-  interface View {
-    void onSuccess(Object data);
+  interface View<T> {
+    void onSuccess(T data);
 
     void onError(Throwable throwable);
   }
@@ -21,6 +21,6 @@ public interface NetworkContract {
     void hideProgress();
   }
 
-  interface ContentInterface extends ProgressInterface, View {
+  interface ContentInterface<T> extends ProgressInterface, View<T> {
   }
 }

@@ -46,7 +46,7 @@ public class StarterFragConfig {
   private int pageSize;
   private int startPage;
 
-  private boolean withIdentifierRequest;
+  private boolean withKeyRequest;
 
   public List<Object> getItems() {
     return mItems;
@@ -104,8 +104,8 @@ public class StarterFragConfig {
     return startPage;
   }
 
-  public boolean isWithIdentifierRequest() {
-    return withIdentifierRequest;
+  public boolean withKeyRequest() {
+    return withKeyRequest;
   }
 
   public View getCustomExceptionView() {
@@ -145,7 +145,7 @@ public class StarterFragConfig {
     private int pageSize = 20;
     private int startPage = 1;
 
-    private boolean withIdentifierRequest = true; // Default identifier request
+    private boolean withKeyRequest = false; // Default with page request
 
     // DynamicBox config
     private View customInternetView;
@@ -168,7 +168,7 @@ public class StarterFragConfig {
       config.loadingTriggerThreshold = loadingTriggerThreshold;
       config.pageSize = pageSize;
       config.startPage = startPage;
-      config.withIdentifierRequest = withIdentifierRequest;
+      config.withKeyRequest = withKeyRequest;
       config.mItems = items;
 
       config.customExceptionView = customExceptionView;
@@ -248,8 +248,8 @@ public class StarterFragConfig {
       return this;
     }
 
-    public Builder withIdentifierRequest(boolean withIdentifierRequest) {
-      this.withIdentifierRequest = withIdentifierRequest;
+    public Builder withKeyRequest(boolean withKeyRequest) {
+      this.withKeyRequest = withKeyRequest;
       return this;
     }
 

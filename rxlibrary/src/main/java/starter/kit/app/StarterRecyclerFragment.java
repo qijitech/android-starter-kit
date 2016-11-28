@@ -17,8 +17,10 @@ import java.util.List;
 import java.util.Map;
 import rx.functions.Action0;
 import rx.functions.Action1;
-import starter.kit.model.dto.Paginator;
 import starter.kit.model.entity.Entity;
+import starter.kit.pagination.PaginatorContract;
+import starter.kit.pagination.PaginatorEmitter;
+import starter.kit.pagination.PaginatorPresenter;
 import starter.kit.rx.R;
 import starter.kit.util.RxUtils;
 import support.ui.adapters.BaseEasyViewHolderFactory;
@@ -31,8 +33,8 @@ import static starter.kit.util.Utilities.isNotNull;
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
-    extends StarterNetworkFragment<P>
+public abstract class StarterRecyclerFragment<E extends Entity>
+    extends StarterNetworkFragment<PaginatorContract<E>, PaginatorPresenter<PaginatorContract<E>>>
     implements com.paginate.Paginate.Callbacks,
     SwipeRefreshLayout.OnRefreshListener {
 
@@ -42,9 +44,7 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
   private EasyRecyclerAdapter mAdapter;
   private Paginate mPaginate;
 
-  private Paginator mPaginator;
-
-  private PaginatorEmitter mPaginatorEmitter;
+  private PaginatorEmitter<E> mPaginatorEmitter;
 
   public PaginatorEmitter getPaginatorEmitter() {
     return mPaginatorEmitter;
@@ -59,7 +59,7 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
   }
 
   public void buildFragConfig(StarterFragConfig fragConfig) {
-    mPaginatorEmitter = new PaginatorEmitter(fragConfig, new Action1<PaginatorEmitter>() {
+    mPaginatorEmitter = new PaginatorEmitter<>(fragConfig, new Action1<PaginatorEmitter<E>>() {
       @Override public void call(PaginatorEmitter paginatorEmitter) {
         getPresenter().requestNext(paginatorEmitter);
       }
@@ -197,34 +197,14 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
     });
   }
 
-  public ArrayList<?> transform(Object data) {
-    if (data instanceof ArrayList) {
-      //noinspection unchecked
-      return (ArrayList<Object>) data;
-    }
-    if (data instanceof Paginator) {
-      Paginator paginator = (Paginator) data;
-      //noinspection unchecked
-      return paginator.data();
-    }
-    return null;
-  }
-
-  @Override public void onSuccess(Object data) {
-
-    if (data instanceof Paginator) {
-      mPaginator = (Paginator) data;
-    }
-
-    //noinspection unchecked
-    ArrayList<? extends Entity> items = (ArrayList<? extends Entity>) transform(data);
-
+  @Override public void onSuccess(PaginatorContract<E> paginatorContract) {
+    ArrayList<? extends Entity> items = paginatorContract.items();
     if (mPaginatorEmitter.isFirstPage()) {
       mAdapter.clear();
     }
 
     mAdapter.appendAll(items);
-    mPaginatorEmitter.received(data);
+    mPaginatorEmitter.received(paginatorContract);
 
     if (isNotNull(mPaginate)) {
       mPaginate.setHasMoreDataToLoad(false);
@@ -239,6 +219,9 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
 
   @Override public void onError(Throwable throwable) {
     super.onError(throwable);
+
+    // error handle
+    mPaginatorEmitter.received(null);
 
     if (mPaginatorEmitter.isFirstPage() && mAdapter.isEmpty()) {
       mAdapter.clear();
@@ -302,7 +285,7 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
   }
 
   @Override public boolean hasLoadedAllItems() {
-    return isNotNull(mPaginatorEmitter) && !mPaginatorEmitter.hasPages();
+    return isNotNull(mPaginatorEmitter) && !mPaginatorEmitter.hasMorePages();
   }
 
   @Override public View provideContentView() {
@@ -315,9 +298,5 @@ public abstract class StarterRecyclerFragment<P extends PaginatorPresenter>
 
   @Override public void onErrorViewClick(View view) {
     onRefresh();
-  }
-
-  public Paginator getPaginator() {
-    return mPaginator;
   }
 }

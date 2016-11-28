@@ -6,7 +6,7 @@ import butterknife.OnClick;
 import rx.Subscription;
 import rx.functions.Action1;
 import starter.kit.app.StarterActivity;
-import starter.kit.model.dto.Paginator;
+import starter.kit.pagination.Paginator;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.rx.app.network.ApiService;

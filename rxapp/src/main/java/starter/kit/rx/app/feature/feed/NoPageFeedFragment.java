@@ -10,7 +10,7 @@ import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 
 @RequiresPresenter(NoPageFeedPresenter.class)
-public class NoPageFeedFragment extends StarterRecyclerFragment {
+public class NoPageFeedFragment extends StarterRecyclerFragment<Feed> {
 
   public static NoPageFeedFragment create() {
     NoPageFeedFragment feedFragment = new NoPageFeedFragment();
@@ -22,7 +22,6 @@ public class NoPageFeedFragment extends StarterRecyclerFragment {
 
     StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
         .addLoadingListItem(false) // 是否分页
-        .withIdentifierRequest(false)
         .pageSize(5)
         .bind(Feed.class, FeedsViewHolder.class)
         .recyclerViewDecor(new HorizontalDividerItemDecoration

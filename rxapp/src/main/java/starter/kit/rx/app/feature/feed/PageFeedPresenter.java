@@ -2,8 +2,8 @@ package starter.kit.rx.app.feature.feed;
 
 import android.os.Bundle;
 import rx.Observable;
-import starter.kit.app.PaginatorPresenter;
-import starter.kit.model.dto.Paginator;
+import starter.kit.pagination.Paginator;
+import starter.kit.pagination.PaginatorPresenter;
 import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.FeedService;
@@ -18,11 +18,12 @@ public class PageFeedPresenter extends PaginatorPresenter<Paginator<Feed>> {
   }
 
   @Override
-  public Observable<Paginator<Feed>> request(String paginatorKey, int pageSize) {
-    return mFeedService.paginator(paginatorKey, pageSize);
+  public Observable<Paginator<Feed>> request(String firstPaginatorKey, String nextPaginatorKey,
+      int perPage) {
+    return mFeedService.paginator(nextPaginatorKey, perPage);
   }
 
   @Override public int restartableId() {
-    return 1000;
+    return 3000;
   }
 }

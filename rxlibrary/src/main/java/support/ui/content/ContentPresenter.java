@@ -121,8 +121,8 @@ public final class ContentPresenter {
     final int contentViewId = ContentViewId;
     if (mCurrentId != contentViewId && mContentView != null) {
       final ViewGroup container = mContainer;
-      container.removeAllViews();
       final ViewGroup.LayoutParams layoutParams = LayoutHelper.createViewGroupLayoutParams();
+      container.removeAllViews();
       container.addView(mContentView, layoutParams);
       mCurrentId = contentViewId;
     }
@@ -257,10 +257,16 @@ public final class ContentPresenter {
 
   private View displayView(@IdRes int viewId) {
     final ViewGroup container = mContainer;
-    container.removeAllViews();
     final View view = checkView(viewId);
     final ViewGroup.LayoutParams layoutParams = LayoutHelper.createViewGroupLayoutParams();
-    container.removeView(view);
+    container.removeAllViews();
+
+    if (view != null) { //  <- fix The specified child already has a parent. You must call removeView() on the child's parent first.
+      ViewGroup parent = (ViewGroup) view.getParent();
+      if (parent != null) {
+        parent.removeView(view);
+      }
+    }
     container.addView(view, layoutParams);
     mCurrentId = viewId;
     return view;

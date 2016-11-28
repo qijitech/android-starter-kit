@@ -10,18 +10,16 @@ import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 
 @RequiresPresenter(PageFeedPresenter.class)
-public class PageFeedFragment extends StarterRecyclerFragment {
+public class PageFeedFragment extends StarterRecyclerFragment<Feed> {
 
   public static PageFeedFragment create() {
-    PageFeedFragment feedFragment = new PageFeedFragment();
-    return feedFragment;
+    return new PageFeedFragment();
   }
 
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
     StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
-        .withIdentifierRequest(false)
         .pageSize(30)
         .loadingTriggerThreshold(0)
         .bind(Feed.class, FeedsViewHolder.class)

@@ -18,8 +18,9 @@ import support.ui.content.RequiresContent;
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-@RequiresContent public abstract class StarterNetworkFragment<P extends Presenter> extends StarterFragment<P>
-    implements NetworkContract.ContentInterface,
+@RequiresContent public abstract class StarterNetworkFragment<T, P extends Presenter>
+    extends StarterFragment<P>
+    implements NetworkContract.ContentInterface<T>,
     EmptyView.OnEmptyViewClickListener,
     ErrorView.OnErrorViewClickListener {
 
@@ -89,7 +90,7 @@ import support.ui.content.RequiresContent;
     }
   }
 
-  @Override public void onSuccess(Object data) {
+  @Override public void onSuccess(T data) {
   }
 
   public ViewGroup provideContainer() {
