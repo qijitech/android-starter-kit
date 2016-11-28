@@ -10,7 +10,7 @@ import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 
 @RequiresPresenter(NoPageFeedPresenter.class)
-public class NoPageFeedFragment extends StarterRecyclerFragment<Feed> {
+public class NoPageFeedFragment extends StarterRecyclerFragment<Feed, NoPageFeedPresenter> {
 
   public static NoPageFeedFragment create() {
     NoPageFeedFragment feedFragment = new NoPageFeedFragment();

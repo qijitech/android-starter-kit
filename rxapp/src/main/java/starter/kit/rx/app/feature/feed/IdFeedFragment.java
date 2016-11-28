@@ -10,7 +10,7 @@ import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 
 @RequiresPresenter(IdFeedPresenter.class)
-public class IdFeedFragment extends StarterRecyclerFragment<Feed> {
+public class IdFeedFragment extends StarterRecyclerFragment<Feed, IdFeedPresenter> {
 
   public static IdFeedFragment create() {
     return new IdFeedFragment();
@@ -18,7 +18,6 @@ public class IdFeedFragment extends StarterRecyclerFragment<Feed> {
 
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
-
     StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
         .pageSize(5)
         .bind(Feed.class, FeedsViewHolder.class)

@@ -33,8 +33,8 @@ import static starter.kit.util.Utilities.isNotNull;
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-public abstract class StarterRecyclerFragment<E extends Entity>
-    extends StarterNetworkFragment<PaginatorContract<E>, PaginatorPresenter<PaginatorContract<E>>>
+public abstract class StarterRecyclerFragment<E extends Entity, PC extends PaginatorPresenter>
+    extends StarterNetworkFragment<PaginatorContract<E>, PC>
     implements com.paginate.Paginate.Callbacks,
     SwipeRefreshLayout.OnRefreshListener {
 
