@@ -22,6 +22,7 @@ import starter.kit.pagination.PaginatorContract;
 import starter.kit.pagination.PaginatorEmitter;
 import starter.kit.pagination.PaginatorPresenter;
 import starter.kit.rx.R;
+import starter.kit.util.Lists;
 import starter.kit.util.RxUtils;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
@@ -201,6 +202,10 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     ArrayList<? extends Entity> items = paginatorContract.items();
     if (mPaginatorEmitter.isFirstPage()) {
       mAdapter.clear();
+    }
+
+    if (items == null) { // handle null
+      items = Lists.newArrayList();
     }
 
     mAdapter.appendAll(items);
