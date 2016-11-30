@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import org.parceler.Parcel;
-import starter.kit.model.entity.Entity;
+import starter.kit.model.entity.DefaultEntity;
 
-@Parcel @JsonIgnoreProperties(ignoreUnknown = true) public class Feed extends Entity {
+@Parcel @JsonIgnoreProperties(ignoreUnknown = true) public class Feed extends DefaultEntity {
 
   public String content;
   @JsonProperty("created_at") public int createdAt;

@@ -5,9 +5,9 @@ import android.text.TextUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.parceler.Parcel;
-import starter.kit.model.entity.Entity;
+import starter.kit.model.entity.DefaultEntity;
 
-@Parcel @JsonIgnoreProperties(ignoreUnknown = true) public class UserInfo extends Entity {
+@Parcel @JsonIgnoreProperties(ignoreUnknown = true) public class UserInfo extends DefaultEntity {
 
   @JsonProperty("user_id") public String userId;
   public String nickname;

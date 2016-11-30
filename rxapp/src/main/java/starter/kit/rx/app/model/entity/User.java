@@ -4,9 +4,9 @@ import android.net.Uri;
 import android.text.TextUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.parceler.Parcel;
-import starter.kit.model.entity.Entity;
+import starter.kit.model.entity.DefaultEntity;
 
-@Parcel @JsonIgnoreProperties(ignoreUnknown = true) public class User extends Entity {
+@Parcel @JsonIgnoreProperties(ignoreUnknown = true) public class User extends DefaultEntity {
   public String phone;
   public String nickname;
   public String avatar;

@@ -1,13 +1,11 @@
 package starter.kit.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+public abstract class Entity {
 
-@JsonIgnoreProperties(ignoreUnknown = true) public abstract class Entity {
+  /**
+   * 实体主键
+   */
+  public abstract String identifier();
 
-  @JsonProperty("id") public String identifier;
-
-  public String getPaginatorKey() {
-    return identifier;
-  }
+  public abstract String paginatorKey();
 }
