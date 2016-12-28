@@ -62,7 +62,7 @@ public class PaginatorEmitter<E extends Entity> implements Emitter<E>, Paginator
 
     requestedItems.addAll(items());
 
-    hasMoreData = hasMorePages() || paginatorContract.size() >= perPage();
+    hasMoreData = mPaginatorContract.hasMorePages() || paginatorContract.size() >= perPage();
 
     if (mFragConfig.withKeyRequest()) {
       firstPaginatorKey = requestedItems.get(0).paginatorKey();
