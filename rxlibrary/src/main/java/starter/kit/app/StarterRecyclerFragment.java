@@ -179,6 +179,10 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   @Override public void showProgress() {
+    if (!isNotNull(mPaginatorEmitter)) {
+      return;
+    }
+    mPaginatorEmitter.setLoading(true);
     if (isAdapterEmpty(mAdapter)) {
       super.showProgress();
     } else if (isNotNull(mPaginatorEmitter) && mPaginatorEmitter.isFirstPage()) {
@@ -189,6 +193,9 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   @Override public void hideProgress() {
+    if (isNotNull(mPaginatorEmitter)) {
+      mPaginatorEmitter.setLoading(false);
+    }
     RxUtils.empty(new Action0() {
       @Override public void call() {
         if (isNotNull(mSwipeRefreshLayout)) {
@@ -266,6 +273,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     setErrorResponse(null);
     if (isNotNull(mPaginatorEmitter) && !mPaginatorEmitter.isLoading()) {
       mPaginatorEmitter.reset();
+      mPaginatorEmitter.setLoading(true);
       getPresenter().request();
     } else {
       mSwipeRefreshLayout.setRefreshing(true);

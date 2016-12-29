@@ -20,4 +20,6 @@ public interface Emitter<E extends Entity> {
   boolean requested();
 
   boolean isLoading();
+
+  void setLoading(boolean isLoading);
 }

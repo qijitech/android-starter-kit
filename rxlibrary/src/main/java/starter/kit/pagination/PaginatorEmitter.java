@@ -104,6 +104,10 @@ public class PaginatorEmitter<E extends Entity> implements Emitter<E>, Paginator
     return isLoading;
   }
 
+  @Override public void setLoading(boolean isLoading) {
+    this.isLoading = isLoading;
+  }
+
   @Override public ArrayList<E> items() {
     //noinspection unchecked
     return mPaginatorContract.items();
