@@ -206,7 +206,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   @Override public void onSuccess(PaginatorContract<E> paginatorContract) {
-    ArrayList<? extends Entity> items = paginatorContract.items();
+    ArrayList<? extends Entity> items = paginatorContract !=null ? paginatorContract.items() : Lists.newArrayList();
     if (mPaginatorEmitter.isFirstPage()) {
       mAdapter.clear();
     }
@@ -222,10 +222,12 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
       mPaginate.setHasMoreDataToLoad(false);
     }
 
-    if (isAdapterEmpty(mAdapter)) {
-      getContentPresenter().displayEmptyView();
-    } else {
-      getContentPresenter().displayContentView();
+    if (getContentPresenter() != null) {
+      if (isAdapterEmpty(mAdapter)) {
+        getContentPresenter().displayEmptyView();
+      } else {
+        getContentPresenter().displayContentView();
+      }
     }
   }
 

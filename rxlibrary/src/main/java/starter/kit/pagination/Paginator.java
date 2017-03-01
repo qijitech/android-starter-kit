@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import starter.kit.model.entity.Entity;
+import starter.kit.util.Lists;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-@JsonIgnoreProperties(ignoreUnknown = true) public class Paginator<T extends Entity> extends AbstractPaginator<T> {
+@JsonIgnoreProperties(ignoreUnknown = true) public class Paginator<T extends Entity>
+    extends AbstractPaginator<T> {
 
   @JsonProperty("total") private int total;
 
@@ -19,7 +21,7 @@ import starter.kit.model.entity.Entity;
   @JsonProperty("data") private ArrayList<T> items;
 
   @Override public ArrayList<T> items() {
-    return this.items;
+    return this.items == null ? Lists.newArrayList() : this.items();
   }
 
   @Override public int currentPage() {

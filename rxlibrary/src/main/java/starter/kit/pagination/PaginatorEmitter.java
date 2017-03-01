@@ -110,7 +110,8 @@ public class PaginatorEmitter<E extends Entity> implements Emitter<E>, Paginator
 
   @Override public ArrayList<E> items() {
     //noinspection unchecked
-    return mPaginatorContract.items();
+    ArrayList<E> items = mPaginatorContract.items();
+    return items != null ? items : Lists.newArrayList();
   }
 
   @Override public E firstItem() {
