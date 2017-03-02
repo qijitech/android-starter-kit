@@ -21,7 +21,7 @@ import starter.kit.util.Lists;
   @JsonProperty("data") private ArrayList<T> items;
 
   @Override public ArrayList<T> items() {
-    return this.items == null ? Lists.newArrayList() : this.items();
+    return this.items == null ? Lists.newArrayList() : this.items;
   }
 
   @Override public int currentPage() {
