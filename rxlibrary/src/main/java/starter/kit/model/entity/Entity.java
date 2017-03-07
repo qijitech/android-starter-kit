@@ -1,11 +1,11 @@
 package starter.kit.model.entity;
 
-public abstract class Entity {
+public interface Entity {
 
   /**
    * 实体主键
    */
-  public abstract String identifier();
+  String identifier();
 
-  public abstract String paginatorKey();
+  String paginatorKey();
 }

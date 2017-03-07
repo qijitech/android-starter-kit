@@ -15,7 +15,7 @@ ext {
       supportVersion                    : '25.0.0',
       okhttpVersion                     : '3.4.1',
       retrofitVersion                   : '2.1.0',
-      butterknifeVersion                : '8.2.1',
+      butterknifeVersion                : '8.5.1',
       timberVersion                     : '4.1.2',
       rxJavaVersion                     : '1.1.8',
       rxAndroidVersion                  : '1.2.1',

@@ -19,7 +19,6 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -85,10 +84,10 @@ dependencies {
   compile 'com.orhanobut:logger:1.13'
 
   compile 'frankiesardo:icepick:3.2.0'
-  apt 'frankiesardo:icepick-processor:3.2.0'
+  provided 'frankiesardo:icepick-processor:3.2.0'
 
   compile deps.butterknife
-  apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {

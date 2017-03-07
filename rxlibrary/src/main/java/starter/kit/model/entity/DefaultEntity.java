@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-@JsonIgnoreProperties(ignoreUnknown = true) public class DefaultEntity extends Entity {
+@JsonIgnoreProperties(ignoreUnknown = true) public class DefaultEntity implements Entity {
 
   @JsonProperty("id") public String identifier;
 
