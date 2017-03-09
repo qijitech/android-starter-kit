@@ -2,7 +2,7 @@ package starter.kit.app;
 
 import android.os.Bundle;
 import icepick.Icepick;
-import nucleus.presenter.RxPresenter;
+import nucleus5.presenter.RxPresenter;
 
 public class StarterPresenter<ViewType> extends RxPresenter<ViewType> {
 

@@ -2,7 +2,7 @@ package starter.kit.rx.app.feature.auth;
 
 import android.os.Bundle;
 import icepick.State;
-import rx.Observable;
+import io.reactivex.Observable;
 import starter.kit.app.NetworkPresenter;
 import starter.kit.rx.app.model.entity.User;
 import starter.kit.rx.app.network.ApiService;

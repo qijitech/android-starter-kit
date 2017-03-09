@@ -1,9 +1,9 @@
 package starter.kit.rx.app.network.service;
 
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import rx.Observable;
 import starter.kit.rx.app.model.entity.User;
 
 /**

@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import rx.functions.Action0;
-import rx.functions.Action1;
 import starter.kit.model.entity.Entity;
 import starter.kit.pagination.PaginatorContract;
 import starter.kit.pagination.PaginatorEmitter;
@@ -60,8 +61,9 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   public void buildFragConfig(StarterFragConfig fragConfig) {
-    mPaginatorEmitter = new PaginatorEmitter<>(fragConfig, new Action1<PaginatorEmitter<E>>() {
-      @Override public void call(PaginatorEmitter paginatorEmitter) {
+    mPaginatorEmitter = new PaginatorEmitter<>(fragConfig, new Consumer<PaginatorEmitter<E>>() {
+      @Override public void accept(@NonNull PaginatorEmitter<E> paginatorEmitter)
+          throws Exception {
         getPresenter().requestNext(paginatorEmitter);
       }
     });
@@ -196,8 +198,8 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     if (isNotNull(mPaginatorEmitter)) {
       mPaginatorEmitter.setLoading(false);
     }
-    RxUtils.empty(new Action0() {
-      @Override public void call() {
+    RxUtils.empty(new Action() {
+      @Override public void run() {
         if (isNotNull(mSwipeRefreshLayout)) {
           mSwipeRefreshLayout.setRefreshing(false);
         }

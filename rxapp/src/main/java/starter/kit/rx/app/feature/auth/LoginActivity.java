@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import butterknife.BindView;
-import com.jakewharton.rxbinding.view.RxView;
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import java.util.concurrent.TimeUnit;
-import nucleus.factory.RequiresPresenter;
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
+import nucleus5.factory.RequiresPresenter;
 import starter.kit.app.StarterActivity;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.rx.app.R;
@@ -22,7 +22,7 @@ import starter.kit.util.NetworkContract;
 import support.ui.app.SupportApp;
 import work.wanghao.simplehud.SimpleHUD;
 
-import static rx.android.schedulers.AndroidSchedulers.mainThread;
+import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * Created by YuGang Yang on 06 29, 2016.
@@ -60,7 +60,7 @@ public class LoginActivity extends StarterActivity<AuthPresenter> implements
         .map(charSequence -> validatePassword(charSequence.toString()));
 
     // Checks for validity of the username input field
-    Subscription usernameSubscription = usernameChangeObservable
+    Disposable usernameSubscription = usernameChangeObservable
         .observeOn(mainThread()) // UI Thread
         .subscribe(validFields -> {
           if (validFields) {
@@ -69,10 +69,11 @@ public class LoginActivity extends StarterActivity<AuthPresenter> implements
             showUsernameError();
           }
         });
+
     add(usernameSubscription);
 
     // Checks for validity of the password input field
-    Subscription passwordSubscription = passwordChangeObservable
+    Disposable passwordSubscription = passwordChangeObservable
         .observeOn(mainThread()) // UI Thread
         .subscribe(validFields -> {
           if (validFields) {
@@ -84,7 +85,7 @@ public class LoginActivity extends StarterActivity<AuthPresenter> implements
     add(passwordSubscription);
 
     // Checks for validity of all input fields
-    Subscription btnSubscription =
+    Disposable btnSubscription =
         Observable.combineLatest(usernameChangeObservable, passwordChangeObservable,
             (isUsernameValid, isPasswordValid) -> isUsernameValid && isPasswordValid)
             .observeOn(AndroidSchedulers.mainThread()) // UI Thread

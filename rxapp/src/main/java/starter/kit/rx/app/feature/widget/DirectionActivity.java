@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import java.util.concurrent.TimeUnit;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import starter.kit.app.StarterActivity;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.feature.feed.FeedsViewHolder;
@@ -21,7 +21,7 @@ import starter.kit.util.RxUtils;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.widget.SwipeRefreshLayout;
 
-import static rx.android.schedulers.AndroidSchedulers.mainThread;
+import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * Created by YuGang Yang on 07 19, 2016.
@@ -75,7 +75,7 @@ public class DirectionActivity extends StarterActivity
   }
 
   @Override public void hideProgress() {
-    rx.Observable.empty()
+    Observable.empty()
         .observeOn(mainThread())
         .doOnTerminate(() -> swipeRefreshLayout.setRefreshing(false))
         .subscribe();
@@ -86,7 +86,7 @@ public class DirectionActivity extends StarterActivity
   }
 
   private void doRefresh() {
-    rx.Observable.empty()
+    Observable.empty()
         .subscribeOn(Schedulers.io())
         .delay(5, TimeUnit.SECONDS)
         .compose(RxUtils.progressTransformer(this))

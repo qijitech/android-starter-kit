@@ -3,8 +3,8 @@ package starter.kit.app;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import nucleus.presenter.Presenter;
-import rx.functions.Action0;
+import io.reactivex.functions.Action;
+import nucleus5.presenter.Presenter;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.util.ErrorHandler;
 import starter.kit.util.NetworkContract;
@@ -72,8 +72,8 @@ import support.ui.content.RequiresContent;
   }
 
   @Override public void showProgress() {
-    RxUtils.empty(new Action0() {
-      @Override public void call() {
+    RxUtils.empty(new Action() {
+      @Override public void run() {
         getContentPresenter().displayLoadView();
       }
     });

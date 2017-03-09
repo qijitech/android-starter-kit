@@ -1,12 +1,15 @@
 package starter.kit.util;
 
 import android.content.Context;
-import rx.Observable;
-import rx.Subscription;
-import rx.functions.Action0;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
-import static rx.android.schedulers.AndroidSchedulers.mainThread;
+import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 
 public final class RxUtils {
 
@@ -14,16 +17,16 @@ public final class RxUtils {
 
   }
 
-  public static <T> Observable.Transformer<T, T> progressTransformer(
+  public static <T> ObservableTransformer<T, T> progressTransformer(
       final NetworkContract.ProgressInterface progress) {
-    return new Observable.Transformer<T, T>() {
-      @Override public Observable<T> call(Observable<T> observable) {
-        return observable.doOnSubscribe(new Action0() {
-          @Override public void call() {
+    return new ObservableTransformer<T, T>() {
+      @Override public ObservableSource<T> apply(Observable<T> observable) {
+        return observable.doOnSubscribe(new Consumer<Disposable>() {
+          @Override public void accept(@NonNull Disposable disposable) throws Exception {
             progress.showProgress();
           }
-        }).subscribeOn(mainThread()).doOnTerminate(new Action0() {
-          @Override public void call() {
+        }).subscribeOn(mainThread()).doOnTerminate(new Action() {
+          @Override public void run() throws Exception {
             progress.hideProgress();
           }
         }).observeOn(mainThread());
@@ -38,15 +41,16 @@ public final class RxUtils {
    * @param <T> the type of the items emitted by the Observable
    * @return Observable
    */
-  public static <T> Observable.Transformer<T, T> hudTransformer(final NetworkContract.HudInterface hud) {
-    return new Observable.Transformer<T, T>() {
-      @Override public Observable<T> call(Observable<T> observable) {
-        return observable.doOnSubscribe(new Action0() {
-          @Override public void call() {
+  public static <T> ObservableTransformer<T, T> hudTransformer(
+      final NetworkContract.HudInterface hud) {
+    return new ObservableTransformer<T, T>() {
+      @Override public ObservableSource<T> apply(Observable<T> observable) {
+        return observable.doOnSubscribe(new Consumer<Disposable>() {
+          @Override public void accept(@NonNull Disposable disposable) throws Exception {
             hud.showHud();
           }
-        }).subscribeOn(mainThread()).doOnTerminate(new Action0() {
-          @Override public void call() {
+        }).subscribeOn(mainThread()).doOnTerminate(new Action() {
+          @Override public void run() {
             RxUtils.dismissHud();
           }
         }).observeOn(mainThread());
@@ -56,11 +60,12 @@ public final class RxUtils {
 
   /**
    * 隐藏Hud
+   *
    * @return Subscription
    */
-  public static Subscription dismissHud() {
-    return  RxUtils.empty(new Action0() {
-      @Override public void call() {
+  public static Disposable dismissHud() {
+    return RxUtils.empty(new Action() {
+      @Override public void run() {
         Hud.getInstance().dismissHud();
       }
     });
@@ -68,51 +73,47 @@ public final class RxUtils {
 
   /**
    * 显示Hud, 不可以取消
+   *
    * @param context theme context
    * @param message message with hud
    * @return Subscription
    */
-  public static Subscription showHud(Context context, String message) {
-    return Observable.just(message)
-        .observeOn(mainThread())
-        .subscribe(new Action1<String>() {
-          @Override public void call(String msg) {
-            Hud.getInstance().showHud(context, message);
-          }
-        });
+  public static Disposable showHud(Context context, String message) {
+    return Observable.just(message).observeOn(mainThread()).subscribe(new Consumer<String>() {
+      @Override public void accept(@NonNull String msg) throws Exception {
+        Hud.getInstance().showHud(context, msg);
+      }
+    });
   }
 
   /**
    * 显示Hud,可以取消
+   *
    * @param context theme context
    * @param message message with hud
    * @param callback dismiss callback
    * @return Subscription
    */
-  public static Subscription showHud(Context context, String message, Hud.HudCallback callback) {
-    return Observable.just(message)
-        .observeOn(mainThread())
-        .subscribe(new Action1<String>() {
-          @Override public void call(String msg) {
-            Hud.getInstance().showHud(context, message, callback);
-          }
-        });
+  public static Disposable showHud(Context context, String message, Hud.HudCallback callback) {
+    return Observable.just(message).observeOn(mainThread()).subscribe(new Consumer<String>() {
+      @Override public void accept(String msg) {
+        Hud.getInstance().showHud(context, msg, callback);
+      }
+    });
   }
 
-  public static Subscription empty(Action0 action0) {
-    return Observable.empty()
-        .observeOn(mainThread())
-        .doOnTerminate(action0)
-        .subscribe();
+  public static Disposable empty(Action onTerminate) {
+    return Observable.empty().observeOn(mainThread()).doOnTerminate(onTerminate).subscribe();
   }
 
   /**
    * unsubscribe Subscription
+   *
    * @param subscription Subscription
    */
-  public static void unsubscribe(Subscription subscription) {
-    if (subscription != null && subscription.isUnsubscribed()) {
-      subscription.unsubscribe();
+  public static void unsubscribe(Disposable disposable) {
+    if (disposable != null && disposable.isDisposed()) {
+      disposable.dispose();
     }
   }
 }

@@ -1,7 +1,7 @@
 package starter.kit.pagination;
 
+import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
-import rx.functions.Action1;
 import starter.kit.app.StarterFragConfig;
 import starter.kit.model.entity.Entity;
 import starter.kit.util.Lists;
@@ -12,7 +12,7 @@ import starter.kit.util.Lists;
 public class PaginatorEmitter<E extends Entity> implements Emitter<E>, PaginatorContract<E> {
 
   private final StarterFragConfig mFragConfig;
-  private Action1<PaginatorEmitter<E>> onRequest;
+  private Consumer<PaginatorEmitter<E>> onRequest;
 
   private boolean hasMoreData;
   private boolean isLoading;
@@ -24,7 +24,7 @@ public class PaginatorEmitter<E extends Entity> implements Emitter<E>, Paginator
 
   private ArrayList<E> requestedItems = Lists.newArrayList();
 
-  public PaginatorEmitter(StarterFragConfig fragConfig, Action1<PaginatorEmitter<E>> onRequest) {
+  public PaginatorEmitter(StarterFragConfig fragConfig, Consumer<PaginatorEmitter<E>> onRequest) {
     this.mFragConfig = fragConfig;
     this.currentPage = fragConfig.getStartPage();
 
@@ -88,7 +88,12 @@ public class PaginatorEmitter<E extends Entity> implements Emitter<E>, Paginator
   @Override public void request() {
     if (canRequest()) {
       isLoading = true;
-      onRequest.call(this);
+      try {
+        onRequest.accept(this);
+      } catch (Exception e) {
+        // TODO
+        e.printStackTrace();
+      }
     }
   }
 

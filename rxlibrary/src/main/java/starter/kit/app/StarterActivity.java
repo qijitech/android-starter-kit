@@ -5,10 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import nucleus.presenter.Presenter;
-import nucleus.view.NucleusAppCompatActivity;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import nucleus5.presenter.Presenter;
+import nucleus5.view.NucleusAppCompatActivity;
 import starter.kit.util.StarterCommon;
 
 public class StarterActivity<P extends Presenter> extends NucleusAppCompatActivity<P> {
@@ -16,14 +16,14 @@ public class StarterActivity<P extends Presenter> extends NucleusAppCompatActivi
   private StarterCommon starterCommon;
   private Unbinder mUnbinder;
 
-  private final CompositeSubscription subscriptions = new CompositeSubscription();
+  private final CompositeDisposable subscriptions = new CompositeDisposable();
 
-  public void add(Subscription subscription) {
-    subscriptions.add(subscription);
+  public void add(Disposable disposable) {
+    subscriptions.add(disposable);
   }
 
-  public void remove(Subscription subscription) {
-    subscriptions.remove(subscription);
+  public void remove(Disposable disposable) {
+    subscriptions.remove(disposable);
   }
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class StarterActivity<P extends Presenter> extends NucleusAppCompatActivi
       starterCommon = null;
     }
 
-    subscriptions.unsubscribe();
+    subscriptions.dispose();
   }
 
   @Override public void finish() {

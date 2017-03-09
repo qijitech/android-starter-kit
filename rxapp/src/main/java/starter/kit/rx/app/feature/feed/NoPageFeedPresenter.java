@@ -1,8 +1,7 @@
 package starter.kit.rx.app.feature.feed;
 
 import android.os.Bundle;
-import java.util.ArrayList;
-import rx.Observable;
+import io.reactivex.Observable;
 import starter.kit.pagination.LengthAwarePaginator;
 import starter.kit.pagination.PaginatorPresenter;
 import starter.kit.rx.app.model.entity.Feed;

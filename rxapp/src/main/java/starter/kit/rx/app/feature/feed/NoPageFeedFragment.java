@@ -3,7 +3,7 @@ package starter.kit.rx.app.feature.feed;
 import android.graphics.Color;
 import android.os.Bundle;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-import nucleus.factory.RequiresPresenter;
+import nucleus5.factory.RequiresPresenter;
 import starter.kit.app.StarterFragConfig;
 import starter.kit.app.StarterRecyclerFragment;
 import starter.kit.rx.app.R;

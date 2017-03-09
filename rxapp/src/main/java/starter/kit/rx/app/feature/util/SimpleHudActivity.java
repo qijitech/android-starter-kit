@@ -3,8 +3,8 @@ package starter.kit.rx.app.feature.util;
 import android.os.Bundle;
 import android.view.View;
 import butterknife.OnClick;
-import rx.Subscription;
-import rx.functions.Action1;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import starter.kit.app.StarterActivity;
 import starter.kit.pagination.Paginator;
 import starter.kit.rx.app.R;
@@ -15,8 +15,8 @@ import starter.kit.util.NetworkContract;
 import starter.kit.util.RxUtils;
 import work.wanghao.simplehud.SimpleHUD;
 
-import static rx.android.schedulers.AndroidSchedulers.mainThread;
-import static rx.schedulers.Schedulers.io;
+import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
+import static io.reactivex.schedulers.Schedulers.io;
 
 /**
  * Created by YuGang Yang on 06 29, 2016.
@@ -25,7 +25,7 @@ import static rx.schedulers.Schedulers.io;
 public class SimpleHudActivity extends StarterActivity {
 
   private FeedService mFeedService;
-  Subscription subscription;
+  Disposable subscription;
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_simple_hud);
@@ -50,8 +50,8 @@ public class SimpleHudActivity extends StarterActivity {
               subscription = null;
             })))
         .observeOn(mainThread())
-        .subscribe(new Action1<Paginator<Feed>>() {
-          @Override public void call(Paginator<Feed> feedPaginator) {
+        .subscribe(new Consumer<Paginator<Feed>>() {
+          @Override public void accept(Paginator<Feed> feedPaginator) {
             SimpleHUD.showInfoMessage(SimpleHudActivity.this, "成功");
           }
         }, throwable -> {

@@ -6,10 +6,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import java.util.concurrent.TimeUnit;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import starter.kit.app.StarterActivity;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.views.CustomEmptyView;
@@ -21,12 +21,12 @@ import support.ui.content.ErrorView;
 import support.ui.content.ReflectionContentPresenterFactory;
 import support.ui.content.RequiresContent;
 
-import static rx.android.schedulers.AndroidSchedulers.mainThread;
+import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 
-@RequiresContent(emptyView = CustomEmptyView.class) public class ContentActivity extends
-    StarterActivity
-    implements EmptyView.OnEmptyViewClickListener,
-    ErrorView.OnErrorViewClickListener, NetworkContract.ProgressInterface {
+@RequiresContent(emptyView = CustomEmptyView.class) public class ContentActivity
+    extends StarterActivity
+    implements EmptyView.OnEmptyViewClickListener, ErrorView.OnErrorViewClickListener,
+    NetworkContract.ProgressInterface {
 
   ReflectionContentPresenterFactory factory =
       ReflectionContentPresenterFactory.fromViewClass(getClass());
@@ -52,8 +52,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
     contentPresenter.onDestroy();
   }
 
-  @SuppressWarnings("unused")
-  @OnClick({
+  @SuppressWarnings("unused") @OnClick({
       R.id.btnLoad, R.id.btnEmpty, R.id.btnError, R.id.btnContent,
   }) public void onClick(View view) {
     switch (view.getId()) {
@@ -89,7 +88,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
   }
 
   private void onRefresh() {
-    rx.Observable.just(1)
+    Observable.just(1)
         .subscribeOn(Schedulers.io())
         .delay(2, TimeUnit.SECONDS)
         .compose(RxUtils.progressTransformer(this))

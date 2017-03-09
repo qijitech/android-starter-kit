@@ -3,7 +3,7 @@ package starter.kit.app;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import nucleus.presenter.Presenter;
+import nucleus5.presenter.Presenter;
 import support.ui.content.ContentPresenter;
 import support.ui.content.EmptyView;
 import support.ui.content.ErrorView;

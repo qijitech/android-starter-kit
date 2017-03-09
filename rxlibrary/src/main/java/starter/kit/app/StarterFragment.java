@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import icepick.Icepick;
-import nucleus.factory.PresenterFactory;
-import nucleus.presenter.Presenter;
-import nucleus.view.NucleusSupportFragment;
+import nucleus5.factory.PresenterFactory;
+import nucleus5.presenter.Presenter;
+import nucleus5.view.NucleusSupportFragment;
 import starter.kit.util.StarterCommon;
 
 

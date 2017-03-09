@@ -7,7 +7,7 @@ package starter.kit.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import nucleus.presenter.Presenter;
+import nucleus5.presenter.Presenter;
 import starter.kit.rx.R;
 
 /**

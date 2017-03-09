@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.CheckBox;
 import butterknife.BindView;
-import com.f2prateek.rx.preferences.Preference;
-import com.f2prateek.rx.preferences.RxSharedPreferences;
-import com.jakewharton.rxbinding.widget.RxCompoundButton;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.subscriptions.CompositeSubscription;
+import com.f2prateek.rx.preferences2.Preference;
+import com.f2prateek.rx.preferences2.RxSharedPreferences;
+import com.jakewharton.rxbinding2.widget.RxCompoundButton;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import starter.kit.app.StarterActivity;
 import starter.kit.rx.app.R;
 
@@ -22,7 +22,7 @@ public class RxPreferencesActivity extends StarterActivity {
   @BindView(R.id.foo_1) CheckBox foo1Checkbox;
   @BindView(R.id.foo_2) CheckBox foo2Checkbox;
   Preference<Boolean> fooPreference;
-  CompositeSubscription subscriptions;
+  CompositeDisposable subscriptions;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -39,14 +39,14 @@ public class RxPreferencesActivity extends StarterActivity {
   @Override protected void onResume() {
     super.onResume();
 
-    subscriptions = new CompositeSubscription();
+    subscriptions = new CompositeDisposable();
     bindPreference(foo1Checkbox, fooPreference);
     bindPreference(foo2Checkbox, fooPreference);
   }
 
   @Override protected void onPause() {
     super.onPause();
-    subscriptions.unsubscribe();
+    subscriptions.dispose();
   }
 
   void bindPreference(CheckBox checkBox, Preference<Boolean> preference) {
@@ -55,6 +55,6 @@ public class RxPreferencesActivity extends StarterActivity {
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(RxCompoundButton.checked(checkBox)));
     // Bind the checkbox to the preference.
-    subscriptions.add(RxCompoundButton.checkedChanges(checkBox).skip(1).subscribe(preference.asAction()));
+    subscriptions.add(RxCompoundButton.checkedChanges(checkBox).skip(1).subscribe(preference.asConsumer()));
   }
 }

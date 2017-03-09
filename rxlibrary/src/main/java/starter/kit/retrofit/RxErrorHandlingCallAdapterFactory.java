@@ -1,5 +1,9 @@
 package starter.kit.retrofit;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -9,10 +13,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.HttpException;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.Observable;
-import rx.functions.Func1;
 
+/**
+ * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
+ */
 public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
+
   private final RxJavaCallAdapterFactory original;
 
   private RxErrorHandlingCallAdapterFactory() {
@@ -23,31 +29,32 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
     return new RxErrorHandlingCallAdapterFactory();
   }
 
-
-
   @Override
-  public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+  public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+    //noinspection unchecked
     return new RxCallAdapterWrapper(retrofit, original.get(returnType, annotations, retrofit));
   }
 
-  private static class RxCallAdapterWrapper implements CallAdapter<Observable<?>> {
-    private final Retrofit retrofit;
-    private final CallAdapter<?> wrapped;
+  private static class RxCallAdapterWrapper<R> implements CallAdapter<Observable<R>, Object> {
 
-    public RxCallAdapterWrapper(Retrofit retrofit, CallAdapter<?> wrapped) {
+    private final Retrofit retrofit;
+    private final CallAdapter<Observable<R>, ?> wrapped;
+
+    RxCallAdapterWrapper(Retrofit retrofit, CallAdapter<Observable<R>, ?> callAdapter) {
       this.retrofit = retrofit;
-      this.wrapped = wrapped;
+      this.wrapped = callAdapter;
     }
 
     @Override public Type responseType() {
       return wrapped.responseType();
     }
 
-    @SuppressWarnings("unchecked") @Override public <R> Observable<?> adapt(Call<R> call) {
+    @Override public Object adapt(Call<Observable<R>> call) {
+      //noinspection unchecked
       return ((Observable) wrapped.adapt(call)).onErrorResumeNext(
-          new Func1<Throwable, Observable>() {
-            @Override public Observable call(Throwable throwable) {
-              return Observable.error(RxCallAdapterWrapper.this.asRetrofitException(throwable));
+          new Function<Throwable, ObservableSource>() {
+            @Override public ObservableSource apply(@NonNull Throwable throwable) throws Exception {
+              return Observable.error(RxErrorHandlingCallAdapterFactory.RxCallAdapterWrapper.this.asRetrofitException(throwable));
             }
           });
     }
