@@ -1,3 +1,5 @@
+import com.android.builder.core.BuilderConstants
+
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
@@ -42,7 +44,7 @@ android {
   }
 
   applicationVariants.all { variant ->
-    if (variant.buildType.name.equals(com.android.builder.core.BuilderConstants.RELEASE)) {
+    if (variant.buildType.name == BuilderConstants.RELEASE) {
       variant.mergedFlavor.versionCode = gitVersionCode()
       variant.mergedFlavor.versionName = gitVersionName()
 
@@ -100,7 +102,7 @@ dependencies {
 //  compile 'com.smartydroid:rxstarter:0.1'
 }
 
-def gitVersionCode() {
+static def gitVersionCode() {
   def cmd = 'git rev-list HEAD --all  --count'
   def versionCode = cmd.execute().text.trim()
   if (versionCode.empty) {
@@ -109,7 +111,7 @@ def gitVersionCode() {
   return versionCode.toInteger()
 }
 
-def gitVersionName() {
+static def gitVersionName() {
   def cmd = 'git describe --abbrev=0 --tags'
   def versionName = cmd.execute().text.trim()
   if (versionName.length() > 5 || versionName.length() <= 0) {
@@ -118,10 +120,10 @@ def gitVersionName() {
   return versionName;
 }
 
-def releaseTime() {
+static def releaseTime() {
   return new Date().format('yyyyMMddHHmm', TimeZone.getDefault())
 }
 
-def releaseOutputFile() {
+static def releaseOutputFile() {
   return '../release/'
 }
