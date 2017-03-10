@@ -1,7 +1,7 @@
 package starter.kit.rx.app.feature.widget;
 
 import android.os.Bundle;
-import rx.subjects.PublishSubject;
+import io.reactivex.processors.PublishProcessor;
 import starter.kit.app.StarterPresenter;
 import starter.kit.rx.app.network.ApiService;
 import starter.kit.rx.app.network.service.FeedService;
@@ -12,7 +12,7 @@ public class DirectionPresenter extends StarterPresenter<DirectionActivity> {
 
   private FeedService mFeedService;
 
-  private PublishSubject<Integer> pageRequests = PublishSubject.create();
+  private PublishProcessor<Integer> pageRequests = PublishProcessor.create();
 
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);

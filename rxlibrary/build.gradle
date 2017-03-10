@@ -78,7 +78,7 @@ dependencies {
 
   compile deps.smoothprogressbar
 
-  compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
+  compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
 
   compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
   // If you want pre-written Activities and Fragments you can subclass as providers

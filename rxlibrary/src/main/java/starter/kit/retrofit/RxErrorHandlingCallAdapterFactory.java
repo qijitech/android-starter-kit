@@ -9,20 +9,20 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
+import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.HttpException;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
 public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
 
-  private final RxJavaCallAdapterFactory original;
+  private final RxJava2CallAdapterFactory original;
 
   private RxErrorHandlingCallAdapterFactory() {
-    original = RxJavaCallAdapterFactory.create();
+    original = RxJava2CallAdapterFactory.create();
   }
 
   public static CallAdapter.Factory create() {
