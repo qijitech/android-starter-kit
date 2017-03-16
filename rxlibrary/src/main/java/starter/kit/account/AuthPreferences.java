@@ -3,7 +3,7 @@ package starter.kit.account;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.content.SharedPreferencesCompat.EditorCompat;
-import starter.kit.util.Strings;
+import support.ui.utilities.Strings;
 
 public class AuthPreferences {
 

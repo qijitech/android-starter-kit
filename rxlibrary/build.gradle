@@ -46,8 +46,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility rootProject.ext.android.javaVersion
-    targetCompatibility rootProject.ext.android.javaVersion
+    sourceCompatibility 1.8
+    targetCompatibility 1.8
   }
 }
 
@@ -91,6 +91,11 @@ dependencies {
 
   compile deps.butterknife
   annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+
+  compile project(':support-ui-core')
+  compile project(':support-ui-adapters')
+  compile project(':support-ui-cells')
+  compile project(':support-ui-widget')
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {

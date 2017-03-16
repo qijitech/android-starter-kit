@@ -6,9 +6,9 @@ import android.view.View;
 import com.paginate.recycler.LoadingListItemCreator;
 import java.util.HashMap;
 import java.util.List;
-import starter.kit.util.Maps;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyViewHolder;
+import support.ui.collection.Maps;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>

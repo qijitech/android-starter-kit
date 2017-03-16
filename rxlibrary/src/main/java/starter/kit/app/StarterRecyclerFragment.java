@@ -23,14 +23,14 @@ import starter.kit.pagination.PaginatorContract;
 import starter.kit.pagination.PaginatorEmitter;
 import starter.kit.pagination.PaginatorPresenter;
 import starter.kit.rx.R;
-import starter.kit.util.Lists;
 import starter.kit.util.RxUtils;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
+import support.ui.collection.Lists;
 
 import static starter.kit.util.Utilities.isAdapterEmpty;
-import static starter.kit.util.Utilities.isNotNull;
+import static support.ui.utilities.Objects.isNotNull;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>

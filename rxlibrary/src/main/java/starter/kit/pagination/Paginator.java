@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import starter.kit.model.entity.Entity;
-import starter.kit.util.Lists;
+import support.ui.collection.Lists;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>

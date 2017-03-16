@@ -99,6 +99,10 @@ dependencies {
   annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 
   compile project(':rxlibrary')
+  compile project(':support-ui-core')
+  compile project(':support-ui-adapters')
+  compile project(':support-ui-cells')
+  compile project(':support-ui-widget')
 //  compile 'com.smartydroid:rxstarter:0.1'
 }
 

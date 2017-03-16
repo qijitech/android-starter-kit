@@ -4,7 +4,7 @@ import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
 import starter.kit.app.StarterFragConfig;
 import starter.kit.model.entity.Entity;
-import starter.kit.util.Lists;
+import support.ui.collection.Lists;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>

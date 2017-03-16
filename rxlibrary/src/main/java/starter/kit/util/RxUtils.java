@@ -78,7 +78,7 @@ public final class RxUtils {
    * @param message message with hud
    * @return Subscription
    */
-  public static Disposable showHud(Context context, String message) {
+  public static Disposable showHud(final Context context, String message) {
     return Observable.just(message).observeOn(mainThread()).subscribe(new Consumer<String>() {
       @Override public void accept(@NonNull String msg) throws Exception {
         Hud.getInstance().showHud(context, msg);
@@ -94,7 +94,7 @@ public final class RxUtils {
    * @param callback dismiss callback
    * @return Subscription
    */
-  public static Disposable showHud(Context context, String message, Hud.HudCallback callback) {
+  public static Disposable showHud(final Context context, String message, final Hud.HudCallback callback) {
     return Observable.just(message).observeOn(mainThread()).subscribe(new Consumer<String>() {
       @Override public void accept(String msg) {
         Hud.getInstance().showHud(context, msg, callback);

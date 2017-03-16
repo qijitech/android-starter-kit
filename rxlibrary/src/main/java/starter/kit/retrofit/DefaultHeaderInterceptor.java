@@ -5,7 +5,7 @@ import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.Response;
 import starter.kit.account.AccountManager;
-import starter.kit.util.Strings;
+import support.ui.utilities.Strings;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>

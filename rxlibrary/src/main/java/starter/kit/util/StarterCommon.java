@@ -3,7 +3,7 @@ package starter.kit.util;
 import android.app.Activity;
 import support.ui.utilities.KeyboardUtils;
 
-import static starter.kit.util.Preconditions.checkNotNull;
+import static support.ui.utilities.Preconditions.checkNotNull;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>

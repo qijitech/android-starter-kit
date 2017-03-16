@@ -1,6 +1,8 @@
-include ':app'
 include ':rxapp'
-include ':library'
+include ':support-ui-adapters'
+include ':support-ui-cells'
+include ':support-ui-core'
+include ':support-ui-widget'
 include ':rxlibrary'
 
 //rootProject.name = 'rxlibrary'

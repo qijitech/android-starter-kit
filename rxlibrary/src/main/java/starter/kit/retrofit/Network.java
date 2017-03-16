@@ -7,10 +7,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
-import starter.kit.util.Preconditions;
-import starter.kit.util.Strings;
+import support.ui.app.AppInfo;
 import support.ui.app.SupportApp;
-import support.ui.utilities.AppInfo;
+import support.ui.utilities.Preconditions;
+import support.ui.utilities.Strings;
 
 public final class Network {
 
