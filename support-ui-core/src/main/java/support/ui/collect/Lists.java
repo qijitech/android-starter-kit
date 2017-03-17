@@ -1,4 +1,4 @@
-package support.ui.collection;
+package support.ui.collect;
 
 import android.util.SparseArray;
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
 import starter.kit.app.StarterFragConfig;
 import starter.kit.model.entity.Entity;
-import support.ui.collection.Lists;
+import support.ui.collect.Lists;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
@@ -91,7 +91,6 @@ public class PaginatorEmitter<E extends Entity> implements Emitter<E>, Paginator
       try {
         onRequest.accept(this);
       } catch (Exception e) {
-        // TODO
         e.printStackTrace();
       }
     }

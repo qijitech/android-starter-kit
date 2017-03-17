@@ -42,6 +42,9 @@ android {
   }
 
   lintOptions {
+    // set to true to have all release builds run lint on issues with severity=fatal
+    // and abort the build (controlled by abortOnError above) if fatal issues are found
+    checkReleaseBuilds true
     abortOnError false
   }
 

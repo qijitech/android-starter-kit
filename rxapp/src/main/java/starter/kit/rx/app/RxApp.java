@@ -24,7 +24,7 @@ public class RxApp extends StarterApp {
   }
 
   @Override public Account provideAccount(String accountJson) {
-    // TODO: 2016/11/10 Must Convert to Account Obj
+    // 2016/11/10 Must Convert to Account Obj
     return null;
   }
 }

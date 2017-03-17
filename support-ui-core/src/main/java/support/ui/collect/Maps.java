@@ -1,4 +1,4 @@
-package support.ui.collection;
+package support.ui.collect;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

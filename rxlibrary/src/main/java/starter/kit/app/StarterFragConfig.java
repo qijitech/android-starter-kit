@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyViewHolder;
-import support.ui.collection.Maps;
+import support.ui.collect.Maps;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>

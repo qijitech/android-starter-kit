@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentMap;
  * @since 3.0
  * @version $Id: FormatCache 892161 2009-12-18 07:21:10Z  $
  */
-// TODO: Before making public move from getDateTimeInstance(Integer,...) to int; or some other approach.
+// Before making public move from getDateTimeInstance(Integer,...) to int; or some other approach.
 abstract class FormatCache<F extends Format> {
     /**
      * No date or no time.  Used in same parameters as DateFormat.SHORT or DateFormat.LONG

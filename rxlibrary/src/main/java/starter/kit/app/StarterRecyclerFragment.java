@@ -27,7 +27,7 @@ import starter.kit.util.RxUtils;
 import support.ui.adapters.BaseEasyViewHolderFactory;
 import support.ui.adapters.EasyRecyclerAdapter;
 import support.ui.adapters.EasyViewHolder;
-import support.ui.collection.Lists;
+import support.ui.collect.Lists;
 
 import static starter.kit.util.Utilities.isAdapterEmpty;
 import static support.ui.utilities.Objects.isNotNull;
