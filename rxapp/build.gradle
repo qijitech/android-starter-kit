@@ -35,6 +35,8 @@ android {
   }
 
   lintOptions {
+    // if true, only report errors
+    ignoreWarnings true
     abortOnError false
   }
 

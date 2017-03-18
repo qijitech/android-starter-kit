@@ -19,6 +19,8 @@ android {
 
   lintOptions {
     abortOnError false
+    // if true, only report errors
+    ignoreWarnings true
   }
 
   compileOptions {
