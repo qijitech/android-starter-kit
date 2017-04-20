@@ -76,9 +76,7 @@ dependencies {
   // Because RxAndroid releases are few and far between, it is recommended you also
   // explicitly depend on RxJava's latest version for bug fixes and new features.
   compile deps.rxjava
-  compile deps.rxjava
 
-  compile deps.smoothprogressbar
 
   compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
 

@@ -32,7 +32,7 @@ android {
 dependencies {
   compile project(':support-ui-core')
   compile deps.recyclerviewV7
-  compile deps.smoothprogressbar
+  compile deps.materialProgress
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {

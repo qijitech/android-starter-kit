@@ -74,7 +74,7 @@ dependencies {
   testCompile 'junit:junit:4.12'
 
   compile deps.cardviewV7
-  compile deps.smoothprogressbar
+  compile deps.materialProgress
 
   compile 'org.parceler:parceler-api:1.1.6'
   annotationProcessor 'org.parceler:parceler:1.1.6'
@@ -101,10 +101,10 @@ dependencies {
   annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 
   compile project(':rxlibrary')
-  compile project(':support-ui-core')
-  compile project(':support-ui-adapters')
-  compile project(':support-ui-cells')
-  compile project(':support-ui-widget')
+  /*  compile project(':support-ui-core')
+    compile project(':support-ui-adapters')
+    compile project(':support-ui-cells')
+    compile project(':support-ui-widget')*/
 //  compile 'com.smartydroid:rxstarter:0.1'
 }
 
