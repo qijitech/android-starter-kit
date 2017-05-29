@@ -32,6 +32,7 @@ android {
   defaultConfig {
     minSdkVersion rootProject.ext.android.minSdkVersion
     targetSdkVersion rootProject.ext.android.targetSdkVersion
+    multiDexEnabled true
   }
 
   buildTypes {
@@ -88,6 +89,8 @@ dependencies {
 
   compile 'frankiesardo:icepick:3.2.0'
   provided 'frankiesardo:icepick-processor:3.2.0'
+
+  compile 'com.android.support:multidex:1.0.1'
 
   compile deps.butterknife
   annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion

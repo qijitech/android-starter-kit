@@ -1,5 +1,7 @@
 package starter.kit.rx.app;
 
+import android.content.Context;
+import android.support.multidex.MultiDex;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import starter.kit.app.StarterApp;
@@ -21,6 +23,11 @@ public class RxApp extends StarterApp {
     Fresco.initialize(appContext());
 
     InitializeUtil.initialize();
+  }
+
+  @Override protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    MultiDex.install(this);
   }
 
   @Override public Account provideAccount(String accountJson) {
