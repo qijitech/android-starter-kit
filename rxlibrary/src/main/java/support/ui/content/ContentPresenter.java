@@ -59,18 +59,18 @@ public final class ContentPresenter {
   }
 
   public void onDestroyView() {
-    mCurrentId = ID_NONE;
     mContentView = null;
+    mContainer = null;
     mViewArray.clear();
   }
 
   public void onDestroy() {
-    onEmptyViewClickListener = null;
-    onErrorViewClickListener = null;
+    mCurrentId = ID_NONE;
     mContext = null;
-    mContainer = null;
     mViewClassArray = null;
     mViewArray = null;
+    onEmptyViewClickListener = null;
+    onErrorViewClickListener = null;
   }
 
   /**
