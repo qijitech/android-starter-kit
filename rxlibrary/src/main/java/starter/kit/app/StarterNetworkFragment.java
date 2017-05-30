@@ -46,14 +46,14 @@ import support.ui.content.RequiresContent;
     mFragConfig = fragConfig;
   }
 
-  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
+  @Override public void onResume() {
+    super.onResume();
     contentPresenter.attachContainer(provideContainer());
     contentPresenter.attachContentView(provideContentView());
   }
 
-  @Override public void onDestroyView() {
-    super.onDestroyView();
+  @Override public void onPause() {
+    super.onPause();
     contentPresenter.onDestroyView();
   }
 
