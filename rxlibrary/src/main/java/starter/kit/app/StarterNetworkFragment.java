@@ -72,11 +72,13 @@ import support.ui.content.RequiresContent;
   }
 
   @Override public void showProgress() {
-    RxUtils.empty(new Action0() {
-      @Override public void call() {
-        getContentPresenter().displayLoadView();
-      }
-    });
+    if (mFragConfig.shouldDisplayLoadingView()) {
+      RxUtils.empty(new Action0() {
+        @Override public void call() {
+          getContentPresenter().displayLoadView();
+        }
+      });
+    }
   }
 
   @Override public void hideProgress() {

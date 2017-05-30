@@ -47,6 +47,8 @@ public class StarterFragConfig {
   private int startPage;
 
   private boolean withKeyRequest;
+  private boolean shouldDisplayEmptyView;
+  private boolean shouldDisplayLoadingView;
 
   public List<Object> getItems() {
     return mItems;
@@ -108,6 +110,14 @@ public class StarterFragConfig {
     return withKeyRequest;
   }
 
+  public boolean shouldDisplayEmptyView() {
+    return shouldDisplayEmptyView;
+  }
+
+  public boolean shouldDisplayLoadingView() {
+    return shouldDisplayLoadingView;
+  }
+
   public View getCustomExceptionView() {
     return customExceptionView;
   }
@@ -146,6 +156,8 @@ public class StarterFragConfig {
     private int startPage = 1;
 
     private boolean withKeyRequest = false; // Default with page request
+    private boolean shouldDisplayEmptyView = true;
+    private boolean shouldDisplayLoadingView = true;
 
     // DynamicBox config
     private View customInternetView;
@@ -170,6 +182,8 @@ public class StarterFragConfig {
       config.startPage = startPage;
       config.withKeyRequest = withKeyRequest;
       config.mItems = items;
+      config.shouldDisplayEmptyView = shouldDisplayEmptyView;
+      config.shouldDisplayLoadingView = shouldDisplayLoadingView;
 
       config.customExceptionView = customExceptionView;
       config.customLoadingView = customLoadingView;
@@ -250,6 +264,16 @@ public class StarterFragConfig {
 
     public Builder withKeyRequest(boolean withKeyRequest) {
       this.withKeyRequest = withKeyRequest;
+      return this;
+    }
+
+    public Builder shouldDisplayEmptyView(boolean shouldDisplayEmptyView) {
+      this.shouldDisplayEmptyView = shouldDisplayEmptyView;
+      return this;
+    }
+
+    public Builder shouldDisplayLoadingView(boolean shouldDisplayLoadingView) {
+      this.shouldDisplayLoadingView = shouldDisplayLoadingView;
       return this;
     }
 

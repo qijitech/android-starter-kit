@@ -179,7 +179,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   @Override public void showProgress() {
-    if (!isNotNull(mPaginatorEmitter)) {
+    if (!isNotNull(mPaginatorEmitter) || !getFragConfig().shouldDisplayLoadingView()) {
       return;
     }
     mPaginatorEmitter.setLoading(true);
@@ -223,7 +223,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     }
 
     if (getContentPresenter() != null) {
-      if (isAdapterEmpty(mAdapter)) {
+      if (isAdapterEmpty(mAdapter) && getFragConfig().shouldDisplayEmptyView()) {
         getContentPresenter().displayEmptyView();
       } else {
         getContentPresenter().displayContentView();
