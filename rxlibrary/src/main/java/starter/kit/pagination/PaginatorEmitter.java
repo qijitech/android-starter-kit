@@ -69,7 +69,8 @@ public class PaginatorEmitter<E extends Entity> implements Emitter<E>, Paginator
       nextPaginatorKey = lastItem().paginatorKey();
     } else {
       firstPaginatorKey = String.valueOf(mFragConfig.getStartPage());
-      nextPaginatorKey = String.valueOf(++currentPage);
+      currentPage = mPaginatorContract.currentPage() + 1;
+      nextPaginatorKey = String.valueOf(currentPage);
     }
   }
 
