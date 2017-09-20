@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import rx.exceptions.MissingBackpressureException;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import starter.kit.model.entity.Entity;
@@ -234,8 +235,10 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   @Override public void onError(Throwable throwable) {
     super.onError(throwable);
 
-    // error handle
-    mPaginatorEmitter.received(null);
+    if (!(throwable instanceof MissingBackpressureException)) { // 防止重复调用
+      // error handle
+      mPaginatorEmitter.received(null);
+    }
 
     if (mPaginatorEmitter.isFirstPage() && mAdapter.isEmpty()) {
       mAdapter.clear();
@@ -300,7 +303,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   @Override public boolean hasLoadedAllItems() {
-    return isNotNull(mPaginatorEmitter) && !mPaginatorEmitter.hasMorePages();
+    return isNotNull(mPaginatorEmitter) && mPaginatorEmitter.hasMorePages();
   }
 
   @Override public View provideContentView() {
