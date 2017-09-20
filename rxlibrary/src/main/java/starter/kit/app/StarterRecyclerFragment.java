@@ -303,7 +303,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   @Override public boolean hasLoadedAllItems() {
-    return isNotNull(mPaginatorEmitter) && mPaginatorEmitter.hasMorePages();
+    return isNotNull(mPaginatorEmitter) && !mPaginatorEmitter.hasMorePages();
   }
 
   @Override public View provideContentView() {
