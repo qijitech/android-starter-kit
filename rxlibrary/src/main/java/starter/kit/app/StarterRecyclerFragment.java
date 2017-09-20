@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.exceptions.MissingBackpressureException;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
@@ -238,6 +239,10 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
 
     // error handle
     mPaginatorEmitter.received(null);
+    if (!(throwable instanceof MissingBackpressureException)) { // 防止重复调用
+      // error handle
+      mPaginatorEmitter.received(null);
+    }
 
     if (mPaginatorEmitter.isFirstPage() && mAdapter.isEmpty()) {
       mAdapter.clear();
