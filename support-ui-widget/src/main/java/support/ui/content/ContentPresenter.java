@@ -12,13 +12,19 @@ import java.lang.reflect.Constructor;
 import support.ui.utilities.LayoutHelper;
 import support.ui.widget.R;
 
+/**
+ * @author xujl
+ * 内容页面逻辑控制presenter类
+ *
+ */
+
 public final class ContentPresenter {
 
   private static final int ID_NONE = -1;
-  private static final int LoadViewId = R.id.supportUiLoadView;
-  private static final int EmptyViewId = R.id.supportUiEmptyView;
-  private static final int ErrorViewId = R.id.supportUiErrorView;
-  private static final int ContentViewId = R.id.supportUiContentView;
+  private static final int LOAD_VIEW_ID = R.id.supportUiLoadView;
+  private static final int EMPTY_VIEW_ID = R.id.supportUiEmptyView;
+  private static final int ERROR_VIEW_ID = R.id.supportUiErrorView;
+  private static final int CONTENT_VIEW_ID = R.id.supportUiContentView;
 
   private SparseArrayCompat<Class<View>> mViewClassArray = new SparseArrayCompat<>(4);
   private SparseArrayCompat<View> mViewArray = new SparseArrayCompat<>(4);
@@ -77,9 +83,9 @@ public final class ContentPresenter {
    * 显示进度条
    */
   public ContentPresenter displayLoadView() {
-    final int loadViewId = LoadViewId;
-    if (mCurrentId != loadViewId) {
-      displayView(loadViewId);
+    final int loadViewId = LOAD_VIEW_ID;
+    if (mCurrentId != ContentPresenter.LOAD_VIEW_ID) {
+      displayView(ContentPresenter.LOAD_VIEW_ID);
     }
     return this;
   }
@@ -88,9 +94,9 @@ public final class ContentPresenter {
    * 显示空白页
    */
   public ContentPresenter displayEmptyView() {
-    final int emptyViewId = EmptyViewId;
-    if (mCurrentId != emptyViewId) {
-      View view = displayView(emptyViewId);
+    final int emptyViewiD = ContentPresenter.EMPTY_VIEW_ID;
+    if (mCurrentId != ContentPresenter.EMPTY_VIEW_ID) {
+      View view = displayView(ContentPresenter.EMPTY_VIEW_ID);
       if (view instanceof EmptyView) {
         EmptyView emptyView = (EmptyView) view;
         emptyView.setOnEmptyViewClickListener(onEmptyViewClickListener);
@@ -103,9 +109,9 @@ public final class ContentPresenter {
    * 显示错误页面
    */
   public ContentPresenter displayErrorView() {
-    final int errorViewId = ErrorViewId;
-    if (mCurrentId != errorViewId) {
-      View view = displayView(errorViewId);
+    final int ERROR_VIEW_ID = ContentPresenter.ERROR_VIEW_ID;
+    if (mCurrentId != ContentPresenter.ERROR_VIEW_ID) {
+      View view = displayView(ContentPresenter.ERROR_VIEW_ID);
       if (view instanceof ErrorView) {
         ErrorView errorView = (ErrorView) view;
         errorView.setOnErrorViewClickListener(onErrorViewClickListener);
@@ -118,7 +124,7 @@ public final class ContentPresenter {
    * 显示内容
    */
   public ContentPresenter displayContentView() {
-    final int contentViewId = ContentViewId;
+    final int contentViewId = CONTENT_VIEW_ID;
     if (mCurrentId != contentViewId && mContentView != null) {
       final ViewGroup container = mContainer;
       final ViewGroup.LayoutParams layoutParams = LayoutHelper.createViewGroupLayoutParams();
@@ -131,7 +137,7 @@ public final class ContentPresenter {
 
   // empty start
   public ContentPresenter buildEmptyImageView(@DrawableRes int drawableRes) {
-    View view = checkView(EmptyViewId);
+    View view = checkView(EMPTY_VIEW_ID);
     if (view instanceof EmptyView) {
       EmptyView emptyView = (EmptyView) view;
       emptyView.buildEmptyImageView(drawableRes);
@@ -144,7 +150,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter buildEmptyTitle(String title) {
-    View view = checkView(EmptyViewId);
+    View view = checkView(EMPTY_VIEW_ID);
     if (view instanceof EmptyView) {
       EmptyView emptyView = (EmptyView) view;
       emptyView.buildEmptyTitle(title);
@@ -157,7 +163,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter buildEmptySubtitle(String subtitle) {
-    View view = checkView(EmptyViewId);
+    View view = checkView(EMPTY_VIEW_ID);
     if (view instanceof EmptyView) {
       EmptyView emptyView = (EmptyView) view;
       emptyView.buildEmptySubtitle(subtitle);
@@ -166,7 +172,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter shouldDisplayEmptySubtitle(boolean display) {
-    View view = checkView(EmptyViewId);
+    View view = checkView(EMPTY_VIEW_ID);
     if (view instanceof EmptyView) {
       EmptyView emptyView = (EmptyView) view;
       emptyView.shouldDisplayEmptySubtitle(display);
@@ -175,7 +181,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter shouldDisplayEmptyTitle(boolean display) {
-    View view = checkView(EmptyViewId);
+    View view = checkView(EMPTY_VIEW_ID);
     if (view instanceof EmptyView) {
       EmptyView emptyView = (EmptyView) view;
       emptyView.shouldDisplayEmptyTitle(display);
@@ -184,7 +190,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter shouldDisplayEmptyImageView(boolean display) {
-    View view = checkView(EmptyViewId);
+    View view = checkView(EMPTY_VIEW_ID);
     if (view instanceof EmptyView) {
       EmptyView emptyView = (EmptyView) view;
       emptyView.shouldDisplayEmptyImageView(display);
@@ -194,7 +200,7 @@ public final class ContentPresenter {
 
   // error start
   public ContentPresenter buildErrorImageView(@DrawableRes int drawableRes) {
-    View view = checkView(ErrorViewId);
+    View view = checkView(ERROR_VIEW_ID);
     if (view instanceof ErrorView) {
       ErrorView errorView = (ErrorView) view;
       errorView.buildErrorImageView(drawableRes);
@@ -207,7 +213,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter buildErrorTitle(String title) {
-    View view = checkView(ErrorViewId);
+    View view = checkView(ERROR_VIEW_ID);
     if (view instanceof ErrorView) {
       ErrorView errorView = (ErrorView) view;
       errorView.buildErrorTitle(title);
@@ -220,7 +226,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter buildErrorSubtitle(String subtitle) {
-    View view = checkView(ErrorViewId);
+    View view = checkView(ERROR_VIEW_ID);
     if (view instanceof ErrorView) {
       ErrorView errorView = (ErrorView) view;
       errorView.buildErrorSubtitle(subtitle);
@@ -229,7 +235,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter shouldDisplayErrorSubtitle(boolean display) {
-    View view = checkView(ErrorViewId);
+    View view = checkView(ERROR_VIEW_ID);
     if (view instanceof ErrorView) {
       ErrorView errorView = (ErrorView) view;
       errorView.shouldDisplayErrorSubtitle(display);
@@ -238,7 +244,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter shouldDisplayErrorTitle(boolean display) {
-    View view = checkView(ErrorViewId);
+    View view = checkView(ERROR_VIEW_ID);
     if (view instanceof ErrorView) {
       ErrorView errorView = (ErrorView) view;
       errorView.shouldDisplayErrorTitle(display);
@@ -247,7 +253,7 @@ public final class ContentPresenter {
   }
 
   public ContentPresenter shouldDisplayErrorImageView(boolean display) {
-    View view = checkView(ErrorViewId);
+    View view = checkView(ERROR_VIEW_ID);
     if (view instanceof ErrorView) {
       ErrorView errorView = (ErrorView) view;
       errorView.shouldDisplayErrorImageView(display);
@@ -285,9 +291,9 @@ public final class ContentPresenter {
   private ContentPresenter buildViewClassArray(Class<View> loadViewClass,
       Class<View> emptyViewClass, Class<View> errorViewClass) {
     final SparseArrayCompat<Class<View>> viewClassArray = mViewClassArray;
-    viewClassArray.put(LoadViewId, loadViewClass);
-    viewClassArray.put(EmptyViewId, emptyViewClass);
-    viewClassArray.put(ErrorViewId, errorViewClass);
+    viewClassArray.put(LOAD_VIEW_ID, loadViewClass);
+    viewClassArray.put(EMPTY_VIEW_ID, emptyViewClass);
+    viewClassArray.put(ERROR_VIEW_ID, errorViewClass);
     return this;
   }
 

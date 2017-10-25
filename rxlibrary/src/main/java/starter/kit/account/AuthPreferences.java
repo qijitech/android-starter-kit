@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.support.v4.content.SharedPreferencesCompat.EditorCompat;
 import support.ui.utilities.Strings;
 
+/**
+ * 用户信息SP类
+ */
 public class AuthPreferences {
 
   private static final String KEY_USER = "user";

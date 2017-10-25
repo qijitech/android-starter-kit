@@ -5,6 +5,9 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+/**
+ * 内容布局注解
+ */
 @Inherited @Retention(RetentionPolicy.RUNTIME) public @interface RequiresContent {
 
   Class<? extends View> loadView() default DefaultLoadView.class;

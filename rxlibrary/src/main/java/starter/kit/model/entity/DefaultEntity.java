@@ -6,15 +6,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-@JsonIgnoreProperties(ignoreUnknown = true) public class DefaultEntity implements Entity {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class DefaultEntity implements Entity {
 
-  @JsonProperty("id") public String identifier;
+    @JsonProperty("id")
+    public String identifier;
 
-  @Override public String identifier() {
-    return identifier;
-  }
+    @Override
+    public String identifier () {
+        return identifier;
+    }
 
-  @Override public String paginatorKey() {
-    return identifier;
-  }
+    @Override
+    public String paginatorKey () {
+        return identifier;
+    }
 }
