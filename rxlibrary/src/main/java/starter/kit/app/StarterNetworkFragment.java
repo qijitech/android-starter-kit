@@ -20,8 +20,7 @@ import support.ui.content.RequiresContent;
  */
 @RequiresContent public abstract class StarterNetworkFragment<T, P extends Presenter>
     extends StarterFragment<P>
-    implements NetworkContract.ContentInterface<T>,
-    EmptyView.OnEmptyViewClickListener,
+    implements NetworkContract.ContentInterface<T>, EmptyView.OnEmptyViewClickListener,
     ErrorView.OnErrorViewClickListener {
 
   private ReflectionContentPresenterFactory factory =

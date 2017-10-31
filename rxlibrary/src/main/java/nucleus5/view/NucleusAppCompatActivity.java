@@ -3,7 +3,6 @@ package nucleus5.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-
 import nucleus5.factory.PresenterFactory;
 import nucleus5.factory.ReflectionPresenterFactory;
 import nucleus5.presenter.Presenter;
@@ -25,7 +24,7 @@ public abstract class NucleusAppCompatActivity<P extends Presenter> extends AppC
     /**
      * Returns a current presenter factory.
      */
-    public PresenterFactory<P> getPresenterFactory() {
+    @Override public PresenterFactory<P> getPresenterFactory() {
         return presenterDelegate.getPresenterFactory();
     }
 
@@ -47,15 +46,16 @@ public abstract class NucleusAppCompatActivity<P extends Presenter> extends AppC
      *
      * @return a currently attached presenter or null.
      */
-    public P getPresenter() {
+    @Override public P getPresenter() {
         return presenterDelegate.getPresenter();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
-            presenterDelegate.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_STATE_KEY));
+      if (savedInstanceState != null) {
+        presenterDelegate.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_STATE_KEY));
+      }
     }
 
     @Override

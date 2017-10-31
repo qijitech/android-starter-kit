@@ -35,13 +35,17 @@ import starter.kit.rx.app.feature.util.SimpleHudActivity;
 
 public class MainActivity extends StarterActivity implements Drawer.OnDrawerItemClickListener {
 
-  //save our header or result
-  private AccountHeader headerResult = null;
-  private Drawer result = null;
+  private static final String TAG_FEEDS = "feeds";
+  private static final String TAG_LOGIN = "login";
+  private static final String TAG_SIMPLE_HUD = "SimpleHud";
+  private static final String TAG_CONTENT = "ContentDemo";
   @BindView(R.id.toolbar) Toolbar mToolbar;
   @BindView(R.id.viewPager) ViewPager mViewPager;
   @BindView(R.id.tabLayout) TabLayout mTabLayout;
   @BindView(R.id.collapsingToolbarLayout) CollapsingToolbarLayout mCollapsingToolbarLayout;
+  //save our header or result
+  private AccountHeader headerResult = null;
+  private Drawer result = null;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -71,7 +75,8 @@ public class MainActivity extends StarterActivity implements Drawer.OnDrawerItem
     adapter.addFrag(NoPageFeedFragment.create(), "No Page");
     mViewPager.setAdapter(adapter);
 
-    final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, RxApp.appResources().getDisplayMetrics());
+    final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4,
+        RxApp.appResources().getDisplayMetrics());
     mViewPager.setPageMargin(pageMargin);
   }
 
@@ -102,26 +107,24 @@ public class MainActivity extends StarterActivity implements Drawer.OnDrawerItem
         .withToolbar(mToolbar)
         .withHasStableIds(true)
         .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
-        .addDrawerItems(
-            new PrimaryDrawerItem().withName("Feeds").withIcon(FontAwesome.Icon.faw_android).withTag(TAG_FEEDS),
-            new PrimaryDrawerItem().withName("Login").withIcon(FontAwesome.Icon.faw_adjust).withTag(TAG_LOGIN),
-            new PrimaryDrawerItem().withName("SimpleHud").withIcon(FontAwesome.Icon.faw_adjust).withTag(TAG_SIMPLE_HUD),
-            new PrimaryDrawerItem().withName("Content").withIcon(FontAwesome.Icon.faw_connectdevelop).withTag(TAG_CONTENT)
-        )
-        .addStickyDrawerItems(
-            new PrimaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog),
-            new PrimaryDrawerItem().withName(R.string.drawer_item_open_source).withIcon(FontAwesome.Icon.faw_github)
-        )
+        .addDrawerItems(new PrimaryDrawerItem().withName("Feeds")
+            .withIcon(FontAwesome.Icon.faw_android)
+            .withTag(TAG_FEEDS), new PrimaryDrawerItem().withName("Login")
+            .withIcon(FontAwesome.Icon.faw_adjust)
+            .withTag(TAG_LOGIN), new PrimaryDrawerItem().withName("SimpleHud")
+            .withIcon(FontAwesome.Icon.faw_adjust)
+            .withTag(TAG_SIMPLE_HUD), new PrimaryDrawerItem().withName("Content")
+            .withIcon(FontAwesome.Icon.faw_connectdevelop)
+            .withTag(TAG_CONTENT))
+        .addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.drawer_item_settings)
+                .withIcon(FontAwesome.Icon.faw_cog),
+            new PrimaryDrawerItem().withName(R.string.drawer_item_open_source)
+                .withIcon(FontAwesome.Icon.faw_github))
         .withOnDrawerItemClickListener(this)
         .withSavedInstance(savedInstanceState)
         .withShowDrawerOnFirstLaunch(true)
         .build();
   }
-
-  private static final String TAG_FEEDS = "feeds";
-  private static final String TAG_LOGIN = "login";
-  private static final String TAG_SIMPLE_HUD = "SimpleHud";
-  private static final String TAG_CONTENT = "ContentDemo";
 
   @Override public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
     if (TAG_LOGIN.equals(drawerItem.getTag())) {
@@ -164,13 +167,11 @@ public class MainActivity extends StarterActivity implements Drawer.OnDrawerItem
       super(manager);
     }
 
-    @Override
-    public Fragment getItem(int position) {
+    @Override public Fragment getItem(int position) {
       return mFragments.get(position);
     }
 
-    @Override
-    public int getCount() {
+    @Override public int getCount() {
       return mFragments.size();
     }
 
@@ -179,8 +180,7 @@ public class MainActivity extends StarterActivity implements Drawer.OnDrawerItem
       mFragmentTitles.add(title);
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
+    @Override public CharSequence getPageTitle(int position) {
       return mFragmentTitles.get(position);
     }
   }

@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -75,16 +74,6 @@ public class Presenter<View> {
     }
 
     /**
-     * A callback to be invoked when a presenter is about to be destroyed.
-     */
-    public interface OnDestroyListener {
-        /**
-         * Called before {@link Presenter#onDestroy()}.
-         */
-        void onDestroy();
-    }
-
-    /**
      * Adds a listener observing {@link #onDestroy}.
      *
      * @param listener a listener to add.
@@ -132,8 +121,9 @@ public class Presenter<View> {
      * Destroys the presenter, calling all {@link Presenter.OnDestroyListener} callbacks.
      */
     public void destroy() {
-        for (OnDestroyListener listener : onDestroyListeners)
-            listener.onDestroy();
+      for (OnDestroyListener listener : onDestroyListeners) {
+        listener.onDestroy();
+      }
         onDestroy();
     }
 
@@ -161,4 +151,14 @@ public class Presenter<View> {
         onDropView();
         this.view = null;
     }
+
+  /**
+   * A callback to be invoked when a presenter is about to be destroyed.
+   */
+  public interface OnDestroyListener {
+    /**
+     * Called before {@link Presenter#onDestroy()}.
+     */
+    void onDestroy();
+  }
 }

@@ -13,7 +13,6 @@ import nucleus5.presenter.Presenter;
 import nucleus5.view.NucleusSupportFragment;
 import starter.kit.util.StarterCommon;
 
-
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
