@@ -28,8 +28,8 @@ import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
  * Created by YuGang Yang on 06 29, 2016.
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
-@RequiresPresenter(AuthPresenter.class)
-public class LoginActivity extends StarterActivity<AuthPresenter> implements NetworkContract.View {
+@RequiresPresenter(AuthPresenter.class) public class LoginActivity
+    extends StarterActivity<AuthPresenter> implements NetworkContract.View {
 
   @BindView(R.id.container_login_username) TextInputLayout mUsernameContainer;
   @BindView(R.id.container_login_password) TextInputLayout mPasswordContainer;

@@ -22,8 +22,8 @@
       >
     <activity
         android:name=".feature.main.MainActivity"
-        android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"
-        android:launchMode="singleTask">
+        android:launchMode="singleTask"
+        android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -60,9 +60,9 @@
 
     <activity
         android:name=".feature.content.ContentActivity"
+        android:label="@string/label_content"
         android:launchMode="singleTask"
-        android:screenOrientation="portrait"
-        android:label="@string/label_content">
+        android:screenOrientation="portrait">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
           android:value="starter.kit.rx.app.feature.main.MainActivity"/>

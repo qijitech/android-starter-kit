@@ -184,5 +184,4 @@ public class MainActivity extends StarterActivity implements Drawer.OnDrawerItem
       return mFragmentTitles.get(position);
     }
   }
-
 }

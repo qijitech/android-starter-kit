@@ -46,18 +46,19 @@ public class Installation {
   }
 
   private static String getPseudoUniqueID() {
-    return "35" + BOARD.length() % 10 +
-        BRAND.length() % 10 +
-        DEVICE.length() % 10 +
-        DISPLAY.length() % 10 +
-        HOST.length() % 10 +
-        ID.length() % 10 +
-        MANUFACTURER.length() % 10 +
-        MODEL.length() % 10 +
-        PRODUCT.length() % 10 +
-        TAGS.length() % 10 +
-        TYPE.length() % 10 +
-        USER.length() % 10;
+    return "35"
+        + BOARD.length() % 10
+        + BRAND.length() % 10
+        + DEVICE.length() % 10
+        + DISPLAY.length() % 10
+        + HOST.length() % 10
+        + ID.length() % 10
+        + MANUFACTURER.length() % 10
+        + MODEL.length() % 10
+        + PRODUCT.length() % 10
+        + TAGS.length() % 10
+        + TYPE.length() % 10
+        + USER.length() % 10;
   }
 
   private static String getAndroidId() {

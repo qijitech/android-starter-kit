@@ -8,6 +8,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class RetrofitException extends Throwable {
+  private final String url;
+  private final Response response;
+  private final Kind kind;
+  private final Retrofit retrofit;
+
+  RetrofitException(String message, String url, Response response, Kind kind, Throwable exception,
+      Retrofit retrofit) {
+    super(message, exception);
+    this.url = url;
+    this.response = response;
+    this.kind = kind;
+    this.retrofit = retrofit;
+  }
+
   public static RetrofitException httpError(String url, Response response, Retrofit retrofit) {
     String message = response.code() + " " + response.message();
     return new RetrofitException(message, url, response, Kind.HTTP, null, retrofit);
@@ -18,33 +32,8 @@ public class RetrofitException extends Throwable {
   }
 
   public static RetrofitException unexpectedError(Throwable exception) {
-    return new RetrofitException(exception.getMessage(), null, null, Kind.UNEXPECTED, exception, null);
-  }
-
-  /** Identifies the event kind which triggered a {@link RetrofitException}. */
-  public enum Kind {
-    /** An {@link IOException} occurred while communicating to the server. */
-    NETWORK,
-    /** A non-200 HTTP status code was received from the server. */
-    HTTP,
-    /**
-     * An internal error occurred while attempting to execute a request. It is best practice to
-     * re-throw this exception so your application crashes.
-     */
-    UNEXPECTED
-  }
-
-  private final String url;
-  private final Response response;
-  private final Kind kind;
-  private final Retrofit retrofit;
-
-  RetrofitException(String message, String url, Response response, Kind kind, Throwable exception, Retrofit retrofit) {
-    super(message, exception);
-    this.url = url;
-    this.response = response;
-    this.kind = kind;
-    this.retrofit = retrofit;
+    return new RetrofitException(exception.getMessage(), null, null, Kind.UNEXPECTED, exception,
+        null);
   }
 
   /** The request URL which produced the error. */
@@ -79,5 +68,16 @@ public class RetrofitException extends Throwable {
     }
     Converter<ResponseBody, T> converter = retrofit.responseBodyConverter(type, new Annotation[0]);
     return converter.convert(response.errorBody());
+  }
+
+  /** Identifies the event kind which triggered a {@link RetrofitException}. */
+  public enum Kind {
+    /** An {@link IOException} occurred while communicating to the server. */
+    NETWORK, /** A non-200 HTTP status code was received from the server. */
+    HTTP, /**
+     * An internal error occurred while attempting to execute a request. It is best practice to
+     * re-throw this exception so your application crashes.
+     */
+    UNEXPECTED
   }
 }

@@ -25,8 +25,8 @@ import support.ui.app.SupportApp;
  */
 public final class AndroidUtilities {
 
-  public static float density = 1;
   private static final Hashtable<String, Typeface> typefaceCache = new Hashtable<>();
+  public static float density = 1;
   public static DisplayMetrics displayMetrics = new DisplayMetrics();
   public static Point displaySize = new Point();
 
@@ -35,8 +35,7 @@ public final class AndroidUtilities {
     checkDisplaySize();
   }
 
-  @SuppressWarnings("deprecation")
-  public static void checkDisplaySize() {
+  @SuppressWarnings("deprecation") public static void checkDisplaySize() {
     try {
       Display[] displays = DisplayManagerCompat.getInstance(SupportApp.appContext()).getDisplays();
       if (displays != null) {
@@ -48,7 +47,14 @@ public final class AndroidUtilities {
           } else {
             display.getSize(displaySize);
           }
-          FileLog.e("tmessages", "display size = " + displaySize.x + " " + displaySize.y + " " + displayMetrics.xdpi + "x" + displayMetrics.ydpi);
+          FileLog.e("tmessages", "display size = "
+              + displaySize.x
+              + " "
+              + displaySize.y
+              + " "
+              + displayMetrics.xdpi
+              + "x"
+              + displayMetrics.ydpi);
         }
       }
     } catch (Exception e) {
@@ -77,7 +83,8 @@ public final class AndroidUtilities {
           Typeface t = Typeface.createFromAsset(SupportApp.appContext().getAssets(), assetPath);
           typefaceCache.put(assetPath, t);
         } catch (Exception e) {
-          FileLog.e("Typefaces", "Could not get typeface '" + assetPath + "' because " + e.getMessage());
+          FileLog.e("Typefaces",
+              "Could not get typeface '" + assetPath + "' because " + e.getMessage());
           return null;
         }
       }
@@ -89,7 +96,8 @@ public final class AndroidUtilities {
     if (view == null) {
       return;
     }
-    InputMethodManager inputManager = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    InputMethodManager inputManager =
+        (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
     inputManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
   }
 
@@ -97,7 +105,8 @@ public final class AndroidUtilities {
     if (view == null) {
       return false;
     }
-    InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    InputMethodManager inputManager =
+        (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
     return inputManager.isActive(view);
   }
 
@@ -105,7 +114,8 @@ public final class AndroidUtilities {
     if (view == null) {
       return;
     }
-    InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    InputMethodManager imm =
+        (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
     if (!imm.isActive()) {
       return;
     }
@@ -147,6 +157,7 @@ public final class AndroidUtilities {
 
   /**
    * 获取AndroidManifest中配置的meta-data
+   *
    * @param context Context
    * @param key String
    * @return String
@@ -158,8 +169,8 @@ public final class AndroidUtilities {
       return null;
     }
     try {
-      ApplicationInfo ai = context.getPackageManager().getApplicationInfo(
-          context.getPackageName(), PackageManager.GET_META_DATA);
+      ApplicationInfo ai = context.getPackageManager()
+          .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
       if (null != ai) {
         metaData = ai.metaData;
       }
@@ -171,5 +182,4 @@ public final class AndroidUtilities {
     }
     return value;
   }
-
 }

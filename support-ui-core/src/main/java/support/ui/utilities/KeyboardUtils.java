@@ -16,6 +16,10 @@ import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 
 public final class KeyboardUtils {
 
+  private KeyboardUtils() {
+
+  }
+
   private static InputMethodManager get(Context context) {
     return (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
   }
@@ -54,9 +58,5 @@ public final class KeyboardUtils {
   public static boolean isActive(Context context) {
     InputMethodManager manager = get(context);
     return manager.isActive();
-  }
-
-  private KeyboardUtils() {
-
   }
 }

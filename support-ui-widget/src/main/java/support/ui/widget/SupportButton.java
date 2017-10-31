@@ -59,9 +59,11 @@ public class SupportButton extends AppCompatButton {
       mRippleColor = a.getColor(R.styleable.SupportButton_supportButtonRippleColor, mRippleColor);
       mNormalColor = a.getColor(R.styleable.SupportButton_supportButtonNormalColor, mNormalColor);
       mPressedColor = ColorUtils.setAlphaComponent(mNormalColor, 200);
-      mPressedColor = a.getColor(R.styleable.SupportButton_supportButtonPressedColor, mPressedColor);
+      mPressedColor =
+          a.getColor(R.styleable.SupportButton_supportButtonPressedColor, mPressedColor);
       mDisabledColor = ColorUtils.setAlphaComponent(mNormalColor, 150);
-      mDisabledColor = a.getColor(R.styleable.SupportButton_supportButtonDisabledColor, mDisabledColor);
+      mDisabledColor =
+          a.getColor(R.styleable.SupportButton_supportButtonDisabledColor, mDisabledColor);
       mCornerRadius = a.getDimension(R.styleable.SupportButton_supportButtonCornerRadius, 0);
     } finally {
       a.recycle();
@@ -76,10 +78,7 @@ public class SupportButton extends AppCompatButton {
         new int[] { android.R.attr.state_enabled }, // enabled
     };
     int[] colors = new int[] {
-        mDisabledColor,
-        mPressedColor,
-        mPressedColor,
-        mNormalColor,
+        mDisabledColor, mPressedColor, mPressedColor, mNormalColor,
     };
     return new ColorStateList(states, colors);
   }
@@ -101,8 +100,7 @@ public class SupportButton extends AppCompatButton {
         new int[] { android.R.attr.state_enabled }, // enabled
     };
     int[] colors = new int[] {
-        mDisabledColor,
-        mNormalColor,
+        mDisabledColor, mNormalColor,
     };
     return new ColorStateList(states, colors);
   }

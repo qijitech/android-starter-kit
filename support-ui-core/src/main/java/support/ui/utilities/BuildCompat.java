@@ -43,5 +43,4 @@ public class BuildCompat {
   public static boolean hasN() {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
   }
-
 }

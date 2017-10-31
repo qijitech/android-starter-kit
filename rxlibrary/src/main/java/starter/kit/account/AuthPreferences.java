@@ -20,10 +20,18 @@ public class AuthPreferences {
     preferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
   }
 
+  public String getUser() {
+    return preferences.getString(KEY_USER, null);
+  }
+
   public void setUser(String user) {
     SharedPreferences.Editor editor = preferences.edit();
     editor.putString(KEY_USER, user);
     EditorCompat.getInstance().apply(editor);
+  }
+
+  public String getToken() {
+    return preferences.getString(KEY_TOKEN, null);
   }
 
   public void setToken(String token) {
@@ -32,22 +40,14 @@ public class AuthPreferences {
     EditorCompat.getInstance().apply(editor);
   }
 
+  public String getUserData() {
+    return preferences.getString(KEY_USER_DATA, null);
+  }
+
   public void setUserData(String userData) {
     SharedPreferences.Editor editor = preferences.edit();
     editor.putString(KEY_USER_DATA, userData);
     EditorCompat.getInstance().apply(editor);
-  }
-
-  public String getUser() {
-    return preferences.getString(KEY_USER, null);
-  }
-
-  public String getToken() {
-    return preferences.getString(KEY_TOKEN, null);
-  }
-
-  public String getUserData() {
-    return preferences.getString(KEY_USER_DATA, null);
   }
 
   public void clear() {

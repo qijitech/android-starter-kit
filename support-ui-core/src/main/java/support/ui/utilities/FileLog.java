@@ -13,25 +13,12 @@ import support.ui.time.FastDateFormat;
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
 public class FileLog {
+  private static volatile FileLog Instance = null;
   private OutputStreamWriter streamWriter = null;
   private FastDateFormat dateFormat = null;
   private DispatchQueue logQueue = null;
   private File currentFile = null;
   private File networkFile = null;
-
-  private static volatile FileLog Instance = null;
-  public static FileLog getInstance() {
-    FileLog localInstance = Instance;
-    if (localInstance == null) {
-      synchronized (FileLog.class) {
-        localInstance = Instance;
-        if (localInstance == null) {
-          Instance = localInstance = new FileLog();
-        }
-      }
-    }
-    return localInstance;
-  }
 
   public FileLog() {
     if (!BuildVars.DEBUG_VERSION) {
@@ -54,11 +41,25 @@ public class FileLog {
       currentFile.createNewFile();
       FileOutputStream stream = new FileOutputStream(currentFile);
       streamWriter = new OutputStreamWriter(stream);
-      streamWriter.write("-----start log " + dateFormat.format(System.currentTimeMillis()) + "-----\n");
+      streamWriter.write(
+          "-----start log " + dateFormat.format(System.currentTimeMillis()) + "-----\n");
       streamWriter.flush();
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public static FileLog getInstance() {
+    FileLog localInstance = Instance;
+    if (localInstance == null) {
+      synchronized (FileLog.class) {
+        localInstance = Instance;
+        if (localInstance == null) {
+          Instance = localInstance = new FileLog();
+        }
+      }
+    }
+    return localInstance;
   }
 
   public static String getNetworkLogPath() {
@@ -72,7 +73,8 @@ public class FileLog {
       }
       File dir = new File(sdCard.getAbsolutePath() + "/logs");
       dir.mkdirs();
-      getInstance().networkFile = new File(dir, getInstance().dateFormat.format(System.currentTimeMillis()) + "_net.txt");
+      getInstance().networkFile =
+          new File(dir, getInstance().dateFormat.format(System.currentTimeMillis()) + "_net.txt");
       return getInstance().networkFile.getAbsolutePath();
     } catch (Throwable e) {
       e.printStackTrace();
@@ -87,10 +89,15 @@ public class FileLog {
     Log.e(tag, message, exception);
     if (getInstance().streamWriter != null) {
       getInstance().logQueue.postRunnable(new Runnable() {
-        @Override
-        public void run() {
+        @Override public void run() {
           try {
-            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/" + tag + "﹕ " + message + "\n");
+            getInstance().streamWriter.write(
+                getInstance().dateFormat.format(System.currentTimeMillis())
+                    + " E/"
+                    + tag
+                    + "﹕ "
+                    + message
+                    + "\n");
             getInstance().streamWriter.write(exception.toString());
             getInstance().streamWriter.flush();
           } catch (Exception e) {
@@ -108,10 +115,15 @@ public class FileLog {
     Log.e(tag, message);
     if (getInstance().streamWriter != null) {
       getInstance().logQueue.postRunnable(new Runnable() {
-        @Override
-        public void run() {
+        @Override public void run() {
           try {
-            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/" + tag + "﹕ " + message + "\n");
+            getInstance().streamWriter.write(
+                getInstance().dateFormat.format(System.currentTimeMillis())
+                    + " E/"
+                    + tag
+                    + "﹕ "
+                    + message
+                    + "\n");
             getInstance().streamWriter.flush();
           } catch (Exception e) {
             e.printStackTrace();
@@ -128,13 +140,24 @@ public class FileLog {
     e.printStackTrace();
     if (getInstance().streamWriter != null) {
       getInstance().logQueue.postRunnable(new Runnable() {
-        @Override
-        public void run() {
+        @Override public void run() {
           try {
-            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/" + tag + "﹕ " + e + "\n");
+            getInstance().streamWriter.write(
+                getInstance().dateFormat.format(System.currentTimeMillis())
+                    + " E/"
+                    + tag
+                    + "﹕ "
+                    + e
+                    + "\n");
             StackTraceElement[] stack = e.getStackTrace();
             for (StackTraceElement el : stack) {
-              getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " E/" + tag + "﹕ " + el + "\n");
+              getInstance().streamWriter.write(
+                  getInstance().dateFormat.format(System.currentTimeMillis())
+                      + " E/"
+                      + tag
+                      + "﹕ "
+                      + el
+                      + "\n");
             }
             getInstance().streamWriter.flush();
           } catch (Exception e) {
@@ -154,10 +177,15 @@ public class FileLog {
     Log.d(tag, message);
     if (getInstance().streamWriter != null) {
       getInstance().logQueue.postRunnable(new Runnable() {
-        @Override
-        public void run() {
+        @Override public void run() {
           try {
-            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " D/" + tag + "﹕ " + message + "\n");
+            getInstance().streamWriter.write(
+                getInstance().dateFormat.format(System.currentTimeMillis())
+                    + " D/"
+                    + tag
+                    + "﹕ "
+                    + message
+                    + "\n");
             getInstance().streamWriter.flush();
           } catch (Exception e) {
             e.printStackTrace();
@@ -174,10 +202,15 @@ public class FileLog {
     Log.w(tag, message);
     if (getInstance().streamWriter != null) {
       getInstance().logQueue.postRunnable(new Runnable() {
-        @Override
-        public void run() {
+        @Override public void run() {
           try {
-            getInstance().streamWriter.write(getInstance().dateFormat.format(System.currentTimeMillis()) + " W/" + tag + ": " + message + "\n");
+            getInstance().streamWriter.write(
+                getInstance().dateFormat.format(System.currentTimeMillis())
+                    + " W/"
+                    + tag
+                    + ": "
+                    + message
+                    + "\n");
             getInstance().streamWriter.flush();
           } catch (Exception e) {
             e.printStackTrace();
@@ -189,15 +222,17 @@ public class FileLog {
 
   public static void cleanupLogs() {
     File sdCard = SupportApp.appContext().getExternalFilesDir(null);
-    File dir = new File (sdCard.getAbsolutePath() + "/logs");
+    File dir = new File(sdCard.getAbsolutePath() + "/logs");
     File[] files = dir.listFiles();
     if (files != null) {
       for (int a = 0; a < files.length; a++) {
         File file = files[a];
-        if (getInstance().currentFile != null && file.getAbsolutePath().equals(getInstance().currentFile.getAbsolutePath())) {
+        if (getInstance().currentFile != null && file.getAbsolutePath()
+            .equals(getInstance().currentFile.getAbsolutePath())) {
           continue;
         }
-        if (getInstance().networkFile != null && file.getAbsolutePath().equals(getInstance().networkFile.getAbsolutePath())) {
+        if (getInstance().networkFile != null && file.getAbsolutePath()
+            .equals(getInstance().networkFile.getAbsolutePath())) {
           continue;
         }
         file.delete();

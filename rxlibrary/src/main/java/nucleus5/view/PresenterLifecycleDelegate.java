@@ -84,7 +84,7 @@ public final class PresenterLifecycleDelegate<P extends Presenter> {
     getPresenter();
     if (presenter != null) {
       Bundle presenterBundle = new Bundle();
-            /* 调用presenter对应的保存数据方法，界面如果需要重新恢复数据，则界面
+      /* 调用presenter对应的保存数据方法，界面如果需要重新恢复数据，则界面
              对应的presenter应复写此方法 */
       presenter.save(presenterBundle);
       bundle.putBundle(PRESENTER_KEY, presenterBundle);
@@ -113,6 +113,7 @@ public final class PresenterLifecycleDelegate<P extends Presenter> {
   public void onResume(Object view) {
     getPresenter();
     if (presenter != null && !presenterHasView) {
+      //绑定view与presenter
       //noinspection unchecked
       presenter.takeView(view);
       presenterHasView = true;
@@ -126,6 +127,7 @@ public final class PresenterLifecycleDelegate<P extends Presenter> {
    */
   public void onDropView() {
     if (presenter != null && presenterHasView) {
+      //解绑view与presenter
       presenter.dropView();
       presenterHasView = false;
     }

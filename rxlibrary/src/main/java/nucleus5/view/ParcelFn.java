@@ -15,7 +15,7 @@ class ParcelFn {
     parcel.setDataPosition(0);
     Object value = parcel.readValue(CLASS_LOADER);
     parcel.recycle();
-    return (T)value;
+    return (T) value;
   }
 
   static byte[] marshall(Object o) {

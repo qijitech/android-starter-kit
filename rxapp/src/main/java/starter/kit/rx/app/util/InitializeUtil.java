@@ -64,15 +64,19 @@ public class InitializeUtil {
 
   private static void initializeImageLoader() {
     ImageLoader.initialize(new ImageLoader.AbstractImageLoader() {
-      @Override public void displayImageView(ImageView imageView, Uri uri, Drawable placeholder, int width, int height) {
+      @Override
+      public void displayImageView(ImageView imageView, Uri uri, Drawable placeholder, int width,
+          int height) {
         if (imageView instanceof SimpleDraweeView) {
           SimpleDraweeView simpleDraweeView = (SimpleDraweeView) imageView;
           ResizeOptions options = new ResizeOptions(width, height);
-          ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(options).build();
-          PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
-              .setOldController(simpleDraweeView.getController())
-              .setImageRequest(request)
-              .build();
+          ImageRequest request =
+              ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(options).build();
+          PipelineDraweeController controller =
+              (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+                  .setOldController(simpleDraweeView.getController())
+                  .setImageRequest(request)
+                  .build();
           simpleDraweeView.setController(controller);
         }
       }

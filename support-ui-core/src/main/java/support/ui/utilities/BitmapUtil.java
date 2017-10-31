@@ -10,7 +10,8 @@ import android.graphics.drawable.Drawable;
  * Provides static functions to decode bitmaps at the optimal size
  */
 public class BitmapUtil {
-  private BitmapUtil() {}
+  private BitmapUtil() {
+  }
 
   /**
    * Returns Width or Height of the picture, depending on which size is smaller. Doesn't actually
@@ -29,6 +30,7 @@ public class BitmapUtil {
 
   /**
    * Finds the optimal sampleSize for loading the picture
+   *
    * @param originalSmallerExtent Width or height of the picture, whichever is smaller
    * @param targetExtent Width or height of the target view, whichever is bigger.
    *
@@ -76,19 +78,19 @@ public class BitmapUtil {
    * @param angle The angle of rotation.
    * @return Rotated drawable.
    */
-  public static Drawable getRotatedDrawable(
-      android.content.res.Resources resources, int resourceId, float angle) {
+  public static Drawable getRotatedDrawable(android.content.res.Resources resources, int resourceId,
+      float angle) {
 
     // Get the original drawable and make a copy which will be rotated.
     Bitmap original = BitmapFactory.decodeResource(resources, resourceId);
-    Bitmap rotated = Bitmap.createBitmap(
-        original.getWidth(), original.getHeight(), Bitmap.Config.ARGB_8888);
+    Bitmap rotated =
+        Bitmap.createBitmap(original.getWidth(), original.getHeight(), Bitmap.Config.ARGB_8888);
 
     // Perform the rotation.
     Canvas tempCanvas = new Canvas(rotated);
-    tempCanvas.rotate(angle, original.getWidth()/2, original.getHeight()/2);
+    tempCanvas.rotate(angle, original.getWidth() / 2, original.getHeight() / 2);
     tempCanvas.drawBitmap(original, 0, 0, null);
 
-    return new BitmapDrawable(resources,rotated);
+    return new BitmapDrawable(resources, rotated);
   }
 }

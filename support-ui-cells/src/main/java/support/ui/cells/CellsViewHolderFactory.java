@@ -27,7 +27,7 @@ public class CellsViewHolderFactory extends BaseEasyViewHolderFactory {
         cellViewHolder = new CellViewHolder(new EmptyCell(context)) {
           @Override public void bindTo(int position, CellModel model) {
             if (model.cellHeight > 0) {
-              ((EmptyCell)itemView).setHeight(model.cellHeight);
+              ((EmptyCell) itemView).setHeight(model.cellHeight);
             }
           }
         };
@@ -37,7 +37,7 @@ public class CellsViewHolderFactory extends BaseEasyViewHolderFactory {
         cellViewHolder = new CellViewHolder(new HeaderCell(context)) {
           @Override public void bindTo(int position, CellModel model) {
             if (!TextUtils.isEmpty(model.text)) {
-              ((HeaderCell)itemView).setText(model.text);
+              ((HeaderCell) itemView).setText(model.text);
             }
           }
         };
@@ -47,7 +47,7 @@ public class CellsViewHolderFactory extends BaseEasyViewHolderFactory {
         cellViewHolder = new CellViewHolder(new ShadowSectionCell(context)) {
           @Override public void bindTo(int position, CellModel model) {
             if (model.cellHeight > 0) {
-              ((ShadowSectionCell)itemView).setSize(model.cellHeight);
+              ((ShadowSectionCell) itemView).setSize(model.cellHeight);
             }
           }
         };
@@ -57,7 +57,7 @@ public class CellsViewHolderFactory extends BaseEasyViewHolderFactory {
         cellViewHolder = new CellViewHolder(new ShadowBottomSectionCell(context));
         break;
       }
-      case CellModel.VIEW_TYPE_TEXT:{
+      case CellModel.VIEW_TYPE_TEXT: {
         cellViewHolder = new CellViewHolder(new TextCell(context)) {
           @Override public void bindTo(int position, CellModel model) {
             TextCell textCell = (TextCell) itemView;
@@ -66,7 +66,7 @@ public class CellsViewHolderFactory extends BaseEasyViewHolderFactory {
         };
         break;
       }
-      case CellModel.VIEW_TYPE_TEXT_INFO_PRIVACY:{
+      case CellModel.VIEW_TYPE_TEXT_INFO_PRIVACY: {
         cellViewHolder = new CellViewHolder(new TextInfoPrivacyCell(context)) {
           @Override public void bindTo(int position, CellModel model) {
             TextInfoPrivacyCell textCell = (TextInfoPrivacyCell) itemView;
@@ -80,7 +80,7 @@ public class CellsViewHolderFactory extends BaseEasyViewHolderFactory {
         };
         break;
       }
-      case CellModel.VIEW_TYPE_SETTINGS:{
+      case CellModel.VIEW_TYPE_SETTINGS: {
         cellViewHolder = new CellViewHolder(new TextSettingsCell(context)) {
           @Override public void bindTo(int position, CellModel model) {
             TextSettingsCell cell = (TextSettingsCell) itemView;
@@ -89,7 +89,7 @@ public class CellsViewHolderFactory extends BaseEasyViewHolderFactory {
         };
         break;
       }
-      case CellModel.VIEW_TYPE_DETAIL_SETTINGS:{
+      case CellModel.VIEW_TYPE_DETAIL_SETTINGS: {
         cellViewHolder = new CellViewHolder(new TextDetailSettingsCell(context)) {
           @Override public void bindTo(int position, CellModel model) {
             TextDetailSettingsCell cell = (TextDetailSettingsCell) itemView;
@@ -99,7 +99,7 @@ public class CellsViewHolderFactory extends BaseEasyViewHolderFactory {
         };
         break;
       }
-      case CellModel.VIEW_TYPE_CHECK:{
+      case CellModel.VIEW_TYPE_CHECK: {
         cellViewHolder = new CellViewHolder(new TextCheckCell(context)) {
           @Override public void bindTo(int position, CellModel model) {
             TextCheckCell cell = (TextCheckCell) itemView;
@@ -116,7 +116,7 @@ public class CellsViewHolderFactory extends BaseEasyViewHolderFactory {
 
   @Override public int itemViewType(Object object) {
     if (object instanceof CellModel) {
-      return ((CellModel)object).itemViewType;
+      return ((CellModel) object).itemViewType;
     }
     return super.itemViewType(object);
   }

@@ -19,7 +19,6 @@ public interface AuthService {
    * @param password 密码
    * @return Call
    */
-  @FormUrlEncoded @POST("/auth/login") Observable<User>
-  login(@Field("phone") String phone,
+  @FormUrlEncoded @POST("/auth/login") Observable<User> login(@Field("phone") String phone,
       @Field("password") String password);
 }

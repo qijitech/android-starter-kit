@@ -15,8 +15,8 @@ import starter.kit.util.RxUtils;
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 import static io.reactivex.schedulers.Schedulers.io;
 
-public abstract class NetworkPresenter<T, ViewType extends NetworkContract.View> extends
-    StarterPresenter<ViewType> implements NetworkContract.HudInterface {
+public abstract class NetworkPresenter<T, ViewType extends NetworkContract.View>
+    extends StarterPresenter<ViewType> implements NetworkContract.HudInterface {
 
   private static final int RESTARTABLE_ID = 2000;
 

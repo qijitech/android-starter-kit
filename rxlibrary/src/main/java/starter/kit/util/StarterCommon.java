@@ -12,13 +12,13 @@ public class StarterCommon {
 
   private Activity activity;
 
-  public static StarterCommon create(Activity activity) {
-    return new StarterCommon(activity);
-  }
-
   private StarterCommon(Activity activity) {
     checkNotNull(activity, "activity == null");
     this.activity = activity;
+  }
+
+  public static StarterCommon create(Activity activity) {
+    return new StarterCommon(activity);
   }
 
   public void onDestroy() {

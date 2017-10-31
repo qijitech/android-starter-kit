@@ -35,7 +35,7 @@ import static support.ui.utilities.Objects.isNotNull;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
- * 带刷新的列表framgment
+ *         带刷新的列表framgment
  */
 public abstract class StarterRecyclerFragment<E extends Entity, PC extends PaginatorPresenter>
     extends StarterNetworkFragment<PaginatorContract<E>, PC>
