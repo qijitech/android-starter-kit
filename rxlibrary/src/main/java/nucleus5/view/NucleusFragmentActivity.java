@@ -3,7 +3,6 @@ package nucleus5.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-
 import nucleus5.factory.PresenterFactory;
 import nucleus5.factory.ReflectionPresenterFactory;
 import nucleus5.presenter.Presenter;
@@ -25,7 +24,7 @@ public abstract class NucleusFragmentActivity<P extends Presenter> extends Fragm
     /**
      * Returns a current presenter factory.
      */
-    public PresenterFactory<P> getPresenterFactory() {
+    @Override public PresenterFactory<P> getPresenterFactory() {
         return presenterDelegate.getPresenterFactory();
     }
 
@@ -34,8 +33,7 @@ public abstract class NucleusFragmentActivity<P extends Presenter> extends Fragm
      * Call this method before onCreate/onFinishInflate to override default {@link ReflectionPresenterFactory} presenter factory.
      * Use this method for presenter dependency injection.
      */
-    @Override
-    public void setPresenterFactory(PresenterFactory<P> presenterFactory) {
+    @Override public void setPresenterFactory(PresenterFactory<P> presenterFactory) {
         presenterDelegate.setPresenterFactory(presenterFactory);
     }
 
@@ -47,37 +45,33 @@ public abstract class NucleusFragmentActivity<P extends Presenter> extends Fragm
      *
      * @return a currently attached presenter or null.
      */
-    public P getPresenter() {
+    @Override public P getPresenter() {
         return presenterDelegate.getPresenter();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
-            presenterDelegate.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_STATE_KEY));
+      if (savedInstanceState != null) {
+        presenterDelegate.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_STATE_KEY));
+      }
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
+    @Override protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBundle(PRESENTER_STATE_KEY, presenterDelegate.onSaveInstanceState());
     }
 
-    @Override
-    protected void onResume() {
+    @Override protected void onResume() {
         super.onResume();
         presenterDelegate.onResume(this);
     }
 
-    @Override
-    protected void onPause() {
+    @Override protected void onPause() {
         super.onPause();
         presenterDelegate.onDropView();
     }
 
-    @Override
-    protected void onDestroy() {
+    @Override protected void onDestroy() {
         super.onDestroy();
         presenterDelegate.onDestroy(!isChangingConfigurations());
     }

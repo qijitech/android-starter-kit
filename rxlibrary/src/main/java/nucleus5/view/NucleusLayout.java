@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-
 import nucleus5.factory.PresenterFactory;
 import nucleus5.factory.ReflectionPresenterFactory;
 import nucleus5.presenter.Presenter;
@@ -42,7 +41,7 @@ public class NucleusLayout<P extends Presenter> extends FrameLayout implements V
     /**
      * Returns a current presenter factory.
      */
-    public PresenterFactory<P> getPresenterFactory() {
+    @Override public PresenterFactory<P> getPresenterFactory() {
         return presenterDelegate.getPresenterFactory();
     }
 
@@ -64,7 +63,7 @@ public class NucleusLayout<P extends Presenter> extends FrameLayout implements V
      *
      * @return a currently attached presenter or null.
      */
-    public P getPresenter() {
+    @Override public P getPresenter() {
         return presenterDelegate.getPresenter();
     }
 
@@ -75,10 +74,12 @@ public class NucleusLayout<P extends Presenter> extends FrameLayout implements V
      */
     public Activity getActivity() {
         Context context = getContext();
-        while (!(context instanceof Activity) && context instanceof ContextWrapper)
+      while (!(context instanceof Activity) && context instanceof ContextWrapper) {
             context = ((ContextWrapper) context).getBaseContext();
-        if (!(context instanceof Activity))
-            throw new IllegalStateException("Expected an activity context, got " + context.getClass().getSimpleName());
+      }
+      if (!(context instanceof Activity)) {
+        throw new IllegalStateException("Expected an activity context, got " + context.getClass().getSimpleName());
+      }
         return (Activity) context;
     }
 
@@ -100,8 +101,9 @@ public class NucleusLayout<P extends Presenter> extends FrameLayout implements V
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (!isInEditMode())
-            presenterDelegate.onResume(this);
+      if (!isInEditMode()) {
+        presenterDelegate.onResume(this);
+      }
     }
 
     @Override

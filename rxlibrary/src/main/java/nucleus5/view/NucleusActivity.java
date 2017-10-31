@@ -3,7 +3,6 @@ package nucleus5.view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import nucleus5.factory.PresenterFactory;
 import nucleus5.factory.ReflectionPresenterFactory;
 import nucleus5.presenter.Presenter;
@@ -25,7 +24,7 @@ public abstract class NucleusActivity<P extends Presenter> extends Activity impl
     /**
      * Returns a current presenter factory.
      */
-    public PresenterFactory<P> getPresenterFactory() {
+    @Override public PresenterFactory<P> getPresenterFactory() {
         return presenterDelegate.getPresenterFactory();
     }
 
@@ -47,20 +46,23 @@ public abstract class NucleusActivity<P extends Presenter> extends Activity impl
      *
      * @return a currently attached presenter or null.
      */
-    public P getPresenter() {
+    @Override public P getPresenter() {
         return presenterDelegate.getPresenter();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
+        //savedInstanceState存在时，获取之前保存的数据bundle
+        if (savedInstanceState != null) {
             presenterDelegate.onRestoreInstanceState(savedInstanceState.getBundle(PRESENTER_STATE_KEY));
+        }
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        //界面被回收时，保存重新恢复界面时必须的数据
         outState.putBundle(PRESENTER_STATE_KEY, presenterDelegate.onSaveInstanceState());
     }
 

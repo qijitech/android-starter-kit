@@ -13,9 +13,7 @@ import support.ui.utilities.LayoutHelper;
 import support.ui.widget.R;
 
 /**
- * @author xujl
- * 内容页面逻辑控制presenter类
- *
+ * @author xujl 内容页面逻辑控制presenter类
  */
 
 public final class ContentPresenter {
@@ -25,18 +23,17 @@ public final class ContentPresenter {
   private static final int EMPTY_VIEW_ID = R.id.supportUiEmptyView;
   private static final int ERROR_VIEW_ID = R.id.supportUiErrorView;
   private static final int CONTENT_VIEW_ID = R.id.supportUiContentView;
-
-  private SparseArrayCompat<Class<View>> mViewClassArray = new SparseArrayCompat<>(4);
-  private SparseArrayCompat<View> mViewArray = new SparseArrayCompat<>(4);
   int mCurrentId = ID_NONE;
   ViewGroup mContainer;
   View mContentView;
   Context mContext;
-
+  private SparseArrayCompat<Class<View>> mViewClassArray = new SparseArrayCompat<>(4);
+  private SparseArrayCompat<View> mViewArray = new SparseArrayCompat<>(4);
   private EmptyView.OnEmptyViewClickListener onEmptyViewClickListener;
   private ErrorView.OnErrorViewClickListener onErrorViewClickListener;
 
-  public ContentPresenter(Class<View> loadViewClass, Class<View> emptyViewClass, Class<View> errorViewClass) {
+  public ContentPresenter(Class<View> loadViewClass, Class<View> emptyViewClass,
+      Class<View> errorViewClass) {
     buildViewClassArray(loadViewClass, emptyViewClass, errorViewClass);
   }
 
@@ -267,7 +264,8 @@ public final class ContentPresenter {
     final ViewGroup.LayoutParams layoutParams = LayoutHelper.createViewGroupLayoutParams();
     container.removeAllViews();
 
-    if (view != null) { //  <- fix The specified child already has a parent. You must call removeView() on the child's parent first.
+    if (view
+        != null) { //  <- fix The specified child already has a parent. You must call removeView() on the child's parent first.
       ViewGroup parent = (ViewGroup) view.getParent();
       if (parent != null) {
         parent.removeView(view);

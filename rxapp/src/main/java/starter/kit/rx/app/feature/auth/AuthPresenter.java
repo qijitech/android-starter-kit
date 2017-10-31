@@ -15,10 +15,9 @@ import starter.kit.util.RxUtils;
  */
 public class AuthPresenter extends NetworkPresenter<User, LoginActivity> {
 
-  private AuthService mAuthService;
-
   @State String username;
   @State String password;
+  private AuthService mAuthService;
 
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);

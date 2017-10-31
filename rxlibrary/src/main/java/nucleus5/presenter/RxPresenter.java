@@ -3,17 +3,15 @@ package nucleus5.presenter;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.BehaviorSubject;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import nucleus5.presenter.delivery.DeliverFirst;
 import nucleus5.presenter.delivery.DeliverLatestCache;
 import nucleus5.presenter.delivery.DeliverReplay;
@@ -70,7 +68,7 @@ public class RxPresenter<View> extends Presenter<View> {
      * A restartable is any RxJava observable that can be started (subscribed) and
      * should be automatically restarted (re-subscribed) after a process restart if
      * it was still subscribed at the moment of saving presenter's state.
-     *
+     * <p>
      * Registers a factory. Re-subscribes the restartable after the process restart.
      *
      * @param restartableId id of the restartable
@@ -78,8 +76,9 @@ public class RxPresenter<View> extends Presenter<View> {
      */
     public void restartable(int restartableId, Factory<Disposable> factory) {
         restartables.put(restartableId, factory);
-        if (requested.contains(restartableId))
-            start(restartableId);
+      if (requested.contains(restartableId)) {
+        start(restartableId);
+      }
     }
 
     /**
@@ -101,8 +100,9 @@ public class RxPresenter<View> extends Presenter<View> {
     public void stop(int restartableId) {
         requested.remove((Integer) restartableId);
         Disposable disposable = restartableDisposables.get(restartableId);
-        if (disposable != null)
-            disposable.dispose();
+      if (disposable != null) {
+        disposable.dispose();
+      }
     }
 
     /**
@@ -128,12 +128,12 @@ public class RxPresenter<View> extends Presenter<View> {
      * @param onError           a callback that will be called if the source observable emits onError.
      * @param <T>               the type of the observable.
      */
-    public <T> void restartableFirst(int restartableId, final Factory<Observable<T>> observableFactory,
-        final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, Throwable> onError) {
+    public <T> void restartableFirst(int restartableId,
+        final Factory<Observable<T>> observableFactory, final BiConsumer<View, T> onNext,
+        @Nullable final BiConsumer<View, Throwable> onError) {
 
         restartable(restartableId, new Factory<Disposable>() {
-            @Override
-            public Disposable create() {
+            @Override public Disposable create() {
                 return observableFactory.create()
                     .compose(RxPresenter.this.<T>deliverFirst())
                     .subscribe(split(onNext, onError));
@@ -144,7 +144,8 @@ public class RxPresenter<View> extends Presenter<View> {
     /**
      * This is a shortcut for calling {@link #restartableFirst(int, Factory, BiConsumer, BiConsumer)} with the last parameter = null.
      */
-    public <T> void restartableFirst(int restartableId, final Factory<Observable<T>> observableFactory, final BiConsumer<View, T> onNext) {
+    public <T> void restartableFirst(int restartableId,
+        final Factory<Observable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableFirst(restartableId, observableFactory, onNext, null);
     }
 
@@ -160,12 +161,12 @@ public class RxPresenter<View> extends Presenter<View> {
      * @param onError           a callback that will be called if the source observable emits onError.
      * @param <T>               the type of the observable.
      */
-    public <T> void restartableLatestCache(int restartableId, final Factory<Observable<T>> observableFactory,
-        final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, Throwable> onError) {
+    public <T> void restartableLatestCache(int restartableId,
+        final Factory<Observable<T>> observableFactory, final BiConsumer<View, T> onNext,
+        @Nullable final BiConsumer<View, Throwable> onError) {
 
         restartable(restartableId, new Factory<Disposable>() {
-            @Override
-            public Disposable create() {
+            @Override public Disposable create() {
                 return observableFactory.create()
                     .compose(RxPresenter.this.<T>deliverLatestCache())
                     .subscribe(split(onNext, onError));
@@ -176,7 +177,8 @@ public class RxPresenter<View> extends Presenter<View> {
     /**
      * This is a shortcut for calling {@link #restartableLatestCache(int, Factory, BiConsumer, BiConsumer)} with the last parameter = null.
      */
-    public <T> void restartableLatestCache(int restartableId, final Factory<Observable<T>> observableFactory, final BiConsumer<View, T> onNext) {
+    public <T> void restartableLatestCache(int restartableId,
+        final Factory<Observable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableLatestCache(restartableId, observableFactory, onNext, null);
     }
 
@@ -192,12 +194,12 @@ public class RxPresenter<View> extends Presenter<View> {
      * @param onError           a callback that will be called if the source observable emits onError.
      * @param <T>               the type of the observable.
      */
-    public <T> void restartableReplay(int restartableId, final Factory<Observable<T>> observableFactory,
-        final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, Throwable> onError) {
+    public <T> void restartableReplay(int restartableId,
+        final Factory<Observable<T>> observableFactory, final BiConsumer<View, T> onNext,
+        @Nullable final BiConsumer<View, Throwable> onError) {
 
         restartable(restartableId, new Factory<Disposable>() {
-            @Override
-            public Disposable create() {
+            @Override public Disposable create() {
                 return observableFactory.create()
                     .compose(RxPresenter.this.<T>deliverReplay())
                     .subscribe(split(onNext, onError));
@@ -208,14 +210,15 @@ public class RxPresenter<View> extends Presenter<View> {
     /**
      * This is a shortcut for calling {@link #restartableReplay(int, Factory, BiConsumer, BiConsumer)} with the last parameter = null.
      */
-    public <T> void restartableReplay(int restartableId, final Factory<Observable<T>> observableFactory, final BiConsumer<View, T> onNext) {
+    public <T> void restartableReplay(int restartableId,
+        final Factory<Observable<T>> observableFactory, final BiConsumer<View, T> onNext) {
         restartableReplay(restartableId, observableFactory, onNext, null);
     }
 
     /**
      * Returns an {@link io.reactivex.ObservableTransformer} that couples views with data that has been emitted by
      * the source {@link io.reactivex.Observable}.
-     *
+     * <p>
      * {@link #deliverLatestCache} keeps the latest onNext value and emits it each time a new view gets attached.
      * If a new onNext value appears while a view is attached, it will be delivered immediately.
      *
@@ -228,7 +231,7 @@ public class RxPresenter<View> extends Presenter<View> {
     /**
      * Returns an {@link io.reactivex.ObservableTransformer} that couples views with data that has been emitted by
      * the source {@link io.reactivex.Observable}.
-     *
+     * <p>
      * {@link #deliverFirst} delivers only the first onNext value that has been emitted by the source observable.
      *
      * @param <T> the type of source observable emissions
@@ -240,7 +243,7 @@ public class RxPresenter<View> extends Presenter<View> {
     /**
      * Returns an {@link io.reactivex.ObservableTransformer} that couples views with data that has been emitted by
      * the source {@link io.reactivex.Observable}.
-     *
+     * <p>
      * {@link #deliverReplay} keeps all onNext values and emits them each time a new view gets attached.
      * If a new onNext value appears while a view is attached, it will be delivered immediately.
      *
@@ -259,10 +262,10 @@ public class RxPresenter<View> extends Presenter<View> {
      * @param <T>     a type on onNext value.
      * @return an Action1 that splits a received {@link Delivery} into two {@link BiConsumer} onNext and onError calls.
      */
-    public <T> Consumer<Delivery<View, T>> split(final BiConsumer<View, T> onNext, @Nullable final BiConsumer<View, Throwable> onError) {
+    public <T> Consumer<Delivery<View, T>> split(final BiConsumer<View, T> onNext,
+        @Nullable final BiConsumer<View, Throwable> onError) {
         return new Consumer<Delivery<View, T>>() {
-            @Override
-            public void accept(Delivery<View, T> delivery) throws Exception {
+            @Override public void accept(Delivery<View, T> delivery) throws Exception {
                 delivery.split(onNext, onError);
             }
         };
@@ -279,35 +282,35 @@ public class RxPresenter<View> extends Presenter<View> {
      * {@inheritDoc}
      */
     @CallSuper
-    @Override
-    protected void onCreate(Bundle savedState) {
-        if (savedState != null)
-            requested.addAll(savedState.getIntegerArrayList(REQUESTED_KEY));
+    @Override protected void onCreate(Bundle savedState) {
+      if (savedState != null) {
+        requested.addAll(savedState.getIntegerArrayList(REQUESTED_KEY));
+      }
     }
 
     /**
      * {@inheritDoc}
      */
     @CallSuper
-    @Override
-    protected void onDestroy() {
+    @Override protected void onDestroy() {
         views.onComplete();
         disposables.dispose();
-        for (Map.Entry<Integer, Disposable> entry : restartableDisposables.entrySet())
-            entry.getValue().dispose();
+      for (Map.Entry<Integer, Disposable> entry : restartableDisposables.entrySet()) {
+        entry.getValue().dispose();
+      }
     }
 
     /**
      * {@inheritDoc}
      */
     @CallSuper
-    @Override
-    protected void onSave(Bundle state) {
+    @Override protected void onSave(Bundle state) {
         for (int i = requested.size() - 1; i >= 0; i--) {
             int restartableId = requested.get(i);
             Disposable disposable = restartableDisposables.get(restartableId);
-            if (disposable != null && disposable.isDisposed())
-                requested.remove(i);
+          if (disposable != null && disposable.isDisposed()) {
+            requested.remove(i);
+          }
         }
         state.putIntegerArrayList(REQUESTED_KEY, requested);
     }
@@ -316,8 +319,7 @@ public class RxPresenter<View> extends Presenter<View> {
      * {@inheritDoc}
      */
     @CallSuper
-    @Override
-    protected void onTakeView(View view) {
+    @Override protected void onTakeView(View view) {
         views.onNext(new OptionalView<>(view));
     }
 
@@ -325,8 +327,7 @@ public class RxPresenter<View> extends Presenter<View> {
      * {@inheritDoc}
      */
     @CallSuper
-    @Override
-    protected void onDropView() {
+    @Override protected void onDropView() {
         views.onNext(new OptionalView<View>(null));
     }
 
@@ -335,8 +336,7 @@ public class RxPresenter<View> extends Presenter<View> {
      */
     @Deprecated
     @Nullable
-    @Override
-    public View getView() {
+    @Override public View getView() {
         return super.getView();
     }
 }
