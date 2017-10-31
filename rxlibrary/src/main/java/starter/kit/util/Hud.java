@@ -19,7 +19,8 @@ public class Hud {
 
   public static Hud getInstance() {
     if (SINGLETON == null) {
-      SINGLETON = new Hud(new AbstractHud() {});
+      SINGLETON = new Hud(new AbstractHud() {
+      });
     }
     return SINGLETON;
   }
@@ -58,11 +59,17 @@ public class Hud {
 
   public interface HudInterface {
     void showMessage(Context context, String msg);
+
     void showHud(Context context, String msg, boolean cancelable, HudCallback callback);
+
     void dismissHud();
   }
 
-  public static abstract class AbstractHud implements HudInterface{
+  public interface HudCallback {
+    void onDismissed();
+  }
+
+  public static abstract class AbstractHud implements HudInterface {
     @Override public void showMessage(Context context, String msg) {
 
     }
@@ -75,9 +82,5 @@ public class Hud {
     @Override public void dismissHud() {
 
     }
-  }
-
-  public interface HudCallback {
-    void onDismissed();
   }
 }

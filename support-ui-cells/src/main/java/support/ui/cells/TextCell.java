@@ -18,12 +18,11 @@ import support.ui.utilities.LayoutHelper;
  */
 public class TextCell extends FrameLayout {
 
+  private static Paint paint;
   private TextView textView;
   private TextView valueTextView;
   private ImageView imageView;
   private ImageView valueImageView;
-
-  private static Paint paint;
   private boolean needDivider;
 
   public TextCell(Context context) {
@@ -53,24 +52,28 @@ public class TextCell extends FrameLayout {
     valueTextView.setMaxLines(1);
     valueTextView.setSingleLine(true);
     valueTextView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-    addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT,
-        Gravity.RIGHT | Gravity.TOP, 0, 0,32, 0));
+    addView(valueTextView,
+        LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT,
+            Gravity.RIGHT | Gravity.TOP, 0, 0, 32, 0));
 
     imageView = new ImageView(context);
     imageView.setScaleType(ImageView.ScaleType.CENTER);
-    addView(imageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-        Gravity.LEFT | Gravity.TOP, 16, 5, 0, 0));
+    addView(imageView,
+        LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
+            Gravity.LEFT | Gravity.TOP, 16, 5, 0, 0));
 
     valueImageView = new ImageView(context);
     valueImageView.setScaleType(ImageView.ScaleType.CENTER);
-    addView(valueImageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-        Gravity.RIGHT | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
+    addView(valueImageView,
+        LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
+            Gravity.RIGHT | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
   }
 
-  @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY),
-        MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
+  @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    super.onMeasure(
+        MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY),
+        MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(48) + (needDivider ? 1 : 0),
+            MeasureSpec.EXACTLY));
   }
 
   public void setTextColor(int color) {
@@ -132,8 +135,8 @@ public class TextCell extends FrameLayout {
 
   @Override protected void onDraw(Canvas canvas) {
     if (needDivider) {
-      canvas.drawLine(AndroidUtilities.dp(72), getHeight() - 1, getWidth() - getPaddingRight(), getHeight() - 1, paint);
+      canvas.drawLine(AndroidUtilities.dp(72), getHeight() - 1, getWidth() - getPaddingRight(),
+          getHeight() - 1, paint);
     }
   }
-
 }

@@ -75,5 +75,4 @@ public class CustomEmptyView extends FrameLayout implements EmptyView, View.OnCl
   @Override public void setOnEmptyViewClickListener(OnEmptyViewClickListener listener) {
     this.listener = listener;
   }
-
 }

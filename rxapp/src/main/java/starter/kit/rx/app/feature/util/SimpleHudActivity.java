@@ -24,8 +24,9 @@ import static io.reactivex.schedulers.Schedulers.io;
  */
 public class SimpleHudActivity extends StarterActivity {
 
-  private FeedService mFeedService;
   Disposable subscription;
+  private FeedService mFeedService;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_simple_hud);
@@ -44,8 +45,8 @@ public class SimpleHudActivity extends StarterActivity {
   private void doSimpleHud() {
     subscription = mFeedService.paginator("1", 20)
         .subscribeOn(io())
-        .compose(RxUtils.hudTransformer((NetworkContract.HudInterface) () ->
-            RxUtils.showHud(this, "Loading...", () -> {
+        .compose(RxUtils.hudTransformer(
+            (NetworkContract.HudInterface) () -> RxUtils.showHud(this, "Loading...", () -> {
               RxUtils.unsubscribe(subscription);
               subscription = null;
             })))

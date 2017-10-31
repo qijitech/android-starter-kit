@@ -28,16 +28,12 @@ import android.widget.RelativeLayout;
 
 public class ForegroundRelativeLayout extends RelativeLayout {
 
-  private Drawable mForeground;
-
   private final Rect mSelfBounds = new Rect();
   private final Rect mOverlayBounds = new Rect();
-
-  private int mForegroundGravity = Gravity.FILL;
-
   protected boolean mForegroundInPadding = true;
-
   boolean mForegroundBoundsChanged = false;
+  private Drawable mForeground;
+  private int mForegroundGravity = Gravity.FILL;
 
   public ForegroundRelativeLayout(Context context) {
     super(context);
@@ -50,19 +46,18 @@ public class ForegroundRelativeLayout extends RelativeLayout {
   public ForegroundRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
 
-    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ForegroundLayout,
-        defStyle, 0);
+    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ForegroundLayout, defStyle, 0);
 
-    mForegroundGravity = a.getInt(
-        R.styleable.ForegroundLayout_android_foregroundGravity, mForegroundGravity);
+    mForegroundGravity =
+        a.getInt(R.styleable.ForegroundLayout_android_foregroundGravity, mForegroundGravity);
 
     final Drawable d = a.getDrawable(R.styleable.ForegroundLayout_android_foreground);
     if (d != null) {
       setForeground(d);
     }
 
-    mForegroundInPadding = a.getBoolean(
-        R.styleable.ForegroundLayout_android_foregroundInsidePadding, true);
+    mForegroundInPadding =
+        a.getBoolean(R.styleable.ForegroundLayout_android_foregroundInsidePadding, true);
 
     a.recycle();
   }
@@ -71,7 +66,6 @@ public class ForegroundRelativeLayout extends RelativeLayout {
    * Describes how the foreground is positioned.
    *
    * @return foreground gravity.
-   *
    * @see #setForegroundGravity(int)
    */
   public int getForegroundGravity() {
@@ -82,7 +76,6 @@ public class ForegroundRelativeLayout extends RelativeLayout {
    * Describes how the foreground is positioned. Defaults to START and TOP.
    *
    * @param foregroundGravity See {@link Gravity}
-   *
    * @see #getForegroundGravity()
    */
   public void setForegroundGravity(int foregroundGravity) {
@@ -97,7 +90,6 @@ public class ForegroundRelativeLayout extends RelativeLayout {
 
       mForegroundGravity = foregroundGravity;
 
-
       if (mForegroundGravity == Gravity.FILL && mForeground != null) {
         Rect padding = new Rect();
         mForeground.getPadding(padding);
@@ -107,23 +99,30 @@ public class ForegroundRelativeLayout extends RelativeLayout {
     }
   }
 
-  @Override
-  protected boolean verifyDrawable(Drawable who) {
+  @Override protected boolean verifyDrawable(Drawable who) {
     return super.verifyDrawable(who) || (who == mForeground);
   }
 
-  @Override
-  public void jumpDrawablesToCurrentState() {
+  @Override public void jumpDrawablesToCurrentState() {
     super.jumpDrawablesToCurrentState();
     if (mForeground != null) mForeground.jumpToCurrentState();
   }
 
-  @Override
-  protected void drawableStateChanged() {
+  @Override protected void drawableStateChanged() {
     super.drawableStateChanged();
     if (mForeground != null && mForeground.isStateful()) {
       mForeground.setState(getDrawableState());
     }
+  }
+
+  /**
+   * Returns the drawable used as the foreground of this FrameLayout. The
+   * foreground drawable, if non-null, is always drawn on top of the children.
+   *
+   * @return A Drawable or null if no foreground was set.
+   */
+  public Drawable getForeground() {
+    return mForeground;
   }
 
   /**
@@ -153,7 +152,7 @@ public class ForegroundRelativeLayout extends RelativeLayout {
           Rect padding = new Rect();
           drawable.getPadding(padding);
         }
-      }  else {
+      } else {
         setWillNotDraw(true);
       }
       requestLayout();
@@ -161,30 +160,17 @@ public class ForegroundRelativeLayout extends RelativeLayout {
     }
   }
 
-  /**
-   * Returns the drawable used as the foreground of this FrameLayout. The
-   * foreground drawable, if non-null, is always drawn on top of the children.
-   *
-   * @return A Drawable or null if no foreground was set.
-   */
-  public Drawable getForeground() {
-    return mForeground;
-  }
-
-  @Override
-  protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+  @Override protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
     mForegroundBoundsChanged = changed;
   }
 
-  @Override
-  protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+  @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     super.onSizeChanged(w, h, oldw, oldh);
     mForegroundBoundsChanged = true;
   }
 
-  @Override
-  public void draw(Canvas canvas) {
+  @Override public void draw(Canvas canvas) {
     super.draw(canvas);
 
     if (mForeground != null) {
@@ -201,8 +187,8 @@ public class ForegroundRelativeLayout extends RelativeLayout {
         if (mForegroundInPadding) {
           selfBounds.set(0, 0, w, h);
         } else {
-          selfBounds.set(getPaddingLeft(), getPaddingTop(),
-              w - getPaddingRight(), h - getPaddingBottom());
+          selfBounds.set(getPaddingLeft(), getPaddingTop(), w - getPaddingRight(),
+              h - getPaddingBottom());
         }
 
         Gravity.apply(mForegroundGravity, foreground.getIntrinsicWidth(),
@@ -214,8 +200,7 @@ public class ForegroundRelativeLayout extends RelativeLayout {
     }
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  @Override
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP) @Override
   public void drawableHotspotChanged(float x, float y) {
     super.drawableHotspotChanged(x, y);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

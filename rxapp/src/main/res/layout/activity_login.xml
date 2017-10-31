@@ -57,12 +57,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:enabled="false"
         android:minHeight="48dp"
         android:text="@string/btn_login"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_button"
         app:supportButtonCornerRadius="24dp"
-        android:enabled="false"
         />
 
   </LinearLayout>

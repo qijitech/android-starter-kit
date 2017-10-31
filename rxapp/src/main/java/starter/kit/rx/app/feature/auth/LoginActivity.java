@@ -28,9 +28,8 @@ import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
  * Created by YuGang Yang on 06 29, 2016.
  * Copyright 2015-2016 qiji.tech. All rights reserved.
  */
-@RequiresPresenter(AuthPresenter.class)
-public class LoginActivity extends StarterActivity<AuthPresenter> implements
-    NetworkContract.View {
+@RequiresPresenter(AuthPresenter.class) public class LoginActivity
+    extends StarterActivity<AuthPresenter> implements NetworkContract.View {
 
   @BindView(R.id.container_login_username) TextInputLayout mUsernameContainer;
   @BindView(R.id.container_login_password) TextInputLayout mPasswordContainer;
@@ -60,8 +59,7 @@ public class LoginActivity extends StarterActivity<AuthPresenter> implements
         .map(charSequence -> validatePassword(charSequence.toString()));
 
     // Checks for validity of the username input field
-    Disposable usernameSubscription = usernameChangeObservable
-        .observeOn(mainThread()) // UI Thread
+    Disposable usernameSubscription = usernameChangeObservable.observeOn(mainThread()) // UI Thread
         .subscribe(validFields -> {
           if (validFields) {
             hideUsernameError();
@@ -73,8 +71,7 @@ public class LoginActivity extends StarterActivity<AuthPresenter> implements
     add(usernameSubscription);
 
     // Checks for validity of the password input field
-    Disposable passwordSubscription = passwordChangeObservable
-        .observeOn(mainThread()) // UI Thread
+    Disposable passwordSubscription = passwordChangeObservable.observeOn(mainThread()) // UI Thread
         .subscribe(validFields -> {
           if (validFields) {
             hidePasswordError();
@@ -99,9 +96,7 @@ public class LoginActivity extends StarterActivity<AuthPresenter> implements
     //    (username, password) -> username && password)
     //    .subscribe(RxView.enabled(mLoginBtn));
 
-    RxView.clicks(mLoginBtn)
-        .debounce(300, TimeUnit.MILLISECONDS)
-        .subscribe(aVoid -> doLogin());
+    RxView.clicks(mLoginBtn).debounce(300, TimeUnit.MILLISECONDS).subscribe(aVoid -> doLogin());
   }
 
   private boolean validateUsername(String username) {
@@ -113,32 +108,34 @@ public class LoginActivity extends StarterActivity<AuthPresenter> implements
   }
 
   private void enableError(TextInputLayout textInputLayout) {
-    if (textInputLayout.getChildCount() == 2)
+    if (textInputLayout.getChildCount() == 2) {
       textInputLayout.getChildAt(1).setVisibility(View.VISIBLE);
+    }
   }
 
   private void disableError(TextInputLayout textInputLayout) {
-    if (textInputLayout.getChildCount() == 2)
+    if (textInputLayout.getChildCount() == 2) {
       textInputLayout.getChildAt(1).setVisibility(View.GONE);
+    }
   }
 
-  private void showUsernameError(){
+  private void showUsernameError() {
     enableError(mUsernameContainer);
     //mUsernameContainer.setErrorEnabled(true);
     mUsernameContainer.setError(SupportApp.appResources().getString(R.string.login_username_error));
   }
 
-  private void hideUsernameError(){
+  private void hideUsernameError() {
     disableError(mUsernameContainer);
     mUsernameContainer.setError(null);
   }
 
-  private void showPasswordError(){
+  private void showPasswordError() {
     enableError(mPasswordContainer);
     mPasswordContainer.setError(SupportApp.appResources().getString(R.string.login_username_error));
   }
 
-  private void hidePasswordError(){
+  private void hidePasswordError() {
     disableError(mPasswordContainer);
     mPasswordContainer.setError(null);
   }
@@ -149,7 +146,8 @@ public class LoginActivity extends StarterActivity<AuthPresenter> implements
   }
 
   private void doLogin() {
-    getPresenter().requestItem(mUsernameEdit.getText().toString(), mPasswordEdit.getText().toString());
+    getPresenter().requestItem(mUsernameEdit.getText().toString(),
+        mPasswordEdit.getText().toString());
   }
 
   @Override public void onSuccess(Object item) {

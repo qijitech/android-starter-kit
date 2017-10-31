@@ -35,11 +35,11 @@ import static support.ui.utilities.Objects.isNotNull;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
+ *         带刷新的列表framgment
  */
 public abstract class StarterRecyclerFragment<E extends Entity, PC extends PaginatorPresenter>
     extends StarterNetworkFragment<PaginatorContract<E>, PC>
-    implements com.paginate.Paginate.Callbacks,
-    SwipeRefreshLayout.OnRefreshListener {
+    implements com.paginate.Paginate.Callbacks, SwipeRefreshLayout.OnRefreshListener {
 
   SwipeRefreshLayout mSwipeRefreshLayout;
   RecyclerView mRecyclerView;
@@ -61,10 +61,9 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     return mRecyclerView;
   }
 
-  public void buildFragConfig(StarterFragConfig fragConfig) {
+  @Override public void buildFragConfig(StarterFragConfig fragConfig) {
     mPaginatorEmitter = new PaginatorEmitter<>(fragConfig, new Consumer<PaginatorEmitter<E>>() {
-      @Override public void accept(@NonNull PaginatorEmitter<E> paginatorEmitter)
-          throws Exception {
+      @Override public void accept(@NonNull PaginatorEmitter<E> paginatorEmitter) throws Exception {
         getPresenter().requestNext(paginatorEmitter);
       }
     });
@@ -75,7 +74,8 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     }
 
     //noinspection unchecked
-    HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders = fragConfig.getBoundViewHolders();
+    HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders =
+        fragConfig.getBoundViewHolders();
     if (!boundViewHolders.isEmpty()) {
       for (Map.Entry<Class, Class<? extends EasyViewHolder>> entry : boundViewHolders.entrySet()) {
         mAdapter.bind(entry.getKey(), entry.getValue());
@@ -209,7 +209,8 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   @Override public void onSuccess(PaginatorContract<E> paginatorContract) {
-    ArrayList<? extends Entity> items = paginatorContract !=null ? paginatorContract.items() : Lists.newArrayList();
+    ArrayList<? extends Entity> items =
+        paginatorContract != null ? paginatorContract.items() : Lists.newArrayList();
     if (mPaginatorEmitter.isFirstPage()) {
       mAdapter.clear();
     }
@@ -291,7 +292,8 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
 
   // Paginate delegate
   @Override public void onLoadMore() {
-    if (isNotNull(mPaginate) && isNotNull(mPaginatorEmitter)
+    if (isNotNull(mPaginate)
+        && isNotNull(mPaginatorEmitter)
         && !isAdapterEmpty(mAdapter)
         && mPaginatorEmitter.canRequest()
         && !isLoading()) {

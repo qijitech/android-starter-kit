@@ -22,19 +22,6 @@ public class SupportApp extends Application {
   private static volatile Handler sAppHandler;
   private static volatile AppInfo mAppInfo;
 
-  @Override public void onCreate() {
-    super.onCreate();
-    initialize();
-  }
-
-  @Override public void onTerminate() {
-    super.onTerminate();
-    sAppContext = null;
-    mInstance = null;
-    sAppHandler = null;
-    mAppInfo = null;
-  }
-
   /**
    * @return applicaton info
    */
@@ -88,12 +75,6 @@ public class SupportApp extends Application {
     return mInstance;
   }
 
-  private void initialize() {
-    mInstance = this;
-    sAppContext = getApplicationContext();
-    sAppHandler = new Handler(sAppContext.getMainLooper());
-  }
-
   /**
    * 更新本地versionCode
    */
@@ -106,5 +87,24 @@ public class SupportApp extends Application {
    */
   public static boolean shouldEnterApp() {
     return appInfo().versionCode > PreferencesHelper.INSTANCE.getVersionCode();
+  }
+
+  @Override public void onCreate() {
+    super.onCreate();
+    initialize();
+  }
+
+  @Override public void onTerminate() {
+    super.onTerminate();
+    sAppContext = null;
+    mInstance = null;
+    sAppHandler = null;
+    mAppInfo = null;
+  }
+
+  private void initialize() {
+    mInstance = this;
+    sAppContext = getApplicationContext();
+    sAppHandler = new Handler(sAppContext.getMainLooper());
   }
 }

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-
 import nucleus5.factory.PresenterFactory;
 import nucleus5.factory.ReflectionPresenterFactory;
 import nucleus5.presenter.Presenter;
@@ -19,7 +18,8 @@ import nucleus5.presenter.Presenter;
  *
  * @param <P> a type of presenter to return with {@link #getPresenter}.
  */
-public class NucleusLayout<P extends Presenter> extends FrameLayout implements ViewWithPresenter<P> {
+public class NucleusLayout<P extends Presenter> extends FrameLayout
+    implements ViewWithPresenter<P> {
 
     private static final String PARENT_STATE_KEY = "parent_state";
     private static final String PRESENTER_STATE_KEY = "presenter_state";
@@ -42,17 +42,17 @@ public class NucleusLayout<P extends Presenter> extends FrameLayout implements V
     /**
      * Returns a current presenter factory.
      */
-    public PresenterFactory<P> getPresenterFactory() {
+    @Override public PresenterFactory<P> getPresenterFactory() {
         return presenterDelegate.getPresenterFactory();
     }
 
     /**
      * Sets a presenter factory.
-     * Call this method before onCreate/onFinishInflate to override default {@link ReflectionPresenterFactory} presenter factory.
+     * Call this method before onCreate/onFinishInflate to override default {@link
+     * ReflectionPresenterFactory} presenter factory.
      * Use this method for presenter dependency injection.
      */
-    @Override
-    public void setPresenterFactory(PresenterFactory<P> presenterFactory) {
+    @Override public void setPresenterFactory(PresenterFactory<P> presenterFactory) {
         presenterDelegate.setPresenterFactory(presenterFactory);
     }
 
@@ -64,7 +64,7 @@ public class NucleusLayout<P extends Presenter> extends FrameLayout implements V
      *
      * @return a currently attached presenter or null.
      */
-    public P getPresenter() {
+    @Override public P getPresenter() {
         return presenterDelegate.getPresenter();
     }
 
@@ -75,37 +75,37 @@ public class NucleusLayout<P extends Presenter> extends FrameLayout implements V
      */
     public Activity getActivity() {
         Context context = getContext();
-        while (!(context instanceof Activity) && context instanceof ContextWrapper)
+        while (!(context instanceof Activity) && context instanceof ContextWrapper) {
             context = ((ContextWrapper) context).getBaseContext();
-        if (!(context instanceof Activity))
-            throw new IllegalStateException("Expected an activity context, got " + context.getClass().getSimpleName());
+        }
+        if (!(context instanceof Activity)) {
+            throw new IllegalStateException(
+                "Expected an activity context, got " + context.getClass().getSimpleName());
+        }
         return (Activity) context;
     }
 
-    @Override
-    protected Parcelable onSaveInstanceState() {
+    @Override protected Parcelable onSaveInstanceState() {
         Bundle bundle = new Bundle();
         bundle.putBundle(PRESENTER_STATE_KEY, presenterDelegate.onSaveInstanceState());
         bundle.putParcelable(PARENT_STATE_KEY, super.onSaveInstanceState());
         return bundle;
     }
 
-    @Override
-    protected void onRestoreInstanceState(Parcelable state) {
+    @Override protected void onRestoreInstanceState(Parcelable state) {
         Bundle bundle = (Bundle) state;
         super.onRestoreInstanceState(bundle.getParcelable(PARENT_STATE_KEY));
         presenterDelegate.onRestoreInstanceState(bundle.getBundle(PRESENTER_STATE_KEY));
     }
 
-    @Override
-    protected void onAttachedToWindow() {
+    @Override protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (!isInEditMode())
+        if (!isInEditMode()) {
             presenterDelegate.onResume(this);
+        }
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
+    @Override protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         presenterDelegate.onDropView();
         presenterDelegate.onDestroy(!getActivity().isChangingConfigurations());

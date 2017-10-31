@@ -55,6 +55,7 @@ public class RxPreferencesActivity extends StarterActivity {
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(RxCompoundButton.checked(checkBox)));
     // Bind the checkbox to the preference.
-    subscriptions.add(RxCompoundButton.checkedChanges(checkBox).skip(1).subscribe(preference.asConsumer()));
+    subscriptions.add(
+        RxCompoundButton.checkedChanges(checkBox).skip(1).subscribe(preference.asConsumer()));
   }
 }

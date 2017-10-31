@@ -24,6 +24,16 @@ public final class AppInfo {
   public int screenHeight;
   public String languageCode;
 
+  public AppInfo(Context context) {
+    initLanguageCode();
+    initDeviceId();
+    initVersion(context);
+    initUmengChannel(context);
+    initOs();
+    initDeviceName();
+    initMetrics();
+  }
+
   private void initLanguageCode() {
     Locale locale = Locale.getDefault();
     String language = locale.getLanguage();
@@ -34,7 +44,11 @@ public final class AppInfo {
   }
 
   private void initOs() {
-    this.os = android.os.Build.MODEL + "," + android.os.Build.VERSION.SDK_INT + "," + android.os.Build.VERSION.RELEASE;
+    this.os = android.os.Build.MODEL
+        + ","
+        + android.os.Build.VERSION.SDK_INT
+        + ","
+        + android.os.Build.VERSION.RELEASE;
   }
 
   private void initMetrics() {
@@ -71,15 +85,5 @@ public final class AppInfo {
 
   private void initDeviceName() {
     this.deviceName = android.os.Build.DEVICE;
-  }
-
-  public AppInfo(Context context) {
-    initLanguageCode();
-    initDeviceId();
-    initVersion(context);
-    initUmengChannel(context);
-    initOs();
-    initDeviceName();
-    initMetrics();
   }
 }

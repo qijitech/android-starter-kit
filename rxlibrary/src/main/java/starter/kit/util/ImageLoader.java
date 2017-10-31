@@ -97,24 +97,28 @@ public class ImageLoader {
   public interface ImageLoaderInterface {
     void displayImageView(ImageView imageView, Uri uri, Drawable placeholder);
 
-    void displayImageView(ImageView imageView, Uri uri, Drawable placeholder, int width, int height);
+    void displayImageView(ImageView imageView, Uri uri, Drawable placeholder, int width,
+        int height);
 
     void cancel(ImageView imageView);
 
     Drawable placeholderDrawable(Context ctx);
+
     Drawable placeholderDrawable(Context context, String tag);
   }
 
   public static abstract class AbstractImageLoader implements ImageLoaderInterface {
 
     @Override public void displayImageView(ImageView imageView, Uri uri, Drawable placeholder) {
-      Log.i("ImageLoader", "you have not specified a ImageLoader implementation through the ImageLoader.initialize(ImageLoaderInterface) method");
+      Log.i("ImageLoader",
+          "you have not specified a ImageLoader implementation through the ImageLoader.initialize(ImageLoaderInterface) method");
     }
 
     @Override
     public void displayImageView(ImageView imageView, Uri uri, Drawable placeholder, int width,
         int height) {
-      Log.i("ImageLoader", "you have not specified a ImageLoader implementation through the ImageLoader.initialize(ImageLoaderInterface) method");
+      Log.i("ImageLoader",
+          "you have not specified a ImageLoader implementation through the ImageLoader.initialize(ImageLoaderInterface) method");
     }
 
     @Override public void cancel(ImageView imageView) {

@@ -18,7 +18,7 @@ public final class ScreenUtils {
   private static DisplayMetrics metrics;
 
   public static DisplayMetrics getDisplayMetrics() {
-    if( metrics == null ) {
+    if (metrics == null) {
       metrics = SupportApp.appResources().getDisplayMetrics();
     }
 
@@ -26,42 +26,42 @@ public final class ScreenUtils {
   }
 
   public static float getDensity() {
-    if( metrics == null ) {
+    if (metrics == null) {
       getDisplayMetrics();
     }
     return metrics.density;
   }
 
   public static float getScaledDensity() {
-    if( metrics == null ) {
+    if (metrics == null) {
       getDisplayMetrics();
     }
     return metrics.scaledDensity;
   }
 
   public static int getScreenWidth() {
-    if( metrics == null ) {
+    if (metrics == null) {
       getDisplayMetrics();
     }
     return metrics.widthPixels;
   }
 
   public static int getScreenHeight() {
-    if( metrics == null ) {
+    if (metrics == null) {
       getDisplayMetrics();
     }
     return metrics.heightPixels;
   }
 
   public static int px2dp(float pxValue) {
-    if( metrics == null ) {
+    if (metrics == null) {
       getDisplayMetrics();
     }
     return (int) (pxValue / metrics.density + 0.5f);
   }
 
   public static int dp2px(float dipValue) {
-    if( metrics == null ) {
+    if (metrics == null) {
       getDisplayMetrics();
     }
     return (int) (dipValue * metrics.density + 0.5f);
@@ -73,14 +73,14 @@ public final class ScreenUtils {
   }
 
   public static int px2sp(float pxValue) {
-    if( metrics == null ) {
+    if (metrics == null) {
       getDisplayMetrics();
     }
     return (int) (pxValue / metrics.scaledDensity + 0.5f);
   }
 
   public static int sp2px(float spValue) {
-    if( metrics == null ) {
+    if (metrics == null) {
       getDisplayMetrics();
     }
     return (int) (spValue * metrics.scaledDensity + 0.5f);
@@ -95,6 +95,7 @@ public final class ScreenUtils {
   /**
    * 获取实际屏幕高度
    * 如 1920 * 1080
+   *
    * @param activity Activity
    * @return int[]
    */
@@ -117,7 +118,6 @@ public final class ScreenUtils {
   }
 
   /**
-   *
    * @param activity Activity
    * @return int
    */

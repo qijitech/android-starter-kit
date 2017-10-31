@@ -272,6 +272,5 @@ public class StarterFragConfig {
       this.customEmptyView = customEmptyView;
       return this;
     }
-
   }
 }

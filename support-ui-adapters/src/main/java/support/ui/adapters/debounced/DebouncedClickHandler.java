@@ -5,9 +5,8 @@ import android.view.View;
 
 class DebouncedClickHandler {
   final static long MINIMUM_INTERVAL_MILLIS = 300;
-
-  private long previousClickTimestamp;
   private final DebouncedListener debouncedOnClickListener;
+  private long previousClickTimestamp;
 
   public DebouncedClickHandler(DebouncedListener debouncedOnClickListener) {
     this.debouncedOnClickListener = debouncedOnClickListener;

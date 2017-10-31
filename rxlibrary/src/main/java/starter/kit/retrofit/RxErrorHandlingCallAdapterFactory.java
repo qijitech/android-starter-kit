@@ -54,7 +54,9 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
       return ((Observable) wrapped.adapt(call)).onErrorResumeNext(
           new Function<Throwable, ObservableSource>() {
             @Override public ObservableSource apply(@NonNull Throwable throwable) throws Exception {
-              return Observable.error(RxErrorHandlingCallAdapterFactory.RxCallAdapterWrapper.this.asRetrofitException(throwable));
+              return Observable.error(
+                  RxErrorHandlingCallAdapterFactory.RxCallAdapterWrapper.this.asRetrofitException(
+                      throwable));
             }
           });
     }
@@ -64,7 +66,8 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
       if (throwable instanceof HttpException) {
         HttpException httpException = (HttpException) throwable;
         Response response = httpException.response();
-        return RetrofitException.httpError(response.raw().request().url().toString(), response, retrofit);
+        return RetrofitException.httpError(response.raw().request().url().toString(), response,
+            retrofit);
       }
       // A network error happened
       if (throwable instanceof IOException) {

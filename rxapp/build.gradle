@@ -25,7 +25,7 @@ android {
   }
 
   buildTypes {
-     debug {
+    debug {
       applicationIdSuffix ".debug" // 为了不和 release 版本冲突
     }
     release {
@@ -105,12 +105,13 @@ dependencies {
     compile project(':support-ui-adapters')
     compile project(':support-ui-cells')
     compile project(':support-ui-widget')*/
-//  compile 'com.smartydroid:rxstarter:0.1'
+  //  compile 'com.smartydroid:rxstarter:0.1'
 }
 
 static def gitVersionCode() {
   def cmd = 'git rev-list HEAD --all  --count'
-  def versionCode = cmd.execute().text.trim()
+  //  def versionCode = cmd.execute().text.trim()
+  def versionCode = ""
   if (versionCode.empty) {
     return 1
   }
@@ -119,7 +120,8 @@ static def gitVersionCode() {
 
 static def gitVersionName() {
   def cmd = 'git describe --abbrev=0 --tags'
-  def versionName = cmd.execute().text.trim()
+  //  def versionName = cmd.execute().text.trim()
+  def versionName = "2"
   if (versionName.length() > 5 || versionName.length() <= 0) {
     return "1.0";
   }

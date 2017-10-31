@@ -22,7 +22,8 @@ import static io.reactivex.schedulers.Schedulers.io;
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
-public abstract class PaginatorPresenter<T extends PaginatorContract> extends StarterPresenter<StarterRecyclerFragment> {
+public abstract class PaginatorPresenter<T extends PaginatorContract>
+    extends StarterPresenter<StarterRecyclerFragment> {
 
   private static final int RESTARTABLE_ID = 100;
 
@@ -36,46 +37,48 @@ public abstract class PaginatorPresenter<T extends PaginatorContract> extends St
         return observableFactory();
       }
     }, new BiConsumer<StarterRecyclerFragment, T>() {
-      @Override
-      public void accept(@NonNull StarterRecyclerFragment fragment, @NonNull T items)
+      @Override public void accept(@NonNull StarterRecyclerFragment fragment, @NonNull T items)
           throws Exception {
         //noinspection unchecked
         fragment.onSuccess(items);
       }
     }, new BiConsumer<StarterRecyclerFragment, Throwable>() {
-      @Override public void accept(@NonNull StarterRecyclerFragment fragment,
-          @NonNull Throwable throwable) throws Exception {
+      @Override
+      public void accept(@NonNull StarterRecyclerFragment fragment, @NonNull Throwable throwable)
+          throws Exception {
         fragment.onError(throwable);
       }
     });
   }
 
   private Observable<T> observableFactory() {
-    return view().concatMap(new Function<OptionalView<StarterRecyclerFragment>, ObservableSource<T>>() {
-      @Override public ObservableSource<T> apply(
-          @NonNull OptionalView<StarterRecyclerFragment> fragment)
-          throws Exception {
-        return mRequests.startWith(fragment.view.getPaginatorEmitter())
-            .concatMap(new Function<PaginatorEmitter, ObservableSource<T>>() {
-              @Override public ObservableSource<T> apply(@NonNull PaginatorEmitter emitter)
-                  throws Exception {
-                BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
-                return request(emitter.firstPaginatorKey(), emitter.nextPaginatorKey(), emitter.perPage())
-                    .subscribeOn(io())
-                    .compose(RxUtils.progressTransformer(fragment.view))
-                    .compose(RxLifecycleAndroid.bindFragment(lifecycle))
-                    .observeOn(mainThread());
-              }
-            });
-      }
-    });
+    return view().concatMap(
+        new Function<OptionalView<StarterRecyclerFragment>, ObservableSource<T>>() {
+          @Override
+          public ObservableSource<T> apply(@NonNull OptionalView<StarterRecyclerFragment> fragment)
+              throws Exception {
+            return mRequests.startWith(fragment.view.getPaginatorEmitter())
+                .concatMap(new Function<PaginatorEmitter, ObservableSource<T>>() {
+                  @Override public ObservableSource<T> apply(@NonNull PaginatorEmitter emitter)
+                      throws Exception {
+                    BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
+                    return request(emitter.firstPaginatorKey(), emitter.nextPaginatorKey(),
+                        emitter.perPage()).subscribeOn(io())
+                        .compose(RxUtils.progressTransformer(fragment.view))
+                        .compose(RxLifecycleAndroid.bindFragment(lifecycle))
+                        .observeOn(mainThread());
+                  }
+                });
+          }
+        });
   }
 
   public int restartableId() {
     return RESTARTABLE_ID;
   }
 
-  public abstract Observable<T> request(String firstPaginatorKey, String nextPaginatorKey, int perPage);
+  public abstract Observable<T> request(String firstPaginatorKey, String nextPaginatorKey,
+      int perPage);
 
   public void request() {
     start(restartableId());

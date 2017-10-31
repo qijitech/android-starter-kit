@@ -30,16 +30,10 @@ public class FrameLayoutFixed extends FrameLayout {
     super(context, attrs, defStyle);
   }
 
-  public final int getMeasuredStateFixed(View view) {
-    return (view.getMeasuredWidth()&0xff000000)
-        | ((view.getMeasuredHeight()>>16)
-        & (0xff000000>>16));
-  }
-
   public static int resolveSizeAndStateFixed(int size, int measureSpec, int childMeasuredState) {
     int result = size;
     int specMode = MeasureSpec.getMode(measureSpec);
-    int specSize =  MeasureSpec.getSize(measureSpec);
+    int specSize = MeasureSpec.getSize(measureSpec);
     switch (specMode) {
       case MeasureSpec.UNSPECIFIED:
         result = size;
@@ -55,17 +49,21 @@ public class FrameLayoutFixed extends FrameLayout {
         result = specSize;
         break;
     }
-    return result | (childMeasuredState&0xff000000);
+    return result | (childMeasuredState & 0xff000000);
   }
 
-  @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+  public final int getMeasuredStateFixed(View view) {
+    return (view.getMeasuredWidth() & 0xff000000) | ((view.getMeasuredHeight() >> 16) & (0xff000000
+        >> 16));
+  }
+
+  @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     try {
       int count = getChildCount();
 
       final boolean measureMatchParentChildren =
-          MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY ||
-              MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY;
+          MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY
+              || MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY;
       mMatchParentChildren.clear();
 
       int maxHeight = 0;
@@ -77,14 +75,12 @@ public class FrameLayoutFixed extends FrameLayout {
         if (child.getVisibility() != GONE) {
           measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0);
           final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-          maxWidth = Math.max(maxWidth,
-              child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);
-          maxHeight = Math.max(maxHeight,
-              child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);
+          maxWidth = Math.max(maxWidth, child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);
+          maxHeight =
+              Math.max(maxHeight, child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);
           childState |= getMeasuredStateFixed(child);
           if (measureMatchParentChildren) {
-            if (lp.width == LayoutHelper.MATCH_PARENT ||
-                lp.height == LayoutHelper.MATCH_PARENT) {
+            if (lp.width == LayoutHelper.MATCH_PARENT || lp.height == LayoutHelper.MATCH_PARENT) {
               mMatchParentChildren.add(child);
             }
           }
@@ -119,27 +115,25 @@ public class FrameLayoutFixed extends FrameLayout {
           int childHeightMeasureSpec;
 
           if (lp.width == LayoutHelper.MATCH_PARENT) {
-            childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth() -
-                    getPaddingLeft() - getPaddingRight() -
-                    lp.leftMargin - lp.rightMargin,
-                MeasureSpec.EXACTLY);
+            childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth()
+                - getPaddingLeft()
+                - getPaddingRight()
+                - lp.leftMargin
+                - lp.rightMargin, MeasureSpec.EXACTLY);
           } else {
             childWidthMeasureSpec = getChildMeasureSpec(widthMeasureSpec,
-                getPaddingLeft() + getPaddingRight() +
-                    lp.leftMargin + lp.rightMargin,
-                lp.width);
+                getPaddingLeft() + getPaddingRight() + lp.leftMargin + lp.rightMargin, lp.width);
           }
 
           if (lp.height == LayoutHelper.MATCH_PARENT) {
-            childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredHeight() -
-                    getPaddingTop() - getPaddingBottom() -
-                    lp.topMargin - lp.bottomMargin,
-                MeasureSpec.EXACTLY);
+            childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredHeight()
+                - getPaddingTop()
+                - getPaddingBottom()
+                - lp.topMargin
+                - lp.bottomMargin, MeasureSpec.EXACTLY);
           } else {
             childHeightMeasureSpec = getChildMeasureSpec(heightMeasureSpec,
-                getPaddingTop() + getPaddingBottom() +
-                    lp.topMargin + lp.bottomMargin,
-                lp.height);
+                getPaddingTop() + getPaddingBottom() + lp.topMargin + lp.bottomMargin, lp.height);
           }
 
           child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
@@ -151,8 +145,8 @@ public class FrameLayoutFixed extends FrameLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
       } catch (Exception e2) {
         FileLog.e("tmessages", e2);
-        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.makeMeasureSpec(
-            AndroidUtilities.dp(10), MeasureSpec.EXACTLY));
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec),
+            MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(10), MeasureSpec.EXACTLY));
       }
     }
   }

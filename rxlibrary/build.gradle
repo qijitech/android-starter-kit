@@ -102,5 +102,5 @@ dependencies {
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {
-    apply from: '../.buildscript/deploy.gradle'
+  apply from: '../.buildscript/deploy.gradle'
 }

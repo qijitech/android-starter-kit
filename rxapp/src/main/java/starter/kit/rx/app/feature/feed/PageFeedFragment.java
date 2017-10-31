@@ -9,8 +9,8 @@ import starter.kit.app.StarterRecyclerFragment;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 
-@RequiresPresenter(PageFeedPresenter.class)
-public class PageFeedFragment extends StarterRecyclerFragment<Feed, PageFeedPresenter> {
+@RequiresPresenter(PageFeedPresenter.class) public class PageFeedFragment
+    extends StarterRecyclerFragment<Feed, PageFeedPresenter> {
 
   public static PageFeedFragment create() {
     return new PageFeedFragment();
@@ -19,12 +19,10 @@ public class PageFeedFragment extends StarterRecyclerFragment<Feed, PageFeedPres
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
 
-    StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
-        .pageSize(30)
+    StarterFragConfig.Builder builder = new StarterFragConfig.Builder().pageSize(30)
         .loadingTriggerThreshold(0)
         .bind(Feed.class, FeedsViewHolder.class)
-        .recyclerViewDecor(new HorizontalDividerItemDecoration
-            .Builder(getContext()).size(10)
+        .recyclerViewDecor(new HorizontalDividerItemDecoration.Builder(getContext()).size(10)
             .colorResId(R.color.dividerColor)
             .build())
         .swipeRefreshLayoutColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);

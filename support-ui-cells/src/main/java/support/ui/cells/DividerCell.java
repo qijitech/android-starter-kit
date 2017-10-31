@@ -22,13 +22,12 @@ public class DividerCell extends BaseCell {
     }
   }
 
-  @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+  @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), AndroidUtilities.dp(16) + 1);
   }
 
-  @Override
-  protected void onDraw(Canvas canvas) {
-    canvas.drawLine(getPaddingLeft(), AndroidUtilities.dp(8), getWidth() - getPaddingRight(), AndroidUtilities.dp(8), paint);
+  @Override protected void onDraw(Canvas canvas) {
+    canvas.drawLine(getPaddingLeft(), AndroidUtilities.dp(8), getWidth() - getPaddingRight(),
+        AndroidUtilities.dp(8), paint);
   }
 }

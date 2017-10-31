@@ -273,5 +273,4 @@ public class CellModel {
       return this;
     }
   }
-
 }

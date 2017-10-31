@@ -9,8 +9,8 @@ import starter.kit.app.StarterRecyclerFragment;
 import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 
-@RequiresPresenter(IdFeedPresenter.class)
-public class IdFeedFragment extends StarterRecyclerFragment<Feed, IdFeedPresenter> {
+@RequiresPresenter(IdFeedPresenter.class) public class IdFeedFragment
+    extends StarterRecyclerFragment<Feed, IdFeedPresenter> {
 
   public static IdFeedFragment create() {
     return new IdFeedFragment();
@@ -18,13 +18,11 @@ public class IdFeedFragment extends StarterRecyclerFragment<Feed, IdFeedPresente
 
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
-    StarterFragConfig.Builder builder = new StarterFragConfig.Builder()
-        .pageSize(5)
+    StarterFragConfig.Builder builder = new StarterFragConfig.Builder().pageSize(5)
         .bind(Feed.class, FeedsViewHolder.class)
         .withKeyRequest(true)
         .loadingTriggerThreshold(0)
-        .recyclerViewDecor(new HorizontalDividerItemDecoration
-            .Builder(getContext()).size(10)
+        .recyclerViewDecor(new HorizontalDividerItemDecoration.Builder(getContext()).size(10)
             .colorResId(R.color.dividerColor)
             .build())
         .swipeRefreshLayoutColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);

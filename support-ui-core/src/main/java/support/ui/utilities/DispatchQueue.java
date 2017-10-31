@@ -11,7 +11,6 @@ package support.ui.utilities;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-
 import java.util.concurrent.CountDownLatch;
 
 public class DispatchQueue extends Thread {
@@ -72,8 +71,7 @@ public class DispatchQueue extends Thread {
     }
   }
 
-  @Override
-  public void run() {
+  @Override public void run() {
     Looper.prepare();
     handler = new Handler();
     syncLatch.countDown();

@@ -25,21 +25,21 @@ public class NineGridAdapter extends support.ui.widget.NineGridAdapter {
   }
 
   static class SimpleViewHolder extends RecyclerView.ViewHolder {
-    protected int itemSize;
     public Uri image;
+    protected int itemSize;
     SimpleDraweeView mThumbnailView;
 
-    public void setItemSize(int itemSize) {
-      this.itemSize = itemSize;
+    private SimpleViewHolder(Context context, ViewGroup parent) {
+      super(LayoutInflater.from(context).inflate(R.layout.list_item_image, parent, false));
+      mThumbnailView = ButterKnife.findById(itemView, R.id.image_feed_thumbnail);
     }
 
     static SimpleViewHolder create(ViewGroup parent) {
       return new SimpleViewHolder(parent.getContext(), parent);
     }
 
-    private SimpleViewHolder(Context context, ViewGroup parent) {
-      super(LayoutInflater.from(context).inflate(R.layout.list_item_image, parent, false));
-      mThumbnailView = ButterKnife.findById(itemView, R.id.image_feed_thumbnail);
+    public void setItemSize(int itemSize) {
+      this.itemSize = itemSize;
     }
 
     public void bind(Uri imageUrl) {

@@ -109,8 +109,7 @@ public class ForegroundImageView extends ImageView {
     }
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  @Override
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP) @Override
   public void drawableHotspotChanged(float x, float y) {
     super.drawableHotspotChanged(x, y);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

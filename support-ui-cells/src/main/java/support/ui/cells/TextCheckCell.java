@@ -20,10 +20,10 @@ import support.ui.widget.FrameLayoutFixed;
  */
 public class TextCheckCell extends FrameLayoutFixed {
 
+  private static Paint paint;
   private TextView textView;
   private TextView valueTextView;
   private SwitchCompat checkBox;
-  private static Paint paint;
   private boolean needDivider;
 
   public TextCheckCell(Context context) {
@@ -41,8 +41,10 @@ public class TextCheckCell extends FrameLayoutFixed {
     textView.setLines(1);
     textView.setMaxLines(1);
     textView.setSingleLine(true);
-    textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
-    addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 17, 0, 17, 0));
+    textView.setGravity(
+        (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
+    addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT,
+        (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 17, 0, 17, 0));
 
     valueTextView = new TextView(context);
     valueTextView.setTextColor(CellUtils.getValueColor(context));
@@ -52,7 +54,9 @@ public class TextCheckCell extends FrameLayoutFixed {
     valueTextView.setMaxLines(1);
     valueTextView.setSingleLine(true);
     valueTextView.setPadding(0, 0, 0, 0);
-    addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 17, 35, 17, 0));
+    addView(valueTextView,
+        LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
+            (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 17, 35, 17, 0));
 
     checkBox = new SwitchCompat(context);
     checkBox.setDuplicateParentStateEnabled(false);
@@ -60,12 +64,17 @@ public class TextCheckCell extends FrameLayoutFixed {
     checkBox.setFocusableInTouchMode(false);
     checkBox.setClickable(false);
     checkBox.setBackgroundResource(0);
-    addView(checkBox, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL, 14, 0, 14, 0));
+    addView(checkBox, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
+        (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL, 14, 0,
+        14, 0));
   }
 
   @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY),
-        MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(valueTextView.getVisibility() == VISIBLE ? 64 : 48) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
+    super.onMeasure(
+        MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY),
+        MeasureSpec.makeMeasureSpec(
+            AndroidUtilities.dp(valueTextView.getVisibility() == VISIBLE ? 64 : 48) + (needDivider
+                ? 1 : 0), MeasureSpec.EXACTLY));
   }
 
   public void bindView(String text, String value, boolean checked, boolean divider) {
@@ -92,10 +101,10 @@ public class TextCheckCell extends FrameLayoutFixed {
     checkBox.setChecked(checked);
   }
 
-  @Override
-  protected void onDraw(Canvas canvas) {
+  @Override protected void onDraw(Canvas canvas) {
     if (needDivider) {
-      canvas.drawLine(getPaddingLeft(), getHeight() - 1, getWidth() - getPaddingRight(), getHeight() - 1, paint);
+      canvas.drawLine(getPaddingLeft(), getHeight() - 1, getWidth() - getPaddingRight(),
+          getHeight() - 1, paint);
     }
   }
 }

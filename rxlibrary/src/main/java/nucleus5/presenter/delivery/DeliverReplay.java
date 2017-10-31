@@ -14,37 +14,31 @@ import static nucleus5.presenter.delivery.Delivery.validObservable;
 
 public class DeliverReplay<View, T> implements ObservableTransformer<T, Delivery<View, T>> {
 
-    private final Observable<OptionalView<View>> view;
+  private final Observable<OptionalView<View>> view;
 
-    public DeliverReplay(Observable<OptionalView<View>> view) {
-        this.view = view;
-    }
+  public DeliverReplay(Observable<OptionalView<View>> view) {
+    this.view = view;
+  }
 
-    @Override
-    public Observable<Delivery<View, T>> apply(Observable<T> observable) {
-        final ReplaySubject<Notification<T>> subject = ReplaySubject.create();
-        final Disposable disposable = observable
-            .materialize()
-            .doOnEach(subject)
-            .subscribe();
-        return view
-            .switchMap(new Function<OptionalView<View>, ObservableSource<Delivery<View, T>>>() {
-                @Override
-                public Observable<Delivery<View, T>> apply(final OptionalView<View> view) throws Exception {
-                    return subject
-                        .concatMap(new Function<Notification<T>, ObservableSource<Delivery<View, T>>>() {
-                            @Override
-                            public ObservableSource<Delivery<View, T>> apply(Notification<T> notification) throws Exception {
-                                return validObservable(view, notification);
-                            }
-                        });
-                }
-            })
-            .doOnDispose(new Action() {
-                @Override
-                public void run() {
-                    disposable.dispose();
-                }
+  @Override public Observable<Delivery<View, T>> apply(Observable<T> observable) {
+    final ReplaySubject<Notification<T>> subject = ReplaySubject.create();
+    final Disposable disposable = observable.materialize().doOnEach(subject).subscribe();
+    return view.switchMap(new Function<OptionalView<View>, ObservableSource<Delivery<View, T>>>() {
+      @Override public Observable<Delivery<View, T>> apply(final OptionalView<View> view)
+          throws Exception {
+        return subject.concatMap(
+            new Function<Notification<T>, ObservableSource<Delivery<View, T>>>() {
+              @Override
+              public ObservableSource<Delivery<View, T>> apply(Notification<T> notification)
+                  throws Exception {
+                return validObservable(view, notification);
+              }
             });
-    }
+      }
+    }).doOnDispose(new Action() {
+      @Override public void run() {
+        disposable.dispose();
+      }
+    });
+  }
 }

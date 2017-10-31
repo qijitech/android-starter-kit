@@ -13,6 +13,7 @@ import support.ui.utilities.Strings;
 public class DefaultHeaderInterceptor implements HeaderInterceptor {
 
   private Headers.Builder builder;
+
   public DefaultHeaderInterceptor(Headers.Builder builder) {
     this.builder = builder;
   }
@@ -28,10 +29,7 @@ public class DefaultHeaderInterceptor implements HeaderInterceptor {
       builder.set("Authorization", "Bearer " + token);
     }
 
-    Request compressedRequest = originalRequest
-        .newBuilder()
-        .headers(builder.build())
-        .build();
+    Request compressedRequest = originalRequest.newBuilder().headers(builder.build()).build();
 
     return chain.proceed(compressedRequest);
   }

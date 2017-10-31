@@ -5,10 +5,12 @@ import java.util.Comparator;
 
 /**
  * Utility methods for objects.
+ *
  * @since 1.7
  */
 public final class Objects {
-  private Objects() {}
+  private Objects() {
+  }
 
   /**
    * Returns 0 if {@code a == b}, or {@code c.compare(a, b)} otherwise.
@@ -117,5 +119,4 @@ public final class Objects {
   public static boolean isNotNull(Object object) {
     return !isNull(object);
   }
-
 }

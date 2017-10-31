@@ -19,23 +19,17 @@ public final class Network {
 
   private OkHttpClient client;
 
-  // Make this class a thread safe singleton
-  private static class SingletonHolder {
-    private static final Network INSTANCE = new Network();
+  private Network() {
   }
 
   public static synchronized Network get() {
     return SingletonHolder.INSTANCE;
   }
 
-  private Network() {
-  }
-
   public Retrofit retrofit() {
     Preconditions.checkNotNull(baseUrl, "Base URL required.");
     if (mRetrofit == null) {
-      mRetrofit = newRetrofitBuilder()
-          .baseUrl(baseUrl)
+      mRetrofit = newRetrofitBuilder().baseUrl(baseUrl)
           .client(client)
           .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
           .addConverterFactory(JacksonConverterFactory.create())
@@ -46,6 +40,11 @@ public final class Network {
 
   protected Retrofit.Builder newRetrofitBuilder() {
     return new Retrofit.Builder();
+  }
+
+  // Make this class a thread safe singleton
+  private static class SingletonHolder {
+    private static final Network INSTANCE = new Network();
   }
 
   public static class Builder {
@@ -70,7 +69,8 @@ public final class Network {
       if (mClient == null) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (networkDebug) {
-          HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor((message) -> Logger.d(message));
+          HttpLoggingInterceptor loggingInterceptor =
+              new HttpLoggingInterceptor((message) -> Logger.d(message));
           loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
           builder.addNetworkInterceptor(loggingInterceptor);
         }
@@ -130,7 +130,7 @@ public final class Network {
           .add("X-Client-Type", "android");
 
       final String channel = appInfo.channel;
-      if (! TextUtils.isEmpty(channel)) {
+      if (!TextUtils.isEmpty(channel)) {
         builder.add("X-Client-Channel", channel);
       }
       return builder;

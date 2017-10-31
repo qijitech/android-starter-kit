@@ -17,9 +17,9 @@ import starter.kit.rx.app.R;
 import starter.kit.rx.app.model.entity.Feed;
 import starter.kit.rx.app.model.entity.Image;
 import starter.kit.rx.app.util.NineGridAdapter;
-import support.ui.widget.NineGirdView;
 import support.ui.adapters.EasyViewHolder;
 import support.ui.utilities.ViewUtils;
+import support.ui.widget.NineGirdView;
 
 public class FeedsViewHolder extends EasyViewHolder<Feed> {
 

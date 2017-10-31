@@ -10,11 +10,11 @@ import android.util.SparseIntArray;
  */
 public final class ThemeCompat {
 
-  private ThemeCompat() {
-  }
-
   private static final int[] TEMP_ARRAY = new int[1];
   private static final SparseIntArray sAttrArray = new SparseIntArray();
+
+  private ThemeCompat() {
+  }
 
   public static int getThemeAttrColor(Context context, int attr) {
     return getThemeAttrColor(context, attr, 0);
