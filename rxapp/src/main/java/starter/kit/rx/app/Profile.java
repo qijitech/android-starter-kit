@@ -6,6 +6,6 @@ package starter.kit.rx.app;
 
 public interface Profile {
 
-  String API_ENDPOINT = "http://fakerapi.qiji.tech";
+  String API_ENDPOINT = "http://faker.lawyer5.cn";
   String API_ACCEPT = "application/vnd.fakerapi.v1.0+json";
 }
