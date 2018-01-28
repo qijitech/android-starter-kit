@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -30,7 +29,7 @@ android {
 }
 
 dependencies {
-  provided deps.recyclerviewV7
+  implementation deps.recyclerviewV7
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {

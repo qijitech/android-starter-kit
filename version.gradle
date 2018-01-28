@@ -4,18 +4,18 @@ Shared gradle properties
 ext {
 
   android = [
-      compileSdkVersion: 24,
-      buildToolsVersion: '25.0.2',
+      compileSdkVersion: 27,
+      buildToolsVersion: '26.0.2',
       minSdkVersion    : 15,
-      targetSdkVersion : 25,
+      targetSdkVersion : 27,
       javaVersion      : JavaVersion.VERSION_1_8,
   ]
 
   depsVersion = [
-      supportVersion                    : '25.2.0',
+      supportVersion                    : '26.1.0',
       okhttpVersion                     : '3.6.0',
       retrofitVersion                   : '2.2.0',
-      butterknifeVersion                : '8.5.1',
+      butterknifeVersion                : '8.8.1',
       timberVersion                     : '4.5.1',
       rxJavaVersion                     : '2.0.7',
       rxAndroidVersion                  : '2.0.1',

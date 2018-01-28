@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -30,9 +29,15 @@ android {
 }
 
 dependencies {
-  compile project(':support-ui-core')
-  compile deps.recyclerviewV7
-  compile deps.materialProgress
+  implementation project(':support-ui-core')
+
+  implementation deps.appcompatV7
+
+  implementation deps.butterknife
+  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+
+  implementation deps.recyclerviewV7
+  implementation deps.materialProgress
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {
