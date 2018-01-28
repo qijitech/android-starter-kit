@@ -1,16 +1,6 @@
-repositories {
-  jcenter()
-  maven { url "https://clojars.org/repo/" }
-  maven { url "https://jitpack.io" }
-  maven { url "https://plugins.gradle.org/m2/" }
-}
-
 buildscript {
   repositories {
     jcenter()
-    maven { url "https://clojars.org/repo/" }
-    maven { url "https://jitpack.io" }
-    maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
     classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
@@ -19,8 +9,6 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 
 //project.archivesBaseName = 'starter'
@@ -28,7 +16,7 @@ apply plugin: 'com.jakewharton.butterknife'
 
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
-  buildToolsVersion rootProject.ext.android.buildToolsVersion
+//  buildToolsVersion rootProject.ext.android.buildToolsVersion
 
   defaultConfig {
     minSdkVersion rootProject.ext.android.minSdkVersion
@@ -53,42 +41,42 @@ android {
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  testCompile 'junit:junit:4.12'
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  testImplementation 'junit:junit:4.12'
 
-  compile deps.appcompatV7
-  compile deps.cardviewV7
+  implementation deps.appcompatV7
+  implementation deps.cardviewV7
 
   // Recycler View
-  compile deps.recyclerviewV7
-  compile deps.paginate
+  implementation deps.recyclerviewV7
+  implementation deps.paginate
 
-  compile deps.converterJackson
+  implementation deps.converterJackson
 
   // Square
-  compile deps.retrofit
-  compile deps.okhttp
-  compile deps.loggingInterceptor
+  implementation deps.retrofit
+  implementation deps.okhttp
+  implementation deps.loggingInterceptor
 
   // rx
-  compile deps.rxandroid
+  implementation deps.rxandroid
   // Because RxAndroid releases are few and far between, it is recommended you also
   // explicitly depend on RxJava's latest version for bug fixes and new features.
-  compile deps.rxjava
+  implementation deps.rxjava
 
-  compile deps.smoothprogressbar
+  implementation deps.smoothprogressbar
 
-  compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+  implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
 
-  compile 'com.trello:rxlifecycle:0.6.1'
+  implementation 'com.trello:rxlifecycle:0.6.1'
 
-  compile 'com.orhanobut:logger:1.13'
+  implementation 'com.orhanobut:logger:1.13'
 
-  compile 'frankiesardo:icepick:3.2.0'
-  apt 'frankiesardo:icepick-processor:3.2.0'
+  implementation 'frankiesardo:icepick:3.2.0'
+  annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
 
-  compile deps.butterknife
-  apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  implementation deps.butterknife
+  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {
