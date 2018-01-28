@@ -47,9 +47,9 @@ import support.ui.content.RequiresContent;
   }
 
   @Override public void onResume() {
-    super.onResume();
     contentPresenter.attachContainer(provideContainer());
     contentPresenter.attachContentView(provideContentView());
+    super.onResume();
   }
 
   @Override public void onPause() {
@@ -59,6 +59,7 @@ import support.ui.content.RequiresContent;
 
   @Override public void onDestroy() {
     super.onDestroy();
+
     contentPresenter.onDestroy();
     contentPresenter = null;
   }
