@@ -2,12 +2,16 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
-  //  buildToolsVersion rootProject.ext.android.buildToolsVersion
+  buildToolsVersion rootProject.ext.android.buildToolsVersion
 
   defaultConfig {
     applicationId "starter.kit.rx.app"
     minSdkVersion rootProject.ext.android.minSdkVersion
     targetSdkVersion rootProject.ext.android.targetSdkVersion
+
+    // dex突破65535的限制
+    multiDexEnabled true
+
     versionCode 1
     versionName "1.0"
   }
@@ -31,28 +35,17 @@ android {
   }
 
   lintOptions {
+    checkReleaseBuilds false
     abortOnError false
+  }
+
+  dexOptions {
+    javaMaxHeapSize "4g"
   }
 
   compileOptions {
     sourceCompatibility rootProject.ext.android.javaVersion
     targetCompatibility rootProject.ext.android.javaVersion
-  }
-
-  applicationVariants.all { variant ->
-    if (variant.buildType.name.equals(com.android.builder.core.BuilderConstants.RELEASE)) {
-      variant.mergedFlavor.versionCode = gitVersionCode()
-      variant.mergedFlavor.versionName = gitVersionName()
-
-      //      variant.outputs.each { fileObj ->
-      //        def outputFile = fileObj.outputFile
-      //        if (outputFile != null && outputFile.name.endsWith('.apk')) {
-      //          //def fileName = "rxjava_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-      //          def fileName = "${parent.name}_v${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
-      //          fileObj.outputFile = new File(releaseOutputFile(), fileName)
-      //        }
-      //      }
-    }
   }
 }
 
@@ -86,6 +79,8 @@ dependencies {
 
   implementation deps.recyclerviewFlexibleDivider
 
+  implementation deps.multidex
+  implementation deps.supportV4
   implementation deps.appcompatV7
   implementation deps.cardviewV7
 
@@ -122,30 +117,4 @@ dependencies {
 
   implementation project(':rxlibrary')
   //  compile 'com.smartydroid:rxstarter:0.1.23'
-}
-
-def gitVersionCode() {
-  def cmd = 'git rev-list HEAD --all  --count'
-  def versionCode = cmd.execute().text.trim()
-  if (versionCode.empty) {
-    return 1
-  }
-  return versionCode.toInteger()
-}
-
-def gitVersionName() {
-  def cmd = 'git describe --abbrev=0 --tags'
-  def versionName = cmd.execute().text.trim()
-  if (versionName.length() > 5 || versionName.length() <= 0) {
-    return "1.0";
-  }
-  return versionName;
-}
-
-def releaseTime() {
-  return new Date().format('yyyyMMddHHmm', TimeZone.getDefault())
-}
-
-def releaseOutputFile() {
-  return '../release/'
 }

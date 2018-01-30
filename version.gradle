@@ -10,6 +10,7 @@ ext {
              javaVersion      : JavaVersion.VERSION_1_8,]
 
   depsVersion = [supportVersion                    : '27.0.2',
+                 multidexVersion                   : '1.0.2',
                  okhttpVersion                     : '3.9.1',
                  retrofitVersion                   : '2.3.0',
                  butterknifeVersion                : '8.8.1',
@@ -38,6 +39,7 @@ ext {
           supportAnnotations         : 'com.android.support:support-annotations:' + depsVersion.supportVersion,
           appcompatV7                : 'com.android.support:appcompat-v7:' + depsVersion.supportVersion,
           design                     : 'com.android.support:design:' + depsVersion.supportVersion,
+          multidex                   : 'com.android.support:multidex:' + depsVersion.multidexVersion,
           gridlayoutV7               : 'com.android.support:gridlayout-v7:' + depsVersion.supportVersion,
           recyclerviewV7             : 'com.android.support:recyclerview-v7:' + depsVersion.supportVersion,
           cardviewV7                 : 'com.android.support:cardview-v7:' + depsVersion.supportVersion,
