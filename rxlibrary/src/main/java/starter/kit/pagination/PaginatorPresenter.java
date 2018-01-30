@@ -46,7 +46,7 @@ public abstract class PaginatorPresenter<T extends PaginatorContract> extends St
 
   private Observable<T> observableFactory() {
     return view().concatMap(new Func1<StarterRecyclerFragment, Observable<T>>() {
-      @Override public Observable<T> call(StarterRecyclerFragment fragment) {
+      @Override public Observable<T> call(final StarterRecyclerFragment fragment) {
         return mRequests.startWith(fragment.getPaginatorEmitter())
             .concatMap(new Func1<PaginatorEmitter, Observable<? extends T>>() {
               @Override public Observable<? extends T> call(PaginatorEmitter emitter) {
