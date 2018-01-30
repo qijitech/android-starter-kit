@@ -9,7 +9,7 @@ ext {
              targetSdkVersion : 27,
              javaVersion      : JavaVersion.VERSION_1_8,]
 
-  depsVersion = [supportVersion                    : '26.1.0',
+  depsVersion = [supportVersion                    : '27.0.2',
                  okhttpVersion                     : '3.9.1',
                  retrofitVersion                   : '2.3.0',
                  butterknifeVersion                : '8.8.1',
@@ -30,7 +30,9 @@ ext {
                  parcelerVersion                   : '1.1.8',
                  icepickVersion                    : '3.2.0',
                  loggerVersion                     : '2.1.1',
-                 rxlifecycleVersion                : '1.0',]
+                 rxlifecycleVersion                : '1.0',
+                 foregroundViewsVersion            : '2.4.0',
+  ]
 
   deps = [supportV4                  : 'com.android.support:support-v4:' + depsVersion.supportVersion,
           supportAnnotations         : 'com.android.support:support-annotations:' + depsVersion.supportVersion,
@@ -68,5 +70,7 @@ ext {
           icepickProcessor           : 'frankiesardo:icepick-processor:' + depsVersion.icepickVersion,
           logger                     : 'com.orhanobut:logger:' + depsVersion.loggerVersion,
           rxlifecycle                : 'com.trello:rxlifecycle:' + depsVersion.rxlifecycleVersion,
-          rxlifecycleAndroid         : 'com.trello:rxlifecycle-android:' + depsVersion.rxlifecycleVersion,]
+          rxlifecycleAndroid         : 'com.trello:rxlifecycle-android:' + depsVersion.rxlifecycleVersion,
+          foregroundViews            : 'com.github.Commit451:ForegroundViews:' + depsVersion.foregroundViewsVersion,
+  ]
 }
