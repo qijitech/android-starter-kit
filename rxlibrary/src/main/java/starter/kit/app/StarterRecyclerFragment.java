@@ -303,7 +303,6 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
         && !isAdapterEmpty(mAdapter)
         && mPaginatorEmitter.canRequest()
         && !isLoading()) {
-
       RxUtils.empty(() -> mPaginate.setHasMoreDataToLoad(true));
       mPaginatorEmitter.request();
     }

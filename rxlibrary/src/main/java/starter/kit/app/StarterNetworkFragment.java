@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import nucleus.presenter.Presenter;
-import rx.functions.Action0;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.util.ErrorHandler;
 import starter.kit.util.NetworkContract;
