@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import nucleus.presenter.Presenter;
-import rx.functions.Action0;
 import starter.kit.retrofit.ErrorResponse;
 import starter.kit.util.ErrorHandler;
 import starter.kit.util.NetworkContract;
@@ -14,6 +13,8 @@ import support.ui.content.EmptyView;
 import support.ui.content.ErrorView;
 import support.ui.content.ReflectionContentPresenterFactory;
 import support.ui.content.RequiresContent;
+
+import static starter.kit.util.Utilities.isNotNull;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
@@ -47,21 +48,25 @@ import support.ui.content.RequiresContent;
   }
 
   @Override public void onResume() {
-    contentPresenter.attachContainer(provideContainer());
-    contentPresenter.attachContentView(provideContentView());
+    if (isNotNull(contentPresenter)) {
+      contentPresenter.attachContainer(provideContainer());
+      contentPresenter.attachContentView(provideContentView());
+    }
     super.onResume();
   }
 
   @Override public void onPause() {
+    if (isNotNull(contentPresenter)) {
+      contentPresenter.onDestroyView();
+    }
     super.onPause();
-    contentPresenter.onDestroyView();
   }
 
   @Override public void onDestroy() {
-    super.onDestroy();
-
     contentPresenter.onDestroy();
     contentPresenter = null;
+
+    super.onDestroy();
   }
 
   public ContentPresenter getContentPresenter() {
@@ -74,11 +79,7 @@ import support.ui.content.RequiresContent;
 
   @Override public void showProgress() {
     if (mFragConfig.shouldDisplayLoadingView()) {
-      RxUtils.empty(new Action0() {
-        @Override public void call() {
-          getContentPresenter().displayLoadView();
-        }
-      });
+      RxUtils.empty(() -> getContentPresenter().displayLoadView());
     }
   }
 
