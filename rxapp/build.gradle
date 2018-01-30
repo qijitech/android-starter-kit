@@ -65,8 +65,8 @@ dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   testImplementation 'junit:junit:4.12'
 
-  implementation 'org.parceler:parceler-api:1.1.6'
-  annotationProcessor 'org.parceler:parceler:1.1.6'
+  implementation deps.parceler
+  annotationProcessor deps.parcelerProcessor
 
   implementation 'com.github.Doublemine:SimpleHud:0.1.2'
   implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
@@ -86,12 +86,6 @@ dependencies {
 
   implementation deps.recyclerviewFlexibleDivider
 
-  // rx
-  implementation deps.rxandroid
-  // Because RxAndroid releases are few and far between, it is recommended you also
-  // explicitly depend on RxJava's latest version for bug fixes and new features.
-  implementation deps.rxjava
-
   implementation deps.appcompatV7
   implementation deps.cardviewV7
 
@@ -105,7 +99,7 @@ dependencies {
   implementation deps.retrofit
   implementation deps.okhttp
   implementation deps.loggingInterceptor
-  implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+  implementation deps.adapterRxjava
 
   // rx
   implementation deps.rxandroid
@@ -115,16 +109,16 @@ dependencies {
 
   implementation deps.smoothprogressbar
 
-  implementation 'com.trello:rxlifecycle:1.0'
-  implementation 'com.trello:rxlifecycle-android:1.0'
+  implementation deps.rxlifecycle
+  implementation deps.rxlifecycleAndroid
 
-  implementation 'com.orhanobut:logger:2.1.1'
+  implementation deps.logger
 
-  implementation 'frankiesardo:icepick:3.2.0'
-  annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
+  implementation deps.icepick
+  annotationProcessor deps.icepickProcessor
 
   implementation deps.butterknife
-  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  annotationProcessor deps.butterknifeCompiler
 
   implementation project(':rxlibrary')
   //  compile 'com.smartydroid:rxstarter:0.1.23'
