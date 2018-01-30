@@ -57,6 +57,7 @@ dependencies {
   implementation deps.retrofit
   implementation deps.okhttp
   implementation deps.loggingInterceptor
+  implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
 
   // rx
   implementation deps.rxandroid
@@ -66,12 +67,10 @@ dependencies {
 
   implementation deps.smoothprogressbar
 
-  implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-
   implementation 'com.trello:rxlifecycle:1.0'
   implementation 'com.trello:rxlifecycle-android:1.0'
 
-  implementation 'com.orhanobut:logger:1.13'
+  implementation 'com.orhanobut:logger:2.1.1'
 
   implementation 'frankiesardo:icepick:3.2.0'
   annotationProcessor 'frankiesardo:icepick-processor:3.2.0'

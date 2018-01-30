@@ -15,6 +15,8 @@ import support.ui.content.ErrorView;
 import support.ui.content.ReflectionContentPresenterFactory;
 import support.ui.content.RequiresContent;
 
+import static starter.kit.util.Utilities.isNotNull;
+
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
  */
@@ -47,13 +49,17 @@ import support.ui.content.RequiresContent;
   }
 
   @Override public void onResume() {
-    contentPresenter.attachContainer(provideContainer());
-    contentPresenter.attachContentView(provideContentView());
+    if (isNotNull(contentPresenter)) {
+      contentPresenter.attachContainer(provideContainer());
+      contentPresenter.attachContentView(provideContentView());
+    }
     super.onResume();
   }
 
   @Override public void onPause() {
-    contentPresenter.onDestroyView();
+    if (isNotNull(contentPresenter)) {
+      contentPresenter.onDestroyView();
+    }
     super.onPause();
   }
 
@@ -73,11 +79,7 @@ import support.ui.content.RequiresContent;
 
   @Override public void showProgress() {
     if (mFragConfig.shouldDisplayLoadingView()) {
-      RxUtils.empty(new Action0() {
-        @Override public void call() {
-          getContentPresenter().displayLoadView();
-        }
-      });
+      RxUtils.empty(() -> getContentPresenter().displayLoadView());
     }
   }
 
