@@ -31,6 +31,7 @@ import support.ui.adapters.EasyViewHolder;
 
 import static starter.kit.util.Utilities.isAdapterEmpty;
 import static starter.kit.util.Utilities.isNotNull;
+import static starter.kit.util.Utilities.isNull;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
@@ -207,6 +208,10 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   @Override public void onSuccess(PaginatorContract<E> paginatorContract) {
+    if (isNull(mPaginatorEmitter)) {
+      return;
+    }
+
     ArrayList<? extends Entity> items = paginatorContract !=null ? paginatorContract.items() : Lists.newArrayList();
     if (mPaginatorEmitter.isFirstPage()) {
       mAdapter.clear();
@@ -234,6 +239,10 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
 
   @Override public void onError(Throwable throwable) {
     super.onError(throwable);
+
+    if (isNull(mPaginatorEmitter)) {
+      return;
+    }
 
     if (!(throwable instanceof MissingBackpressureException)) { // 防止重复调用
       // error handle
@@ -272,6 +281,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     super.onDestroy();
     mAdapter = null;
     mPaginate = null;
+    mPaginatorEmitter = null;
   }
 
   @Override public void onRefresh() {

@@ -48,6 +48,7 @@ public abstract class PaginatorPresenter<T extends PaginatorContract> extends St
     return view().concatMap(new Func1<StarterRecyclerFragment, Observable<T>>() {
       @Override public Observable<T> call(final StarterRecyclerFragment fragment) {
         return mRequests.startWith(fragment.getPaginatorEmitter())
+            .onBackpressureDrop()
             .concatMap(new Func1<PaginatorEmitter, Observable<? extends T>>() {
               @Override public Observable<? extends T> call(PaginatorEmitter emitter) {
                 BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
