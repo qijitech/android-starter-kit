@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orhanobut.logger.Logger;
+import starter.kit.app.LogAdapter;
 import starter.kit.app.StarterApp;
 import starter.kit.model.entity.Account;
 import starter.kit.retrofit.Network;
@@ -21,6 +23,8 @@ public class RxApp extends StarterApp {
         .build();
 
     Fresco.initialize(appContext());
+
+    Logger.addLogAdapter(new LogAdapter("StarterKit", BuildConfig.DEBUG));
 
     InitializeUtil.initialize();
   }

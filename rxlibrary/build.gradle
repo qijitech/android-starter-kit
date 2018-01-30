@@ -95,7 +95,9 @@ dependencies {
   implementation deps.butterknife
   annotationProcessor deps.butterknifeCompiler
   
-  implementation deps.multidex
+  implementation deps.nucleus
+  implementation deps.nucleusSupportV4
+  implementation deps.nucleusSupportV7
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {

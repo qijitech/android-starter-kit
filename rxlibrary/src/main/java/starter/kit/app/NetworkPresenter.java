@@ -25,10 +25,9 @@ public abstract class NetworkPresenter<T, ViewType extends NetworkContract.View>
 
     restartableFirst(restartableId(), new Factory<Observable<T>>() {
       @Override public Observable<T> create() {
-        BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
         return request().subscribeOn(io())
             .compose(RxUtils.hudTransformer(NetworkPresenter.this))
-            .compose(RxLifecycleAndroid.bindFragment(lifecycle))
+            .compose(RxLifecycleAndroid.bindFragment(BehaviorSubject.create()))
             .observeOn(mainThread());
       }
     }, new BiConsumer<ViewType, T>() {

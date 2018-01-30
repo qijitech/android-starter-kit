@@ -32,6 +32,7 @@ import support.ui.collect.Lists;
 
 import static starter.kit.util.Utilities.isAdapterEmpty;
 import static support.ui.utilities.Objects.isNotNull;
+import static support.ui.utilities.Objects.isNull;
 
 /**
  * @author <a href="mailto:smartydroid.com@gmail.com">Smartydroid</a>
@@ -148,14 +149,12 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
             })
             .build();
 
-        mPaginate.setHasMoreDataToLoad(false);
+        setHasMoreDataToLoad(false);
       }
     }
   }
 
   private void setupRecyclerView() {
-    mRecyclerView.setAdapter(mAdapter);
-
     if (isNotNull(getFragConfig())) {
       final StarterFragConfig fragConfig = getFragConfig();
       RecyclerView.LayoutManager layoutManager = fragConfig.getLayoutManager();
@@ -174,7 +173,11 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
       if (animator != null) {
         mRecyclerView.setItemAnimator(animator);
       }
+    } else {
+      mRecyclerView.setLayoutManager(newLayoutManager());
     }
+
+    mRecyclerView.setAdapter(mAdapter);
   }
 
   private RecyclerView.LayoutManager newLayoutManager() {
@@ -191,7 +194,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     } else if (isNotNull(mPaginatorEmitter) && mPaginatorEmitter.isFirstPage()) {
       mSwipeRefreshLayout.setRefreshing(true);
     } else if (isNotNull(mPaginate)) {
-      mPaginate.setHasMoreDataToLoad(true);
+      setHasMoreDataToLoad(true);
     }
   }
 
@@ -209,6 +212,10 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   @Override public void onSuccess(PaginatorContract<E> paginatorContract) {
+    if (isNull(mPaginatorEmitter)) {
+      return;
+    }
+
     ArrayList<? extends Entity> items = paginatorContract !=null ? paginatorContract.items() : Lists.newArrayList();
     if (mPaginatorEmitter.isFirstPage()) {
       mAdapter.clear();
@@ -221,9 +228,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     mAdapter.appendAll(items);
     mPaginatorEmitter.received(paginatorContract);
 
-    if (isNotNull(mPaginate)) {
-      mPaginate.setHasMoreDataToLoad(false);
-    }
+    setHasMoreDataToLoad(false);
 
     if (getContentPresenter() != null) {
       if (isAdapterEmpty(mAdapter)) {
@@ -237,6 +242,10 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   @Override public void onError(Throwable throwable) {
     super.onError(throwable);
 
+    if (isNull(mPaginatorEmitter)) {
+      return;
+    }
+
     // error handle
     mPaginatorEmitter.received(null);
     if (!(throwable instanceof MissingBackpressureException)) { // 防止重复调用
@@ -248,9 +257,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
       mAdapter.clear();
     }
 
-    if (isNotNull(mPaginate)) {
-      mPaginate.setHasMoreDataToLoad(false);
-    }
+    setHasMoreDataToLoad(false);
 
     if (isAdapterEmpty(mAdapter)) {
       getContentPresenter().displayErrorView();
@@ -276,6 +283,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
     super.onDestroy();
     mAdapter = null;
     mPaginate = null;
+    mPaginatorEmitter = null;
   }
 
   @Override public void onRefresh() {
@@ -295,7 +303,7 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
         && !isAdapterEmpty(mAdapter)
         && mPaginatorEmitter.canRequest()
         && !isLoading()) {
-      mPaginate.setHasMoreDataToLoad(true);
+      setHasMoreDataToLoad(true);
       mPaginatorEmitter.request();
     }
   }
@@ -320,5 +328,13 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
 
   @Override public void onErrorViewClick(View view) {
     onRefresh();
+  }
+
+  void setHasMoreDataToLoad(boolean hasMoreDataToLoad) {
+    RxUtils.empty(() -> {
+      if (isNotNull(mPaginate)) {
+        mPaginate.setHasMoreDataToLoad(hasMoreDataToLoad);
+      }
+    });
   }
 }

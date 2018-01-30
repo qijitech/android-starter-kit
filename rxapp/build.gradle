@@ -43,33 +43,12 @@ android {
     sourceCompatibility rootProject.ext.android.javaVersion
     targetCompatibility rootProject.ext.android.javaVersion
   }
-
-  applicationVariants.all { variant ->
-    if (variant.buildType.name == BuilderConstants.RELEASE) {
-      variant.mergedFlavor.versionCode = gitVersionCode()
-      variant.mergedFlavor.versionName = gitVersionName()
-
-      variant.outputs.each { fileObj ->
-        def outputFile = fileObj.outputFile
-        if (outputFile != null && outputFile.name.endsWith('.apk')) {
-          //def fileName = "rxjava_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-          def fileName = "${parent.name}_v${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
-//          fileObj.outputFile = new File(releaseOutputFile(), fileName)
-        }
-      }
-    }
-  }
-}
-
-repositories {
-  jcenter()
-  maven { url "https://clojars.org/repo/" }
-  maven { url "https://jitpack.io" }
-  maven { url "https://dl.bintray.com/qijitech/android/" }
 }
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+  implementation deps.multidex
 
   implementation deps.parceler
   annotationProcessor deps.parcelerProcessor
@@ -91,6 +70,7 @@ dependencies {
   implementation deps.fresco
   implementation deps.recyclerviewFlexibleDivider
 
+  implementation deps.supportV4
   implementation deps.appcompatV7
   implementation deps.cardviewV7
 
@@ -125,7 +105,9 @@ dependencies {
   implementation deps.butterknife
   annotationProcessor deps.butterknifeCompiler
 
-  implementation deps.multidex
+  implementation deps.nucleus
+  implementation deps.nucleusSupportV4
+  implementation deps.nucleusSupportV7
 
   implementation project(':rxlibrary')
   implementation project(':support-ui-core')

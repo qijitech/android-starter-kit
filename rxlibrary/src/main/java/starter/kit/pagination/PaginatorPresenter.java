@@ -53,17 +53,16 @@ public abstract class PaginatorPresenter<T extends PaginatorContract> extends St
   private Observable<T> observableFactory() {
     return view().concatMap(new Function<OptionalView<StarterRecyclerFragment>, ObservableSource<T>>() {
       @Override public ObservableSource<T> apply(
-          @NonNull OptionalView<StarterRecyclerFragment> fragment)
+          @NonNull final OptionalView<StarterRecyclerFragment> fragment)
           throws Exception {
         return mRequests.startWith(fragment.view.getPaginatorEmitter())
             .concatMap(new Function<PaginatorEmitter, ObservableSource<T>>() {
               @Override public ObservableSource<T> apply(@NonNull PaginatorEmitter emitter)
                   throws Exception {
-                BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
                 return request(emitter.firstPaginatorKey(), emitter.nextPaginatorKey(), emitter.perPage())
                     .subscribeOn(io())
                     .compose(RxUtils.progressTransformer(fragment.view))
-                    .compose(RxLifecycleAndroid.bindFragment(lifecycle))
+                    .compose(RxLifecycleAndroid.bindFragment(BehaviorSubject.create()))
                     .observeOn(mainThread());
               }
             });

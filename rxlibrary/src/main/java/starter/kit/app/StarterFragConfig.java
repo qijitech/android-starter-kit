@@ -2,7 +2,6 @@ package starter.kit.app;
 
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import com.paginate.recycler.LoadingListItemCreator;
 import java.util.HashMap;
 import java.util.List;
@@ -17,12 +16,6 @@ public class StarterFragConfig {
 
   // adapter config
   private List<Object> mItems;
-
-  // DynamicBox config
-  private View customInternetView;
-  private View customLoadingView;
-  private View customExceptionView;
-  private View customEmptyView;
 
   private BaseEasyViewHolderFactory viewHolderFactory;
   private HashMap<Class, Class<? extends EasyViewHolder>> boundViewHolders;
@@ -47,6 +40,8 @@ public class StarterFragConfig {
   private int startPage;
 
   private boolean withKeyRequest;
+  private boolean shouldDisplayEmptyView;
+  private boolean shouldDisplayLoadingView;
 
   public List<Object> getItems() {
     return mItems;
@@ -108,20 +103,12 @@ public class StarterFragConfig {
     return withKeyRequest;
   }
 
-  public View getCustomExceptionView() {
-    return customExceptionView;
+  public boolean shouldDisplayEmptyView() {
+    return shouldDisplayEmptyView;
   }
 
-  public View getCustomEmptyView() {
-    return customEmptyView;
-  }
-
-  public View getCustomInternetView() {
-    return customInternetView;
-  }
-
-  public View getCustomLoadingView() {
-    return customLoadingView;
+  public boolean shouldDisplayLoadingView() {
+    return shouldDisplayLoadingView;
   }
 
   public static class Builder {
@@ -146,12 +133,8 @@ public class StarterFragConfig {
     private int startPage = 1;
 
     private boolean withKeyRequest = false; // Default with page request
-
-    // DynamicBox config
-    private View customInternetView;
-    private View customLoadingView;
-    private View customExceptionView;
-    private View customEmptyView;
+    private boolean shouldDisplayEmptyView = true;
+    private boolean shouldDisplayLoadingView = true;
 
     public StarterFragConfig build() {
       StarterFragConfig config = new StarterFragConfig();
@@ -169,12 +152,10 @@ public class StarterFragConfig {
       config.pageSize = pageSize;
       config.startPage = startPage;
       config.withKeyRequest = withKeyRequest;
+      config.shouldDisplayEmptyView = shouldDisplayEmptyView;
+      config.shouldDisplayLoadingView = shouldDisplayLoadingView;
       config.mItems = items;
 
-      config.customExceptionView = customExceptionView;
-      config.customLoadingView = customLoadingView;
-      config.customInternetView = customInternetView;
-      config.customEmptyView = customEmptyView;
       return config;
     }
 
@@ -252,26 +233,5 @@ public class StarterFragConfig {
       this.withKeyRequest = withKeyRequest;
       return this;
     }
-
-    public Builder customExceptionView(View customExceptionView) {
-      this.customExceptionView = customExceptionView;
-      return this;
-    }
-
-    public Builder customLoadingView(View customLoadingView) {
-      this.customLoadingView = customLoadingView;
-      return this;
-    }
-
-    public Builder customInternetView(View customInternetView) {
-      this.customInternetView = customInternetView;
-      return this;
-    }
-
-    public Builder customEmptyView(View customEmptyView) {
-      this.customEmptyView = customEmptyView;
-      return this;
-    }
-
   }
 }

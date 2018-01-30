@@ -73,10 +73,17 @@ public final class ContentPresenter {
     mViewArray = null;
   }
 
+  public boolean canDisplay() {
+    return mContainer != null;
+  }
+
   /**
    * 显示进度条
    */
   public ContentPresenter displayLoadView() {
+    if (!canDisplay()) {
+      return this;
+    }
     final int loadViewId = LoadViewId;
     if (mCurrentId != loadViewId) {
       displayView(loadViewId);
@@ -88,6 +95,9 @@ public final class ContentPresenter {
    * 显示空白页
    */
   public ContentPresenter displayEmptyView() {
+    if (!canDisplay()) {
+      return this;
+    }
     final int emptyViewId = EmptyViewId;
     if (mCurrentId != emptyViewId) {
       View view = displayView(emptyViewId);
@@ -103,6 +113,9 @@ public final class ContentPresenter {
    * 显示错误页面
    */
   public ContentPresenter displayErrorView() {
+    if (!canDisplay()) {
+      return this;
+    }
     final int errorViewId = ErrorViewId;
     if (mCurrentId != errorViewId) {
       View view = displayView(errorViewId);
@@ -118,6 +131,9 @@ public final class ContentPresenter {
    * 显示内容
    */
   public ContentPresenter displayContentView() {
+    if (!canDisplay()) {
+      return this;
+    }
     final int contentViewId = ContentViewId;
     if (mCurrentId != contentViewId && mContentView != null) {
       final ViewGroup container = mContainer;

@@ -9,13 +9,13 @@ ext {
              targetSdkVersion : 27,
              javaVersion      : JavaVersion.VERSION_1_8,]
 
-  depsVersion = [supportVersion                    : '26.1.0',
+  depsVersion = [supportVersion                    : '27.0.2',
                  okhttpVersion                     : '3.9.0',
                  retrofitVersion                   : '2.3.0',
                  butterknifeVersion                : '8.8.1',
                  rxJavaVersion                     : '2.1.9',
                  rxAndroidVersion                  : '2.0.1',
-                 supportUiVersion                  : '0.1.9',
+                 supportUiVersion                  : '1.0.0',
                  recyclerviewFlexibleDividerVersion: '1.4.0',
                  frescoVersion                     : '1.1.0',
                  leakcanaryAndroidVersion          : '1.5',
@@ -31,7 +31,9 @@ ext {
                  icepickVersion                    : '3.2.0',
                  loggerVersion                     : '2.1.1',
                  rxlifecycleVersion                : '2.2.1',
-                 multidexVersion                   : '1.0.2',]
+                 multidexVersion                   : '1.0.2',
+                 foregroundViewsVersion            : '2.4.0',
+                 nucleusVersion                    : '7.0.0',]
 
   deps = [supportV4                  : 'com.android.support:support-v4:' + depsVersion.supportVersion,
           supportAnnotations         : 'com.android.support:support-annotations:' + depsVersion.supportVersion,
@@ -70,5 +72,13 @@ ext {
           icepickProcessor           : 'frankiesardo:icepick-processor:' + depsVersion.icepickVersion,
           logger                     : 'com.orhanobut:logger:' + depsVersion.loggerVersion,
           rxlifecycle                : 'com.trello.rxlifecycle2:rxlifecycle:' + depsVersion.rxlifecycleVersion,
-          rxlifecycleAndroid         : 'com.trello.rxlifecycle2:rxlifecycle-android:' + depsVersion.rxlifecycleVersion]
+          rxlifecycleAndroid         : 'com.trello.rxlifecycle2:rxlifecycle-android:' + depsVersion.rxlifecycleVersion,
+          foregroundViews            : 'com.github.Commit451:ForegroundViews:' + depsVersion.foregroundViewsVersion,
+          nucleus                    : 'info.android15.nucleus5:nucleus:' + depsVersion.nucleusVersion,
+          nucleusSupportV4           : 'info.android15.nucleus5:nucleus-support-v4:' + depsVersion.nucleusVersion,
+          nucleusSupportV7           : 'info.android15.nucleus5:nucleus-support-v7:' + depsVersion.nucleusVersion,
+          supportUiWidget            : 'com.smartydroid:support-ui-widget:' + depsVersion.supportUiVersion,
+          supportUiCore              : 'com.smartydroid:support-ui-core:' + depsVersion.supportUiVersion,
+          supportUiCell              : 'com.smartydroid:support-ui-cell:' + depsVersion.supportUiVersion,
+          supportUiAdapter           : 'com.smartydroid:support-ui-adapters:' + depsVersion.supportUiVersion,]
 }

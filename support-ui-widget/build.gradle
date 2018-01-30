@@ -34,10 +34,12 @@ dependencies {
   implementation deps.appcompatV7
 
   implementation deps.butterknife
-  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  annotationProcessor deps.butterknifeCompiler
 
   implementation deps.recyclerviewV7
   implementation deps.materialProgress
+  implementation deps.foregroundViews
+
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {

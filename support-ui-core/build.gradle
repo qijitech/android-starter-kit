@@ -29,10 +29,11 @@ android {
 
 dependencies {
   implementation deps.appcompatV7
+
   implementation deps.butterknife
-  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  annotationProcessor deps.butterknifeCompiler
 }
 
-//if (project.hasProperty('POM_DEVELOPER_ID')) {
-//  apply from: '../.buildscript/deploy.gradle'
-//}
+if (project.hasProperty('POM_DEVELOPER_ID')) {
+  apply from: '../.buildscript/deploy.gradle'
+}

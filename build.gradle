@@ -20,6 +20,11 @@ allprojects {
     google()
     jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://clojars.org/repo/" }
+    maven { url "https://jitpack.io" }
+    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url 'https://dl.bintray.com/baole/maven' }
+    maven { url "https://dl.bintray.com/qijitech/android/" }
   }
 }
 
