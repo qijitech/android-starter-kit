@@ -153,8 +153,6 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
   }
 
   private void setupRecyclerView() {
-    mRecyclerView.setAdapter(mAdapter);
-
     if (isNotNull(getFragConfig())) {
       final StarterFragConfig fragConfig = getFragConfig();
       RecyclerView.LayoutManager layoutManager = fragConfig.getLayoutManager();
@@ -173,7 +171,11 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
       if (animator != null) {
         mRecyclerView.setItemAnimator(animator);
       }
+    } else {
+      mRecyclerView.setLayoutManager(newLayoutManager());
     }
+
+    mRecyclerView.setAdapter(mAdapter);
   }
 
   private RecyclerView.LayoutManager newLayoutManager() {
@@ -301,7 +303,8 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
         && !isAdapterEmpty(mAdapter)
         && mPaginatorEmitter.canRequest()
         && !isLoading()) {
-      mPaginate.setHasMoreDataToLoad(true);
+
+      RxUtils.empty(() -> mPaginate.setHasMoreDataToLoad(true));
       mPaginatorEmitter.request();
     }
   }

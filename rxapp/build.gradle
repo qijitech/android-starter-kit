@@ -116,7 +116,8 @@ dependencies {
 
   implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
 
-  implementation 'com.trello:rxlifecycle:0.6.1'
+  implementation 'com.trello:rxlifecycle:1.0'
+  implementation 'com.trello:rxlifecycle-android:1.0'
 
   implementation 'com.orhanobut:logger:1.13'
 

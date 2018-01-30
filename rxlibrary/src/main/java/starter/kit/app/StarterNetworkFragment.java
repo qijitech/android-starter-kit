@@ -53,15 +53,14 @@ import support.ui.content.RequiresContent;
   }
 
   @Override public void onPause() {
-    super.onPause();
     contentPresenter.onDestroyView();
+    super.onPause();
   }
 
   @Override public void onDestroy() {
-    super.onDestroy();
-
     contentPresenter.onDestroy();
     contentPresenter = null;
+    super.onDestroy();
   }
 
   public ContentPresenter getContentPresenter() {

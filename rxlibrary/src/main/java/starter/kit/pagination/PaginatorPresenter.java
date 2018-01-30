@@ -1,8 +1,9 @@
 package starter.kit.pagination;
 
 import android.os.Bundle;
-import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.RxLifecycle;
+import com.trello.rxlifecycle.LifecycleTransformer;
+import com.trello.rxlifecycle.android.FragmentEvent;;
+import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 import rx.Observable;
 import rx.functions.Action2;
 import rx.functions.Func0;
@@ -51,11 +52,10 @@ public abstract class PaginatorPresenter<T extends PaginatorContract> extends St
             .onBackpressureDrop()
             .concatMap(new Func1<PaginatorEmitter, Observable<? extends T>>() {
               @Override public Observable<? extends T> call(PaginatorEmitter emitter) {
-                BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
                 return request(emitter.firstPaginatorKey(), emitter.nextPaginatorKey(), emitter.perPage())
                     .subscribeOn(io())
                     .compose(RxUtils.progressTransformer(fragment))
-                    .compose(RxLifecycle.bindFragment(lifecycle))
+                    .compose(RxLifecycleAndroid.bindFragment(BehaviorSubject.create()))
                     .observeOn(mainThread());
               }
             });
