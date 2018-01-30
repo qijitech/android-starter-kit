@@ -82,24 +82,22 @@ dependencies {
   // Because RxAndroid releases are few and far between, it is recommended you also
   // explicitly depend on RxJava's latest version for bug fixes and new features.
   implementation deps.rxjava
+  implementation deps.adapterRxjava
 
-  implementation 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+  implementation deps.rxlifecycle
+  implementation deps.rxlifecycleAndroid
 
-  implementation 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
-  // If you want pre-written Activities and Fragments you can subclass as providers
-  implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
+  implementation deps.logger
 
-  implementation 'com.orhanobut:logger:1.13'
-
-  implementation 'frankiesardo:icepick:3.2.0'
-  annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
-
-  implementation 'com.android.support:multidex:1.0.2'
+  implementation deps.icepick
+  annotationProcessor deps.icepickProcessor
 
   implementation deps.butterknife
-  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  annotationProcessor deps.butterknifeCompiler
+  
+  implementation deps.multidex
 }
 
 if (project.hasProperty('POM_DEVELOPER_ID')) {
-    apply from: '../.buildscript/deploy.gradle'
+  apply from: '../.buildscript/deploy.gradle'
 }

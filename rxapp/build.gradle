@@ -71,10 +71,8 @@ repositories {
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-  implementation deps.materialProgress
-
-  implementation 'org.parceler:parceler-api:1.1.6'
-  annotationProcessor 'org.parceler:parceler:1.1.6'
+  implementation deps.parceler
+  annotationProcessor deps.parcelerProcessor
 
   implementation 'com.github.Doublemine:SimpleHud:0.1.2'
   implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
@@ -88,10 +86,9 @@ dependencies {
   implementation 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
   implementation 'com.mikepenz:octicons-typeface:3.0.0.1@aar'
 
-  implementation deps.fresco
-
   implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC1'
 
+  implementation deps.fresco
   implementation deps.recyclerviewFlexibleDivider
 
   implementation deps.appcompatV7
@@ -103,6 +100,8 @@ dependencies {
 
   implementation deps.converterJackson
 
+  implementation deps.materialProgress
+
   // Square
   implementation deps.retrofit
   implementation deps.okhttp
@@ -113,22 +112,20 @@ dependencies {
   // Because RxAndroid releases are few and far between, it is recommended you also
   // explicitly depend on RxJava's latest version for bug fixes and new features.
   implementation deps.rxjava
+  implementation deps.adapterRxjava
 
-  implementation 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+  implementation deps.rxlifecycle
+  implementation deps.rxlifecycleAndroid
 
-  implementation 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
-  // If you want pre-written Activities and Fragments you can subclass as providers
-  implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
+  implementation deps.logger
 
-  implementation 'com.orhanobut:logger:1.13'
-
-  implementation 'frankiesardo:icepick:3.2.0'
-  annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
-
-  implementation 'com.android.support:multidex:1.0.2'
+  implementation deps.icepick
+  annotationProcessor deps.icepickProcessor
 
   implementation deps.butterknife
-  annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  annotationProcessor deps.butterknifeCompiler
+
+  implementation deps.multidex
 
   implementation project(':rxlibrary')
   implementation project(':support-ui-core')
