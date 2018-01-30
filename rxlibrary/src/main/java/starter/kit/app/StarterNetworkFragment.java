@@ -21,8 +21,7 @@ import static starter.kit.util.Utilities.isNotNull;
  */
 @RequiresContent public abstract class StarterNetworkFragment<T, P extends Presenter>
     extends StarterFragment<P>
-    implements NetworkContract.ContentInterface<T>,
-    EmptyView.OnEmptyViewClickListener,
+    implements NetworkContract.ContentInterface<T>, EmptyView.OnEmptyViewClickListener,
     ErrorView.OnErrorViewClickListener {
 
   private ReflectionContentPresenterFactory factory =
@@ -79,7 +78,12 @@ import static starter.kit.util.Utilities.isNotNull;
 
   @Override public void showProgress() {
     if (mFragConfig.shouldDisplayLoadingView()) {
-      RxUtils.empty(() -> getContentPresenter().displayLoadView());
+      ContentPresenter contentPresenter = getContentPresenter();
+      RxUtils.empty(() -> {
+        if (isNotNull(contentPresenter)) {
+          getContentPresenter().displayLoadView();
+        }
+      });
     }
   }
 
