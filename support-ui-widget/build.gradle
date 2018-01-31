@@ -29,7 +29,8 @@ android {
 }
 
 dependencies {
-  implementation project(':support-ui-core')
+  //implementation project(':support-ui-core')
+  implementation deps.supportUiCore
 
   implementation deps.appcompatV7
 

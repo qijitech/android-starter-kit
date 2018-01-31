@@ -56,10 +56,15 @@ android {
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-  implementation project(':support-ui-core')
-  implementation project(':support-ui-adapters')
-  implementation project(':support-ui-cells')
-  implementation project(':support-ui-widget')
+//  implementation project(':support-ui-core')
+//  implementation project(':support-ui-adapters')
+//  implementation project(':support-ui-cells')
+//  implementation project(':support-ui-widget')
+
+  implementation deps.supportUiWidget
+  implementation deps.supportUiCell
+  implementation deps.supportUiCore
+  implementation deps.supportUiAdapter
 
   implementation deps.appcompatV7
   implementation deps.cardviewV7

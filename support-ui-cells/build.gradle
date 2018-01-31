@@ -29,9 +29,13 @@ android {
 }
 
 dependencies {
-  implementation project(':support-ui-adapters')
-  implementation project(':support-ui-core')
-  implementation project(':support-ui-widget')
+//  implementation project(':support-ui-adapters')
+//  implementation project(':support-ui-core')
+//  implementation project(':support-ui-widget')
+
+  implementation deps.supportUiWidget
+  implementation deps.supportUiCore
+  implementation deps.supportUiAdapter
 
   implementation deps.recyclerviewV7
   implementation deps.appcompatV7
