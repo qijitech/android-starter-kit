@@ -80,7 +80,7 @@ import static starter.kit.util.Utilities.isNotNull;
     if (mFragConfig.shouldDisplayLoadingView()) {
       RxUtils.empty(() -> {
         if (isNotNull(contentPresenter)) {
-          getContentPresenter().displayLoadView();
+          contentPresenter.displayLoadView();
         }
       });
     }
