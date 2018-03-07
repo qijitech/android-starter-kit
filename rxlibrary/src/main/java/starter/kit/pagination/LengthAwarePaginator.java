@@ -21,12 +21,12 @@ public class LengthAwarePaginator<T extends Entity> extends ArrayList<T>
     return isEmpty() ? null : get(size() - 1);
   }
 
-  @Override public int perPage() {
-    return 0;
+  @Override public Integer perPage() {
+    return null;
   }
 
-  @Override public int currentPage() {
-    return 0;
+  @Override public Integer currentPage() {
+    return null;
   }
 
   @Override public String firstPaginatorKey() {

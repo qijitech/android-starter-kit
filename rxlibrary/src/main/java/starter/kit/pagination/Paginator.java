@@ -14,9 +14,9 @@ import support.ui.collect.Lists;
 
   @JsonProperty("total") private int total;
 
-  @JsonProperty("per_page") private int perPage;
-  @JsonProperty("current_page") private int currentPage;
-  @JsonProperty("last_page") private int lastPage;
+  @JsonProperty("per_page") private Integer perPage;
+  @JsonProperty("current_page") private Integer currentPage;
+  @JsonProperty("last_page") private Integer lastPage;
 
   @JsonProperty("data") private ArrayList<T> items;
 
@@ -24,11 +24,11 @@ import support.ui.collect.Lists;
     return this.items == null ? Lists.newArrayList() : this.items;
   }
 
-  @Override public int currentPage() {
+  @Override public Integer currentPage() {
     return currentPage;
   }
 
-  @Override public int perPage() {
+  @Override public Integer perPage() {
     return perPage;
   }
 

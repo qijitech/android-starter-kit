@@ -20,12 +20,12 @@ public abstract class AbstractPaginator<E extends Entity> implements PaginatorCo
     return null;
   }
 
-  @Override public int perPage() {
-    return 0;
+  @Override public Integer perPage() {
+    return null;
   }
 
-  @Override public int currentPage() {
-    return 0;
+  @Override public Integer currentPage() {
+    return null;
   }
 
   @Override public String firstPaginatorKey() {
