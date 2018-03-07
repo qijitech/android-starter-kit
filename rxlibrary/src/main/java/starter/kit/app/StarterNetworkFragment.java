@@ -92,10 +92,8 @@ import static support.ui.utilities.Objects.isNotNull;
 
   @Override public void onError(Throwable throwable) {
     mErrorResponse = ErrorHandler.handleThrowable(throwable);
-    if (mErrorResponse != null) {
-      if (isNotNull(contentPresenter)) {
-        contentPresenter.buildEmptyTitle(mErrorResponse.getMessage());
-      }
+    if (mErrorResponse != null && isNotNull(contentPresenter)) {
+      contentPresenter.buildEmptyTitle(mErrorResponse.getMessage());
     }
   }
 
