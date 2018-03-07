@@ -34,14 +34,14 @@ public interface PaginatorContract<E extends Entity> {
    *
    * @return int
    */
-  int perPage();
+  Integer perPage();
 
   /**
    * Determine the current page being paginated.
    *
    * @return int
    */
-  int currentPage();
+  Integer currentPage();
 
   /**
    * Get the page number of the last available page key.

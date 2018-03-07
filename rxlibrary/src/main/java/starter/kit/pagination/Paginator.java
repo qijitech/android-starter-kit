@@ -24,11 +24,11 @@ import starter.kit.util.Lists;
     return this.items == null ? Lists.newArrayList() : this.items;
   }
 
-  @Override public int currentPage() {
+  @Override public Integer currentPage() {
     return currentPage;
   }
 
-  @Override public int perPage() {
+  @Override public Integer perPage() {
     return perPage;
   }
 

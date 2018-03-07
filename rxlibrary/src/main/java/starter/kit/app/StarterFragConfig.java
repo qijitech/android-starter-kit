@@ -43,8 +43,8 @@ public class StarterFragConfig {
   private int loadingTriggerThreshold;
 
   // page config
-  private int pageSize;
-  private int startPage;
+  private Integer pageSize;
+  private Integer startPage;
 
   private boolean withKeyRequest;
   private boolean shouldDisplayEmptyView;
@@ -152,8 +152,8 @@ public class StarterFragConfig {
     private LoadingListItemCreator loadingListItemCreator;
     private int loadingTriggerThreshold = 2; // default 2
 
-    private int pageSize = 20;
-    private int startPage = 1;
+    private Integer pageSize = 20;
+    private Integer startPage = 1;
 
     private boolean withKeyRequest = false; // Default with page request
     private boolean shouldDisplayEmptyView = true;
@@ -252,12 +252,12 @@ public class StarterFragConfig {
       return this;
     }
 
-    public Builder pageSize(int pageSize) {
+    public Builder pageSize(Integer pageSize) {
       this.pageSize = pageSize;
       return this;
     }
 
-    public Builder startPage(int startPage) {
+    public Builder startPage(Integer startPage) {
       this.startPage = startPage;
       return this;
     }

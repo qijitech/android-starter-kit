@@ -78,7 +78,6 @@ import static starter.kit.util.Utilities.isNotNull;
 
   @Override public void showProgress() {
     if (mFragConfig.shouldDisplayLoadingView()) {
-      ContentPresenter contentPresenter = getContentPresenter();
       RxUtils.empty(() -> {
         if (isNotNull(contentPresenter)) {
           getContentPresenter().displayLoadView();
@@ -93,8 +92,8 @@ import static starter.kit.util.Utilities.isNotNull;
 
   @Override public void onError(Throwable throwable) {
     mErrorResponse = ErrorHandler.handleThrowable(throwable);
-    if (mErrorResponse != null) {
-      getContentPresenter().buildEmptyTitle(mErrorResponse.getMessage());
+    if (mErrorResponse != null && isNotNull(contentPresenter)) {
+      contentPresenter.buildEmptyTitle(mErrorResponse.getMessage());
     }
   }
 

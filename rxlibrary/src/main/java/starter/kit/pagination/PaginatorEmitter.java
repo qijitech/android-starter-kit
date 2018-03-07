@@ -70,15 +70,14 @@ public class PaginatorEmitter<E extends Entity> implements Emitter<E>, Paginator
     } else {
       firstPaginatorKey = String.valueOf(mFragConfig.getStartPage());
 
-      int serverPage = mPaginatorContract.currentPage();
-      // 处理 page 分页没有返回 page 的问题
-      if (serverPage < currentPage) {
-        currentPage += 1;
-      } else  {
-        currentPage = mPaginatorContract.currentPage() + 1;
+      Integer serverPage = mPaginatorContract.currentPage();
+      if (serverPage == null) { // 处理 page 分页没有返回 page 的问题
+        currentPage = Integer.valueOf(nextPaginatorKey);
+      } else {
+        currentPage = serverPage;
       }
 
-      nextPaginatorKey = String.valueOf(currentPage);
+      nextPaginatorKey = String.valueOf(currentPage + 1);
     }
   }
 
@@ -133,11 +132,11 @@ public class PaginatorEmitter<E extends Entity> implements Emitter<E>, Paginator
     return (E) mPaginatorContract.lastItem();
   }
 
-  @Override public int perPage() {
+  @Override public Integer perPage() {
     return mFragConfig.getPageSize();
   }
 
-  @Override public int currentPage() {
+  @Override public Integer currentPage() {
     return currentPage;
   }
 
