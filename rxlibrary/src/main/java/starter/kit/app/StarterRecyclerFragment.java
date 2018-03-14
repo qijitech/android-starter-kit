@@ -225,7 +225,8 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
       items = Lists.newArrayList();
     }
 
-    mAdapter.appendAll(items);
+    notifyAdapterDataChanged(items);
+
     mPaginatorEmitter.received(paginatorContract);
 
     setHasMoreDataToLoad(false);
@@ -236,6 +237,13 @@ public abstract class StarterRecyclerFragment<E extends Entity, PC extends Pagin
       } else {
         getContentPresenter().displayContentView();
       }
+    }
+  }
+
+  // 可重新改方法自己處理adapter數據
+  public void notifyAdapterDataChanged(List<?> items) {
+    if (mAdapter != null) {
+      mAdapter.appendAll(items);
     }
   }
 
