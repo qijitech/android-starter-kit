@@ -64,7 +64,6 @@ import static starter.kit.util.Utilities.isNotNull;
   @Override public void onDestroy() {
     contentPresenter.onDestroy();
     contentPresenter = null;
-
     super.onDestroy();
   }
 

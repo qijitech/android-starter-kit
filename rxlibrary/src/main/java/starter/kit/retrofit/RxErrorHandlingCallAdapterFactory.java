@@ -12,6 +12,9 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.functions.Func1;
 
+/**
+ * https://gist.github.com/joen93/7d4ae30ce29bef6127d74a26de151985
+ */
 public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
   private final RxJavaCallAdapterFactory original;
 
@@ -23,28 +26,26 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
     return new RxErrorHandlingCallAdapterFactory();
   }
 
-
-
-  @Override
-  public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
-    return new RxCallAdapterWrapper(retrofit, original.get(returnType, annotations, retrofit));
+  @Override public CallAdapter<?, ?> get(final Type returnType, final Annotation[] annotations,
+      final Retrofit retrofit) {
+    return new RxCallAdapterWrapper<>(retrofit, original.get(returnType, annotations, retrofit));
   }
 
-  private static class RxCallAdapterWrapper implements CallAdapter<Observable<?>> {
-    private final Retrofit retrofit;
-    private final CallAdapter<?> wrapped;
+  private static class RxCallAdapterWrapper<R> implements CallAdapter<R, Observable<R>> {
+    private final Retrofit mRetrofit;
+    private final CallAdapter<R, ?> mWrappedCallAdapter;
 
-    public RxCallAdapterWrapper(Retrofit retrofit, CallAdapter<?> wrapped) {
-      this.retrofit = retrofit;
-      this.wrapped = wrapped;
+    public RxCallAdapterWrapper(final Retrofit retrofit, final CallAdapter<R, ?> wrapped) {
+      mRetrofit = retrofit;
+      mWrappedCallAdapter = wrapped;
     }
 
     @Override public Type responseType() {
-      return wrapped.responseType();
+      return mWrappedCallAdapter.responseType();
     }
 
-    @SuppressWarnings("unchecked") @Override public <R> Observable<?> adapt(Call<R> call) {
-      return ((Observable) wrapped.adapt(call)).onErrorResumeNext(
+    @SuppressWarnings("unchecked") @Override public Observable<R> adapt(Call<R> call) {
+      return ((Observable) mWrappedCallAdapter.adapt(call)).onErrorResumeNext(
           new Func1<Throwable, Observable>() {
             @Override public Observable call(Throwable throwable) {
               return Observable.error(RxCallAdapterWrapper.this.asRetrofitException(throwable));
@@ -52,12 +53,14 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
           });
     }
 
-    private RetrofitException asRetrofitException(Throwable throwable) {
+    private RetrofitException asRetrofitException(final Throwable throwable) {
       // We had non-200 http error
       if (throwable instanceof HttpException) {
-        HttpException httpException = (HttpException) throwable;
-        Response response = httpException.response();
-        return RetrofitException.httpError(response.raw().request().url().toString(), response, retrofit);
+        final HttpException httpException = (HttpException) throwable;
+        final Response response = httpException.response();
+
+        return RetrofitException.httpError(response.raw().request().url().toString(), response,
+            mRetrofit);
       }
       // A network error happened
       if (throwable instanceof IOException) {
@@ -65,6 +68,7 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
       }
 
       // We don't know what happened. We need to simply convert to an unknown error
+
       return RetrofitException.unexpectedError(throwable);
     }
   }

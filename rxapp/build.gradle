@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -10,6 +8,10 @@ android {
     applicationId "starter.kit.rx.app"
     minSdkVersion rootProject.ext.android.minSdkVersion
     targetSdkVersion rootProject.ext.android.targetSdkVersion
+
+    // dex突破65535的限制
+    multiDexEnabled true
+
     versionCode 1
     versionName "1.0"
   }
@@ -23,7 +25,7 @@ android {
   }
 
   buildTypes {
-     debug {
+    debug {
       applicationIdSuffix ".debug" // 为了不和 release 版本冲突
     }
     release {
@@ -33,95 +35,86 @@ android {
   }
 
   lintOptions {
+    checkReleaseBuilds false
     abortOnError false
+  }
+
+  dexOptions {
+    javaMaxHeapSize "4g"
   }
 
   compileOptions {
     sourceCompatibility rootProject.ext.android.javaVersion
     targetCompatibility rootProject.ext.android.javaVersion
   }
-
-  applicationVariants.all { variant ->
-    if (variant.buildType.name.equals(com.android.builder.core.BuilderConstants.RELEASE)) {
-      variant.mergedFlavor.versionCode = gitVersionCode()
-      variant.mergedFlavor.versionName = gitVersionName()
-
-      variant.outputs.each { fileObj ->
-        def outputFile = fileObj.outputFile
-        if (outputFile != null && outputFile.name.endsWith('.apk')) {
-          //def fileName = "rxjava_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-          def fileName = "${parent.name}_v${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
-          fileObj.outputFile = new File(releaseOutputFile(), fileName)
-        }
-      }
-    }
-  }
 }
 
 repositories {
   jcenter()
-  maven { url "https://clojars.org/repo/" }
-  maven { url "https://jitpack.io" }
   maven { url "https://dl.bintray.com/qijitech/android/" }
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  testCompile 'junit:junit:4.12'
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  testImplementation 'junit:junit:4.12'
 
-  compile deps.cardviewV7
-  compile deps.smoothprogressbar
+  implementation deps.parceler
+  annotationProcessor deps.parcelerProcessor
 
-  compile 'org.parceler:parceler-api:1.1.5'
-  apt 'org.parceler:parceler:1.1.5'
+  implementation 'com.github.Doublemine:SimpleHud:0.1.2'
+  implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 
-  compile 'com.github.Doublemine:SimpleHud:0.1.2'
-  compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+  implementation 'com.github.bumptech.glide:glide:3.7.0'
 
-  compile 'com.github.bumptech.glide:glide:3.7.0'
-
-  compile('com.mikepenz:materialdrawer:5.3.6@aar') {
+  implementation('com.mikepenz:materialdrawer:5.3.6@aar') {
     transitive = true
   }
-  compile 'com.mikepenz:google-material-typeface:2.2.0.1@aar'
-  compile 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
-  compile 'com.mikepenz:octicons-typeface:3.0.0.1@aar'
+  implementation 'com.mikepenz:google-material-typeface:2.2.0.1@aar'
+  implementation 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
+  implementation 'com.mikepenz:octicons-typeface:3.0.0.1@aar'
 
-  compile deps.fresco
+  implementation deps.fresco
 
-  compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
+  implementation 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
 
-  compile deps.recyclerviewFlexibleDivider
+  implementation deps.recyclerviewFlexibleDivider
 
-  compile deps.butterknife
-  apt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.depsVersion.butterknifeVersion
+  implementation deps.multidex
+  implementation deps.supportV4
+  implementation deps.appcompatV7
+  implementation deps.cardviewV7
 
-  compile project(':rxlibrary')
-//  compile 'com.smartydroid:rxstarter:0.1'
-}
+  // Recycler View
+  implementation deps.recyclerviewV7
+  implementation deps.paginate
 
-def gitVersionCode() {
-  def cmd = 'git rev-list HEAD --all  --count'
-  def versionCode = cmd.execute().text.trim()
-  if (versionCode.empty) {
-    return 1
-  }
-  return versionCode.toInteger()
-}
+  implementation deps.converterJackson
 
-def gitVersionName() {
-  def cmd = 'git describe --abbrev=0 --tags'
-  def versionName = cmd.execute().text.trim()
-  if (versionName.length() > 5 || versionName.length() <= 0) {
-    return "1.0";
-  }
-  return versionName;
-}
+  // Square
+  implementation deps.retrofit
+  implementation deps.okhttp
+  implementation deps.loggingInterceptor
+  implementation deps.adapterRxjava
 
-def releaseTime() {
-  return new Date().format('yyyyMMddHHmm', TimeZone.getDefault())
-}
+  // rx
+  implementation deps.rxandroid
+  // Because RxAndroid releases are few and far between, it is recommended you also
+  // explicitly depend on RxJava's latest version for bug fixes and new features.
+  implementation deps.rxjava
 
-def releaseOutputFile() {
-  return '../release/'
+  implementation deps.smoothprogressbar
+
+  implementation deps.rxlifecycle
+  implementation deps.rxlifecycleAndroid
+
+  implementation deps.logger
+
+  implementation deps.icepick
+  annotationProcessor deps.icepickProcessor
+
+  implementation deps.butterknife
+  annotationProcessor deps.butterknifeCompiler
+
+  implementation project(':rxlibrary')
+  //  compile 'com.smartydroid:rxstarter:0.1.23'
 }

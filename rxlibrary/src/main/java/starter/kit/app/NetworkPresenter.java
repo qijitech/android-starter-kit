@@ -1,8 +1,9 @@
 package starter.kit.app;
 
 import android.os.Bundle;
-import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.RxLifecycle;
+import com.trello.rxlifecycle.android.FragmentEvent;
+import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 import rx.Observable;
 import rx.functions.Action2;
 import rx.functions.Func0;
@@ -24,10 +25,9 @@ public abstract class NetworkPresenter<T, ViewType extends NetworkContract.View>
 
     restartableFirst(restartableId(), new Func0<Observable<T>>() {
       @Override public Observable<T> call() {
-        BehaviorSubject<FragmentEvent> lifecycle = BehaviorSubject.create();
         return request().subscribeOn(io())
             .compose(RxUtils.hudTransformer(NetworkPresenter.this))
-            .compose(RxLifecycle.bindFragment(lifecycle))
+            .compose(RxLifecycleAndroid.bindFragment(BehaviorSubject.create()))
             .observeOn(mainThread());
       }
     }, new Action2<ViewType, T>() {
