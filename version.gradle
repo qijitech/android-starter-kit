@@ -9,7 +9,7 @@ ext {
              targetSdkVersion : 27,
              javaVersion      : JavaVersion.VERSION_1_8,]
 
-  depsVersion = [supportVersion                    : '27.0.2',
+  depsVersion = [supportVersion                    : '27.1.0',
                  multidexVersion                   : '1.0.3',
                  okhttpVersion                     : '3.9.1',
                  retrofitVersion                   : '2.3.0',
